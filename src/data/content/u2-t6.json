@@ -1,0 +1,109 @@
+{
+    "id": "u2-t6",
+    "title": "Index Compression",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "title": "Index Compression",
+            "type": "title",
+            "subtitle": "Optimizing Space and Speed",
+            "content": {
+                "text": "A full inverted index for the web would be multi-terabyte. We compress the dictionary (to fit in RAM) and the postings (to save disk IO).",
+                "hook": "Compression doesn't just save space; it often makes search faster by reducing I/O."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Dictionary Compression",
+            "content": {
+                "text": "The dictionary contains terms and pointers. We can compress it using techniques like:",
+                "outcomes": [
+                    "Dictionary-as-a-string: Removing the fixed-length overhead for terms.",
+                    "Front Coding: Storing shared prefixes only (e.g., 'automata', 'automate', 'automatic').",
+                    "Blocked Storage: Grouping terms to save pointer space."
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "illustration",
+            "title": "Front Coding Example",
+            "content": {
+                "caption": "Storing 'auto-mata', '-mate', '-matic' instead of full words.",
+                "description": "This leverages the alphabetical sorting of the dictionary."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Postings Compression",
+            "content": {
+                "text": "The biggest part of the index. Since DocIDs are sorted, we store the Gaps (D-gaps) between them instead of the raw IDs.",
+                "hook": "Postings: [100, 105, 110] -> [100, 5, 5]. Smaller numbers = fewer bits."
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "grid",
+            "title": "Variable Byte Encoding (V-Byte)",
+            "items": [
+                "Small numbers use 1 byte.",
+                "Large numbers use more.",
+                "Uses 7 bits for data and 1 bit as a 'continuation' flag.",
+                "Extremely fast to decode."
+            ]
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Gamma Encoding",
+            "content": {
+                "definition": "A bit-level compression scheme for very small gaps. It encodes a gap as (length in unary, value in binary).",
+                "text": "Optimal for distributions that follow Zipf's Law (where many gaps are 1 or 2)."
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "activity",
+            "title": "Activity: Gap Coding",
+            "content": {
+                "activity": "Calculate the Gaps",
+                "description": "Original IDs: [15, 22, 23, 40, 41, 42, 60]. Write down the D-gaps. Notice how many '1' gaps occur."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "project",
+            "title": "Mini-Project: V-Byte",
+            "content": {
+                "idea": "Bit Manipulator",
+                "input": "Number 130.",
+                "process": "Convert 130 into 2-byte V-byte (Hint: 130 > 127).",
+                "output": "The two hex values for the bytes."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Quiz",
+            "questions": [
+                "Why is compression beneficial for search speed?",
+                "What is 'Front Coding'?",
+                "Define a 'D-gap'.",
+                "How many bits are used for data in a standard Variable Byte?"
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "summary",
+            "title": "Topic Wrap-up",
+            "content": {
+                "linkage": "We have covered how to build, clean, and compress the engine. Next, we move to the User Interface.",
+                "nextTopic": "Unit 3: User Interfaces",
+                "preparation": "Think about how we present these compressed results to a human."
+            }
+        }
+    ]
+}

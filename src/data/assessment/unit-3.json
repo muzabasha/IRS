@@ -1,0 +1,104 @@
+{
+    "unitId": "unit-3",
+    "title": "Unit 3 Assessment: User Interfaces & Visualization",
+    "questions": [
+        {
+            "id": 1,
+            "text": "The gap between a user's goal and the system's ability to help achieve it is known in HCI as:",
+            "options": [
+                "The Gulf of Execution",
+                "The Precision Gap",
+                "The Retrieval Void",
+                "The Logic Barrier"
+            ],
+            "correctIndex": 0,
+            "explanation": "The Gulf of Execution measures the difficulty the user has in performing a task using the interface provided.",
+            "topic": "Human-Computer Interaction",
+            "remedial": "Review Unit 3 Topic 1"
+        },
+        {
+            "id": 2,
+            "text": "According to the Berry-Picking model, the Information Access Process is:",
+            "options": [
+                "A one-shot event",
+                "A linear sequence of clicks",
+                "An iterative and evolving journey",
+                "A purely automated background task"
+            ],
+            "correctIndex": 2,
+            "explanation": "Berry-picking acknowledges that information needs change as users discover new keywords and documents.",
+            "topic": "The Information Access Process",
+            "remedial": "Review Unit 3 Topic 2"
+        },
+        {
+            "id": 3,
+            "text": "A 'Starting Point' where the user explores categories rather than typing words is called:",
+            "options": [
+                "Keyword Entry",
+                "Browsing / Directory Start",
+                "Visual Querying",
+                "Random Start"
+            ],
+            "correctIndex": 1,
+            "explanation": "Browsing is preferred when the user has low intent or isn't sure of the exact terminology.",
+            "topic": "Starting Points & Query Specification",
+            "remedial": "Review Unit 3 Topic 3"
+        },
+        {
+            "id": 4,
+            "text": "Which type of feedback involves the system observing clicks and dwell time without asking the user?",
+            "options": [
+                "Explicit Feedback",
+                "Binary Feedback",
+                "Implicit Feedback",
+                "Manual Feedback"
+            ],
+            "correctIndex": 2,
+            "explanation": "Implicit feedback is gathered automatically based on user behavioral patterns.",
+            "topic": "Context & Using Relevance Judgments",
+            "remedial": "Review Unit 3 Topic 4"
+        },
+        {
+            "id": 5,
+            "text": "KWIC (Key Word In Context) is an interface support feature that shows:",
+            "options": [
+                "Only the title of the page",
+                "A snippet of text surrounding the search keywords",
+                "A list of synonyms for the query",
+                "The file size and date"
+            ],
+            "correctIndex": 1,
+            "explanation": "KWIC helps users evaluate relevance quickly without opening the full document.",
+            "topic": "Interface Support for the Search Process",
+            "remedial": "Review Unit 3 Topic 5"
+        },
+        {
+            "id": 6,
+            "text": "What is the primary goal of Faceted Search interfaces?",
+            "options": [
+                "To speed up the computer's CPU",
+                "To allow multi-dimensional filtering of results (e.g. by price, color, brand)",
+                "To replace the search box entirely",
+                "To encrypt sensitive search queries"
+            ],
+            "correctIndex": 1,
+            "explanation": "Facets provide structured ways to narrow down result sets.",
+            "topic": "Interface Support",
+            "remedial": "Review Topic 5"
+        },
+        {
+            "id": 7,
+            "text": "What is a major research trend in IR interfaces?",
+            "options": [
+                "Returning to card catalogs",
+                "Conversational search via dialogue agents",
+                "Removing all images from web results",
+                "Slower retrieval for better precision"
+            ],
+            "correctIndex": 1,
+            "explanation": "Conversational search (LLMs/Agents) is current state-of-the-art research.",
+            "topic": "Trends and Research Issues (UI)",
+            "remedial": "Review Unit 3 Topic 6"
+        }
+    ]
+}

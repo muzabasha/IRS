@@ -1,0 +1,112 @@
+{
+    "id": "u1-t9",
+    "title": "Trends & Research Issues",
+    "unitId": "unit-1",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Trends & Research Issues in IR",
+            "subtitle": "The Future of Search",
+            "content": {
+                "text": "Information Retrieval is not a solved problem. It changes with technology, user behavior, and data scale.",
+                "hook": "Search is no longer just 10 blue links on a white page."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "list",
+            "title": "Current Trending Topics",
+            "items": [
+                "Neural Information Retrieval (BERT, GPT integration).",
+                "Cross-Lingual Information Retrieval (CLIR).",
+                "Voice & Conversational Search.",
+                "Multimedia & Video Retrieval.",
+                "Fairness and Bias in Ranking."
+            ]
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "The Semantic Web",
+            "content": {
+                "definition": "Web 3.0. Moving from a 'Web of Documents' to a 'Web of Data'.",
+                "text": "Using RDF, SPARQL, and Ontologies to help machines understand the *meaning* of data, not just keyword matches."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Scalability Challenges",
+            "content": {
+                "problem": "The Web is infinite.",
+                "text": "Indexing billions of dynamic pages in real-time requires distributed systems (MapReduce, Hadoop) and efficient compression."
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "diagram",
+            "title": "Federated Search Architecture",
+            "content": {
+                "description": "Searching across multiple distinct databases with one query.",
+                "steps": [
+                    "User Query Entry",
+                    "Database Source Selection",
+                    "Protocol Translation (SRU/Z39.50)",
+                    "Sub-Query Execution",
+                    "Result Merging & De-duplication"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Privacy vs Personalization",
+            "content": {
+                "text": "Better search requires knowing the user (Location, History). This conflicts with privacy concerns (GDPR). Research focuses on 'Privacy-Preserving IR'.",
+                "hook": "Can we personalize without tracking?"
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "activity",
+            "title": "Activity: Bias Hunt",
+            "content": {
+                "activity": "Algorithm Auditing",
+                "description": "Search for professional roles (e.g., 'CEO', 'Doctor', 'Nurse') on Google Images. Analyze the gender and racial distribution of the top 20 results. Discuss potential algorithmic bias."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "project",
+            "title": "Research Proposal",
+            "content": {
+                "idea": "Define a Problem",
+                "input": "Pick a domain (e.g., Medical Search).",
+                "process": "Identification of gap (e.g., 'Doctors use jargon, Patients use slang').",
+                "output": "Propose a feature to solve it (e.g., 'Automatic Query Expansion with Medical Thesaurus')."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Course Checkpoint",
+            "questions": [
+                "What is the difference between specific and federated search?",
+                "Why is 'Context' becoming more important than 'Keywords'?",
+                "Name one challenge in Voice Search compared to Text Search.",
+                "What is the 'Vocabulary Mismatch Problem'?"
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "summary",
+            "title": "Unit Wrap-up",
+            "content": {
+                "linkage": "We have completed the Introduction to IR (Unit 1). We know the 'What', 'Why', and 'How' of models.",
+                "nextTopic": "Unit 2: Query Languages & Text Processing",
+                "preparation": "Get ready to dive deep into SQL-like syntax and strict text operations."
+            }
+        }
+    ]
+}

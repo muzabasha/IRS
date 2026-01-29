@@ -1,0 +1,91 @@
+{
+    "id": "u3-t5",
+    "title": "Interface Support for the Search Process",
+    "unitId": "unit-3",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Interface Support in IR",
+            "subtitle": "Beyond the Search Results Page",
+            "content": {
+                "text": "The interface is where the system helps the user evaluate results and refine their search. It provides visual cues to speed up information gathering.",
+                "hook": "A result list is just a starting point. Interface support makes it usable."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Result Evaluation Support",
+            "content": {
+                "text": "Helping users judge relevance quickly. 1. Snippets: Brief excerpts of the document. 2. KWIC (Key Word In Context): Showing words around the query terms. 3. Thumbnails: Visual representations (images/icons).",
+                "hook": "Bolded words in a snippet are the 'scent' of information."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Navigation & Refinement Support",
+            "content": {
+                "text": "1. Faceted Search: Filter panels for categories (Price, Date, Color). 2. Clustering results into folders. 3. Suggesting 'Related Searches'.",
+                "hook": "Faceted search is the gold standard for e-commerce search UX."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "illustration",
+            "title": "Search Interface Logical Layout",
+            "content": {
+                "description": "The logic of a modern search results page.",
+                "steps": [
+                    "Search Input (Top)",
+                    "Faceted Filters (Sidebar)",
+                    "Ranked List (Center)",
+                    "Snippet Evaluation",
+                    "Paging / infinite Scroll"
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "grid",
+            "title": "Visualization Support",
+            "items": [
+                "Result set clustering (folders).",
+                "Time-series visualizations (Timelines/Graphs).",
+                "Spatial maps (for location-based search).",
+                "Tag clouds for summarizing topics."
+            ]
+        },
+        {
+            "slideNumber": 5,
+            "type": "activity",
+            "title": "Activity: Feature Audit",
+            "content": {
+                "activity": "The Amazon Scrutiny",
+                "description": "Go to Amazon. Search for 'Phone'. List at least 5 different 'Interface Support' features (e.g., star ratings, sidebar filters, 'People also bought')."
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is KWIC and why is it useful?",
+                "Define 'Faceted Search'.",
+                "How does clustering results help the user?",
+                "Why are thumbnails useful for multimedia retrieval?"
+            ]
+        },
+        {
+            "slideNumber": 7,
+            "type": "summary",
+            "title": "Wrap-up",
+            "content": {
+                "text": "Interactions defined. Next: What's next for the interface?",
+                "nextTopic": "Trends and Research Issues (UI)",
+                "preparation": "Recall your experience with voice-based search like Siri/Gemini."
+            }
+        }
+    ]
+}

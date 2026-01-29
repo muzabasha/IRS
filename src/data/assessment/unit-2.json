@@ -1,0 +1,104 @@
+{
+    "unitId": "unit-2",
+    "title": "Unit 2 Assessment: Query Languages & Operations",
+    "questions": [
+        {
+            "id": 1,
+            "text": "Which query type allows finding words that match a specific character pattern rather than literal text?",
+            "options": [
+                "Keyword Query",
+                "Pattern Matching",
+                "Boolean Query",
+                "Natural Language Query"
+            ],
+            "correctIndex": 1,
+            "explanation": "Pattern matching allows the use of wildcards and regular expressions to find terms matching a specific structure.",
+            "topic": "Query Languages",
+            "remedial": "Review Unit 2 Topic 1"
+        },
+        {
+            "id": 2,
+            "text": "The Z39.50 and SRU standards are examples of:",
+            "options": [
+                "Indexing Algorithms",
+                "Query Protocols",
+                "Compression Schemes",
+                "HCI Principles"
+            ],
+            "correctIndex": 1,
+            "explanation": "Query protocols define the standard communication between a search client and a database server.",
+            "topic": "Query Languages",
+            "remedial": "Review Query Protocols in Topic 1"
+        },
+        {
+            "id": 3,
+            "text": "Automatic Local Analysis is also known as:",
+            "options": [
+                "Thesaurus Expansion",
+                "Pseudo-Relevance Feedback",
+                "Global Indexing",
+                "Rocchio Feedback"
+            ],
+            "correctIndex": 1,
+            "explanation": "Local Analysis assumes the top retrieved documents are relevant to expand the query automatically without user input.",
+            "topic": "Query Operations",
+            "remedial": "Review Unit 2 Topic 2"
+        },
+        {
+            "id": 4,
+            "text": "Which text operation involves grouping documents into categories without any prior labels?",
+            "options": [
+                "Preprocessing",
+                "Classification",
+                "Document Clustering",
+                "Compression"
+            ],
+            "correctIndex": 2,
+            "explanation": "Clustering is an unsupervised learning technique to discover natural groups in data based on similarity.",
+            "topic": "Text Operations",
+            "remedial": "Review Unit 2 Topic 3"
+        },
+        {
+            "id": 5,
+            "text": "In Huffman Coding for text compression, tokens that appear frequently are assigned:",
+            "options": [
+                "The longest binary codes",
+                "The shortest binary codes",
+                "Equal length codes",
+                "Random codes"
+            ],
+            "correctIndex": 1,
+            "explanation": "Huffman coding minimizes the total bits used by assigning shorter codes to more frequent symbols.",
+            "topic": "Text Operations",
+            "remedial": "Review Topic 3: Compression"
+        },
+        {
+            "id": 6,
+            "text": "What is the primary data structure used for rapid searching in modern IR systems?",
+            "options": [
+                "Linked List",
+                "Hash Table",
+                "Inverted File",
+                "Binary Search Tree"
+            ],
+            "correctIndex": 2,
+            "explanation": "Inverted files map every word to a list of documents, allowing for immediate retrieval without scanning.",
+            "topic": "Indexing and Searching",
+            "remedial": "Review Unit 2 Topic 4"
+        },
+        {
+            "id": 7,
+            "text": "D-gap compression works by storing:",
+            "options": [
+                "The difference between consecutive document IDs",
+                "A hash of each document",
+                "Only the first and last document ID",
+                "The document content in binary"
+            ],
+            "correctIndex": 0,
+            "explanation": "By storing gaps (differences), the numbers become smaller, which requires fewer bits for compression.",
+            "topic": "Indexing and Searching",
+            "remedial": "Review Index Compression in Topic 4"
+        }
+    ]
+}

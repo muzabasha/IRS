@@ -1,0 +1,100 @@
+{
+    "id": "u2-t2",
+    "title": "Query Operations (Relevance Feedback, Local/Global Analysis)",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Query Operations",
+            "subtitle": "Iterative Query Refinement",
+            "content": {
+                "text": "The objective of query operations is to transform the user's initial query into a more effective search request through expansion or re-weighting.",
+                "hook": "Search is not a one-step process; it's a conversation."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Introduction to Query Operations",
+            "content": {
+                "text": "Users often provide short, ambiguous queries. Query operations help reduce this ambiguity by adding more terms (expansion) or changing term weights based on what the user likes (feedback)."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "User Relevance Feedback",
+            "content": {
+                "definition": "A cycle where the user marks results as Relevant or Non-Relevant, and the system uses this info to run a better query.",
+                "text": "The classic approach is the Rocchio Algorithm: `Q_new = alpha*Q_old + beta*(Avg Rel Docs) - gamma*(Avg Non-Rel Docs)`.",
+                "hook": "Teaching the system by example."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Automatic Local Analysis",
+            "content": {
+                "text": "Also known as Indirect Feedback or Pseudo-Relevance Feedback. The system 'assumes' the top K retrieved documents are relevant without asking the user.",
+                "outcomes": [
+                    "Identifies common terms in the top results.",
+                    "Expands the query with those terms.",
+                    "Fast and automated, but risky if the first results are bad."
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Automatic Global Analysis",
+            "content": {
+                "text": "Expansion based on the entire document collection, not just the local results of a single query.",
+                "outcomes": [
+                    "Thesaurus-based expansion: Using WordNet or a statistical thesaurus.",
+                    "Latent Semantic Indexing: Finding hidden relationships between words globally.",
+                    "Computationally expensive but more stable than local analysis."
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "grid",
+            "title": "Comparison: Local vs Global",
+            "items": [
+                "Local: Quick, context-specific, can cause 'Query Drift'.",
+                "Global: Robust, costly to compute, handles synonyms well."
+            ]
+        },
+        {
+            "slideNumber": 7,
+            "type": "activity",
+            "title": "Activity: Manual Expansion",
+            "content": {
+                "activity": "The Brainstorm",
+                "description": "Original Query: 'Smart Watch'. List 5 terms using Local Analysis (words common in watch ads) and 5 terms using Global Analysis (synonyms from a dictionary)."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "quiz",
+            "title": "Concept Quiz",
+            "questions": [
+                "What is the main goal of the Rocchio algorithm?",
+                "Explain how Pseudo-Relevance feedback works.",
+                "When would you use Global Analysis instead of Local Analysis?",
+                "What is 'Query Drift'?"
+            ]
+        },
+        {
+            "slideNumber": 9,
+            "type": "summary",
+            "title": "Trends and Research Issues",
+            "content": {
+                "text": "Modern trends include Neural Query Expansion (using embeddings) and Intent Mining from user click-logs.",
+                "nextTopic": "Text Operations",
+                "preparation": "Learn about Stemming and Lemmatization."
+            }
+        }
+    ]
+}

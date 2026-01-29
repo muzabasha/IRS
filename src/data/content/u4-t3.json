@@ -1,0 +1,82 @@
+{
+    "id": "u4-t3",
+    "title": "Searching the Web: Challenges & Characterization",
+    "unitId": "unit-4",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Searching the Web",
+            "subtitle": "The Billion-Page Challenge",
+            "content": {
+                "text": "The Web is the largest human-made information space. Searching it requires overcoming massive challenges of scale, diversity, and deception.",
+                "hook": "The web is not a library; it's a jungle."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Challenges of Web Search",
+            "content": {
+                "text": "1. Scale: Billions of pages. 2. Dynamism: Content changes daily. 3. Diversity: Languages, formats, and quality. 4. Spam: Adversarial IR (keyword stuffing, link farms).",
+                "outcomes": [
+                    "Freshness vs Resources",
+                    "Spam detection algorithms"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Characterizing the Web",
+            "content": {
+                "text": "The web structure is a 'Directed Graph'. It follows a Power Law distribution (a few sites have millions of links; most have almost none).",
+                "hook": "The Bow-tie Structure of the Web: Strong Connected Component (SCC), IN, OUT, and Tendrils."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "illustration",
+            "title": "The Bow-Tie Model Topology",
+            "content": {
+                "description": "The logic of the large-scale web graph structure.",
+                "steps": [
+                    "IN (Pointing to Core)",
+                    "SCC (Strongly Connected Core)",
+                    "OUT (Pointing from Core)",
+                    "Tendrils (Disconnected Branches)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "activity",
+            "title": "Activity: Site Analysis",
+            "content": {
+                "activity": "The Crawler's View",
+                "description": "Visit a random personal blog and Wikipedia. Compare: 1. Outgoing links, 2. Page depth, 3. Frequency of updates. Which one is harder for Google to crawl?"
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is 'Adversarial IR'?",
+                "Explain the 'Bow-tie' structure of the web.",
+                "Why is the scale of the web a challenge for indexing?",
+                "What are 'Tendrils' in web topology?"
+            ]
+        },
+        {
+            "slideNumber": 7,
+            "type": "summary",
+            "title": "Wrap-up",
+            "content": {
+                "text": "Web characterized. Next: The tools we use to navigate it.",
+                "nextTopic": "Search Engines, Browsing & Meta Searchers",
+                "preparation": "Recall your favorite search features."
+            }
+        }
+    ]
+}

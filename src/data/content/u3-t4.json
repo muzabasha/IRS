@@ -1,0 +1,77 @@
+{
+    "id": "u3-t4",
+    "title": "Context & Using Relevance Judgments",
+    "unitId": "unit-3",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Context & Relevance Judgments",
+            "subtitle": "The Subjectivity of Meaning",
+            "content": {
+                "text": "What makes a document 'good' depends on who is asking, where they are, and why they are searching. This is 'Context'.",
+                "hook": "Searching for 'Pizza' at 12 PM in Italy means something different than at 12 AM in New York."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Types of Context",
+            "content": {
+                "text": "1. Spatial: Location (GPS/IP). 2. Temporal: Time (Latest news vs History). 3. Linguistic: Preceding queries (Ambiguity resolver). 4. Social: What similar people like.",
+                "hook": "Context turns a string of characters into a specific intent."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Using Relevance Judgments",
+            "content": {
+                "text": "How systems learn what is good. 1. Explicit Feedback: Users marking results. 2. Implicit Feedback: Click-through rate, dwell time, bookmarking, purchasing.",
+                "hook": "Implicit signals are the goldmine of modern search engines."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Challenges in Feedback",
+            "content": {
+                "text": "1. Binary vs Graded relevance (Just 'Good' vs '1-5 Stars'). 2. Sparsity (Not everyone leaves feedback). 3. Noise (Accidental clicks).",
+                "outcomes": [
+                    "Need for trust models",
+                    "A/B testing for interface changes"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "activity",
+            "title": "Activity: Intent Guessing",
+            "content": {
+                "activity": "The Brainstorm",
+                "description": "Topic: 'Galaxy'. List 3 different intents for this word based on different Contexts (Space enthusiast, Tech shopper, Chocolate lover)."
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "Define 'Implicit Feedback'.",
+                "How does 'Dwell Time' indicate relevance?",
+                "Give an example of temporal context.",
+                "Why is 'Implicit' feedback more common than 'Explicit'?"
+            ]
+        },
+        {
+            "slideNumber": 7,
+            "type": "summary",
+            "title": "Wrap-up",
+            "content": {
+                "text": "We have context. Now, how does the interface show it to us?",
+                "nextTopic": "Interface Support for the Search Process",
+                "preparation": "Recall the layout of a Google Results page."
+            }
+        }
+    ]
+}

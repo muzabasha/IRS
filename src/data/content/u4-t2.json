@@ -1,0 +1,83 @@
+{
+    "id": "u4-t2",
+    "title": "Multimedia Indexing & Searching",
+    "unitId": "unit-4",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Multimedia Indexing & Searching",
+            "subtitle": "Navigating High-Dimensional Space",
+            "content": {
+                "text": "Traditional indexes are 1D. Multimedia data is multi-dimensional. This topic covers the spatial data structures needed to find similar media quickly.",
+                "hook": "When text search fails, geometry takes over."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "diagram",
+            "title": "GEMINI Indexing Framework",
+            "content": {
+                "description": "The logic of indexing high-dimensional multimedia objects.",
+                "steps": [
+                    "Feature Extraction (Mapping)",
+                    "Distance Lowerbounding",
+                    "Dimensionality Reduction (DFT)",
+                    "Index in 1D/Spatial Structure",
+                    "Filter & Refine Results"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Index Structures for Multimedia",
+            "content": {
+                "text": "1. 1D Time Series: Using DFT (Discrete Fourier Transform) and R-trees. 2. 2D Color Images: Using Color Histograms and spatial trees (R-Trees, M-Trees).",
+                "outcomes": [
+                    "R-Trees: Handling multi-dimensional bounding boxes.",
+                    "The Curse of Dimensionality: Performance drops as dimensions increase."
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Automatic Feature Extraction",
+            "content": {
+                "text": "The computer automatically finds key indicators. 1. Vision: Edges, Blobs, Corners (SIFT, SURF). 2. Audio: Beats, MFCC. 3. Modern: Deep Embeddings from CNNs.",
+                "hook": "Pixels become mathematics automatically."
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "activity",
+            "title": "Activity: Histogram Match",
+            "content": {
+                "activity": "The Red/Blue Challenge",
+                "description": "Image A is all red pixels. Image B is 50/50 red and blue in a checkerboard. Image C is 50/50 red and blue split horizontally. Which two are 'similar' to a color histogram? Which are 'different'?"
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the 'GEMINI' indexing approach?",
+                "How are R-Trees used in multimedia storage?",
+                "What is a 'Color Histogram'?",
+                "Why is 'Automatic' feature extraction necessary?"
+            ]
+        },
+        {
+            "slideNumber": 7,
+            "type": "summary",
+            "title": "Wrap-up",
+            "content": {
+                "text": "Multimedia systems conquered. Now, we expand to the world's largest information collection.",
+                "nextTopic": "Searching the Web: Challenges & Characterization",
+                "preparation": "Read about the scale of the World Wide Web."
+            }
+        }
+    ]
+}

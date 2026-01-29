@@ -1,0 +1,76 @@
+{
+    "id": "u3-t3",
+    "title": "Starting Points & Query Specification",
+    "unitId": "unit-3",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Starting Points & Query Specification",
+            "subtitle": "Initiating the Search",
+            "content": {
+                "text": "How do we get from a blank screen to a search result? This involves the 'Home' experience and the methods for entering queries.",
+                "hook": "The search box is a window to the world. Let's design it right."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Starting Points",
+            "content": {
+                "text": "Where search begins. 1. Search Box (Empty state): High intent, requires knowledge of terms. 2. Browsing/Directory: Low intent, exploring categories. 3. Recommendations: Passive start.",
+                "hook": "Starting points set the tone for the information journey."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "grid",
+            "title": "Query Specification Methods",
+            "items": [
+                "Text Input: The classic search bar.",
+                "Visual Querying: Drag-and-drop images (Google Lens).",
+                "Voice Input: Natural language via speech recognition.",
+                "Form-based: Structured input (e.g., Flight Search)."
+            ]
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Assisting Specification",
+            "content": {
+                "text": "How systems help you ask. 1. Autocorrect/Suggest: Predictive typing. 2. Query expansion suggestions. 3. Filters during input (e.g. searching 'Movies' vs 'Actors').",
+                "hook": "A good specifier reduces the 'Gulf of Execution'."
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "activity",
+            "title": "Activity: Design a Start",
+            "content": {
+                "activity": "The Sketch",
+                "description": "Sketch a starting page for a Medical Search Engine for Doctors. Would you prioritize a search bar or a list of body parts for browsing? Why?"
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "When is a directory start better than a search box?",
+                "Give an example of a visual query.",
+                "How does form-based input help precision?",
+                "What is a 'zero-query' search?"
+            ]
+        },
+        {
+            "slideNumber": 7,
+            "type": "summary",
+            "title": "Wrap-up",
+            "content": {
+                "text": "Starting points established. Next, how do we judge if what we found is any good?",
+                "nextTopic": "Context & Using Relevance Judgments",
+                "preparation": "Recall the definition of Relevance from Unit 1."
+            }
+        }
+    ]
+}

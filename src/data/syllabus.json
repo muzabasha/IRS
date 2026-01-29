@@ -1,0 +1,124 @@
+{
+  "units": [
+    {
+      "id": "unit-1",
+      "title": "Introduction to Information Retrieval and Modeling",
+      "topics": [
+        {
+          "id": "u1-t1",
+          "title": "Introduction & Basic Concepts"
+        },
+        {
+          "id": "u1-t2",
+          "title": "The Retrieval Process"
+        },
+        {
+          "id": "u1-t3",
+          "title": "Classic Information Retrieval Models"
+        },
+        {
+          "id": "u1-t4",
+          "title": "Alternative Set Theoretic Models"
+        },
+        {
+          "id": "u1-t5",
+          "title": "Alternative Algebraic Models"
+        },
+        {
+          "id": "u1-t6",
+          "title": "Alternative Probabilistic Models"
+        },
+        {
+          "id": "u1-t7",
+          "title": "Structured Text Retrieval Models"
+        },
+        {
+          "id": "u1-t8",
+          "title": "Models for Browsing"
+        },
+        {
+          "id": "u1-t9",
+          "title": "Trends and Research Issues"
+        }
+      ]
+    },
+    {
+      "id": "unit-2",
+      "title": "Query Languages and Query Operations",
+      "topics": [
+        {
+          "id": "u2-t1",
+          "title": "Query Languages (Keyword, Pattern, Structural, Protocols)"
+        },
+        {
+          "id": "u2-t2",
+          "title": "Query Operations (Relevance Feedback, Local/Global Analysis)"
+        },
+        {
+          "id": "u2-t3",
+          "title": "Text Operations (Preprocessing, Clustering, Compression)"
+        },
+        {
+          "id": "u2-t4",
+          "title": "Indexing and Searching (Inverted Files, Boolean, Pattern)"
+        }
+      ]
+    },
+    {
+      "id": "unit-3",
+      "title": "User Interfaces and Visualization",
+      "topics": [
+        {
+          "id": "u3-t1",
+          "title": "Human-Computer Interaction"
+        },
+        {
+          "id": "u3-t2",
+          "title": "The Information Access Process"
+        },
+        {
+          "id": "u3-t3",
+          "title": "Starting Points & Query Specification"
+        },
+        {
+          "id": "u3-t4",
+          "title": "Context & Using Relevance Judgments"
+        },
+        {
+          "id": "u3-t5",
+          "title": "Interface Support for the Search Process"
+        },
+        {
+          "id": "u3-t6",
+          "title": "Trends and Research Issues (UI)"
+        }
+      ]
+    },
+    {
+      "id": "unit-4",
+      "title": "Multimedia IR & Web Search",
+      "topics": [
+        {
+          "id": "u4-t1",
+          "title": "Multimedia IR (Modeling, Languages, Trends)"
+        },
+        {
+          "id": "u4-t2",
+          "title": "Multimedia Indexing & Searching"
+        },
+        {
+          "id": "u4-t3",
+          "title": "Searching the Web: Challenges & Characterization"
+        },
+        {
+          "id": "u4-t4",
+          "title": "Search Engines, Browsing & Meta Searchers"
+        },
+        {
+          "id": "u4-t5",
+          "title": "Searching using Hyperlinks"
+        }
+      ]
+    }
+  ]
+}

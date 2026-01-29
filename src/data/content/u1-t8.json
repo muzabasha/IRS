@@ -1,0 +1,118 @@
+{
+    "id": "u1-t8",
+    "title": "Browsing Models",
+    "unitId": "unit-1",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Browsing Models",
+            "subtitle": "Navigating Information Space",
+            "content": {
+                "text": "Sometimes users don't have a specific query. They want to explore. Browsing models formalize this exploration.",
+                "hook": "Search is teletransportation; Browsing is walking."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Three Types of Browsing",
+            "content": {
+                "outcomes": [
+                    "Flat Browsing: Linear scanning (e.g., reading a list).",
+                    "Structure-Guided Browsing: Hierarchical navigation (e.g., File Explorer).",
+                    "Hypertext Browsing: Networked navigation (e.g., The Web)."
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "list",
+            "title": "The Hypertext Model",
+            "items": [
+                "Nodes: Units of information.",
+                "Links: Relationships between nodes.",
+                "Anchors: The clickable area leading to a link.",
+                "Maps/History: Tools to prevent 'getting lost in hyperspace'."
+            ]
+        },
+        {
+            "slideNumber": 4,
+            "type": "illustration",
+            "title": "Hypertext Browsing Flow",
+            "content": {
+                "description": "Logic of navigating a networked information space.",
+                "steps": [
+                    "Current Node (Current Page)",
+                    "Scan Layout (Anchors)",
+                    "Select Link (Click)",
+                    "Traverse to New Node",
+                    "Update Browser History"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Berry-Picking Model",
+            "content": {
+                "definition": "A model by Marcia Bates. Users don't just run one query. They run a query, read a bit, learn a new term, run a new query, and 'pick berries' (info) along the way.",
+                "text": "This contrasts with the standard 'Match-Rank-Retrieve' model."
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Automated Browsing Support",
+            "content": {
+                "text": "How can systems help browsers?",
+                "outcomes": [
+                    "Clustering results into folders.",
+                    "Suggesting 'Related Topics'.",
+                    "Visualizing connection maps."
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "activity",
+            "title": "Activity: Navigation Design",
+            "content": {
+                "activity": "UX Flow",
+                "description": "Design a browsing interface for a Music Library. How do you allow a user to drift from 'Bach' to 'Baroque' to '17th Century History' without a search bar?"
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "project",
+            "title": "Mini-Project: Crawler",
+            "content": {
+                "idea": "Simple Link Follower",
+                "input": "A starting URL (Seed).",
+                "process": "Fetch page, extract all <a href> links, add to queue.",
+                "output": "A printed list of visited titles (Breadcrumbs)."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Quiz",
+            "questions": [
+                "Define 'Lost in Hyperspace'.",
+                "How does the Berry-Picking model differ from the classic Water-fall retrieval model?",
+                "What is the role of a 'Sitemap' in structure-guided browsing?",
+                "Give an example of a dynamic taxonomy."
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "summary",
+            "title": "Topic Wrap-up",
+            "content": {
+                "linkage": "We have covered how to find and browse text. But the field is evolving. What's next?",
+                "nextTopic": "Trends & Research Issues",
+                "preparation": "Read about 'The Semantic Web' and 'Voice Search'."
+            }
+        }
+    ]
+}

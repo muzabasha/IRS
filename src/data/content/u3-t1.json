@@ -1,0 +1,69 @@
+{
+    "id": "u3-t1",
+    "title": "Human-computer Interaction",
+    "unitId": "unit-3",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Human-Computer Interaction (HCI) in IR",
+            "subtitle": "Designing for the Searcher",
+            "content": {
+                "text": "Information Retrieval is not just about algorithms; it is about how humans interact with those algorithms to find meaning. HCI in IR focuses on making search intuitive and effective.",
+                "hook": "The best search engine is invisible. You ask, and you find."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "The User Perspective",
+            "content": {
+                "text": "Traditional IR focused on system performance (P/R). Modern IR focuses on user satisfaction. HCI studies the 'Gulf of Execution' (how to search) and the 'Gulf of Evaluation' (interpreting the results).",
+                "outcomes": [
+                    "User-centered design",
+                    "Cognitive load reduction",
+                    "Iterative design cycles"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "HCI Principles for IR",
+            "content": {
+                "text": "1. Informative Feedback (Show what the system is doing), 2. Error Prevention (Autocomplete), 3. User Control (Allowing query refinement), 4. Consistency.",
+                "hook": "Don't make the user think about the system; make them think about the answer."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "activity",
+            "title": "Activity: UX Audit",
+            "content": {
+                "activity": "The 3-Click Test",
+                "description": "Go to a university library website. Pick a complex topic. Can you find a relevant ebook in 3 clicks? If not, identify the HCI barrier."
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the 'Gulf of Execution' in IR?",
+                "How does Autocomplete reduce cognitive load?",
+                "Why is 'Feedback' critical in a search interface?",
+                "Define User-Centered Design."
+            ]
+        },
+        {
+            "slideNumber": 6,
+            "type": "summary",
+            "title": "Wrap-up",
+            "content": {
+                "text": "We've defined the human element. Next, we look at the specific steps a user takes during a search session.",
+                "nextTopic": "The Information Access Process",
+                "preparation": "Visualize your own steps when searching for a product."
+            }
+        }
+    ]
+}

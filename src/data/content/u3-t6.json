@@ -1,0 +1,79 @@
+{
+    "id": "u3-t6",
+    "title": "Trends and Research Issues (UI)",
+    "unitId": "unit-3",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Trends & Research in IR Interfaces",
+            "subtitle": "The Future of Information Interaction",
+            "content": {
+                "text": "The way we interact with information is moving beyond static lists and keyboards. This topic explores the cutting-edge research in UI/UX for IR.",
+                "hook": "We are moving from 'searching' to 'conversing'."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Conversational Search",
+            "content": {
+                "text": "The rise of Large Language Models (LLMs) and Voice assistants. Instead of queries, users engage in dialogue. The system must maintain state and understand intent through multi-turn interactions.",
+                "hook": "Siri, Alexa, and Gemini are the new 'browsers'."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "grid",
+            "title": "Modern Research Directions",
+            "items": [
+                "Neuro-symbolic interfaces (combining LLMs with structured data).",
+                "Augmented Reality (AR) search interfaces.",
+                "Collaborative Search (multiple people searching together).",
+                "Affective IR (sensing user emotion through behavior)."
+            ]
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Human-Centered Evaluation",
+            "content": {
+                "text": "How do we measure 'Ease of use' or 'Joy' in IR? Research into biometric feedback (eye-tracking), EEG, and long-term user logs to understand satisfaction beyond just relevance.",
+                "outcomes": [
+                    "User experience (UX) as a ranking signal.",
+                    "Personalization vs Privacy trade-off."
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "activity",
+            "title": "Activity: Predict the 2030s",
+            "content": {
+                "activity": "The Inventor",
+                "description": "Imagine search 10 years from now. Will screens still be the primary interface? Describe a search scenario using AR glasses or brain-computer interfaces."
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is 'Conversational Search'?",
+                "How does Eye-tracking help in IR research?",
+                "Name one trend in mobile search interface.",
+                "What is 'Collaborative Search'?"
+            ]
+        },
+        {
+            "slideNumber": 7,
+            "type": "summary",
+            "title": "Unit Wrap-up",
+            "content": {
+                "text": "Unit 3 complete. We have mastered the human-machine interface. Next, we move into the complex world of Multimedia Retrieval.",
+                "nextTopic": "Unit 4: Multimedia IR",
+                "preparation": "Recall image search experiences on Google or Pinterest."
+            }
+        }
+    ]
+}

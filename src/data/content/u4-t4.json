@@ -1,0 +1,81 @@
+{
+    "id": "u4-t4",
+    "title": "Search Engines, Browsing & Meta Searchers",
+    "unitId": "unit-4",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Navigating the Web",
+            "subtitle": "Spiders, Browsers, and Meta-Search",
+            "content": {
+                "text": "How do we find what we need among trillions of documents? We use a combination of directed search (Engines), exploration (Browsing), and aggregation (Meta Searchers).",
+                "hook": "Finding a needle in a haystack becomes easy if you have a thousand people looking for you."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Search Engine Architecture",
+            "content": {
+                "text": "1. Crawler (Spider): Traversing links and downloading pages. 2. Indexer: Building the massive Inverted Index. 3. Query Processor: Ranking results in milliseconds.",
+                "hook": "Engine = Crawling + Indexing + Ranking."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Meta Searchers",
+            "content": {
+                "definition": "A search tool that sends your query to multiple other search engines and aggregates their results.",
+                "text": "Meta searchers provide: 1. Broader coverage, 2. Combined ranking, 3. No local index of their own (they are 'leeches' of the search web).",
+                "examples": [
+                    "Dogpile",
+                    "MetaCrawler"
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Finding the Needle in the Haystack",
+            "content": {
+                "text": "This refers to Search Effectiveness (Precision/Recall) on a web scale. 1. High Precision is critical (users only look at page 1). 2. Diversification: Ensuring the top results are diverse (e.g. searching 'Apple' shows the fruit AND the company).",
+                "outcomes": [
+                    "Ranking by Authority",
+                    "User click-through signals"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "activity",
+            "title": "Activity: Meta-Search Test",
+            "content": {
+                "activity": "The Aggregator",
+                "description": "Go to Dogpile.com. Search for 'Quantum Computing'. Compare the results at the top with a standard Google search. Are the 'Meta' results more diverse or just noisier?"
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is a 'Meta Searcher'?",
+                "List the three main components of a Search Engine.",
+                "Why is 'Precision' more important than 'Recall' for web search users?",
+                "What does 'Finding the Needle' refer to in IR?"
+            ]
+        },
+        {
+            "slideNumber": 7,
+            "type": "summary",
+            "title": "Wrap-up",
+            "content": {
+                "text": "Tools mastered. Finally, we look at the 'secret sauce' of web ranking.",
+                "nextTopic": "Searching using Hyperlinks",
+                "preparation": "Visualize a network of friends recommending each other."
+            }
+        }
+    ]
+}

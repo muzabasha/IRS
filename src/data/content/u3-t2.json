@@ -1,0 +1,83 @@
+{
+    "id": "u3-t2",
+    "title": "The Information Access Process",
+    "unitId": "unit-3",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "The Information Access Process",
+            "subtitle": "Iterative Learning and Discovery",
+            "content": {
+                "text": "Accessing information is rarely a single event. It is a process of learning, where each result informs the next query.",
+                "hook": "Search is a journey, not a destination."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "The Classic vs Dynamic Model",
+            "content": {
+                "text": "Standard Model: User need -> Query -> Results -> Satisfaction.\nDynamic Model (Berry-Picking): User need evolves. Each document reveals new concepts, leading to new queries. The final 'answer' is a synthesis of many clicks.",
+                "outcomes": [
+                    "Need for persistent search history",
+                    "Importance of 'pivoting' on new keywords"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "diagram",
+            "title": "Integrated Search Cycle",
+            "content": {
+                "description": "Steps in the access process.",
+                "steps": [
+                    "Recognizing Need",
+                    "Selecting Source",
+                    "Formulating Query",
+                    "Inspecting Results",
+                    "Extracting Information",
+                    "Reformulating"
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Cognitive Models",
+            "content": {
+                "text": "Explores how users think during search. 1. Anomalous State of Knowledge (ASK): Searchers have a gap in knowledge and don't know the words to fill it yet. 2. Sensemaking: Building a mental map of a topic through multiple searches."
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "activity",
+            "title": "Activity: Trace Your Clicks",
+            "content": {
+                "activity": "The Paper Trail",
+                "description": "Research 'Why do cats purr?'. List every search term you used from start to final answer. Did your first query give you the answer, or did it just give you the vocabulary for the second?"
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the Berry-Picking model?",
+                "Explain the 'Anomalous State of Knowledge' (ASK).",
+                "How does the dynamic model differ from the boolean model of access?",
+                "Define 'Sensemaking'."
+            ]
+        },
+        {
+            "slideNumber": 7,
+            "type": "summary",
+            "title": "Wrap-up",
+            "content": {
+                "text": "Process defined. Next: Where does it all begin on the screen?",
+                "nextTopic": "Starting Points & Query Specification",
+                "preparation": "Look at the homepage of Google vs. a news site."
+            }
+        }
+    ]
+}

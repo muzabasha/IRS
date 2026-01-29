@@ -1,0 +1,145 @@
+{
+    "id": "u1-t3",
+    "title": "Classic IR Models",
+    "unitId": "unit-1",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Classic Information Retrieval Models",
+            "subtitle": "Boolean, Vector, and Probabilistic",
+            "content": {
+                "text": "IR Models provide the mathematical framework for defining the retrieval process. The 'Classic' models are the foundation of all modern search systems.",
+                "hook": "How do you mathematically prove that Document A is more relevant than Document B?"
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "diagram",
+            "title": "Taxonomy of IR Models",
+            "content": {
+                "description": "The family tree of retrieval models.",
+                "steps": [
+                    "Set-Theoretic (Boolean)",
+                    "Algebraic (Vector Space)",
+                    "Probabilistic (BM25)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "The Boolean Model",
+            "content": {
+                "definition": "A model based on set theory and Boolean algebra. Documents are sets of terms. Queries are boolean expressions (AND, OR, NOT).",
+                "text": "The simplest model. A document either matches (1) or it doesn't (0). There is no partial match."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "list",
+            "title": "Boolean Model: Pros & Cons",
+            "items": [
+                "✅ Easy to implement and computationally efficient.",
+                "✅ Exact semantics (User gets exactly what they asked for).",
+                "❌ No ranking (Alphabetical sort is useless for large results).",
+                "❌ 'Too strict': AND can yield zero results; OR can yield thousands."
+            ]
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "The Vector Space Model (VSM)",
+            "content": {
+                "definition": "Visualizes documents and queries as vectors in a multi-dimensional space. Relevance is the distance/angle between them.",
+                "text": "Solves the ranking problem. Uses term weights (TF-IDF) to determine importance. We compute the Cosine Similarity between the Query Vector and Document Vectors."
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "illustration",
+            "title": "Vector Space Representation",
+            "content": {
+                "description": "The logic of geometric retrieval.",
+                "steps": [
+                    "Term Dimensions (X, Y, Z axes)",
+                    "Document Vectorization",
+                    "Query Vectorization",
+                    "Cosine Angle Calculation"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "standard",
+            "title": "TF-IDF Weighting",
+            "content": {
+                "text": "The most famous formula in IR.",
+                "outcomes": [
+                    "TF (Term Frequency): How often term t appears in doc d. (Higher is better)",
+                    "IDF (Inverse Document Frequency): log(N/df). Penalizes common words like 'the'. (Rarity is valuable)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "standard",
+            "title": "Probabilistic Model (Binary Independence)",
+            "content": {
+                "text": "Based on the Probability Ranking Principle: 'If a system ranks documents by decreasing probability of relevance to the user, effectiveness is maximized.'",
+                "hook": "It asks: What are the odds that this document is relevant?"
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "grid",
+            "title": "Model Comparison",
+            "items": [
+                "Boolean: Binary decision. Good for expert systems (Law, Med).",
+                "Vector: Ranked results. Best for general web search.",
+                "Probabilistic: Ranked results. Strong theoretical basis, but hard to estimate initial probabilities."
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "activity",
+            "title": "Activity: Manual Indexing",
+            "content": {
+                "activity": "Rank the Docs",
+                "description": "Query: 'Apple Pie'. Doc A: 'Apple chart pie'. Doc B: 'Apple apple apple'. Doc C: 'Pie chart'. Which is most relevant in Boolean? Which in VSM?"
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "project",
+            "title": "Project: VSM Calculator",
+            "content": {
+                "idea": "Cosine Similarity Engine",
+                "input": "Query 'Q' and two sentences 'D1', 'D2'.",
+                "process": "1. Count word frequencies (TF). 2. Compute Cosine Similarity.",
+                "output": "Score for D1 vs D2. Declare the winner."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "quiz",
+            "title": "Mastery Check",
+            "questions": [
+                "Why is the Boolean model considered 'data retrieval' rather than 'information retrieval'?",
+                "What does IDF stand for, and why is it needed?",
+                "If the angle between two document vectors is 0 degrees, what is their similarity?",
+                "State the Probability Ranking Principle."
+            ]
+        },
+        {
+            "slideNumber": 13,
+            "type": "summary",
+            "title": "Topic Wrap-up",
+            "content": {
+                "linkage": "VSM is powerful but treats terms as independent dimensions. Next, we look at Fuzzy Logic and Neural alternatives.",
+                "nextTopic": "Set-Theoretic Models (Fuzzy & Extended Boolean)",
+                "preparation": "Review Fuzzy Set Theory (Membership functions)."
+            }
+        }
+    ]
+}

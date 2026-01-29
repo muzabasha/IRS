@@ -1,0 +1,117 @@
+{
+    "id": "u2-t5",
+    "title": "Indexing & Searching",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "title": "Indexing & Searching",
+            "type": "title",
+            "subtitle": "The Engine Behind the Search",
+            "content": {
+                "text": "Retrieval at scale requires specialized structures. We move from 'scanning' documents to 'lookup' in an Inverted Index.",
+                "hook": "Finding a needle in a haystack is easy if you have a needle-to-haystack map."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "The Inverted Index",
+            "content": {
+                "definition": "A mapping from Content (Terms) to Locations (Document IDs).",
+                "text": "It consists of a Dictionary (Vocabulary) and Postings Lists (lists of doc IDs where each term appears).",
+                "hook": "Term 'IR' -> [Doc 1, Doc 42, Doc 105]"
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "illustration",
+            "title": "Visualizing the Index",
+            "content": {
+                "caption": "Term -> Postings List -> Payload (Frequency/Position)",
+                "description": " modern indices also store positions for phrase searching ('New' followed by 'York')."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Index Construction",
+            "content": {
+                "text": "How do we build it? For small datasets: In-memory. For massive datasets: Sort-based blocked indexing (BSBI) or Single-pass in-memory indexing (SPIMI).",
+                "steps": [
+                    "Tokenize documents",
+                    "Store as (Term, DocID) pairs",
+                    "Sort pairs by Term",
+                    "Merge DocIDs for same term into a list"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Searching & Merging",
+            "content": {
+                "text": "Boolean queries are solved by merging sorted postings lists. For 'A AND B', we look for common DocIDs in both lists using two pointers.",
+                "outcomes": [
+                    "Complexity: O(M+N) where M, N are list lengths.",
+                    "Skip Pointers help speed this up by jumping over irrelevant DocIDs."
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "diagram",
+            "title": "Ranked Retrieval Flow",
+            "content": {
+                "description": "Calculating scores on the fly.",
+                "steps": [
+                    "Decode Posting",
+                    "Calculate TF-IDF for Doc",
+                    "Accumulate in Heap",
+                    "Return Top K"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "activity",
+            "title": "Activity: Manual Merge",
+            "content": {
+                "activity": "The Pointer Game",
+                "description": "List A: [1, 5, 20, 25, 40]. List B: [2, 5, 21, 40, 55]. Find the intersection using the two-pointer method. How many comparisons did you make?"
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "project",
+            "title": "Mini-Project: Indexer",
+            "content": {
+                "idea": "Simple Dictionary Indexer",
+                "input": "Multiple tiny text files.",
+                "process": "Use a Python dictionary `index = {}`. For each word, append the filename to `index[word]` if it's not already there.",
+                "output": "Print the index: 'word': [file1, file2]."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Quiz",
+            "questions": [
+                "What is a 'Postings List'?",
+                "What is the time complexity of merging two sorted lists?",
+                "Why do we sort the postings lists by DocID?",
+                "What are 'Skip Pointers'?"
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "summary",
+            "title": "Topic Wrap-up",
+            "content": {
+                "linkage": "We have an index. But it's massive. How do we make it smaller to fit in RAM?",
+                "nextTopic": "Index Compression",
+                "preparation": "Recall Binary encoding and Variable Byte encoding."
+            }
+        }
+    ]
+}

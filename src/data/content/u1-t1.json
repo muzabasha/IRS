@@ -1,0 +1,221 @@
+{
+    "id": "u1-t1",
+    "title": "Basic IR Concepts",
+    "unitId": "unit-1",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Basic Concepts of Information Retrieval",
+            "subtitle": "Unit 1: Introduction to IR",
+            "content": {
+                "text": "Information Retrieval is the art and science of searching for information in documents, searching for documents themselves, searching for metadata which describe documents, or searching within databases, whether relational stand-alone databases or hypertextually-networked databases such as the World Wide Web.",
+                "hook": "Imagine trying to find a needle in a haystack. Now imagine the haystack is the size of the internet. That's IR."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Course Plan Positioning",
+            "content": {
+                "position": "Unit 1 / Topic 1",
+                "preRequisites": [
+                    "Data Structures",
+                    "Basic Probability"
+                ],
+                "outcomes": [
+                    "Define Information Retrieval",
+                    "Differentiate IR from DB",
+                    "Understand the IR System Architecture"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "list",
+            "title": "Content Covered Today",
+            "items": [
+                "Definition of IR",
+                "Data vs Information vs Knowledge",
+                "The User Task",
+                "Logical View of Documents",
+                "Past, Present, and Future of IR"
+            ]
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Background of the Topic",
+            "content": {
+                "text": "Before search engines (Google, Bing), we had library card catalogs. The need to organize and retrieve knowledge dates back to the Library of Alexandria. In the digital age, 1950s punched cards gave way to modern inverted indices."
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Motivation - Why Explore IR?",
+            "content": {
+                "text": "We live in the Zettabyte Era. Data is useless if you can't find what you need. IR is the bridge between 'Data Overload' and 'Actionable Insight'."
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Problem Statement",
+            "content": {
+                "problem": "Unstructured Data Explosion",
+                "consequence": "Without IR models, finding relevant information in unstructured text (emails, web pages, PDFs) is computationally impossible at scale."
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "standard",
+            "title": "Core Concept Overview",
+            "content": {
+                "concept": "Relevance",
+                "definition": "The key difference between DB (Exact Match) and IR (Best Match). IR systems rank results based on how likely they satisfy the user's information need."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "standard",
+            "title": "Technical Foundations",
+            "content": {
+                "text": "IR relies on Boolean Logic, Vector Spaces, and Probability Theory. It assumes documents can be represented as 'Bag of Words' or feature vectors."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "diagram",
+            "title": "The Classic IR System Architecture",
+            "content": {
+                "description": "Functional overview of a classic information retrieval system architecture.",
+                "steps": [
+                    "User Information Need",
+                    "Query Formulation",
+                    "Matching & Ranking",
+                    "Document Collection Index",
+                    "Relevance Evaluation"
+                ]
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "diagram",
+            "title": "Flow from Document Collection to Indexed Terms",
+            "content": {
+                "description": "The systematic pipeline for transforming raw document collections into a searchable index structure.",
+                "steps": [
+                    "Raw Documents (HTML/PDF/Text)",
+                    "Lexical Analysis & Tokenization",
+                    "Filtering (Stopword Removal)",
+                    "Morphological Analysis (Stemming)",
+                    "Final Indexed Terms (Vocabulary)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "case_study",
+            "title": "Real-Time Case Study",
+            "content": {
+                "title": "The Evolution of Google Search",
+                "problem": "Keyword spamming in late 90s.",
+                "solution": "PageRank algorithm (Link Analysis).",
+                "outcome": "Trustworthy, authoritative results prioritizing relevance over frequency."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "grid",
+            "title": "Applications",
+            "items": [
+                "Web Search Engines",
+                "Digital Libraries",
+                "Enterprise Search",
+                "Recommender Systems"
+            ]
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Challenges & Limitations",
+            "content": {
+                "text": "Ambiguity in Natural Language (Polysemy, Synonymy). Scalability with index size. Privacy in personalized search."
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Research & Open Problems",
+            "content": {
+                "text": "Neural IR (BERT/Transformers), Cross-lingual Retrieval, Multimedia/Video Search, Explainable Ranking."
+            }
+        },
+        {
+            "slideNumber": 15,
+            "type": "standard",
+            "title": "Tool / Technology Mapping",
+            "content": {
+                "tools": [
+                    "Elasticsearch",
+                    "Apache Solr",
+                    "Lucene",
+                    "Python NLTK/SpaCy"
+                ]
+            }
+        },
+        {
+            "slideNumber": 16,
+            "type": "activity",
+            "title": "Experiential Learning Activity",
+            "content": {
+                "activity": "Boolean Search Challenge",
+                "description": "Go to Google. Use 'site:', 'filetype:pdf', and quote operators to find a specific research paper on 'Vector Space Model' published before 2000."
+            }
+        },
+        {
+            "slideNumber": 17,
+            "type": "project",
+            "title": "Project-Based Learning Idea",
+            "content": {
+                "idea": "Build a Mini-Search Engine",
+                "input": "A folder of 50 text files.",
+                "process": "Build an Inverted Index (Python dictionary).",
+                "output": "A script that takes a keyword and returns filenames containing it."
+            }
+        },
+        {
+            "slideNumber": 18,
+            "type": "quiz",
+            "title": "Open-Ended Quiz Questions",
+            "questions": [
+                "Why is exact matching insufficient for text retrieval?",
+                "How is 'Data' different from 'Information' in the context of IR?",
+                "Explain the concept of 'Bag of Words'.",
+                "What is the role of stopwords in preprocessing?",
+                "Give an example of a navigational query."
+            ]
+        },
+        {
+            "slideNumber": 19,
+            "type": "exam",
+            "title": "Model Examination Questions",
+            "questions": [
+                "Define Information Retrieval. Explain the functional overview of an IR system with a block diagram. (10 Marks)",
+                "Differentiate between Data Retrieval and Information Retrieval. (5 Marks)",
+                "Write short notes on Digital Libraries. (5 Marks)"
+            ]
+        },
+        {
+            "slideNumber": 20,
+            "type": "summary",
+            "title": "Plan for Next Class",
+            "content": {
+                "nextTopic": "The Retrieval Process & Modeling",
+                "linkage": "Now that we know WHAT IR is, next we learn HOW to formalize it mathematically.",
+                "preparation": "Read about Set Theory basics."
+            }
+        }
+    ]
+}

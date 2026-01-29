@@ -1,0 +1,126 @@
+{
+    "id": "u1-t7",
+    "title": "Structured Text Retrieval",
+    "unitId": "unit-1",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Structured Text Retrieval",
+            "subtitle": "Combining Content and Structure",
+            "content": {
+                "text": "Retrieval isn't just about 'what' is said, but 'where' it is said. Finding a keyword in a <Title> tag is more valuable than in a <footer>.",
+                "hook": "Query: 'Find books with *Hamlet* in the Title and *Ghost* in the Chapter 1'."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "The Need for Structure",
+            "content": {
+                "problem": "Flat Bag-of-Words loses context.",
+                "text": "Documents often have hierarchical structure (Books > Chapters > Sections). Standard IR flattens this. Structured IR exploits it for more precise queries."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "diagram",
+            "title": "Document Structural Hierarchy",
+            "content": {
+                "description": "Visualizing a document as a tree of nodes (DOM).",
+                "steps": [
+                    "Root (Document Body)",
+                    "Container Nodes (Chapters/Sections)",
+                    "Semantic Tags (Title/Author)",
+                    "Leaf Nodes (Raw Text Content)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "list",
+            "title": "Models for Structured Text",
+            "items": [
+                "Non-Overlapping Lists: Dividing text into distinct regions (e.g., Pages).",
+                "Proximal Nodes: Finding nodes that contain specific terms within a certain distance.",
+                "XML Information Retrieval: Querying against schemas (XPath, XQuery)."
+            ]
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Proximal Nodes Model",
+            "content": {
+                "definition": "A hierarchical indexing system where each node in the document tree can be retrieved independently.",
+                "text": "Allows queries like `[Chapter] containing ('analysis' AND 'design')`."
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "illustration",
+            "title": "Containment Logic Workflow",
+            "content": {
+                "description": "How structural operators determine a match.",
+                "steps": [
+                    "Evaluate Content Term (e.g. 'King')",
+                    "Determine Node Scope (e.g. <Title>)",
+                    "Check Containment Constraint",
+                    "Return Content-in-Context Match"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "standard",
+            "title": "Structuring the Index",
+            "content": {
+                "text": "We index structure alongside text. The inverted index includes position info: `(DocID, StartPos, EndPos, Depth)`.",
+                "outcomes": [
+                    "Allows 'Near' operators.",
+                    "Allows specific field weighting (Title=1.0, Body=0.5)."
+                ]
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: XPath Querying",
+            "content": {
+                "activity": "Structure Hunting",
+                "description": "Given an XML snippets of a bookstore. Write a pseudo-XPath query to find 'Prices of books by Author X'."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "project",
+            "title": "Mini-Project: HTML Parser",
+            "content": {
+                "idea": "Title Scraper",
+                "input": "A raw HTML string.",
+                "process": "Parse the string to identify content inside <h1> and <title> tags. Treat these as 'High Importance'.",
+                "output": "A weighted index where title words count double."
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "quiz",
+            "title": "Quiz",
+            "questions": [
+                "What is the difference between specific field retrieval and general text retrieval?",
+                "How does the Proximal Nodes model define a 'match'?",
+                "Why is XML retrieval more complex than standard web search?",
+                "Give an example of a structural constraint in a query."
+            ]
+        },
+        {
+            "slideNumber": 11,
+            "type": "summary",
+            "title": "Topic Wrap-up",
+            "content": {
+                "linkage": "We can now find text in structure. But what if we 'browse' instead of search?",
+                "nextTopic": "Browsing Models",
+                "preparation": "Think about directory structures and hyperlinks."
+            }
+        }
+    ]
+}

@@ -1,0 +1,104 @@
+{
+    "unitId": "unit-4",
+    "title": "Unit 4 Assessment: Multimedia IR & Web Search",
+    "questions": [
+        {
+            "id": 1,
+            "text": "The gap between raw multimedia data (pixels) and human perception (concepts) is called:",
+            "options": [
+                "The Digital Divide",
+                "The Semantic Gap",
+                "The Storage Barrier",
+                "The Logic Hole"
+            ],
+            "correctIndex": 1,
+            "explanation": "Extracting high-level meaning from low-level features is the core challenge of multimedia modeling.",
+            "topic": "Multimedia IR Modeling",
+            "remedial": "Review Unit 4 Topic 1"
+        },
+        {
+            "id": 2,
+            "text": "Which index structure is commonly used for multi-dimensional spatial data in multimedia IR?",
+            "options": [
+                "Binary Tree",
+                "R-Tree",
+                "Linked List",
+                "Stack"
+            ],
+            "correctIndex": 1,
+            "explanation": "R-Trees (Regional Trees) handle multi-dimensional bounding boxes efficiently.",
+            "topic": "Multimedia Indexing",
+            "remedial": "Review Unit 4 Topic 2"
+        },
+        {
+            "id": 3,
+            "text": "Automatic Feature Extraction in images might focus on:",
+            "options": [
+                "The file name",
+                "Color histograms and texture patches",
+                "The website font",
+                "The server location"
+            ],
+            "correctIndex": 1,
+            "explanation": "Colors and textures are key visual features extracted by multimedia systems.",
+            "topic": "Multimedia Indexing & Searching",
+            "remedial": "Review Topic 2"
+        },
+        {
+            "id": 4,
+            "text": "What is a major challenge unique to Web Search compared to traditional IR?",
+            "options": [
+                "Slow computers",
+                "Spam / Adversarial Content",
+                "Small index size",
+                "Fixed content"
+            ],
+            "correctIndex": 1,
+            "explanation": "Web content is adversarial, with spammers constantly trying to trick the ranking algorithms.",
+            "topic": "Searching the Web: Challenges",
+            "remedial": "Review Unit 4 Topic 3"
+        },
+        {
+            "id": 5,
+            "text": "A 'Meta Searcher' differs from a regular search engine because it:",
+            "options": [
+                "Has a larger local index",
+                "Doesn't have its own index but queries other engines",
+                "Only searches for images",
+                "Is only used in Meta (Facebook)"
+            ],
+            "correctIndex": 1,
+            "explanation": "Meta searchers aggregate results from multiple independent engines.",
+            "topic": "Meta Searchers",
+            "remedial": "Review Unit 4 Topic 4"
+        },
+        {
+            "id": 6,
+            "text": "PageRank determines the importance of a web page based on:",
+            "options": [
+                "How many words it contains",
+                "The link structure of the web graph",
+                "The color of the website",
+                "The alphabetic rank of its URL"
+            ],
+            "correctIndex": 1,
+            "explanation": "PageRank uses the inbound links as votes of confidence from the network.",
+            "topic": "Searching using Hyperlinks",
+            "remedial": "Review Unit 4 Topic 5"
+        },
+        {
+            "id": 7,
+            "text": "The HITS algorithm identifies which two types of important pages?",
+            "options": [
+                "Links and Nodes",
+                "Hubs and Authorities",
+                "Searchers and Indexers",
+                "Robots and Humans"
+            ],
+            "correctIndex": 1,
+            "explanation": "Hubs are pages that point to many good sources; Authorities are the high-quality sources themselves.",
+            "topic": "Searching using Hyperlinks",
+            "remedial": "Review HITS in Topic 5"
+        }
+    ]
+}

@@ -1,0 +1,65 @@
+{
+    "id": "u4-t1",
+    "title": "Multimedia IR (Modeling, Languages, Trends)",
+    "unitId": "unit-4",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Multimedia IR",
+            "subtitle": "Beyond Text: Modeling Media",
+            "content": {
+                "text": "How do we search for information that isn't written? Multimedia IR focuses on the retrieval of images, audio, and video by modeling their inherent features.",
+                "hook": "Search for a song by humming, or a car by taking a photo."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Data Modeling in Multimedia IR",
+            "content": {
+                "text": "Multimedia objects are stored as 'Feature Vectors'. We extract mathematical descriptors (colors, textures, audio frequencies) and represent them in a high-dimensional space.",
+                "hook": "The Semantic Gap: The difference between raw pixels (computer view) and concepts like 'A happy dog' (human view)."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Multimedia Query Languages",
+            "content": {
+                "text": "Traditional keyword queries don't work for bitmaps. 1. Query by Example (QBE): Providing a sample image. 2. Query by Sketch: Drawing a shape. 3. Query by Humming: Measuring audio frequency shifts.",
+                "hook": "Multimedia queries are visual and acoustic."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "activity",
+            "title": "Activity: QBE Mockup",
+            "content": {
+                "activity": "The Reverse Search",
+                "description": "Imagine you want to find the name of a flower from a photo. Describe the 'Query Specification' process. How would the feature extraction look?"
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the 'Semantic Gap'?",
+                "Define 'Query by Example'.",
+                "Why are feature vectors used for multimedia?",
+                "Name one trend in multimedia IR."
+            ]
+        },
+        {
+            "slideNumber": 6,
+            "type": "summary",
+            "title": "Trends & Wrap-up",
+            "content": {
+                "text": "Trends include Deep Learning (CNNs), Generative AI search (Text-to-Image), and Multi-modal retrieval (Text+Image).",
+                "nextTopic": "Multimedia Indexing & Searching",
+                "preparation": "Recall image processing basics."
+            }
+        }
+    ]
+}

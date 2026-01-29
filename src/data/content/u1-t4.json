@@ -1,0 +1,118 @@
+{
+    "id": "u1-t4",
+    "title": "Set-Theoretic Models",
+    "unitId": "unit-1",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Set-Theoretic Information Retrieval",
+            "subtitle": "Fuzzy Sets and Extended Boolean Models",
+            "content": {
+                "text": "Extending the rigid logic of the Boolean model to handle the ambiguity of natural language using Fuzzy Logic.",
+                "hook": "Is a tomato a fruit? In Boolean logic, yes/no. In Fuzzy logic, it's 0.8 Fruit, 0.4 Vegetable."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Limitations of Standard Boolean",
+            "content": {
+                "problem": "Binary decisions are too harsh.",
+                "text": "Standard Boolean (AND/OR) has no notion of 'partial match'. If a document has 4 out of 5 query terms, Boolean AND rejects it completely. We need a way to 'soften' these operators."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Fuzzy Set Model",
+            "content": {
+                "definition": "Fuzzy Set Theory: An element belongs to a set with a degree of membership between 0 and 1, rather than just 0 or 1.",
+                "text": "In IR, a term characterizes a document with a certain degree (e.g., correlation factor). We use fuzzy operations (Min/Max) instead of logical AND/OR."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "grid",
+            "title": "Fuzzy Operations",
+            "items": [
+                "Fuzzy AND (Intersection): min(degree_A, degree_B)",
+                "Fuzzy OR (Union): max(degree_A, degree_B)",
+                "Fuzzy NOT (Complement): 1 - degree_A"
+            ]
+        },
+        {
+            "slideNumber": 5,
+            "type": "illustration",
+            "title": "Fuzzy Logic Workflow",
+            "content": {
+                "description": "How a vague concept becomes a numeric relevance score.",
+                "steps": [
+                    "Input (Vague Need)",
+                    "Select Membership Func (Triangular/Gaussian)",
+                    "Map Input to 0-1 Range",
+                    "Apply Min/Max Operators",
+                    "Final Ranked Score"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Extended Boolean Model",
+            "content": {
+                "text": "Proposed by Salton et al. to bridge Boolean and Vector Space models. It introduces the 'p-norm' concept to control the strictness of AND/OR.",
+                "hook": "It allows a query like 'A AND B' to act like 'Vector A + Vector B' (soft) or 'A intersect B' (strict) depending on parameter P."
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "standard",
+            "title": "P-Norm Math",
+            "content": {
+                "text": "P = 1: Behaves like Vector Space (Sum).\nP = Infinity: Behaves like Standard Boolean (Min/Max).\nThis allows tuning the system for precision vs recall."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: Fuzzy Logic",
+            "content": {
+                "activity": "Degree of Relevance",
+                "description": "Consider the term 'Fast Car'. Assign a score (0-1) for how well these cars fit the set 'Fast': Ferrari (1.0), Honda Civic (0.4), Bicycle (0.0). Now query 'Fast AND Red'. Calculate scores."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Concept Check",
+            "questions": [
+                "What is the range of a fuzzy membership function?",
+                "If A=0.7 and B=0.3, what is Fuzzy AND(A, B)?",
+                "How does the Extended Boolean model solve the 'all-or-nothing' problem?",
+                "What is a Thesaurus in the context of Fuzzy IR used for?"
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "project",
+            "title": "Mini-Project",
+            "content": {
+                "idea": "Fuzzy Searcher",
+                "input": "List of items with attributes (e.g., Hotel: Cheap=0.8, NearBeach=0.4).",
+                "process": "Implement P-Norm ranking for query 'Cheap AND NearBeach'.",
+                "output": "Ranked list of hotels."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "summary",
+            "title": "Topic Wrap-up",
+            "content": {
+                "linkage": "We've softened the logic. Now let's look at more advanced algebraic ways to uncover hidden meanings in text.",
+                "nextTopic": "Algebraic Models",
+                "preparation": "Review Matrix Decomposition (SVD)."
+            }
+        }
+    ]
+}

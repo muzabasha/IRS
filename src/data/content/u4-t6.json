@@ -1,0 +1,70 @@
+{
+    "id": "u4-t6",
+    "title": "Question Answering",
+    "unitId": "unit-4",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Question Answering Systems",
+            "subtitle": "Beyond Document Lists",
+            "content": {
+                "text": "Users often don't want a list of documents; they want an answer. QA systems extract specific facts or generate responses from a corpus.",
+                "hook": "Search: 'Where is Tokyo?' -> [Link 1, Link 2]. QA: 'Where is Tokyo?' -> 'Tokyo is in Japan.'"
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "grid",
+            "title": "Types of Questions",
+            "items": [
+                "Factoid: 'Who is the president?' (Named Entity).",
+                "List: 'List the countries in Africa.'",
+                "Definition: 'What is a search engine?'",
+                "Opinion/Why: 'Why is AI dangerous?' (Complex synthesis)."
+            ]
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "QA Architecture",
+            "content": {
+                "text": "The traditional pipeline for QA.",
+                "steps": [
+                    "Question Processing: Determine 'Answer Type' (Person, Date, etc).",
+                    "Document Retrieval: Find relevant passages.",
+                    "Answer Extraction: Pinpoint the exact string in the text.",
+                    "Ranking: Choose the most confident answer."
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "The Role of NLP",
+            "content": {
+                "text": "QA relies heavily on Natural Language Processing (NLP) techniques like Named Entity Recognition (NER), Part-of-Speech tagging, and Semantic Parsing.",
+                "hook": "Modern QA systems (like LLMs) generate answers by predicting next tokens, but traditional systems 'highlight' existing facts."
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "activity",
+            "title": "Activity: Extract the Fact",
+            "content": {
+                "activity": "The QA Challenge",
+                "description": "Text: 'Dr. Muzamil founded the IR lab in 2024.' Question: 'Who founded the lab?' What part of speech is the answer? What entity type?"
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "summary",
+            "title": "Course Wrap-up",
+            "content": {
+                "linkage": "You have completed the full course on B22EQ0601 Information Retrieval. From basic models to advanced recommendation and QA systems.",
+                "nextTopic": "Final Assessment",
+                "preparation": "Review all units for the final course project."
+            }
+        }
+    ]
+}

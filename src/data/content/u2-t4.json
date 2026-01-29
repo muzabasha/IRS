@@ -1,0 +1,122 @@
+{
+    "id": "u2-t4",
+    "title": "Indexing and Searching (Inverted Files, Boolean, Pattern)",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Indexing and Searching",
+            "subtitle": "The Mechanics of Rapid Retrieval",
+            "content": {
+                "text": "How do we search billions of pages in milliseconds? We move from sequential scanning to direct access via indexing.",
+                "hook": "Searching without an index is like reading every book in the library to find one quote."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Inverted Files (The Index)",
+            "content": {
+                "definition": "The core data structure of all modern search engines. A mapping from words to the lists of documents they appear in.",
+                "text": "Structure: 1. Vocabulary (The words), 2. Postings Lists (The IDs), 3. Payloads (Frequency/Position).",
+                "hook": "Word 'Data' -> [Doc 5, Doc 88, Doc 102]"
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "diagram",
+            "title": "Visualizing the Inverted Index",
+            "content": {
+                "description": "Logic of mapping terms to document identifiers.",
+                "steps": [
+                    "Extract Terms (Vocabulary)",
+                    "Sort Terms Alphabetically",
+                    "Create Postings Lists (DocIDs)",
+                    "Apply Compression (D-Gaps)",
+                    "Final Searchable Structure"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Boolean Queries",
+            "content": {
+                "text": "Searching by combining terms with AND, OR, and NOT. These are solved by merging sorted postings lists.",
+                "outcomes": [
+                    "AND: Intersection of lists.",
+                    "OR: Union of lists.",
+                    "NOT: Difference of lists."
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Sequential Searching",
+            "content": {
+                "text": "Scanning the raw text file from start to finish (e.g. grep).",
+                "problem": "Too slow for massive data, but necessary for complex pattern matching that isn't indexed.",
+                "algorithms": [
+                    "KMP (Knuth-Morris-Pratt)",
+                    "Boyer-Moore",
+                    "Aho-Corasick"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "list",
+            "title": "Pattern Matching & Structural Queries",
+            "items": [
+                "Pattern Searching: Using Automata or Suffix Trees to find wildcards (*) in indexed text.",
+                "Structural Searching: Using the index to find keywords within specific document segments (like Title or Author).",
+                "Proximity Searching: Finding words within 'N' positions of each other."
+            ]
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Index Compression",
+            "content": {
+                "text": "Making the index fit in RAM. We compress the postings lists using Gap Encoding.",
+                "outcomes": [
+                    "D-Gaps: Store [100, 105, 110] as [100, 5, 5].",
+                    "Bit-level Compression: Variable Byte, Gamma/Delta codes.",
+                    "Dictionary Compression: Front coding."
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "activity",
+            "title": "Activity: List Merge",
+            "content": {
+                "activity": "The AND Gate",
+                "description": "List 1: [2, 5, 10, 22, 31]. List 2: [5, 12, 22, 45]. What is the result of (List 1 AND List 2)? How many comparisons did you make?"
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What are the three parts of an inverted file?",
+                "Why is a sorted postings list important for Boolean queries?",
+                "When is sequential searching better than indexing?",
+                "Explain D-gap compression."
+            ]
+        },
+        {
+            "slideNumber": 9,
+            "type": "summary",
+            "title": "Unit Wrap-up",
+            "content": {
+                "text": "Unit 2 complete. We can now process, query, index, and compress text. Next, we look at the Human Interface.",
+                "nextTopic": "Unit 3: User Interfaces",
+                "preparation": "Read about HCI (Human-Computer Interaction)."
+            }
+        }
+    ]
+}

@@ -1,0 +1,103 @@
+{
+    "id": "u2-t1",
+    "title": "Query Languages (Keyword, Pattern, Structural, Protocols)",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Query Languages in IR",
+            "subtitle": "Bridging User Intent and System Logic",
+            "content": {
+                "text": "A query language is the interface between the user's information need and the search engine's matching capabilities. It defines the syntax and semantics for expressing search requests.",
+                "hook": "Knowing what you want is one thing. Knowing how to ask for it is another."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Introduction to Query Languages",
+            "content": {
+                "text": "Query languages in IR differ from SQL. While SQL is for structured data and exact matches, IR query languages handle unstructured data and ranked matches. They must be simple enough for users but powerful enough for complex needs."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Keyword Querying",
+            "content": {
+                "text": "The most common form. Users type a sequence of words. The system implicitly treats them as an OR (Broad) or AND (Narrow) operation.",
+                "outcomes": [
+                    "Single-word queries",
+                    "Context queries (Phrases)",
+                    "Boolean combinations (implicit or explicit)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Pattern Matching",
+            "content": {
+                "definition": "Retrieving documents containing words that match a specific pattern rather than exact terms.",
+                "text": "Common patterns: 1. Wildcards (*, ?), 2. Prefix matching, 3. Suffix matching, 4. Range queries (e.g. [a-z]), 5. Regular Expressions."
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Structural Queries",
+            "content": {
+                "text": "Combining content search with structural constraints. Useful for XML or HTML documents.",
+                "examples": [
+                    "Find 'Hamlet' in <Title>",
+                    "Find words near each other in the same <Paragraph>",
+                    "Containment and proximity operators."
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Query Protocols",
+            "content": {
+                "text": "The standards used to communicate queries between systems.",
+                "outcomes": [
+                    "Z39.50: A classic protocol for library and information systems.",
+                    "SRU/SRW (Search/Retrieve URL): Modern web-friendly versions of Z39.50.",
+                    "OpenSearch: Providing search results in a standard format."
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "activity",
+            "title": "Activity: Protocol Trace",
+            "content": {
+                "activity": "Inspect the URL",
+                "description": "Go to Google and search for something. Look at the URL structure. Can you find the 'q=' parameter? That's part of the simple query protocol."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the difference between a prefix match and a regular expression?",
+                "Why are structural queries important for XML data?",
+                "What protocol is widely used in library management systems?",
+                "Explain the 'Keyword' query type."
+            ]
+        },
+        {
+            "slideNumber": 9,
+            "type": "summary",
+            "title": "Trends and Research Issues",
+            "content": {
+                "text": "Current research focuses on Natural Language Queries (asking full questions), Conversational Search (Voice assistants), and Cross-Language Querying.",
+                "nextTopic": "Query Operations",
+                "preparation": "Read about Relevance Feedback."
+            }
+        }
+    ]
+}

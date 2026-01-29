@@ -1,0 +1,140 @@
+{
+    "id": "u1-t2",
+    "title": "The Retrieval Process",
+    "unitId": "unit-1",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "The Information Retrieval Process",
+            "subtitle": "From User Need to Ranked Results",
+            "content": {
+                "text": "Understanding the complete lifecycle of a search query: how a user's vague information need is transformed, matched, and satisfied by an IR system.",
+                "hook": "A search engine is a conversation between a user and a collection of documents."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "The User Task",
+            "content": {
+                "text": "The process begins with a user's 'Information Need'. This is distinct from the 'Query' they type. The gap between the two is often where retrieval fails.",
+                "definition": "Information Need: A desire to locate and obtain information to satisfy a conscious or unconscious need."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "grid",
+            "title": "Types of IR Tasks",
+            "items": [
+                "Ad-hoc Retrieval: Standard search (e.g., Google). One-time query on a static collection.",
+                "Filtering/Routing: Static query on a dynamic stream (e.g., News alerts).",
+                "Browsing: User navigates a structure (e.g., Directory) with no specific query.",
+                "Question Answering: Returning a specific fact rather than a document list."
+            ]
+        },
+        {
+            "slideNumber": 4,
+            "type": "diagram",
+            "title": "The Retrieval Cycle",
+            "content": {
+                "description": "The formalized process of retrieval.",
+                "steps": [
+                    "User Input",
+                    "Query Parsing",
+                    "Logical View (Keywords)",
+                    "Index Lookup",
+                    "Ranking",
+                    "Result Presentation"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Logical View of Documents",
+            "content": {
+                "text": "Computers don't understand meaning; they understand patterns. We transform full text into a 'Logical View'—usually a set of index terms (keywords).",
+                "outcomes": [
+                    "Full Text: 'The quick brown fox jumps...'",
+                    "Logical View: {fox, brown, quick, jump}"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "list",
+            "title": "Text Operations (Preprocessing)",
+            "items": [
+                "Lexical Analysis: Treating digits, hyphens, punctuation.",
+                "Stopword Elimination: Removing 'the', 'of', 'and'.",
+                "Stemming: Reducing 'computing', 'computed' to 'comput'.",
+                "Thesaurus Expansion: Adding synonyms (e.g., car -> automobile)."
+            ]
+        },
+        {
+            "slideNumber": 7,
+            "type": "illustration",
+            "title": "Inverted Index Structure",
+            "content": {
+                "description": "Logic of the Inverted Index data structure.",
+                "steps": [
+                    "Vocabulary (Terms)",
+                    "Postings Lists (DocIDs)",
+                    "Frequency/Positions",
+                    "Pointer Linkage"
+                ]
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: Query Translation",
+            "content": {
+                "activity": "The Telephone Game",
+                "description": "Think of a complex question you have (e.g., 'Why is the sky blue?'). Now write down 3 different keyword queries you would type into Google to find the answer. Notice how you simplified the language."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "Matching & Ranking",
+            "content": {
+                "text": "The core intelligence of the system. It calculates a score for each document (Sim(q, d)) indicating how well it matches the query.",
+                "hook": "Ranking is what separates a search engine from a database."
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "project",
+            "title": "Mini-Project: Tokenizer",
+            "content": {
+                "idea": "Build a Text Normalizer",
+                "input": "A string: 'Hello, World! This is IR 101.'",
+                "process": "1. Lowercase. 2. Remove Punctuation. 3. Split by space.",
+                "output": "['hello', 'world', 'this', 'is', 'ir', '101']"
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "quiz",
+            "title": "Check Your Understanding",
+            "questions": [
+                "What is the difference between Ad-hoc retrieval and Filtering?",
+                "Why do we reduce documents to a 'Logical View'?",
+                "If a user wants 'apple' (the fruit) but types 'apple' (the brand), what kind of problem is this?",
+                "Name one advantage of stemming."
+            ]
+        },
+        {
+            "slideNumber": 12,
+            "type": "summary",
+            "title": "Topic Wrap-up",
+            "content": {
+                "linkage": "We've defined the process. Next, we need mathematical models to perform the 'Ranking' step.",
+                "nextTopic": "Classic IR Models",
+                "preparation": "Refresh your knowledge of Sets (Union, Intersection) and Vectors (Dot Product)."
+            }
+        }
+    ]
+}

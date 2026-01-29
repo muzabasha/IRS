@@ -1,0 +1,125 @@
+{
+    "id": "u1-t6",
+    "title": "Probabilistic Models",
+    "unitId": "unit-1",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Probabilistic Information Retrieval",
+            "subtitle": "Binary Independence Model & BM25",
+            "content": {
+                "text": "Using Probability Theory to estimate the likelihood that a user will find a document relevant.",
+                "hook": "We don't just guess relationships; we calculate the odds."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Probability Ranking Principle (PRP)",
+            "content": {
+                "definition": "PRP: 'If a reference retrieval system's response to each request is a ranking of the documents in the collection in order of decreasing probability of relevance... then the system's effectiveness will be the best that can be obtained.'",
+                "text": "Basically: Rank by P(Rel|Doc)."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Binary Independence Model (BIM)",
+            "content": {
+                "text": "The classic probabilistic model. 'Binary' because terms are either present (1) or absent (0). 'Independence' because we assume terms occur independently (like Naive Bayes).",
+                "problem": "Requires initial guesses for P(Relevant), which is hard to get without user feedback."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "list",
+            "title": "Key Components of BIM",
+            "items": [
+                "P(ti | R): Probability term i occurs in a relevant doc.",
+                "P(ti | NR): Probability term i occurs in a non-relevant doc.",
+                "Log-Odds Ratio: The weight of a term is derived from these probabilities.",
+                "Retrieval Status Value (RSV): The score of a document."
+            ]
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Okapi BM25",
+            "content": {
+                "definition": "Best Match 25. A non-binary probabilistic model that incorporates Term Frequency and Document Length Normalization.",
+                "text": "The gold standard in IR for decades. It fixes BIM's flaw (ignoring frequency) and VSM's flaw (ignoring document length bias)."
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "illustration",
+            "title": "BM25 Probabilistic Ranking",
+            "content": {
+                "description": "Logic of the state-of-the-art probabilistic ranking.",
+                "steps": [
+                    "Query Term Match",
+                    "Inverse Document Frequency (IDF)",
+                    "Term Frequency (TF) with Saturation",
+                    "Document Length Normalization",
+                    "Aggregate Ranked Potential"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "diagram",
+            "title": "Bayesian Network Logic",
+            "content": {
+                "description": "Modeling retrieval as belief propagation.",
+                "steps": [
+                    "Document Layer (Sources)",
+                    "Concept Layer (Index Terms)",
+                    "Query Layer (User Goal)",
+                    "Inference Pass (Relevance Belief)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: Odds Calculation",
+            "content": {
+                "activity": "Calculate Weights",
+                "description": "Given: Collection size N=100. Term 'cloud' appears in 30 docs. Assume relevant set R=10 docs, and 'cloud' is in 8 of them. Calculate the probabilistic weight for 'cloud'."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "project",
+            "title": "Mini-Project: BM25 Scorer",
+            "content": {
+                "idea": "Implement the Formula",
+                "input": "Query 'q', Doc 'd', AvgDocLength, k1=1.5, b=0.75.",
+                "process": "Write a Python function `bm25_score(q, d)`.",
+                "output": "Compare scores against standard TF-IDF."
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "quiz",
+            "title": "Quiz",
+            "questions": [
+                "What assumption does the Binary Independence Model make about term relationships?",
+                "What prevents a long document from unfairly getting a high score in BM25?",
+                "What is 'Term Frequency Saturation'?",
+                "Explain the role of Relevance Feedback in probabilistic models."
+            ]
+        },
+        {
+            "slideNumber": 11,
+            "type": "summary",
+            "title": "Topic Wrap-up",
+            "content": {
+                "linkage": "We have covered flat text models. But real data has structure (Title vs Body, XML tags).",
+                "nextTopic": "Structured Text Retrieval",
+                "preparation": "Familiarize yourself with DOM trees and XML paths."
+            }
+        }
+    ]
+}

@@ -1,0 +1,76 @@
+{
+    "unitId": "unit-1",
+    "title": "Unit 1 Assessment: Introduction & Modeling",
+    "questions": [
+        {
+            "id": 1,
+            "text": "The primary goal of an Information Retrieval system is to:",
+            "options": [
+                "Store data in a structured relational format (SQL)",
+                "Retrieve relevant documents that satisfy a user's information need",
+                "Generate new content based on user queries",
+                "Archive documents for long-term storage"
+            ],
+            "correctIndex": 1,
+            "explanation": "IR focuses on retrieving relevant information (best match) from unstructured data, unlike databases which focus on exact matches.",
+            "topic": "Basic IR Concepts",
+            "remedial": "Review Slide 7 in Basic IR Concepts"
+        },
+        {
+            "id": 2,
+            "text": "Which model represents documents and queries as vectors in a multi-dimensional space?",
+            "options": [
+                "Boolean Model",
+                "Vector Space Model",
+                "Probabilistic Model",
+                "Extended Boolean Model"
+            ],
+            "correctIndex": 1,
+            "explanation": "The Vector Space Model (VSM) represents text units as vectors, allowing for cosine similarity calculations to determine ranking.",
+            "topic": "Algebraic Models",
+            "remedial": "Review slides on VSM and TF-IDF"
+        },
+        {
+            "id": 3,
+            "text": "Precision is defined as:",
+            "options": [
+                "The fraction of relevant documents that are retrieved",
+                "The fraction of retrieved documents that are relevant",
+                "The total number of documents in the collection",
+                "The time taken to retrieve documents"
+            ],
+            "correctIndex": 1,
+            "explanation": "Precision = (Relevant Retrieved) / (Total Retrieved). It measures the 'purity' of the result set.",
+            "topic": "Retrieval Process",
+            "remedial": "Check standard IR metrics definitions"
+        },
+        {
+            "id": 4,
+            "text": "Which of the following is NOT a classic IR model?",
+            "options": [
+                "Boolean",
+                "Vector",
+                "Probabilistic",
+                "Relational"
+            ],
+            "correctIndex": 3,
+            "explanation": "Relational models belong to Database Management Systems (DBMS), not Classic Information Retrieval.",
+            "topic": "Classic IR Models",
+            "remedial": "Review Classic IR Models family tree"
+        },
+        {
+            "id": 5,
+            "text": "Stemming is a process used during:",
+            "options": [
+                "Query Expansion only",
+                "Document Indexing and Query Processing",
+                "Relevance Feedback only",
+                "Ranking Calculation"
+            ],
+            "correctIndex": 1,
+            "explanation": "Stemming reduce words to their root form (e.g., 'fishing' -> 'fish') and is applied during both indexing and query processing to ensure matches.",
+            "topic": "Text Operations",
+            "remedial": "Review Text Preprocessing steps"
+        }
+    ]
+}

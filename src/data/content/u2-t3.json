@@ -1,0 +1,108 @@
+{
+    "id": "u2-t3",
+    "title": "Text Operations (Preprocessing, Clustering, Compression)",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Text Operations",
+            "subtitle": "Transforming Raw Text for Storage and Analysis",
+            "content": {
+                "text": "Text operations prepare documents for indexing. This involves cleaning (preprocessing), grouping (clustering), and shrinking (compression).",
+                "hook": "Data is messy; information is organized; compressed information is efficient."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "diagram",
+            "title": "Text Processing Pipeline",
+            "content": {
+                "description": "The logic of preparing raw documents for indexing.",
+                "steps": [
+                    "Tokenization (Lexical Analysis)",
+                    "Stopword Filtering",
+                    "Stemming / Lemmatization",
+                    "Thesaurus Expansion",
+                    "Term Normalization"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Document Clustering",
+            "content": {
+                "definition": "Unsupervised grouping of documents based on content similarity.",
+                "text": "Clusters help in: 1. Speeding up retrieval (Cluster Pruning), 2. Organizing results for the user, 3. Detecting duplicate content.",
+                "hook": "Birds of a feather (or words of a topic) flock together."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "list",
+            "title": "Text Compression",
+            "items": [
+                "Objective: Reduce storage and increase disk transfer speed.",
+                "Huffman Coding: Variable-length prefix codes.",
+                "Arithmetic Coding: Better compression than Huffman but slower.",
+                "Ziv-Lempel (LZ) algorithms: Dictionary-based compression (ZIP/GZIP)."
+            ]
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Comparing Compression Techniques",
+            "content": {
+                "text": "How do we choose a compression method?",
+                "outcomes": [
+                    "Compression Ratio: How much space is saved.",
+                    "Encoding Speed: How fast can we compress.",
+                    "Decoding Speed: How fast can we read (critical for search).",
+                    "Random Access: Can we jump to the middle without decompressing everything?"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "activity",
+            "title": "Activity: Huffman Tree",
+            "content": {
+                "activity": "Code the Word",
+                "description": "Calculate the frequency of letters in the word 'MISSISSIPPI'. Draw a simple Huffman tree. Which letter gets the shortest code?"
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "project",
+            "title": "Mini-Project: Tokenizer",
+            "content": {
+                "idea": "Clean the web",
+                "input": "A raw HTML file.",
+                "process": "1. Strip tags, 2. Lowercase, 3. Remove punctuation, 4. Stem.",
+                "output": "A list of valid indexable tokens."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the difference between stemming and lemmatization?",
+                "Name one benefit of document clustering in search engines.",
+                "Why is decoding speed more important than encoding speed in IR?",
+                "How does Zipf's law relate to stopword removal?"
+            ]
+        },
+        {
+            "slideNumber": 9,
+            "type": "summary",
+            "title": "Wrap-up",
+            "content": {
+                "text": "Text is now ready. Next, we build the actual structure that allows us to find it: the Inverted Index.",
+                "nextTopic": "Indexing and Searching",
+                "preparation": "Learn about the structure of an Inverted File."
+            }
+        }
+    ]
+}

@@ -1,0 +1,125 @@
+{
+    "id": "u1-t5",
+    "title": "Algebraic Models",
+    "unitId": "unit-1",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Algebraic Information Retrieval Models",
+            "subtitle": "Beyond Keywork Matching: LSI and Generalized VSM",
+            "content": {
+                "text": "Classic VSM assumes terms are independent (Orthogonal). Algebraic models assume terms are related (e.g., 'car' and 'auto' share a dimension).",
+                "hook": "How can a search engine return documents about 'cars' when you searched for 'automobiles'?"
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "The Independence Assumption Problem",
+            "content": {
+                "problem": "Synonymy and Polysemy",
+                "text": "In standard VSM, the axis for 'car' is 90 degrees to 'automobile'. They have 0 similarity. This causes low Recall (missed documents). Algebraic models map them to a lower-dimensional 'concept' space."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Generalized Vector Space Model (GVSM)",
+            "content": {
+                "definition": "An extension of VSM where term vectors are not orthogonal. We compute correlations between terms based on co-occurrence in the collection.",
+                "text": "If two terms often appear together, their vectors are pulled closer. This implicitly handles synonyms."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "diagram",
+            "title": "LSI Mathematical Process",
+            "content": {
+                "description": "LSI uses Singular Value Decomposition (SVD) to uncover latent relationships.",
+                "steps": [
+                    "Term-Document Matrix (A)",
+                    "Decompose: A = U . Sigma . V^T",
+                    "Truncate Sigma (Keep Top K)",
+                    "Map Terms to Concept Space",
+                    "Query Matching in Reduced Space"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "illustration",
+            "title": "Semantic Dimensionality Reduction",
+            "content": {
+                "description": "Logic of semantically aware retrieval.",
+                "steps": [
+                    "Raw Features (Thousands of Words)",
+                    "Identify Latent Topics (Concepts)",
+                    "Project to Low-D Plane (2D/3D)",
+                    "Cluster Similar Concepts"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "list",
+            "title": "Pros & Cons of LSI",
+            "items": [
+                "✅ Handles Synonyms extremely well (High Recall).",
+                "✅ Noise reduction (removes random term usage).",
+                "❌ Computationally expensive (SVD is slow for large matrices).",
+                "❌ Hard to explain (What does 'Dimension 4' mean?)."
+            ]
+        },
+        {
+            "slideNumber": 7,
+            "type": "standard",
+            "title": "Neural IR (Modern Algebra)",
+            "content": {
+                "text": "Word Embeddings (Word2Vec, GloVe) are the modern successors to LSI. They use neural networks to learn dense vector representations where `Vector(King) - Vector(Man) + Vector(Woman) = Vector(Queen)`.",
+                "hook": "Deep Learning is essentially Algebra on steroids."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: Semantic Connection",
+            "content": {
+                "activity": "Find the Link",
+                "description": "Take terms: 'Apple', 'Banana', 'iPhone', 'Pie'. Standard VSM sees 4 distinct terms. Group them into Concepts (Fruit vs Tech). How would LSI handle a doc with 'Apple' and 'iPhone' vs 'Apple' and 'Pie'?"
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "project",
+            "title": "Mini-Project: Matrix factorization",
+            "content": {
+                "idea": "Simple LSI in Python",
+                "input": "Small Term-Doc matrix (5 docs, 10 terms).",
+                "process": "Use `numpy.linalg.svd`. Reduce k=2.",
+                "output": "Plot the 5 docs on a 2D graph. Do similar docs cluster?"
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "quiz",
+            "title": "Quiz",
+            "questions": [
+                "What is the main advantage of GVSM over Standard VSM?",
+                "What mathematical technique does LSI use?",
+                "How does LSI help with Synonymy?",
+                "Why is LSI rarely used for the entire web index?"
+            ]
+        },
+        {
+            "slideNumber": 11,
+            "type": "summary",
+            "title": "Topic Wrap-up",
+            "content": {
+                "linkage": "We've covered deterministic (Boolean/Vector) and algebraic models. Next, we embrace uncertainty fully.",
+                "nextTopic": "Probabilistic Models",
+                "preparation": "Review Bayes' Theorem."
+            }
+        }
+    ]
+}

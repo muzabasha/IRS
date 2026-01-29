@@ -1,0 +1,82 @@
+{
+    "id": "u4-t5",
+    "title": "Searching using Hyperlinks",
+    "unitId": "unit-4",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Searching using Hyperlinks",
+            "subtitle": "The Authority of the Network",
+            "content": {
+                "text": "The web is more than just text; it is a connectivity graph. Hyperlinks are the 'votes' that tell us which pages are authoritative and which are not.",
+                "hook": "It's not just what you say; it's who cites you."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "PageRank (Google)",
+            "content": {
+                "definition": "A global ranking algorithm that measures the 'importance' of a page based on the number and quality of links pointing to it.",
+                "text": "Logic: A page has high PageRank if it's linked to by many other high-PageRank pages. It models a 'Random Surfer' who eventually jumps to a new page.",
+                "hook": "The mathematical foundation of Google's success."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "HITS (Hubs and Authorities)",
+            "content": {
+                "definition": "A query-dependent link analysis algorithm by Jon Kleinberg.",
+                "text": "1. Authorities: High-quality sources on a topic. 2. Hubs: Pages that point to many good authorities (e.g. curated lists).",
+                "hook": "A good hub points to good authorities, and a good authority is pointed to by many good hubs."
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "diagram",
+            "title": "Link Analysis & PageRank Flow",
+            "content": {
+                "description": "How graph weights propagate through links.",
+                "steps": [
+                    "Fetch Content Matches",
+                    "Expand to Link Neighbors",
+                    "Score Hubs & Authorities",
+                    "Iterate PageRank Weights",
+                    "Produce Authoritative Rank"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "activity",
+            "title": "Activity: Influence Sketch",
+            "content": {
+                "activity": "The Power of Links",
+                "description": "Draw 4 websites (A, B, C, D). A links to B and C. B links to C. D links to A. Using the PageRank logic, which site is likely to be the most 'important'? What happens if C links back to D?"
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the difference between an 'Authority' and a 'Hub'?",
+                "How does the 'Random Surfer' model relate to PageRank?",
+                "Is PageRank query-dependent or global?",
+                "What is a 'damping factor' in PageRank?"
+            ]
+        },
+        {
+            "slideNumber": 7,
+            "type": "summary",
+            "title": "Course Wrap-up",
+            "content": {
+                "text": "Congratulations! You have completed the full course on B22EQ0601: Information Retrieval Systems.",
+                "nextTopic": "Final Assessment",
+                "preparation": "Review all 4 units for the comprehensive exam."
+            }
+        }
+    ]
+}
