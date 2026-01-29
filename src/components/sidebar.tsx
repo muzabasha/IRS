@@ -19,7 +19,7 @@ export function Sidebar({ className }: { className?: string }) {
   const pathname = usePathname()
 
   return (
-    <div className={cn("pb-12 w-64 border-r h-screen bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 hidden md:block", className)}>
+    <div className={cn("pb-12 h-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60", className)}>
       <div className="space-y-4 py-6 h-full flex flex-col">
         <div className="px-6 py-2">
           <div className="flex items-center gap-2 mb-2">

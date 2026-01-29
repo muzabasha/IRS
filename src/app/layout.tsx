@@ -23,7 +23,7 @@ export default function RootLayout({
                     <SiteHeader />
                     <div className="flex-1 flex overflow-hidden h-[calc(100vh-3.5rem)]">
                         <Sidebar className="hidden md:block w-72 shrink-0 border-r" />
-                        <main className="flex-1 overflow-auto p-6 bg-secondary/10">
+                        <main className="flex-1 overflow-auto p-4 md:p-6 bg-secondary/10">
                             {children}
                         </main>
                     </div>
