@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { BookOpen, Trophy, ArrowRight, Clock, Target, Sparkles, Activity, Star } from "lucide-react"
+import { VideoPlayer } from "@/components/video-player"
 
 export default function Home() {
     return (
@@ -39,6 +40,21 @@ export default function Home() {
                 <div className="absolute right-0 top-0 -mt-10 -mr-10 h-64 w-64 rounded-full bg-primary/20 blur-[100px] opacity-50 pointer-events-none" />
                 <div className="absolute bottom-0 right-20 h-40 w-40 rounded-full bg-blue-500/20 blur-[80px] opacity-40 pointer-events-none" />
             </div>
+
+            {/* Course Overview Video */}
+            <Card className="border-none shadow-md bg-card/80 backdrop-blur-sm overflow-hidden">
+                <CardHeader>
+                    <CardTitle className="text-xl">Course Overview</CardTitle>
+                    <CardDescription>Get started with Information Retrieval fundamentals</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <VideoPlayer
+                        src="/Information_Retrieval.mp4"
+                        title="Information Retrieval Fundamentals"
+                        description="A comprehensive introduction to the core concepts and principles of Information Retrieval systems."
+                    />
+                </CardContent>
+            </Card>
 
             {/* Stats Grid */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
