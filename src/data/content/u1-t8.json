@@ -102,6 +102,12 @@
                 "How does the Berry-Picking model differ from the classic Water-fall retrieval model?",
                 "What is the role of a 'Sitemap' in structure-guided browsing?",
                 "Give an example of a dynamic taxonomy."
+            ],
+            "answers": [
+                "A phenomenon where users lose their orientation or \"sense of place\" within a large, complex, nonlinear hypertext structure.",
+                "The classic model assumes a single static query -> final output. Berry-picking assumes the user's query and information need evolve dynamically as they find and read partial information.",
+                "It provides a hierarchical overview (map) of the entire site's structure, allowing users to jump to specific sections without sequential clicking.",
+                "Faceted search on Amazon (filtering by Brand, Price, Rating) where the categories displayed depend on the current search results."
             ]
         },
         {

@@ -57,7 +57,7 @@ export function Sidebar({ className }: { className?: string }) {
               {syllabus.units.map((unit) => (
                 <AccordionItem key={unit.id} value={unit.id} className="border-b-0 mb-1">
                   <AccordionTrigger className="text-sm font-medium hover:no-underline px-3 py-2 rounded-md hover:bg-secondary/50 data-[state=open]:bg-secondary/50 transition-all">
-                    <span className="truncate">{unit.id.toUpperCase()}: {unit.title.split(":")[0]}</span>
+                    <span className="text-left leading-tight">{unit.id.toUpperCase()}: {unit.title.split(":")[0]}</span>
                   </AccordionTrigger>
                   <AccordionContent className="pt-1 pb-2">
                     <div className="space-y-0.5 ml-2 border-l border-primary/20 pl-2">

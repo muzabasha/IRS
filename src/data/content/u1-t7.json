@@ -110,6 +110,12 @@
                 "How does the Proximal Nodes model define a 'match'?",
                 "Why is XML retrieval more complex than standard web search?",
                 "Give an example of a structural constraint in a query."
+            ],
+            "answers": [
+                "General retrieval searches the entire document as a flat bag of words, while specific field retrieval targets constrained sections (e.g., Title, Abstract) for higher precision.",
+                "A match occurs when the query terms appear within a specific hierarchical instance (node) of the document tree, often satisfying distance or containment constraints.",
+                "Because XML retrieval must return specific *elements* (granularity) rather than just full documents, and queries often involve complex path logic (parent/child relationships).",
+                "`Title contains \"Hamlet\" AND Section contains \"Ghost\"` or `Author=\"Shakespeare\"`."
             ]
         },
         {

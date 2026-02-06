@@ -87,6 +87,12 @@
                 "Why are structural queries important for XML data?",
                 "What protocol is widely used in library management systems?",
                 "Explain the 'Keyword' query type."
+            ],
+            "answers": [
+                "Prefix match matches terms starting with a string (e.g., 'comp*'), while regex allows complex pattern matching logic (e.g., '[a-z]+[0-9]*').",
+                "Because XML is structured (tags), querying needs to respect hierarchy (e.g., title inside book) which keyword search ignores.",
+                "Z39.50 is the classic protocol (and SRU/SRW for web).",
+                "The simplest type where users provide words, implicitly treated as OR/AND, typically matched against an inverted index."
             ]
         },
         {

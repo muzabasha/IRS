@@ -124,6 +124,12 @@
                 "Why do we reduce documents to a 'Logical View'?",
                 "If a user wants 'apple' (the fruit) but types 'apple' (the brand), what kind of problem is this?",
                 "Name one advantage of stemming."
+            ],
+            "answers": [
+                "Ad-hoc is a one-time query on a static collection, while Filtering is a static query (profile) on a dynamic document stream.",
+                "Computers cannot understand full text meaning efficiently; a 'Logical View' (keywords) allows for efficient indexing and matching.",
+                "This is a Polysemy (Ambiguity) problem.",
+                "It improves recall by matching variations of a word (e.g., 'fish', 'fishing', 'fished') to the same root query term."
             ]
         },
         {

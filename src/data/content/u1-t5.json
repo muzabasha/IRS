@@ -44,6 +44,44 @@
                     "Map Terms to Concept Space",
                     "Query Matching in Reduced Space"
                 ]
+            },
+            "formula": {
+                "equation": "A = U \\Sigma V^T \\approx U_k \\Sigma_k V_k^T",
+                "description": "Singular Value Decomposition (SVD) for Latent Semantic Indexing decomposes the term-document matrix into three matrices to discover hidden semantic structures.",
+                "terms": [
+                    {
+                        "symbol": "A",
+                        "meaning": "Original term-document matrix (m×n) where m=terms, n=documents"
+                    },
+                    {
+                        "symbol": "U",
+                        "meaning": "Left singular vectors (m×m) - term-to-concept mapping matrix"
+                    },
+                    {
+                        "symbol": "\\Sigma",
+                        "meaning": "Diagonal matrix (m×n) of singular values - strength of each concept/dimension"
+                    },
+                    {
+                        "symbol": "V^T",
+                        "meaning": "Right singular vectors transposed (n×n) - document-to-concept mapping"
+                    },
+                    {
+                        "symbol": "U_k",
+                        "meaning": "Truncated U matrix keeping only k dimensions (dimensionality reduction)"
+                    },
+                    {
+                        "symbol": "\\Sigma_k",
+                        "meaning": "Truncated Sigma keeping only k largest singular values"
+                    },
+                    {
+                        "symbol": "V_k^T",
+                        "meaning": "Truncated V^T keeping only k dimensions - reduced representation"
+                    },
+                    {
+                        "symbol": "k",
+                        "meaning": "Number of latent concepts/dimensions to keep (typically 100-300 for LSI)"
+                    }
+                ]
             }
         },
         {
@@ -109,6 +147,12 @@
                 "What mathematical technique does LSI use?",
                 "How does LSI help with Synonymy?",
                 "Why is LSI rarely used for the entire web index?"
+            ],
+            "answers": [
+                "GVSM removes the assumption that term vectors are orthogonal (independent), acknowledging that terms like 'car' and 'auto' are correlated.",
+                "Singular Value Decomposition (SVD) of the Term-Document matrix.",
+                "It maps terms and documents to a reduced 'concept' space; synonyms tend to map to the same conceptual axis, allowing retrieval even if exact words don't match.",
+                "Because SVD is computationally expensive (cubic complexity) and hard to update dynamically as new documents are added (scalability issues)."
             ]
         },
         {

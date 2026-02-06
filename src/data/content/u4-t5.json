@@ -21,6 +21,44 @@
                 "definition": "A global ranking algorithm that measures the 'importance' of a page based on the number and quality of links pointing to it.",
                 "text": "Logic: A page has high PageRank if it's linked to by many other high-PageRank pages. It models a 'Random Surfer' who eventually jumps to a new page.",
                 "hook": "The mathematical foundation of Google's success."
+            },
+            "formula": {
+                "equation": "PR(A) = (1-d) + d \\sum_{T_i \\in B_A} \\frac{PR(T_i)}{C(T_i)}",
+                "description": "PageRank algorithm models a random surfer who follows links with probability d, or jumps to a random page with probability (1-d).",
+                "terms": [
+                    {
+                        "symbol": "PR(A)",
+                        "meaning": "PageRank score of page A - higher means more authority/importance"
+                    },
+                    {
+                        "symbol": "d",
+                        "meaning": "Damping factor (typically 0.85) - probability of following a link vs random jump"
+                    },
+                    {
+                        "symbol": "(1-d)",
+                        "meaning": "Random jump probability - ensures all pages have minimum PageRank"
+                    },
+                    {
+                        "symbol": "T_i",
+                        "meaning": "The i-th page that links to page A (backlinking page)"
+                    },
+                    {
+                        "symbol": "B_A",
+                        "meaning": "Set of all pages that have a link pointing to page A"
+                    },
+                    {
+                        "symbol": "PR(T_i)",
+                        "meaning": "PageRank of page T_i - votes are weighted by the voter's own importance"
+                    },
+                    {
+                        "symbol": "C(T_i)",
+                        "meaning": "Total number of outgoing links from page T_i - dilutes the vote"
+                    },
+                    {
+                        "symbol": "\\frac{PR(T_i)}{C(T_i)}",
+                        "meaning": "Amount of PageRank passed from T_i to A - distributed among all outlinks"
+                    }
+                ]
             }
         },
         {
@@ -31,6 +69,36 @@
                 "definition": "A query-dependent link analysis algorithm by Jon Kleinberg.",
                 "text": "1. Authorities: High-quality sources on a topic. 2. Hubs: Pages that point to many good authorities (e.g. curated lists).",
                 "hook": "A good hub points to good authorities, and a good authority is pointed to by many good hubs."
+            },
+            "formula": {
+                "equation": "\\begin{aligned} a(p) &= \\sum_{q \\in B_p} h(q) \\\\ h(p) &= \\sum_{q \\in F_p} a(q) \\end{aligned}",
+                "description": "HITS (Hyperlink-Induced Topic Search) computes two mutually reinforcing scores - authority and hub values - that converge through iterative updates.",
+                "terms": [
+                    {
+                        "symbol": "a(p)",
+                        "meaning": "Authority score of page p - measures quality as a content source"
+                    },
+                    {
+                        "symbol": "h(p)",
+                        "meaning": "Hub score of page p - measures quality as a link aggregator/curator"
+                    },
+                    {
+                        "symbol": "B_p",
+                        "meaning": "Backlink set - all pages that link TO page p (incoming links)"
+                    },
+                    {
+                        "symbol": "F_p",
+                        "meaning": "Forward link set - all pages that p links TO (outgoing links)"
+                    },
+                    {
+                        "symbol": "\\sum_{q \\in B_p} h(q)",
+                        "meaning": "Authority = sum of hub scores of pages linking to p (good hubs increase authority)"
+                    },
+                    {
+                        "symbol": "\\sum_{q \\in F_p} a(q)",
+                        "meaning": "Hub = sum of authority scores of pages p links to (pointing to authorities makes you a hub)"
+                    }
+                ]
             }
         },
         {

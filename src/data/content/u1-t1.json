@@ -195,6 +195,13 @@
                 "Explain the concept of 'Bag of Words'.",
                 "What is the role of stopwords in preprocessing?",
                 "Give an example of a navigational query."
+            ],
+            "answers": [
+                "Exact matching fails because of synonymy (words with same meaning) and polysemy (words with multiple meanings), causing missed relevant docs or irrelevant ones.",
+                "Data is raw facts/symbols; Information is processed data with meaning and relevance to a user's need.",
+                "A representation where text is treated as a collection of words, disregarding grammar and order but keeping multiplicity.",
+                "Stopwords (like 'the', 'is') are removed to reduce index size and noise, as they carry little semantic value.",
+                "Searching 'facebook login' or 'youtube' - where the intent is to go to a specific site."
             ]
         },
         {

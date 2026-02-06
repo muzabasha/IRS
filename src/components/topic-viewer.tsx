@@ -1,6 +1,8 @@
 "use client"
 
 import * as React from "react"
+import { useState } from "react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -8,9 +10,11 @@ import { Separator } from "@/components/ui/separator"
 import {
     CheckCircle, Lightbulb, HelpCircle,
     BookOpen, Layers, Terminal, Activity,
-    ChevronRight, ArrowUpRight
+    ChevronRight, ArrowUpRight, PlayCircle, Eye, EyeOff
 } from "lucide-react"
 import Link from "next/link"
+import 'katex/dist/katex.min.css'
+import katex from 'katex'
 
 interface Slide {
     slideNumber: number
@@ -20,6 +24,15 @@ interface Slide {
     content?: any
     items?: string[]
     questions?: string[]
+    answers?: string[]
+    formula?: {
+        equation: string
+        description?: string
+        terms: Array<{
+            symbol: string
+            meaning: string
+        }>
+    }
 }
 
 interface TopicData {
@@ -142,7 +155,19 @@ export function TopicViewer({ data }: { data: TopicData }) {
 
 // Sub-component to render specific slide types
 function SlideContent({ slide }: { slide: Slide }) {
-    const { type, content, items, questions } = slide;
+    const { type, content, items, questions, answers } = slide;
+    const [showAnswer, setShowAnswer] = useState<Record<number, boolean>>({});
+
+    const toggleAnswer = (idx: number) => {
+        setShowAnswer(prev => ({ ...prev, [idx]: !prev[idx] }));
+    };
+
+    // Helper to get answer from either slide root or content object
+    const getAnswer = (idx: number) => {
+        if (answers && answers[idx]) return answers[idx];
+        if (content?.answers && content.answers[idx]) return content.answers[idx];
+        return null;
+    };
 
     switch (type) {
         case "list":
@@ -163,14 +188,31 @@ function SlideContent({ slide }: { slide: Slide }) {
             return (
                 <div className="space-y-4">
                     {questions?.map((q, i) => (
-                        <Card key={i} className="overflow-hidden border-orange-200/50 dark:border-orange-900/50">
+                        <Card key={i} className="overflow-hidden border-orange-200/50 dark:border-orange-900/50 transition-all hover:border-orange-300">
                             <div className="bg-orange-50 m-1 md:m-1.5 p-4 rounded-md dark:bg-orange-950/20 flex gap-4">
                                 <HelpCircle className="h-5 w-5 text-orange-600 mt-1 shrink-0" />
-                                <div>
+                                <div className="space-y-3 w-full">
                                     <p className="font-medium text-foreground">{q}</p>
-                                    <Button variant="ghost" size="sm" className="mt-3 text-orange-600 hover:text-orange-700 hover:bg-orange-100 flex items-center gap-1 p-0 h-auto font-normal">
-                                        Show Answer <ChevronRight className="h-3 w-3" />
-                                    </Button>
+
+                                    {/* Only show answer button if 'answers' exists */}
+                                    {getAnswer(i) && (
+                                        <div className="pt-2">
+                                            {showAnswer[i] ? (
+                                                <div className="animate-in fade-in slide-in-from-top-2">
+                                                    <div className="text-sm text-muted-foreground bg-background/50 p-3 rounded border mb-2">
+                                                        {getAnswer(i)}
+                                                    </div>
+                                                    <Button variant="ghost" size="sm" onClick={() => toggleAnswer(i)} className="text-muted-foreground h-auto p-0 hover:bg-transparent">
+                                                        <EyeOff className="h-3 w-3 mr-1" /> Hide Answer
+                                                    </Button>
+                                                </div>
+                                            ) : (
+                                                <Button variant="ghost" size="sm" onClick={() => toggleAnswer(i)} className="text-orange-600 hover:text-orange-700 hover:bg-orange-100 flex items-center gap-1 p-0 h-auto font-normal px-2 py-1 rounded">
+                                                    <Eye className="h-3 w-3" /> Show Answer
+                                                </Button>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </Card>
@@ -182,9 +224,9 @@ function SlideContent({ slide }: { slide: Slide }) {
         case "activity":
         case "case_study":
             return (
-                <Card className="bg-gradient-to-br from-blue-50/50 via-background to-background dark:from-blue-900/10 border-blue-100 dark:border-blue-900 overflow-hidden">
+                <Card className="bg-linear-to-br from-blue-50/50 via-background to-background dark:from-blue-900/10 border-blue-100 dark:border-blue-900 overflow-hidden transform transition-all hover:shadow-lg">
                     <CardContent className="p-6">
-                        {content.description && <p className="mb-6 text-foreground/80 leading-relaxed">{content.description}</p>}
+                        {content.description && <p className="mb-6 text-foreground/80 leading-relaxed text-lg">{content.description}</p>}
 
                         <div className="grid gap-6 md:grid-cols-2">
                             {content.problem && (
@@ -192,7 +234,7 @@ function SlideContent({ slide }: { slide: Slide }) {
                                     <h4 className="flex items-center gap-2 text-sm font-bold text-red-600 uppercase tracking-wide">
                                         <div className="h-1.5 w-1.5 rounded-full bg-red-600"></div> Problem
                                     </h4>
-                                    <p className="text-sm text-muted-foreground bg-background/50 p-3 rounded-md border">{content.problem}</p>
+                                    <p className="text-sm text-foreground/80 bg-background/80 p-4 rounded-md border shadow-sm">{content.problem}</p>
                                 </div>
                             )}
                             {content.solution && (
@@ -200,7 +242,7 @@ function SlideContent({ slide }: { slide: Slide }) {
                                     <h4 className="flex items-center gap-2 text-sm font-bold text-green-600 uppercase tracking-wide">
                                         <div className="h-1.5 w-1.5 rounded-full bg-green-600"></div> Solution
                                     </h4>
-                                    <p className="text-sm text-muted-foreground bg-background/50 p-3 rounded-md border">{content.solution}</p>
+                                    <p className="text-sm text-foreground/80 bg-background/80 p-4 rounded-md border shadow-sm">{content.solution}</p>
                                 </div>
                             )}
                             {content.outcome && (
@@ -208,30 +250,30 @@ function SlideContent({ slide }: { slide: Slide }) {
                                     <h4 className="flex items-center gap-2 text-sm font-bold text-blue-600 uppercase tracking-wide">
                                         <div className="h-1.5 w-1.5 rounded-full bg-blue-600"></div> Outcome
                                     </h4>
-                                    <p className="text-sm text-muted-foreground bg-background/50 p-3 rounded-md border">{content.outcome}</p>
+                                    <p className="text-sm text-foreground/80 bg-background/80 p-4 rounded-md border shadow-sm">{content.outcome}</p>
                                 </div>
                             )}
                         </div>
 
                         {/* Specific fields for Projects */}
                         {content.idea && (
-                            <div className="mt-6 p-4 rounded-xl bg-primary/5 border border-primary/10">
-                                <h4 className="flex items-center gap-2 font-semibold text-primary mb-2">
-                                    <Terminal className="h-4 w-4" /> Project Idea
+                            <div className="mt-6 p-5 rounded-xl bg-primary/5 border border-primary/10">
+                                <h4 className="flex items-center gap-2 font-semibold text-primary mb-3 text-lg">
+                                    <Terminal className="h-5 w-5" /> Project Idea
                                 </h4>
-                                <p className="text-lg font-medium mb-4">{content.idea}</p>
+                                <p className="text-xl font-medium mb-6 relative z-10">{content.idea}</p>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                                    <div className="bg-background p-3 rounded border">
-                                        <span className="font-semibold text-muted-foreground block text-xs uppercase mb-1">Input</span>
-                                        {content.input}
+                                    <div className="bg-background p-4 rounded-lg border shadow-sm group hover:border-primary/30 transition-colors">
+                                        <span className="font-bold text-muted-foreground block text-xs uppercase mb-2 tracking-wider">Input</span>
+                                        <span className="font-mono text-primary/80">{content.input}</span>
                                     </div>
-                                    <div className="bg-background p-3 rounded border">
-                                        <span className="font-semibold text-muted-foreground block text-xs uppercase mb-1">Process</span>
-                                        {content.process}
+                                    <div className="bg-background p-4 rounded-lg border shadow-sm group hover:border-primary/30 transition-colors">
+                                        <span className="font-bold text-muted-foreground block text-xs uppercase mb-2 tracking-wider">Process</span>
+                                        <span className="font-mono text-primary/80">{content.process}</span>
                                     </div>
-                                    <div className="bg-background p-3 rounded border">
-                                        <span className="font-semibold text-muted-foreground block text-xs uppercase mb-1">Output</span>
-                                        {content.output}
+                                    <div className="bg-background p-4 rounded-lg border shadow-sm group hover:border-primary/30 transition-colors">
+                                        <span className="font-bold text-muted-foreground block text-xs uppercase mb-2 tracking-wider">Output</span>
+                                        <span className="font-mono text-primary/80">{content.output}</span>
                                     </div>
                                 </div>
                             </div>
@@ -239,11 +281,11 @@ function SlideContent({ slide }: { slide: Slide }) {
 
                         {/* Specific field for Activity */}
                         {content.activity && (
-                            <div className="mt-4 p-4 rounded-lg bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-900/30">
+                            <div className="mt-4 p-5 rounded-xl bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-900/30">
                                 <h4 className="flex items-center gap-2 font-bold text-yellow-700 dark:text-yellow-500 mb-2">
-                                    <Activity className="h-4 w-4" /> Activity
+                                    <Activity className="h-5 w-5" /> Activity
                                 </h4>
-                                <p className="text-foreground/90">{content.activity}</p>
+                                <p className="text-foreground/90 font-medium">{content.activity}</p>
                             </div>
                         )}
 
@@ -256,12 +298,14 @@ function SlideContent({ slide }: { slide: Slide }) {
             return (
                 <div className="my-8 flex flex-col items-center w-full">
                     {content.imageSrc ? (
-                        <div className="flex flex-col items-center">
-                            <div className="relative overflow-hidden rounded-2xl shadow-xl border-4 border-muted/20 bg-muted/5 w-full max-w-4xl">
-                                <img
+                        <div className="flex flex-col items-center w-full">
+                            <div className="relative overflow-hidden rounded-2xl shadow-xl border-4 border-muted/20 bg-muted/5 w-full max-w-4xl aspect-video">
+                                <Image
                                     src={content.imageSrc}
                                     alt={slide.title}
-                                    className="w-full h-auto object-cover"
+                                    fill
+                                    className="object-contain"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 60vw"
                                 />
                             </div>
                             <p className="mt-4 text-sm font-medium text-muted-foreground bg-muted/30 px-4 py-2 rounded-full">
@@ -269,23 +313,29 @@ function SlideContent({ slide }: { slide: Slide }) {
                             </p>
                         </div>
                     ) : (
-                        <div className="w-full max-w-5xl p-8 rounded-3xl border bg-muted/10 relative">
+                        <div className="w-full max-w-5xl p-8 rounded-3xl border bg-muted/10 relative overflow-hidden">
                             <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-                                <Layers className="h-24 w-24" />
+                                <Layers className="h-32 w-32" />
                             </div>
 
-                            <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground mb-8 text-center">{slide.title}</h4>
+                            <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-12 text-center border-b pb-4 mx-auto max-w-xs">{slide.title}</h4>
 
-                            <div className="flex flex-wrap items-center justify-center gap-y-8 gap-x-4 px-4 relative z-10">
+                            <div className="flex flex-wrap items-center justify-center gap-y-12 gap-x-6 px-4 relative z-10">
                                 {content.steps?.map((step: string, i: number) => (
                                     <React.Fragment key={i}>
-                                        <div className="bg-card border-2 border-primary/20 shadow-sm p-4 rounded-xl text-center w-full sm:w-[150px] transition-all hover:border-primary hover:shadow-md hover:-translate-y-1">
-                                            <div className="text-[10px] font-black text-primary/40 mb-1 uppercase tracking-tighter">Step {i + 1}</div>
-                                            <span className="text-xs font-bold leading-tight">{step}</span>
+                                        <div className="bg-card border-2 border-primary/20 shadow-lg p-5 rounded-2xl text-center w-full sm:w-[180px] min-h-[120px] flex flex-col justify-center items-center transition-all hover:border-primary hover:shadow-xl hover:-translate-y-1 relative group">
+                                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter shadow-sm group-hover:scale-110 transition-transform">Step {i + 1}</div>
+                                            <span className="text-sm font-bold leading-tight">{step}</span>
                                         </div>
                                         {i < (content.steps.length - 1) && (
-                                            <div className="flex items-center justify-center text-primary/30 rotate-90 sm:rotate-0">
-                                                <ChevronRight className="h-5 w-5" strokeWidth={3} />
+                                            <div className="hidden sm:flex items-center justify-center text-primary/30">
+                                                <ChevronRight className="h-8 w-8" strokeWidth={3} />
+                                            </div>
+                                        )}
+                                        {/* Mobile down arrow */}
+                                        {i < (content.steps.length - 1) && (
+                                            <div className="flex sm:hidden w-full items-center justify-center text-primary/30 -my-4 z-0">
+                                                <ChevronRight className="h-6 w-6 rotate-90" strokeWidth={3} />
                                             </div>
                                         )}
                                     </React.Fragment>
@@ -293,7 +343,7 @@ function SlideContent({ slide }: { slide: Slide }) {
                             </div>
 
                             {content.description && (
-                                <p className="mt-10 text-center text-sm text-muted-foreground italic px-6 font-medium max-w-2xl mx-auto">
+                                <p className="mt-12 text-center text-sm text-foreground/60 italic px-6 font-medium max-w-2xl mx-auto bg-background/50 p-4 rounded-xl border border-dashed">
                                     "{content.description}"
                                 </p>
                             )}
@@ -304,39 +354,47 @@ function SlideContent({ slide }: { slide: Slide }) {
 
         case "summary":
             return (
-                <div className="bg-gradient-to-br from-primary/5 to-secondary/50 rounded-2xl p-8 border border-primary/10">
-                    <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                <div className="bg-linear-to-br from-primary/5 to-secondary/50 rounded-2xl p-8 border border-primary/10 shadow-sm">
+                    <h3 className="text-2xl font-bold mb-8 flex items-center gap-2">
                         <CheckCircle className="h-6 w-6 text-primary" /> Key Takeaways
                     </h3>
 
-                    <div className="space-y-6">
+                    <div className="space-y-8">
                         {content.linkage && (
-                            <div>
-                                <h4 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground mb-2">Context</h4>
-                                <p className="text-lg leading-relaxed">{content.linkage}</p>
+                            <div className="relative pl-6 border-l-2 border-primary/20">
+                                <h4 className="font-semibold text-xs uppercase tracking-wide text-muted-foreground mb-2">Context</h4>
+                                <p className="text-lg leading-relaxed text-foreground/90">{content.linkage}</p>
                             </div>
                         )}
 
                         <Separator />
 
-                        <div className="grid md:grid-cols-2 gap-8">
+                        <div className="grid md:grid-cols-2 gap-6">
                             {content.nextTopic && (
-                                <div>
-                                    <h4 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground mb-2">Next Up</h4>
-                                    <div className="flex items-center gap-3 p-4 bg-background rounded-lg border">
-                                        <ArrowUpRight className="h-5 w-5 text-primary" />
-                                        <span className="font-medium">{content.nextTopic}</span>
+                                <Card className="border-none shadow-none bg-background/50">
+                                    <div className="p-4">
+                                        <h4 className="font-semibold text-xs uppercase tracking-wide text-muted-foreground mb-3">Next Up</h4>
+                                        <div className="flex items-center gap-3">
+                                            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary">
+                                                <ArrowUpRight className="h-5 w-5" />
+                                            </div>
+                                            <span className="font-medium text-lg">{content.nextTopic}</span>
+                                        </div>
                                     </div>
-                                </div>
+                                </Card>
                             )}
                             {content.preparation && (
-                                <div>
-                                    <h4 className="font-semibold text-sm uppercase tracking-wide text-muted-foreground mb-2">Preparation</h4>
-                                    <div className="flex items-center gap-3 p-4 bg-background rounded-lg border">
-                                        <BookOpen className="h-5 w-5 text-primary" />
-                                        <span className="font-medium text-foreground/80">{content.preparation}</span>
+                                <Card className="border-none shadow-none bg-background/50">
+                                    <div className="p-4">
+                                        <h4 className="font-semibold text-xs uppercase tracking-wide text-muted-foreground mb-3">Preparation</h4>
+                                        <div className="flex items-center gap-3">
+                                            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary">
+                                                <BookOpen className="h-5 w-5" />
+                                            </div>
+                                            <span className="font-medium text-lg text-foreground/80">{content.preparation}</span>
+                                        </div>
                                     </div>
-                                </div>
+                                </Card>
                             )}
                         </div>
                     </div>
@@ -347,32 +405,89 @@ function SlideContent({ slide }: { slide: Slide }) {
             // Standard text rendering
             return (
                 <div className="space-y-6 text-lg leading-relaxed text-foreground/90">
-                    {content?.text && <p>{content.text}</p>}
+                    {/* Render text with smart paragraph splitting */}
+                    {content?.text && (
+                        <div className="space-y-4">
+                            {content.text.split('\n').map((paragraph: string, idx: number) => (
+                                paragraph.trim() && <p key={idx}>{paragraph}</p>
+                            ))}
+                        </div>
+                    )}
 
                     {content?.hook && (
-                        <div className="flex gap-4 p-5 bg-primary/5 rounded-xl border border-primary/10 items-start">
+                        <div className="flex gap-4 p-6 bg-primary/5 rounded-2xl border border-primary/10 items-start shadow-sm mx-0 md:-mx-4">
                             <Lightbulb className="h-6 w-6 text-primary shrink-0 mt-0.5" />
-                            <p className="italic text-foreground/80 font-medium font-serif text-xl">"{content.hook}"</p>
+                            <p className="italic text-foreground/80 font-medium font-serif text-xl border-l-2 border-primary/20 pl-4">{content.hook}</p>
                         </div>
                     )}
 
                     {content?.definition && (
-                        <div className="pl-6 border-l-4 border-primary py-2 my-6">
-                            <h4 className="text-sm font-bold text-primary uppercase tracking-wide mb-1">Definition</h4>
-                            <p className="text-xl font-medium italic text-foreground">
+                        <div className="p-6 bg-muted/30 rounded-xl my-6 border-l-4 border-primary">
+                            <h4 className="text-sm font-bold text-primary uppercase tracking-wide mb-2 flex items-center gap-2">
+                                <BookOpen className="h-4 w-4" /> Definition
+                            </h4>
+                            <p className="text-xl font-medium text-foreground">
                                 {content.definition}
                             </p>
                         </div>
                     )}
 
+                    {/* Mathematical Formula Rendering */}
+                    {slide.formula && (
+                        <div className="my-8 p-6 bg-linear-to-br from-blue-50/50 to-indigo-50/50 dark:from-blue-950/20 dark:to-indigo-950/20 rounded-2xl border-2 border-blue-200 dark:border-blue-900/50 shadow-lg">
+                            <div className="flex items-center gap-2 mb-4">
+                                <Terminal className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                                <h4 className="text-sm font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide">Mathematical Model</h4>
+                            </div>
+
+                            {slide.formula.description && (
+                                <p className="text-sm text-muted-foreground mb-4 italic">{slide.formula.description}</p>
+                            )}
+
+                            {/* Render equation using KaTeX */}
+                            <div
+                                className="my-6 p-4 bg-white dark:bg-gray-900 rounded-lg border border-blue-100 dark:border-blue-900 overflow-x-auto text-center text-xl"
+                                dangerouslySetInnerHTML={{
+                                    __html: katex.renderToString(slide.formula.equation, {
+                                        throwOnError: false,
+                                        displayMode: true
+                                    })
+                                }}
+                            />
+
+                            {/* Term Explanations */}
+                            {slide.formula.terms && slide.formula.terms.length > 0 && (
+                                <div className="mt-6 space-y-3">
+                                    <h5 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Term Definitions</h5>
+                                    <div className="grid gap-2">
+                                        {slide.formula.terms.map((term, idx) => (
+                                            <div key={idx} className="flex items-start gap-3 p-3 bg-white/50 dark:bg-gray-900/50 rounded-lg border border-blue-100/50 dark:border-blue-900/30">
+                                                <div
+                                                    className="font-mono text-blue-600 dark:text-blue-400 font-bold shrink-0 min-w-[60px]"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: katex.renderToString(term.symbol, {
+                                                            throwOnError: false
+                                                        })
+                                                    }}
+                                                />
+                                                <span className="text-sm text-foreground/80 leading-relaxed">{term.meaning}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+
                     {/* Generic Key-Value rendering for miscellaneous fields */}
-                    <div className="grid gap-4">
+                    <div className="grid gap-4 pt-4">
                         {Object.entries(content || {}).map(([key, value]) => {
-                            if (["text", "hook", "items", "outcomes", "definition", "problem", "solution", "outcome", "idea", "input", "process", "output", "activity", "description", "questions", "caption", "imagePlaceholder", "steps", "linkage", "nextTopic", "preparation", "imageSrc"].includes(key)) return null;
+                            if (["text", "hook", "items", "outcomes", "definition", "problem", "solution", "outcome", "idea", "input", "process", "output", "activity", "description", "questions", "caption", "imagePlaceholder", "steps", "linkage", "nextTopic", "preparation", "imageSrc", "answers"].includes(key)) return null;
 
                             return (
-                                <div key={key} className="bg-muted/30 p-4 rounded-lg border">
-                                    <span className="block text-xs font-bold uppercase text-muted-foreground mb-1">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                                <div key={key} className="bg-muted/30 p-4 rounded-lg border flex flex-col sm:flex-row sm:gap-4 sm:items-baseline">
+                                    <span className="block text-xs font-bold uppercase text-muted-foreground mb-1 sm:mb-0 sm:w-32 shrink-0">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
                                     {Array.isArray(value) ? (
                                         <ul className="list-disc pl-5 space-y-1">
                                             {value.map((v, i) => <li key={i} className="text-base">{v}</li>)}
@@ -386,11 +501,14 @@ function SlideContent({ slide }: { slide: Slide }) {
                     </div>
 
                     {content?.outcomes && (
-                        <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 p-6 rounded-xl border border-green-100 dark:border-green-900/50">
-                            <h4 className="flex items-center gap-2 font-bold text-green-700 dark:text-green-400 mb-4">
+                        <div className="mt-8 bg-linear-to-r from-green-50/80 to-emerald-50/80 dark:from-green-950/30 dark:to-emerald-950/30 p-6 rounded-xl border border-green-100 dark:border-green-900/50 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-4 opacity-5">
+                                <CheckCircle className="h-24 w-24" />
+                            </div>
+                            <h4 className="flex items-center gap-2 font-bold text-green-700 dark:text-green-400 mb-4 relative z-10">
                                 <CheckCircle className="h-5 w-5" /> Learning Outcomes
                             </h4>
-                            <ul className="grid sm:grid-cols-2 gap-3">
+                            <ul className="grid sm:grid-cols-2 gap-3 relative z-10">
                                 {content.outcomes.map((o: string, i: number) => (
                                     <li key={i} className="flex items-start gap-2 text-sm text-foreground/80">
                                         <div className="h-1.5 w-1.5 rounded-full bg-green-500 mt-2 shrink-0" />

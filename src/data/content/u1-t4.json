@@ -39,7 +39,41 @@
                 "Fuzzy AND (Intersection): min(degree_A, degree_B)",
                 "Fuzzy OR (Union): max(degree_A, degree_B)",
                 "Fuzzy NOT (Complement): 1 - degree_A"
-            ]
+            ],
+            "formula": {
+                "equation": "\\begin{aligned} \\mu_{A \\cap B}(x) &= \\min(\\mu_A(x), \\mu_B(x)) \\\\ \\mu_{A \\cup B}(x) &= \\max(\\mu_A(x), \\mu_B(x)) \\\\ \\mu_{\\overline{A}}(x) &= 1 - \\mu_A(x) \\end{aligned}",
+                "description": "Fuzzy set operations extend classical Boolean logic to handle partial membership with degrees between 0 and 1.",
+                "terms": [
+                    {
+                        "symbol": "\\mu_A(x)",
+                        "meaning": "Membership degree of element x in fuzzy set A - value between 0 and 1"
+                    },
+                    {
+                        "symbol": "\\mu_{A \\cap B}(x)",
+                        "meaning": "Fuzzy AND (Intersection) - minimum of the two membership degrees"
+                    },
+                    {
+                        "symbol": "\\min(\\mu_A(x), \\mu_B(x))",
+                        "meaning": "Takes the smaller membership value - implements strict AND logic"
+                    },
+                    {
+                        "symbol": "\\mu_{A \\cup B}(x)",
+                        "meaning": "Fuzzy OR (Union) - maximum of the two membership degrees"
+                    },
+                    {
+                        "symbol": "\\max(\\mu_A(x), \\mu_B(x))",
+                        "meaning": "Takes the larger membership value - implements generous OR logic"
+                    },
+                    {
+                        "symbol": "\\mu_{\\overline{A}}(x)",
+                        "meaning": "Fuzzy NOT (Complement) - inverts the membership degree"
+                    },
+                    {
+                        "symbol": "1 - \\mu_A(x)",
+                        "meaning": "Subtracts from 1 - if highly member (0.9), becomes low non-member (0.1)"
+                    }
+                ]
+            }
         },
         {
             "slideNumber": 5,
@@ -91,6 +125,12 @@
                 "If A=0.7 and B=0.3, what is Fuzzy AND(A, B)?",
                 "How does the Extended Boolean model solve the 'all-or-nothing' problem?",
                 "What is a Thesaurus in the context of Fuzzy IR used for?"
+            ],
+            "answers": [
+                "The range is [0, 1], where 0 means non-membership and 1 means full membership.",
+                "Fuzzy AND uses the MIN function, so min(0.7, 0.3) = 0.3.",
+                "It uses the P-norm concept to soften operators, allowing a query like 'A AND B' to behave partially like a vector sum, controlling strictness via parameter P.",
+                "It is used to define associative relationships (synonyms) with degrees of similarity (e.g., 'auto' is 0.9 similar to 'car'), expanding queries fuzzily."
             ]
         },
         {

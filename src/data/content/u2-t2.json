@@ -27,8 +27,54 @@
             "title": "User Relevance Feedback",
             "content": {
                 "definition": "A cycle where the user marks results as Relevant or Non-Relevant, and the system uses this info to run a better query.",
-                "text": "The classic approach is the Rocchio Algorithm: `Q_new = alpha*Q_old + beta*(Avg Rel Docs) - gamma*(Avg Non-Rel Docs)`.",
+                "text": "The classic approach is the Rocchio Algorithm which modifies query vectors based on user feedback.",
                 "hook": "Teaching the system by example."
+            },
+            "formula": {
+                "equation": "\\vec{q}_m = \\alpha \\vec{q}_0 + \\beta \\frac{1}{|D_r|} \\sum_{\\vec{d}_j \\in D_r} \\vec{d}_j - \\gamma \\frac{1}{|D_{nr}|} \\sum_{\\vec{d}_k \\in D_{nr}} \\vec{d}_k",
+                "description": "Rocchio Algorithm modifies the original query vector by moving it toward relevant documents and away from non-relevant ones.",
+                "terms": [
+                    {
+                        "symbol": "\\vec{q}_m",
+                        "meaning": "Modified (new) query vector after relevance feedback"
+                    },
+                    {
+                        "symbol": "\\vec{q}_0",
+                        "meaning": "Original query vector before feedback"
+                    },
+                    {
+                        "symbol": "\\alpha",
+                        "meaning": "Weight for original query (typical: 1.0) - controls trust in initial query"
+                    },
+                    {
+                        "symbol": "\\beta",
+                        "meaning": "Weight for relevant documents (typical: 0.75) - how much to move toward relevant docs"
+                    },
+                    {
+                        "symbol": "\\gamma",
+                        "meaning": "Weight for non-relevant documents (typical: 0.15) - how much to move away from irrelevant docs"
+                    },
+                    {
+                        "symbol": "D_r",
+                        "meaning": "Set of documents marked as relevant by the user"
+                    },
+                    {
+                        "symbol": "|D_r|",
+                        "meaning": "Number of relevant documents"
+                    },
+                    {
+                        "symbol": "D_{nr}",
+                        "meaning": "Set of documents marked as non-relevant"
+                    },
+                    {
+                        "symbol": "\\vec{d}_j",
+                        "meaning": "Document vector for the j-th relevant document"
+                    },
+                    {
+                        "symbol": "\\sum \\vec{d}_j / |D_r|",
+                        "meaning": "Centroid (average vector) of relevant documents"
+                    }
+                ]
             }
         },
         {

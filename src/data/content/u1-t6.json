@@ -49,6 +49,48 @@
             "content": {
                 "definition": "Best Match 25. A non-binary probabilistic model that incorporates Term Frequency and Document Length Normalization.",
                 "text": "The gold standard in IR for decades. It fixes BIM's flaw (ignoring frequency) and VSM's flaw (ignoring document length bias)."
+            },
+            "formula": {
+                "equation": "\\text{BM25}(q, d) = \\sum_{t \\in q} \\text{IDF}(t) \\cdot \\frac{tf_{t,d} \\cdot (k_1 + 1)}{tf_{t,d} + k_1 \\cdot (1 - b + b \\cdot \\frac{|d|}{\\text{avgdl}})}",
+                "description": "BM25 (Best Matching 25) is the state-of-the-art probabilistic ranking function combining TF, IDF, and document length normalization.",
+                "terms": [
+                    {
+                        "symbol": "\\text{BM25}(q, d)",
+                        "meaning": "Relevance score for document d given query q - higher score means more relevant"
+                    },
+                    {
+                        "symbol": "t \\in q",
+                        "meaning": "Summation over all terms t that appear in query q"
+                    },
+                    {
+                        "symbol": "\\text{IDF}(t)",
+                        "meaning": "Inverse Document Frequency of term t - typically log((N - df_t + 0.5) / (df_t + 0.5))"
+                    },
+                    {
+                        "symbol": "tf_{t,d}",
+                        "meaning": "Raw term frequency - number of times term t appears in document d"
+                    },
+                    {
+                        "symbol": "k_1",
+                        "meaning": "Term frequency saturation parameter (typical value: 1.2 to 2.0) - controls how quickly TF impact saturates"
+                    },
+                    {
+                        "symbol": "b",
+                        "meaning": "Document length normalization parameter (typical value: 0.75) - 0 means no normalization, 1 means full normalization"
+                    },
+                    {
+                        "symbol": "|d|",
+                        "meaning": "Length of document d in words"
+                    },
+                    {
+                        "symbol": "\\text{avgdl}",
+                        "meaning": "Average document length across the entire collection"
+                    },
+                    {
+                        "symbol": "\\frac{|d|}{\\text{avgdl}}",
+                        "meaning": "Document length ratio - penalizes long documents, boosts short ones"
+                    }
+                ]
             }
         },
         {
@@ -109,6 +151,12 @@
                 "What prevents a long document from unfairly getting a high score in BM25?",
                 "What is 'Term Frequency Saturation'?",
                 "Explain the role of Relevance Feedback in probabilistic models."
+            ],
+            "answers": [
+                "It assumes terms occur independently of each other within relevant and non-relevant sets (similar to Naive Bayes), ignoring term dependencies.",
+                "Document Length Normalization (parameter 'b'). It penalizes term frequency counts from very long documents to allow fair comparison with shorter ones.",
+                "A property where increasing the number of times a term appears in a document yields diminishing returns in score, unlike raw TF which grows linearly.",
+                "It provides the initial (or updated) set of relevant documents needed to estimate the probabilities P(term|Relevant) and P(term|Non-Relevant) accurately."
             ]
         },
         {

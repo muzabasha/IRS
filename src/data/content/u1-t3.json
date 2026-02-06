@@ -53,6 +53,40 @@
             "content": {
                 "definition": "Visualizes documents and queries as vectors in a multi-dimensional space. Relevance is the distance/angle between them.",
                 "text": "Solves the ranking problem. Uses term weights (TF-IDF) to determine importance. We compute the Cosine Similarity between the Query Vector and Document Vectors."
+            },
+            "formula": {
+                "equation": "\\text{sim}(\\vec{q}, \\vec{d}) = \\frac{\\vec{q} \\cdot \\vec{d}}{||\\vec{q}|| \\times ||\\vec{d}||} = \\frac{\\sum_{i=1}^{n} q_i \\times d_i}{\\sqrt{\\sum_{i=1}^{n} q_i^2} \\times \\sqrt{\\sum_{i=1}^{n} d_i^2}}",
+                "description": "Cosine Similarity measures the angle between query and document vectors in the high-dimensional term space.",
+                "terms": [
+                    {
+                        "symbol": "\\text{sim}(\\vec{q}, \\vec{d})",
+                        "meaning": "Similarity score between query vector q and document vector d (range: 0 to 1)"
+                    },
+                    {
+                        "symbol": "\\vec{q} \\cdot \\vec{d}",
+                        "meaning": "Dot product of query and document vectors - measures overlap in term space"
+                    },
+                    {
+                        "symbol": "||\\vec{q}||",
+                        "meaning": "Magnitude (length) of query vector - normalizes for query length"
+                    },
+                    {
+                        "symbol": "||\\vec{d}||",
+                        "meaning": "Magnitude (length) of document vector - normalizes for document length"
+                    },
+                    {
+                        "symbol": "q_i",
+                        "meaning": "Weight of the i-th term in the query (typically TF-IDF)"
+                    },
+                    {
+                        "symbol": "d_i",
+                        "meaning": "Weight of the i-th term in the document (typically TF-IDF)"
+                    },
+                    {
+                        "symbol": "n",
+                        "meaning": "Total number of unique terms in the vocabulary"
+                    }
+                ]
             }
         },
         {
@@ -78,6 +112,32 @@
                 "outcomes": [
                     "TF (Term Frequency): How often term t appears in doc d. (Higher is better)",
                     "IDF (Inverse Document Frequency): log(N/df). Penalizes common words like 'the'. (Rarity is valuable)"
+                ]
+            },
+            "formula": {
+                "equation": "w_{t,d} = tf_{t,d} \\times \\log\\frac{N}{df_t}",
+                "description": "TF-IDF (Term Frequency-Inverse Document Frequency) is the fundamental weighting scheme in Information Retrieval.",
+                "terms": [
+                    {
+                        "symbol": "w_{t,d}",
+                        "meaning": "Weight of term t in document d - the final importance score"
+                    },
+                    {
+                        "symbol": "tf_{t,d}",
+                        "meaning": "Term Frequency - number of times term t appears in document d"
+                    },
+                    {
+                        "symbol": "N",
+                        "meaning": "Total number of documents in the collection"
+                    },
+                    {
+                        "symbol": "df_t",
+                        "meaning": "Document Frequency - number of documents containing term t"
+                    },
+                    {
+                        "symbol": "\\log\\frac{N}{df_t}",
+                        "meaning": "IDF (Inverse Document Frequency) - penalizes common terms, boosts rare discriminative terms"
+                    }
                 ]
             }
         },
@@ -129,6 +189,12 @@
                 "What does IDF stand for, and why is it needed?",
                 "If the angle between two document vectors is 0 degrees, what is their similarity?",
                 "State the Probability Ranking Principle."
+            ],
+            "answers": [
+                "Because it performs exact matching (binary outcome) without ranking, similar to database queries, rather than estimating relevance.",
+                "Inverse Document Frequency. It is needed to penalize common words (like 'the') and boost rare, discriminative terms to improve retrieval quality.",
+                "The similarity is 1 (Perfect Similarity), as Cosine(0) = 1.",
+                "\"If a system ranks documents by decreasing probability of relevance to the user, effectiveness is maximized.\""
             ]
         },
         {

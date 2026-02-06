@@ -96,6 +96,12 @@
                 "Why is 'Context' becoming more important than 'Keywords'?",
                 "Name one challenge in Voice Search compared to Text Search.",
                 "What is the 'Vocabulary Mismatch Problem'?"
+            ],
+            "answers": [
+                "Specific search indexes a centralized collection; Federated search broadcasts a query to multiple autonomous databases and merges the results.",
+                "Because mobile/voice queries (\"restaurants near me\") rely on location, time, and user history (context) rather than just the explicit words typed.",
+                "Lack of explicit punctuation/segmentation, speech recognition errors, and the expectation of a single direct answer rather than a list of links.",
+                "The issue where the user uses different words (e.g., \"cellphone\") than the author used (e.g., \"mobile device\"), leading to missed relevant documents."
             ]
         },
         {
