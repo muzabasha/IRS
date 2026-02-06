@@ -87,7 +87,37 @@
                         "meaning": "Total number of unique terms in the vocabulary"
                     }
                 ]
-            }
+            },
+            "subTopics": [
+                {
+                    "title": "Deep Dive: Document Vectorization",
+                    "content": "A document is represented as a point in a n-dimensional space where each dimension corresponds to a unique term in the vocabulary.",
+                    "subSubTopics": [
+                        {
+                            "title": "Normalized Term Weights",
+                            "content": "Why normalize? Without normalization, long documents would naturally have higher similarity to any query just because they have more words.",
+                            "keyPoints": [
+                                "Cosine normalization: Divides by the length of the vector.",
+                                "Ensures all documents have equal competing chance regardless of length."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "title": "Deep Dive: Thresholding & Ranking",
+                    "content": "Instead of a binary yes/no, VSM allows us to set a threshold for similarity.",
+                    "subSubTopics": [
+                        {
+                            "title": "Optimal Thresholding",
+                            "content": "Finding the 'sweet spot' where we keep only the most relevant results.",
+                            "examples": [
+                                "Setting threshold = 0.5 to filter low-confidence matches.",
+                                "Using top-K results for dynamic thresholding."
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
             "slideNumber": 6,

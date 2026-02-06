@@ -59,7 +59,23 @@
                         "meaning": "Amount of PageRank passed from T_i to A - distributed among all outlinks"
                     }
                 ]
-            }
+            },
+            "subTopics": [
+                {
+                    "title": "Deep Dive: The Random Surfer Model",
+                    "content": "Why is the damping factor (d) 0.85? It represents the average person's patience before they get bored and type a new URL.",
+                    "subSubTopics": [
+                        {
+                            "title": "Dangling Links",
+                            "content": "What happens when a page has no out-links? It becomes a 'rank sink'. PageRank handles this by assuming the surfer jumps to a random page.",
+                            "keyPoints": [
+                                "Prevents loss of rank from the system.",
+                                "Ensures the transition matrix is stochastic."
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
             "slideNumber": 3,
@@ -99,7 +115,23 @@
                         "meaning": "Hub = sum of authority scores of pages p links to (pointing to authorities makes you a hub)"
                     }
                 ]
-            }
+            },
+            "subTopics": [
+                {
+                    "title": "Iterative Convergence",
+                    "content": "HITS is an iterative algorithm. In each step, authority and hub scores are updated and normalized until they stabilize.",
+                    "subSubTopics": [
+                        {
+                            "title": "The Root Set and Base Set",
+                            "content": "Unlike PageRank which is global, HITS starts with a 'Root Set' of pages matching the query, then expands to a 'Base Set' by adding linked pages.",
+                            "examples": [
+                                "Search 'Jaguar' -> Get 200 docs (Root Set).",
+                                "Include pages they link to and pages linking to them -> 5000 docs (Base Set)."
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
             "slideNumber": 4,

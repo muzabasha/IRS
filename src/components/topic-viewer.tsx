@@ -33,7 +33,24 @@ interface Slide {
             meaning: string
         }>
     }
+    subTopics?: SubTopic[]  // New: Support for hierarchical organization
 }
+
+interface SubTopic {
+    title: string
+    content: string | string[]
+    type?: 'text' | 'list' | 'code' | 'example'
+    subSubTopics?: SubSubTopic[]
+}
+
+interface SubSubTopic {
+    title: string
+    content: string | string[]
+    type?: 'text' | 'list' | 'code' | 'example'
+    keyPoints?: string[]
+    examples?: string[]
+}
+
 
 interface TopicData {
     id: string
@@ -43,6 +60,20 @@ interface TopicData {
 }
 
 export function TopicViewer({ data }: { data: TopicData }) {
+    const [isRead, setIsRead] = useState(false);
+
+    // Load read status from localStorage
+    React.useEffect(() => {
+        const saved = localStorage.getItem(`read-${data.id}`);
+        if (saved === 'true') setIsRead(true);
+    }, [data.id]);
+
+    const toggleRead = () => {
+        const nextState = !isRead;
+        setIsRead(nextState);
+        localStorage.setItem(`read-${data.id}`, String(nextState));
+    };
+
     // Generate Table of Contents
     const toc = data.slides.filter(s => s.type !== "title" && s.type !== "summary").map(s => ({
         id: `section-${s.slideNumber}`,
@@ -143,8 +174,17 @@ export function TopicViewer({ data }: { data: TopicData }) {
                             <Activity className="h-4 w-4" />
                             <span>Estimated Time: 25 mins</span>
                         </div>
-                        <Button variant="outline" size="sm" className="w-full justify-start text-xs rounded-full">
-                            <BookOpen className="mr-2 h-3.5 w-3.5" /> Mark as Read
+                        <Button
+                            variant={isRead ? "default" : "outline"}
+                            size="sm"
+                            className={`w-full justify-start text-xs rounded-full transition-all ${isRead ? 'bg-green-600 hover:bg-green-700' : ''}`}
+                            onClick={toggleRead}
+                        >
+                            {isRead ? (
+                                <><CheckCircle className="mr-2 h-3.5 w-3.5" /> Completed</>
+                            ) : (
+                                <><BookOpen className="mr-2 h-3.5 w-3.5" /> Mark as Read</>
+                            )}
                         </Button>
                     </div>
                 </div>
@@ -478,6 +518,21 @@ function SlideContent({ slide }: { slide: Slide }) {
                             )}
                         </div>
                     )}
+                    {/* Sub-Topics Rendering - Hierarchical Deep Dive */}
+                    {slide.subTopics && slide.subTopics.length > 0 && (
+                        <div className="mt-8 space-y-4">
+                            <div className="flex items-center gap-2 mb-4">
+                                <Layers className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                                <h4 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide">Deep Dive: Detailed Concepts</h4>
+                            </div>
+
+                            <div className="grid gap-4">
+                                {slide.subTopics.map((sub, i) => (
+                                    <SubTopicRenderer key={i} subTopic={sub} index={i} />
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
 
                     {/* Generic Key-Value rendering for miscellaneous fields */}
@@ -522,3 +577,88 @@ function SlideContent({ slide }: { slide: Slide }) {
             )
     }
 }
+
+function SubTopicRenderer({ subTopic, index }: { subTopic: SubTopic; index: number }) {
+    const [isOpen, setIsOpen] = React.useState(index === 0);
+
+    return (
+        <div className="border rounded-xl bg-card/30 backdrop-blur-sm overflow-hidden transition-all hover:bg-card/50">
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors"
+            >
+                <div className="flex items-center gap-3">
+                    <div className="h-6 w-6 rounded-md bg-indigo-100 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-xs">
+                        {index + 1}
+                    </div>
+                    <span className="font-semibold text-foreground">{subTopic.title}</span>
+                </div>
+                {isOpen ? <EyeOff className="h-4 w-4 text-muted-foreground" /> : <Eye className="h-4 w-4 text-muted-foreground" />}
+            </button>
+
+            {isOpen && (
+                <div className="p-4 pt-0 border-t animate-in fade-in slide-in-from-top-2">
+                    <div className="mt-4 prose prose-sm dark:prose-invert max-w-none">
+                        {Array.isArray(subTopic.content) ? (
+                            <ul className="list-disc pl-5 space-y-2">
+                                {(subTopic.content as string[]).map((item, i) => <li key={i}>{item}</li>)}
+                            </ul>
+                        ) : (
+                            <p className="text-foreground/80 leading-relaxed">{subTopic.content}</p>
+                        )}
+                    </div>
+
+                    {subTopic.subSubTopics && subTopic.subSubTopics.length > 0 && (
+                        <div className="mt-6 space-y-4 border-l-2 border-indigo-100 dark:border-indigo-900/50 ml-3 pl-6">
+                            {subTopic.subSubTopics.map((sst, i) => (
+                                <SubSubTopicRenderer key={i} subSubTopic={sst} />
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+}
+
+function SubSubTopicRenderer({ subSubTopic }: { subSubTopic: SubSubTopic }) {
+    return (
+        <div className="space-y-3">
+            <h5 className="font-bold text-sm flex items-center gap-2 text-foreground/90">
+                <div className="h-1.5 w-1.5 rounded-full bg-indigo-400" />
+                {subSubTopic.title}
+            </h5>
+            <div className="text-sm text-foreground/70 leading-relaxed ml-3.5">
+                {Array.isArray(subSubTopic.content) ? (
+                    <ul className="list-disc pl-5 space-y-1">
+                        {(subSubTopic.content as string[]).map((item, i) => <li key={i}>{item}</li>)}
+                    </ul>
+                ) : (
+                    <p>{subSubTopic.content}</p>
+                )}
+            </div>
+
+            {(subSubTopic.keyPoints || subSubTopic.examples) && (
+                <div className="grid sm:grid-cols-2 gap-3 ml-3.5">
+                    {subSubTopic.keyPoints && (
+                        <div className="bg-blue-50/50 dark:bg-blue-950/20 p-3 rounded-lg border border-blue-100/50 dark:border-blue-900/30">
+                            <span className="text-[10px] uppercase font-bold text-blue-600 block mb-1">Key Insights</span>
+                            <ul className="text-xs space-y-1 text-foreground/70">
+                                {subSubTopic.keyPoints.map((p, i) => <li key={i} className="flex gap-2"><span>•</span> {p}</li>)}
+                            </ul>
+                        </div>
+                    )}
+                    {subSubTopic.examples && (
+                        <div className="bg-amber-50/50 dark:bg-amber-950/20 p-3 rounded-lg border border-amber-100/50 dark:border-amber-900/30">
+                            <span className="text-[10px] uppercase font-bold text-amber-600 block mb-1">Examples</span>
+                            <ul className="text-xs space-y-1 text-foreground/70">
+                                {subSubTopic.examples.map((e, i) => <li key={i} className="flex gap-2"><span>-</span> {e}</li>)}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+}
+

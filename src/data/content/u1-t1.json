@@ -97,7 +97,54 @@
                     "Document Collection Index",
                     "Relevance Evaluation"
                 ]
-            }
+            },
+            "subTopics": [
+                {
+                    "title": "Module 1: The Input System",
+                    "content": "Focuses on how the system receives and processes the user's information need into a machine-readable format.",
+                    "subSubTopics": [
+                        {
+                            "title": "Information Need vs. Query",
+                            "content": "An information need is a gap in a user's knowledge, while a query is the actual string of words typed into the system.",
+                            "keyPoints": [
+                                "Information Need: Abstract, mental state.",
+                                "Query: Surface representation of the need.",
+                                "Vocabulary Mismatch: One of the biggest challenges in IR."
+                            ]
+                        },
+                        {
+                            "title": "Query Processing",
+                            "content": "Transforming raw strings into vectors or logical expressions.",
+                            "examples": [
+                                "Expanding 'watch' to include 'wristwatch' and 'timepiece'.",
+                                "Removing punctuation and normalizing case."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "title": "Module 2: The Core Retrieval Engine",
+                    "content": "The heart of the system where matching and ranking occur based on mathematical models.",
+                    "subSubTopics": [
+                        {
+                            "title": "The Indexer",
+                            "content": "Builds an efficient structure (usually an Inverted Index) to speed up searches.",
+                            "keyPoints": [
+                                "Inverted Index: Maps words to the list of documents they appear in.",
+                                "Scale: Must handle millions of documents efficiently."
+                            ]
+                        },
+                        {
+                            "title": "The Ranking Algorithm",
+                            "content": "Applies a scoring function to determine which documents are most likely to be relevant.",
+                            "examples": [
+                                "Calculating Cosine Similarity between query and doc vectors.",
+                                "Using PageRank to determine document authority."
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
             "slideNumber": 10,

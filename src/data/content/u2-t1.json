@@ -41,7 +41,23 @@
             "content": {
                 "definition": "Retrieving documents containing words that match a specific pattern rather than exact terms.",
                 "text": "Common patterns: 1. Wildcards (*, ?), 2. Prefix matching, 3. Suffix matching, 4. Range queries (e.g. [a-z]), 5. Regular Expressions."
-            }
+            },
+            "subTopics": [
+                {
+                    "title": "Deep Dive: Regular Expressions in IR",
+                    "content": "Regular expressions provide the most powerful mechanism for text pattern matching, allowing for complex search logic within a single query string.",
+                    "subSubTopics": [
+                        {
+                            "title": "Regex Efficiency",
+                            "content": "Why is regex slow on large indices? Unlike simple terms, regex often requires a full scan of the vocabulary unless specialized indices like Trigram indices are used.",
+                            "keyPoints": [
+                                "Anchor points (^, $) improve performance.",
+                                "Greedy vs Non-greedy matching impacts retrieval speed."
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
             "slideNumber": 5,
@@ -54,7 +70,23 @@
                     "Find words near each other in the same <Paragraph>",
                     "Containment and proximity operators."
                 ]
-            }
+            },
+            "subTopics": [
+                {
+                    "title": "XML Retrieval Concepts",
+                    "content": "Retrieving 'focused' elements rather than entire documents. The goal is to return the most specific XML tag that satisfies the query.",
+                    "subSubTopics": [
+                        {
+                            "title": "CAS and CO Queries",
+                            "content": "1. Content-and-Structure (CAS): Queries specifying both tags and text. 2. Content-Only (CO): Queries ignoring tags for ranking but respecting them for display.",
+                            "examples": [
+                                "Find 'Shakespeare' in <author> tags (CAS).",
+                                "Find 'climate change' anywhere but prefer <abstract> results (CO)."
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
             "slideNumber": 6,
