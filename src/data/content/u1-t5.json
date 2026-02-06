@@ -81,7 +81,35 @@
                         "symbol": "k",
                         "meaning": "Number of latent concepts/dimensions to keep (typically 100-300 for LSI)"
                     }
-                ]
+                ],
+                "calculation": {
+                    "exampleTitle": "LSI Matrix Transformation",
+                    "description": "Reducing a term-document matrix A from 3 dimensions down to 2 latent concepts.",
+                    "steps": [
+                        {
+                            "label": "Original Matrix (A)",
+                            "formula": "A_{3 \\times 3} = [\\text{Terms} \\times \\text{Docs}]",
+                            "note": "A sparse matrix containing raw TF-IDF weights."
+                        },
+                        {
+                            "label": "Full Decomposition",
+                            "formula": "A = U_{3 \\times 3} \\Sigma_{3 \\times 3} V_{3 \\times 3}^T",
+                            "note": "SVD captures all variance in the data."
+                        },
+                        {
+                            "label": "Truncation (k=2)",
+                            "formula": "A \\approx U_{3 \\times 2} \\Sigma_{2 \\times 2} V_{2 \\times 3}^T",
+                            "note": "We discard the smallest singular value to remove 'noise'."
+                        },
+                        {
+                            "label": "Reconstruction",
+                            "formula": "A_{\\text{new}} = [0.9, 0.1, 0.8; ...]",
+                            "note": "The new matrix is dense; documents about 'cars' now have non-zero scores for 'automobile'."
+                        }
+                    ],
+                    "input": "3x3 Sparse Matrix",
+                    "output": "3x3 Dense Semantic Matrix"
+                }
             }
         },
         {

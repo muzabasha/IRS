@@ -32,6 +32,18 @@ interface Slide {
             symbol: string
             meaning: string
         }>
+        calculation?: {
+            exampleTitle?: string
+            description?: string
+            steps: Array<{
+                label: string
+                formula?: string
+                result?: string
+                note?: string
+            }>
+            input?: string
+            output?: string
+        }
     }
     subTopics?: SubTopic[]  // New: Support for hierarchical organization
 }
@@ -513,6 +525,77 @@ function SlideContent({ slide }: { slide: Slide }) {
                                                 <span className="text-sm text-foreground/80 leading-relaxed">{term.meaning}</span>
                                             </div>
                                         ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Calculation Illustration */}
+                            {slide.formula && slide.formula.calculation && (
+                                <div className="mt-8 p-6 bg-white/40 dark:bg-gray-900/40 rounded-xl border border-blue-200/50 dark:border-blue-900/30">
+                                    <h5 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-4 flex items-center gap-2">
+                                        <Activity className="h-4 w-4" />
+                                        {slide.formula.calculation.exampleTitle || "Step-by-Step Calculation"}
+                                    </h5>
+
+                                    {slide.formula.calculation.description && (
+                                        <p className="text-sm text-foreground/70 mb-6">{slide.formula.calculation.description}</p>
+                                    )}
+
+                                    <div className="space-y-4">
+                                        {slide.formula.calculation.steps.map((step, idx) => (
+                                            <div key={idx} className="relative pl-8 pb-4 last:pb-0">
+                                                {/* Connecting line */}
+                                                {idx !== (slide.formula?.calculation?.steps?.length ?? 0) - 1 && (
+                                                    <div className="absolute left-[11px] top-6 bottom-0 w-0.5 bg-blue-100 dark:bg-blue-900/50" />
+                                                )}
+
+                                                {/* Step number dot */}
+                                                <div className="absolute left-0 top-1 h-6 w-6 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-[10px] font-bold text-blue-600 dark:text-blue-400 z-10">
+                                                    {idx + 1}
+                                                </div>
+
+                                                <div className="space-y-2">
+                                                    <p className="text-sm font-semibold text-foreground/90">{step.label}</p>
+
+                                                    {step.formula && (
+                                                        <div
+                                                            className="text-sm font-mono text-blue-700 dark:text-blue-300 py-1"
+                                                            dangerouslySetInnerHTML={{
+                                                                __html: katex.renderToString(step.formula, { throwOnError: false })
+                                                            }}
+                                                        />
+                                                    )}
+
+                                                    {step.result && (
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="text-[10px] font-bold uppercase text-muted-foreground">Result:</div>
+                                                            <div className="text-sm font-bold text-foreground">{step.result}</div>
+                                                        </div>
+                                                    )}
+
+                                                    {step.note && (
+                                                        <p className="text-xs text-muted-foreground italic">Note: {step.note}</p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+
+                                        {(slide.formula.calculation.input || slide.formula.calculation.output) && (
+                                            <div className="mt-6 pt-4 border-t border-blue-100 dark:border-blue-900/30 grid grid-cols-2 gap-4">
+                                                {slide.formula.calculation.input && (
+                                                    <div>
+                                                        <div className="text-[10px] font-bold uppercase text-muted-foreground mb-1">Input Data</div>
+                                                        <div className="text-sm font-medium p-2 bg-blue-50/50 dark:bg-blue-950/20 rounded border border-blue-100/50 dark:border-blue-900/20">{slide.formula.calculation.input}</div>
+                                                    </div>
+                                                )}
+                                                {slide.formula.calculation.output && (
+                                                    <div>
+                                                        <div className="text-[10px] font-bold uppercase text-muted-foreground mb-1">Final Result</div>
+                                                        <div className="text-sm font-bold text-indigo-600 dark:text-indigo-400 p-2 bg-indigo-50/50 dark:bg-indigo-950/20 rounded border border-indigo-100/50 dark:border-indigo-900/20">{slide.formula.calculation.output}</div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             )}

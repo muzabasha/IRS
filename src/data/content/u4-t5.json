@@ -58,7 +58,33 @@
                         "symbol": "\\frac{PR(T_i)}{C(T_i)}",
                         "meaning": "Amount of PageRank passed from T_i to A - distributed among all outlinks"
                     }
-                ]
+                ],
+                "calculation": {
+                    "exampleTitle": "PageRank Iteration Example",
+                    "description": "Calculating the PageRank for Page A receiving links from Page B and Page C.",
+                    "steps": [
+                        {
+                            "label": "Gather Voter Data",
+                            "formula": "PR(B)=0.5, C(B)=2; PR(C)=0.8, C(C)=1",
+                            "note": "B has 2 out-links, C has only 1."
+                        },
+                        {
+                            "label": "Apply Damping Factor",
+                            "formula": "(1 - 0.85) = 0.15",
+                            "note": "The probability of a random jump to any page."
+                        },
+                        {
+                            "label": "Sum Backlink Authority",
+                            "formula": "0.85 \\times (\\frac{0.5}{2} + \\frac{0.8}{1}) = 0.85 \\times 1.05 = 0.8925"
+                        },
+                        {
+                            "label": "Final PageRank for A",
+                            "formula": "PR(A) = 0.15 + 0.8925 = 1.0425"
+                        }
+                    ],
+                    "input": "PR(B):0.5, PR(C):0.8, d:0.85",
+                    "output": "PR(A): 1.0425"
+                }
             },
             "subTopics": [
                 {
@@ -114,7 +140,30 @@
                         "symbol": "\\sum_{q \\in F_p} a(q)",
                         "meaning": "Hub = sum of authority scores of pages p links to (pointing to authorities makes you a hub)"
                     }
-                ]
+                ],
+                "calculation": {
+                    "exampleTitle": "HITS Update Cycle",
+                    "description": "A single update step for a page P in the Base Set.",
+                    "steps": [
+                        {
+                            "label": "Authority Score Update",
+                            "formula": "a(p) = \\sum h(q) = 0.9 + 0.6 = 1.5",
+                            "note": "Summing hub scores of pages linking TO p."
+                        },
+                        {
+                            "label": "Hub Score Update",
+                            "formula": "h(p) = \\sum a(q) = 0.8 + 0.7 = 1.5",
+                            "note": "Summing authority scores of pages p links TO."
+                        },
+                        {
+                            "label": "Normalization",
+                            "formula": "\\text{New Scores} = \\frac{\\text{Score}}{\\sqrt{\\sum \\text{Score}^2}}",
+                            "note": "Scores are scaled back to [0, 1] range."
+                        }
+                    ],
+                    "input": "H1:0.9, H2:0.6 (linking to), A1:0.8, A2:0.7 (linked by)",
+                    "output": "Authority: 1.5, Hub: 1.5 (unnormalized)"
+                }
             },
             "subTopics": [
                 {

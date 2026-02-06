@@ -72,7 +72,30 @@
                         "symbol": "1 - \\mu_A(x)",
                         "meaning": "Subtracts from 1 - if highly member (0.9), becomes low non-member (0.1)"
                     }
-                ]
+                ],
+                "calculation": {
+                    "exampleTitle": "Fuzzy Search: 'Fast AND Red'",
+                    "description": "Determining the relevance of a car (Ferrari) to a vague query using fuzzy intersection.",
+                    "steps": [
+                        {
+                            "label": "Assign Membership Degrees",
+                            "formula": "\\mu_{Fast}(\\text{Ferrari}) = 0.9, \\mu_{Red}(\\text{Ferrari}) = 0.8",
+                            "note": "A Ferrari is very fast and very red."
+                        },
+                        {
+                            "label": "Apply Fuzzy AND (Intersection)",
+                            "formula": "\\mu_{Fast \\cap Red} = \\min(0.9, 0.8)",
+                            "note": "Fuzzy intersection uses the minimum of all degrees."
+                        },
+                        {
+                            "label": "Final Relevance Score",
+                            "formula": "0.8",
+                            "note": "Relevance is high at 80%."
+                        }
+                    ],
+                    "input": "Fast: 0.9, Red: 0.8",
+                    "output": "Relevance Score: 0.8"
+                }
             }
         },
         {

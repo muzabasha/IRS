@@ -88,6 +88,31 @@
                     }
                 ]
             },
+            "calculation": {
+                "exampleTitle": "Cosine Similarity Example",
+                "description": "Calculating the similarity between a query Q and a document D1 in a 2D term space.",
+                "steps": [
+                    {
+                        "label": "Define Vectors",
+                        "formula": "\\vec{q} = [1, 1], \\vec{d} = [2, 0]",
+                        "note": "Terms: 'search', 'engine'"
+                    },
+                    {
+                        "label": "Calculate Dot Product",
+                        "formula": "\\vec{q} \\cdot \\vec{d} = (1 \\times 2) + (1 \\times 0) = 2"
+                    },
+                    {
+                        "label": "Calculate Magnitudes",
+                        "formula": "||\\vec{q}|| = \\sqrt{1^2 + 1^2} = 1.414, ||\\vec{d}|| = \\sqrt{2^2 + 0^2} = 2"
+                    },
+                    {
+                        "label": "Final Score",
+                        "formula": "\\text{sim} = \\frac{2}{1.414 \\times 2} = 0.707"
+                    }
+                ],
+                "input": "Q:[1,1], D:[2,0]",
+                "output": "Similarity: 0.707"
+            },
             "subTopics": [
                 {
                     "title": "Deep Dive: Document Vectorization",
@@ -168,7 +193,35 @@
                         "symbol": "\\log\\frac{N}{df_t}",
                         "meaning": "IDF (Inverse Document Frequency) - penalizes common terms, boosts rare discriminative terms"
                     }
-                ]
+                ],
+                "calculation": {
+                    "exampleTitle": "TF-IDF Weighting Example",
+                    "description": "Weighting the term 'Retrieval' in a document within a corpus of 10,000 documents.",
+                    "steps": [
+                        {
+                            "label": "Term Frequency (TF)",
+                            "formula": "tf_{t,d} = 5",
+                            "note": "The word appears 5 times in this document."
+                        },
+                        {
+                            "label": "Document Frequency (DF)",
+                            "formula": "df_t = 100",
+                            "note": "100 documents in the entire collection contain this word."
+                        },
+                        {
+                            "label": "Inverse Document Frequency (IDF)",
+                            "formula": "idf = \\log_{10}(\\frac{10000}{100}) = 2",
+                            "note": "Using base-10 log for simplicity."
+                        },
+                        {
+                            "label": "Final Weight",
+                            "formula": "w = 5 \\times 2 = 10",
+                            "note": "Term Frequency multiplied by IDF."
+                        }
+                    ],
+                    "input": "TF:5, DF:100, N:10000",
+                    "output": "Weight (w): 10.0"
+                }
             }
         },
         {

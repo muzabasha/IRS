@@ -90,7 +90,35 @@
                         "symbol": "\\frac{|d|}{\\text{avgdl}}",
                         "meaning": "Document length ratio - penalizes long documents, boosts short ones"
                     }
-                ]
+                ],
+                "calculation": {
+                    "exampleTitle": "BM25 Scoring Example",
+                    "description": "Calculating relevance for the term 'search' in a document of length 3.",
+                    "steps": [
+                        {
+                            "label": "Define Parameters",
+                            "formula": "tf=2, |d|=3, avgdl=10, k_1=1.5, b=0.75",
+                            "note": "A short document (3 words) where 'search' appears twice."
+                        },
+                        {
+                            "label": "Calculate Length Normalization (K)",
+                            "formula": "K = 1.5 \\times (0.25 + 0.75 \\times \\frac{3}{10}) = 0.7125",
+                            "note": "K is the document length correction factor."
+                        },
+                        {
+                            "label": "Calculate TF Impact",
+                            "formula": "\\frac{2 \\times (1.5 + 1)}{2 + 0.7125} = \\frac{5}{2.7125} = 1.843",
+                            "note": "How much the term frequency contributes to the score."
+                        },
+                        {
+                            "label": "Final Score",
+                            "formula": "1.0 \\times 1.843 = 1.843",
+                            "note": "Assuming IDF for 'search' is 1.0."
+                        }
+                    ],
+                    "input": "tf:2, |d|:3, avgdl:10",
+                    "output": "Relevance Score: 1.843"
+                }
             }
         },
         {
