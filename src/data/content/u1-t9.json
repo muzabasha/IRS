@@ -15,15 +15,66 @@
         },
         {
             "slideNumber": 2,
-            "type": "list",
+            "type": "standard",
             "title": "Current Trending Topics",
-            "items": [
-                "Neural Information Retrieval (BERT, GPT integration).",
-                "Cross-Lingual Information Retrieval (CLIR).",
-                "Voice & Conversational Search.",
-                "Multimedia & Video Retrieval.",
-                "Fairness and Bias in Ranking."
-            ]
+            "content": {
+                "text": "Neural Information Retrieval (BERT, GPT integration) is transforming search from exact keyword matching to semantic meaning matching.",
+                "outcomes": [
+                    "Dense retrieval (vectors)",
+                    "Cross-lingual search",
+                    "Conversational AI"
+                ]
+            },
+            "formula": {
+                "equation": "P(y_i|x) = \\frac{e^{s_i}}{\\sum_{j=1}^{K} e^{s_j}}",
+                "description": "In Neural IR, the Softmax function is used to convert raw similarity scores (logits) from a deep learning model into a probability distribution over the top document candidates.",
+                "terms": [
+                    {
+                        "symbol": "P(y_i|x)",
+                        "meaning": "The probability that document 'i' is the relevant answer for query 'x'"
+                    },
+                    {
+                        "symbol": "s_i",
+                        "meaning": "Similarity score (logit) for document 'i' calculated by the neural network"
+                    },
+                    {
+                        "symbol": "e",
+                        "meaning": "Euler's number (exponential base)"
+                    },
+                    {
+                        "symbol": "K",
+                        "meaning": "Number of candidate documents in the final ranking stage"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Neural Ranking Normalization",
+                    "description": "Converting scores for 2 documents into probabilities.",
+                    "steps": [
+                        {
+                            "label": "Raw Neural Scores",
+                            "formula": "s_1 = 2.0, s_2 = 1.0",
+                            "note": "Doc 1 is significantly stronger than Doc 2."
+                        },
+                        {
+                            "label": "Exponentiate",
+                            "formula": "e^2 \\approx 7.39, e^1 \\approx 2.72",
+                            "note": "Applying the exponential function."
+                        },
+                        {
+                            "label": "Calculate Sum",
+                            "formula": "\\sum = 7.39 + 2.72 = 10.11",
+                            "note": "The normalization factor."
+                        },
+                        {
+                            "label": "Final Probability",
+                            "formula": "P(1) = 0.73, P(2) = 0.27",
+                            "note": "Probabilities sum to 1.0 (73% vs 27%)."
+                        }
+                    ],
+                    "input": "Scores:[2, 1]",
+                    "output": "P1: 0.73, P2: 0.27"
+                }
+            }
         },
         {
             "slideNumber": 3,

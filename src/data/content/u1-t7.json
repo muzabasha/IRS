@@ -79,6 +79,52 @@
                     "Allows 'Near' operators.",
                     "Allows specific field weighting (Title=1.0, Body=0.5)."
                 ]
+            },
+            "formula": {
+                "equation": "C(node, term) \\iff [S_{term}, E_{term}] \\subseteq [S_{node}, E_{node}]",
+                "description": "Structured retrieval using the Interval Model defines a match (C) as a containment relationship where the position interval of a term falls within the boundaries [S, E] of a specific logical node.",
+                "terms": [
+                    {
+                        "symbol": "S_{node}, E_{node}",
+                        "meaning": "The start and end word-positions of a structural element (e.g. <abstract>)"
+                    },
+                    {
+                        "symbol": "S_{term}, E_{term}",
+                        "meaning": "The position(s) of the search term in the document"
+                    },
+                    {
+                        "symbol": "\\subseteq",
+                        "meaning": "Containment operator (All term positions must be inside node boundaries)"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Containment Logic check",
+                    "description": "Determining if 'search' appears in the document 'Abstract'.",
+                    "steps": [
+                        {
+                            "label": "Define Node Scope",
+                            "formula": "\\text{Abstract} = [50, 150]",
+                            "note": "The abstract tag covers words 50 through 150."
+                        },
+                        {
+                            "label": "Locate Term",
+                            "formula": "\\text{Pos}(search) = 75",
+                            "note": "Term 'search' is the 75th word."
+                        },
+                        {
+                            "label": "Evaluate Interval",
+                            "formula": "75 \\in [50, 150] \\Rightarrow \\text{True}",
+                            "note": "Term falls within the defined boundaries."
+                        },
+                        {
+                            "label": "Final Result",
+                            "formula": "\\text{Result} = Match",
+                            "note": "The document satisfies the structural constraint."
+                        }
+                    ],
+                    "input": "Node:[50, 150], Term:75",
+                    "output": "Match = YES"
+                }
             }
         },
         {

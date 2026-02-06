@@ -33,6 +33,56 @@
                     "Dogpile",
                     "MetaCrawler"
                 ]
+            },
+            "formula": {
+                "equation": "S_{total}(d) = \\sum_{e \\in E} w_e \\cdot Score(d, e)",
+                "description": "Meta-search engines aggregate rankings using consensus methods like the Borda Count or weighted summation of scores from multiple underlying engines.",
+                "terms": [
+                    {
+                        "symbol": "S_{total}(d)",
+                        "meaning": "Final aggregate score for document 'd'"
+                    },
+                    {
+                        "symbol": "e",
+                        "meaning": "One of the component search engines (e.g., Google, Bing)"
+                    },
+                    {
+                        "symbol": "w_e",
+                        "meaning": "Weight (trust) assigned to engine 'e'"
+                    },
+                    {
+                        "symbol": "Score(d, e)",
+                        "meaning": "Normalized score assigned to document 'd' by engine 'e'"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Aggregation Case Study",
+                    "description": "Merging results for a document from 2 engines with different weights.",
+                    "steps": [
+                        {
+                            "label": "Engine Scores",
+                            "formula": "Score_{G} = 0.9, Score_{B} = 0.4",
+                            "note": "Document ranked high in Google, moderate in Bing."
+                        },
+                        {
+                            "label": "Define weights",
+                            "formula": "w_{G} = 0.7, w_{B} = 0.3",
+                            "note": "We trust Google's ranking more."
+                        },
+                        {
+                            "label": "Calculate Aggregate",
+                            "formula": "S = (0.7 \\times 0.9) + (0.3 \\times 0.4)",
+                            "note": "Weighted average calculation."
+                        },
+                        {
+                            "label": "Final Score",
+                            "formula": "S = 0.63 + 0.12 = 0.75",
+                            "note": "Combined score represents a consensus of sources."
+                        }
+                    ],
+                    "input": "Scores:[0.9, 0.4], Weights:[0.7, 0.3]",
+                    "output": "Meta-Score: 0.75"
+                }
             }
         },
         {

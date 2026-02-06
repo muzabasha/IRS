@@ -53,7 +53,53 @@
                 "Large numbers use more.",
                 "Uses 7 bits for data and 1 bit as a 'continuation' flag.",
                 "Extremely fast to decode."
-            ]
+            ],
+            "formula": {
+                "equation": "\\text{Byte}(n) = [C, b_6, b_5, b_4, b_3, b_2, b_1, b_0]",
+                "description": "Variable Byte encoding uses a series of bytes to represent an integer, where the highest-order bit (C) is a continuation bit (0 = more bytes follow, 1 = last byte).",
+                "terms": [
+                    {
+                        "symbol": "n",
+                        "meaning": "The positive integer (gap) to be encoded"
+                    },
+                    {
+                        "symbol": "C",
+                        "meaning": "Continuation bit (MSB)"
+                    },
+                    {
+                        "symbol": "b_i",
+                        "meaning": "Data bits from the binary representation of the gap"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "V-Byte Encoding process",
+                    "description": "Encoding the number 130 into Variable Byte format.",
+                    "steps": [
+                        {
+                            "label": "Binary Conversion",
+                            "formula": "130_{10} = 10000010_2",
+                            "note": "130 is slightly larger than the 7-bit limit (127)."
+                        },
+                        {
+                            "label": "Split into 7-bit Chunks",
+                            "formula": "Chunk 2: 0000001, Chunk 1: 0000010",
+                            "note": "We take the lowest 7 bits first."
+                        },
+                        {
+                            "label": "Assign Continuation Bits",
+                            "formula": "Byte 1: [0, 0000001], Byte 2: [1, 0000010]",
+                            "note": "First byte has C=0 (more follows), second has C=1 (end)."
+                        },
+                        {
+                            "label": "Final V-Byte",
+                            "formula": "[00000001, 10000010] = [1, 130]",
+                            "note": "Value is reconstructed as (1 * 128) + 2 = 130."
+                        }
+                    ],
+                    "input": "n:130",
+                    "output": "Bytes: [0x01, 0x82]"
+                }
+            }
         },
         {
             "slideNumber": 6,

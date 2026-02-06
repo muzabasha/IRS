@@ -32,6 +32,56 @@
                     "Context queries (Phrases)",
                     "Boolean combinations (implicit or explicit)"
                 ]
+            },
+            "formula": {
+                "equation": "R(q_{AND}) = \\bigcap_{t \\in q} Dist(t), \\quad R(q_{OR}) = \\bigcup_{t \\in q} Dist(t)",
+                "description": "Information Retrieval queries are mathematically modeled as set operations over the distribution of terms in the collection.",
+                "terms": [
+                    {
+                        "symbol": "R(q)",
+                        "meaning": "Result set - list of documents matching the query 'q'"
+                    },
+                    {
+                        "symbol": "\\bigcap",
+                        "meaning": "Intersection (AND logic) - document must contain ALL terms"
+                    },
+                    {
+                        "symbol": "\\bigcup",
+                        "meaning": "Union (OR logic) - document can contain ANY of the terms"
+                    },
+                    {
+                        "symbol": "Dist(t)",
+                        "meaning": "Distribution set of term 't' (all doc IDs where 't' occurs)"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Boolean Set Matching",
+                    "description": "Evaluating a multi-term query against an index.",
+                    "steps": [
+                        {
+                            "label": "Define Index",
+                            "formula": "D(\\text{cat}) = \\{1, 2, 4\\}, D(\\text{dog}) = \\{2, 3, 4\\}",
+                            "note": "A small 4-doc collection."
+                        },
+                        {
+                            "label": "Intersection (AND)",
+                            "formula": "\\{1, 2, 4\\} \\cap \\{2, 3, 4\\} = \\{2, 4\\}",
+                            "note": "Only Docs 2 and 4 have both words."
+                        },
+                        {
+                            "label": "Union (OR)",
+                            "formula": "\\{1, 2, 4\\} \\cup \\{2, 3, 4\\} = \\{1, 2, 3, 4\\}",
+                            "note": "All docs match if search is 'cat OR dog'."
+                        },
+                        {
+                            "label": "Negation (NOT)",
+                            "formula": "D(\\text{cat}) - D(\\text{dog}) = \\{1\\}",
+                            "note": "Doc 1 has 'cat' but NOT 'dog'."
+                        }
+                    ],
+                    "input": "Q:'cat AND dog'",
+                    "output": "Docs: [2, 4]"
+                }
             }
         },
         {

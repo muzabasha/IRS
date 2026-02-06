@@ -43,6 +43,52 @@
                     "User experience (UX) as a ranking signal.",
                     "Personalization vs Privacy trade-off."
                 ]
+            },
+            "formula": {
+                "equation": "RT = a + b \\log_2(n)",
+                "description": "Hick's Law calculates the reaction time (RT) for a user to make a decision based on the number of choices (n). In IR interfaces, this directs us to keep menus and facet lists concise to minimize cognitive load.",
+                "terms": [
+                    {
+                        "symbol": "RT",
+                        "meaning": "Reaction time required to make a selection"
+                    },
+                    {
+                        "symbol": "n",
+                        "meaning": "Number of equally probable choices (e.g., number of links in a menu)"
+                    },
+                    {
+                        "symbol": "a, b",
+                        "meaning": "Constants representing baseline time and processing rate"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Menu Optimization",
+                    "description": "Comparing choice time for a long list vs a grouped list.",
+                    "steps": [
+                        {
+                            "label": "Original List",
+                            "formula": "n = 16 \\text{ items}",
+                            "note": "A single long list of categories."
+                        },
+                        {
+                            "label": "Grouped List",
+                            "formula": "n = 4 \\text{ items}",
+                            "note": "4 main categories, each with 4 sub-items."
+                        },
+                        {
+                            "label": "Time Complexity (16)",
+                            "formula": "\\log_2(16) = 4 \\text{ units}",
+                            "note": "Double the choices doesn't mean double the time (logarithmic)."
+                        },
+                        {
+                            "label": "Time Complexity (4)",
+                            "formula": "\\log_2(4) = 2 \\text{ units}",
+                            "note": "Fewer choices significantly speed up initial target acquisition."
+                        }
+                    ],
+                    "input": "n1:16, n2:4",
+                    "output": "50% reduction in choice complexity"
+                }
             }
         },
         {

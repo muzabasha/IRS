@@ -58,6 +58,52 @@
             "content": {
                 "definition": "A model by Marcia Bates. Users don't just run one query. They run a query, read a bit, learn a new term, run a new query, and 'pick berries' (info) along the way.",
                 "text": "This contrasts with the standard 'Match-Rank-Retrieve' model."
+            },
+            "formula": {
+                "equation": "\\text{Recall@k} = \\frac{|Rel \\cap Ret_{1 \\dots k}|}{|Rel|}",
+                "description": "In browsing models, evaluation often focuses on how many relevant documents ('berries') a user finds within the first 'k' documents they choose to inspect.",
+                "terms": [
+                    {
+                        "symbol": "Ret_{1 \\dots k}",
+                        "meaning": "The first 'k' items encountered/retrieved during the browsing session"
+                    },
+                    {
+                        "symbol": "Rel",
+                        "meaning": "The total number of relevant documents in the collection"
+                    },
+                    {
+                        "symbol": "k",
+                        "meaning": "The inspection depth (number of clicks or items viewed)"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Discovery Rate Check",
+                    "description": "A user browses through 5 pages of a 10-page relevant collection.",
+                    "steps": [
+                        {
+                            "label": "Total Relevant",
+                            "formula": "|Rel| = 10",
+                            "note": "There are 10 key pieces of info on the topic."
+                        },
+                        {
+                            "label": "Items Browsed",
+                            "formula": "k = 5",
+                            "note": "User checks first 5 results/links."
+                        },
+                        {
+                            "label": "Matches Found",
+                            "formula": "|Match_{1..5}| = 3",
+                            "note": "3 of those 5 contain the 'berries' needed."
+                        },
+                        {
+                            "label": "Calculate Recall@5",
+                            "formula": "R = 3 / 10 = 0.3",
+                            "note": "User has captured 30% of the topic's relevant content."
+                        }
+                    ],
+                    "input": "Rel:10, Browsed:5, Found:3",
+                    "output": "Recall: 30%"
+                }
             }
         },
         {

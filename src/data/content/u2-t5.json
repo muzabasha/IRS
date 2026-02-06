@@ -56,6 +56,52 @@
                     "Complexity: O(M+N) where M, N are list lengths.",
                     "Skip Pointers help speed this up by jumping over irrelevant DocIDs."
                 ]
+            },
+            "formula": {
+                "equation": "\\text{Merge}(L_1, L_2) \\Rightarrow O(|L_1| + |L_2|)",
+                "description": "The linear merge algorithm efficiently finds common document IDs by moving two pointers concurrently across sorted postings lists.",
+                "terms": [
+                    {
+                        "symbol": "L_1, L_2",
+                        "meaning": "Sorted postings lists for terms T1 and T2"
+                    },
+                    {
+                        "symbol": "|L_i|",
+                        "meaning": "Length (number of documents) in the list"
+                    },
+                    {
+                        "symbol": "O(m+n)",
+                        "meaning": "Linear time complexity - each element is visited at most once"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Intersecting Postings",
+                    "description": "Merging two lists to find documents containing both words.",
+                    "steps": [
+                        {
+                            "label": "Pointers at Start",
+                            "formula": "P_1 \\to [2, 5, 8], P_2 \\to [1, 2, 5]",
+                            "note": "Pointers at index 0."
+                        },
+                        {
+                            "label": "Compare: 2 vs 1",
+                            "formula": "1 < 2 \\Rightarrow P_2++",
+                            "note": "Move smaller pointer forward."
+                        },
+                        {
+                            "label": "Compare: 2 vs 2",
+                            "formula": "2 = 2 \\Rightarrow Match!",
+                            "note": "Append Doc 2 to results; both move forward."
+                        },
+                        {
+                            "label": "Final Result",
+                            "formula": "Rel = \\{2, 5\\}",
+                            "note": "Loop continues until one list is exhausted."
+                        }
+                    ],
+                    "input": "L1:[2, 5, 8], L2:[1, 2, 5]",
+                    "output": "Match: {2, 5}"
+                }
             }
         },
         {

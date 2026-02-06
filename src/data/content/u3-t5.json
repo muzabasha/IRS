@@ -20,6 +20,52 @@
             "content": {
                 "text": "Helping users judge relevance quickly. 1. Snippets: Brief excerpts of the document. 2. KWIC (Key Word In Context): Showing words around the query terms. 3. Thumbnails: Visual representations (images/icons).",
                 "hook": "Bolded words in a snippet are the 'scent' of information."
+            },
+            "formula": {
+                "equation": "Window(t_q, k) = [word_{i-k}, \\dots, t_q, \\dots, word_{i+k}]",
+                "description": "Snippet generation involves extracting a fixed-size window of terms surrounding the query term to provide semantic context (KWIC).",
+                "terms": [
+                    {
+                        "symbol": "t_q",
+                        "meaning": "The query term found in the document at position 'i'"
+                    },
+                    {
+                        "symbol": "k",
+                        "meaning": "Context radius (number of words to show before and after)"
+                    },
+                    {
+                        "symbol": "Window",
+                        "meaning": "The resulting snippet/fragment shown to the user"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Snippet Extraction",
+                    "description": "Generating a KWIC snippet for the term 'retrieval' with context k=2.",
+                    "steps": [
+                        {
+                            "label": "Original Text",
+                            "formula": "T = [\\text{The}, \\text{classic}, \\text{information}, \\text{retrieval}, \\text{models}, \\text{work}, \\text{well}]",
+                            "note": "Document content as a sequence of tokens."
+                        },
+                        {
+                            "label": "Locate Term",
+                            "formula": "index(\\text{retrieval}) = 3",
+                            "note": "Target word is at position 3 (0-indexed)."
+                        },
+                        {
+                            "label": "Extract Window",
+                            "formula": "Range = [3-2, 3+2] = [1, 5]",
+                            "note": "Taking 2 words on each side."
+                        },
+                        {
+                            "label": "Final Snippet",
+                            "formula": "S = [\\text{classic}, \\text{information}, \\text{retrieval}, \\text{models}, \\text{work}]",
+                            "note": "Words 'The' and 'well' are outside the context radius."
+                        }
+                    ],
+                    "input": "Position:3, Radius:2",
+                    "output": "'classic information retrieval models work'"
+                }
             }
         },
         {

@@ -18,7 +18,7 @@
             "type": "diagram",
             "title": "GEMINI Indexing Framework",
             "content": {
-                "description": "The logic of indexing high-dimensional multimedia objects.",
+                "description": "The logic of indexing high-dimensional multimedia objects while ensuring no false dismissals.",
                 "steps": [
                     "Feature Extraction (Mapping)",
                     "Distance Lowerbounding",
@@ -26,6 +26,52 @@
                     "Index in 1D/Spatial Structure",
                     "Filter & Refine Results"
                 ]
+            },
+            "formula": {
+                "equation": "d_{reduced}(\\text{F}(x), \\text{F}(y)) \\leq d_{original}(x, y)",
+                "description": "The Lower Bounding Lemma: To guarantee no false dismissals during dimensionality reduction, the distance in the reduced feature space must be less than or equal to the distance in the original high-dimensional space.",
+                "terms": [
+                    {
+                        "symbol": "d_{original}",
+                        "meaning": "True distance between high-dimensional objects (expensive to compute)"
+                    },
+                    {
+                        "symbol": "d_{reduced}",
+                        "meaning": "Estimated distance in the lower-dimensional index space (cheap)"
+                    },
+                    {
+                        "symbol": "\\text{F}",
+                        "meaning": "Transformation function (e.g., taking the first few Fourier coefficients)"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Gemini Distance Filter",
+                    "description": "Using lower bounding to skip expensive distance checks.",
+                    "steps": [
+                        {
+                            "label": "Query Threshold",
+                            "formula": "\\epsilon = 10.0",
+                            "note": "We want everything within distance 10."
+                        },
+                        {
+                            "label": "Reduced Check",
+                            "formula": "d_{red} = 15.0",
+                            "note": "Calculated quickly in 2D space."
+                        },
+                        {
+                            "label": "Apply Lemma",
+                            "formula": "15 > 10 \\Rightarrow d_{orig} \\geq 15 > 10",
+                            "note": "Since reduced distance is already over 10, the real distance must also be over 10."
+                        },
+                        {
+                            "label": "Decision",
+                            "formula": "\\text{Reject Document}",
+                            "note": "We can safely ignore this document without ever computing the full distance."
+                        }
+                    ],
+                    "input": "eps:10, d_red:15",
+                    "output": "Pruned (Safe)"
+                }
             }
         },
         {

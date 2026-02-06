@@ -82,6 +82,60 @@
             "title": "Technical Foundations",
             "content": {
                 "text": "IR relies on Boolean Logic, Vector Spaces, and Probability Theory. It assumes documents can be represented as 'Bag of Words' or feature vectors."
+            },
+            "formula": {
+                "equation": "P = \\frac{|Rel \\cap Ret|}{|Ret|} \\quad , \\quad R = \\frac{|Rel \\cap Ret|}{|Rel|}",
+                "description": "Precision and Recall are the fundamental metrics for evaluating the effectiveness of an IR system.",
+                "terms": [
+                    {
+                        "symbol": "P",
+                        "meaning": "Precision - accuracy of the retrieved results (proportion of retrieved docs that are relevant)"
+                    },
+                    {
+                        "symbol": "R",
+                        "meaning": "Recall - completeness of the retrieved results (proportion of relevant docs retrieved)"
+                    },
+                    {
+                        "symbol": "Rel",
+                        "meaning": "The set of all Relevant documents in the collection"
+                    },
+                    {
+                        "symbol": "Ret",
+                        "meaning": "The set of all Retrieved documents for a given query"
+                    },
+                    {
+                        "symbol": "Rel \\cap Ret",
+                        "meaning": "Intersection: The set of relevant documents that were successfully retrieved"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Evaluation Case Study",
+                    "description": "In a collection of 100 docs, where 20 are relevant.",
+                    "steps": [
+                        {
+                            "label": "Gather Stats",
+                            "formula": "|Rel|=20, |Ret|=30",
+                            "note": "System retrieved 30 docs."
+                        },
+                        {
+                            "label": "Count Overlap",
+                            "formula": "|Rel \\cap Ret|=15",
+                            "note": "15 out of the 30 retrieved were actually relevant."
+                        },
+                        {
+                            "label": "Calculate Precision",
+                            "formula": "P = \\frac{15}{30} = 0.5",
+                            "note": "50% of what was retrieved is relevant."
+                        },
+                        {
+                            "label": "Calculate Recall",
+                            "formula": "R = \\frac{15}{20} = 0.75",
+                            "note": "75% of all relevant docs were captured."
+                        }
+                    ],
+                    "input": "Rel:20, Ret:30, Hits:15",
+                    "output": "P: 0.5, R: 0.75"
+                }
             }
         },
         {

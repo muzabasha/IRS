@@ -36,6 +36,52 @@
                     "Answer Extraction: Pinpoint the exact string in the text.",
                     "Ranking: Choose the most confident answer."
                 ]
+            },
+            "formula": {
+                "equation": "\\text{MRR} = \\frac{1}{|Q|} \\sum_{i=1}^{|Q|} \\frac{1}{rank_i}",
+                "description": "Mean Reciprocal Rank (MRR) is the standard metric for evaluating QA systems, where we care only about the position (rank) of the first correct answer.",
+                "terms": [
+                    {
+                        "symbol": "Q",
+                        "meaning": "The set of sample questions"
+                    },
+                    {
+                        "symbol": "rank_i",
+                        "meaning": "The position of the first correct answer for question 'i'"
+                    },
+                    {
+                        "symbol": "1/rank",
+                        "meaning": "Reciprocal rank (1st place = 1.0, 2nd = 0.5, 3rd = 0.33)"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "QA System Benchmark",
+                    "description": "Evaluating 3 queries against a QA system.",
+                    "steps": [
+                        {
+                            "label": "Query 1",
+                            "formula": "rank_1 = 1",
+                            "note": "Correct answer found at top spot (Score: 1.0)."
+                        },
+                        {
+                            "label": "Query 2",
+                            "formula": "rank_2 = 2",
+                            "note": "Correct answer was the second suggestion (Score: 0.5)."
+                        },
+                        {
+                            "label": "Query 3",
+                            "formula": "rank_3 = 10",
+                            "note": "Answer found deep in the list (Score: 0.1)."
+                        },
+                        {
+                            "label": "Calculate MRR",
+                            "formula": "MRR = (1 + 0.5 + 0.1) / 3 = 0.533",
+                            "note": "Final system score is 0.533."
+                        }
+                    ],
+                    "input": "Ranks:[1, 2, 10]",
+                    "output": "MRR: 0.53"
+                }
             }
         },
         {

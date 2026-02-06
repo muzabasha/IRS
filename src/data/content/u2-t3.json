@@ -47,7 +47,53 @@
                 "Huffman Coding: Variable-length prefix codes.",
                 "Arithmetic Coding: Better compression than Huffman but slower.",
                 "Ziv-Lempel (LZ) algorithms: Dictionary-based compression (ZIP/GZIP)."
-            ]
+            ],
+            "formula": {
+                "equation": "H = - \\sum_{i} P(s_i) \\log_2 P(s_i)",
+                "description": "Entropy (H) defines the theoretical limit of text compression. Huffman coding calculates bit-lengths for symbols based on their probability (P) to approach this limit.",
+                "terms": [
+                    {
+                        "symbol": "H",
+                        "meaning": "Entropy - average bits required per symbol"
+                    },
+                    {
+                        "symbol": "P(s_i)",
+                        "meaning": "Probability of occurrence for symbol 'i' in the text"
+                    },
+                    {
+                        "symbol": "\\log_2",
+                        "meaning": "Logarithm base 2 (yields units of bits)"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Huffman Bit-Savings",
+                    "description": "Comparing fixed-length vs variable-length for 3 symbols.",
+                    "steps": [
+                        {
+                            "label": "Frequency Count",
+                            "formula": "A=60\\%, B=30\\%, C=10\\%",
+                            "note": "'A' is the most common character."
+                        },
+                        {
+                            "label": "Assign Codes",
+                            "formula": "A=0, B=10, C=11",
+                            "note": "Common symbols get shorter codes."
+                        },
+                        {
+                            "label": "Average Length",
+                            "formula": "L = (0.6 \\times 1) + (0.3 \\times 2) + (0.1 \\times 2) = 1.4 \\text{ bits}",
+                            "note": "A fixed 2-bit code would use 2.0 bits."
+                        },
+                        {
+                            "label": "Space Saved",
+                            "formula": "\\text{Reduction} = 30\\%",
+                            "note": "Saving 0.6 bits per character (30% less space)."
+                        }
+                    ],
+                    "input": "Probabilities: [0.6, 0.3, 0.1]",
+                    "output": "Avg Length: 1.4 bits"
+                }
+            }
         },
         {
             "slideNumber": 5,

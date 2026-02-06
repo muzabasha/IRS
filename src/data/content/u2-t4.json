@@ -86,6 +86,52 @@
                     "Bit-level Compression: Variable Byte, Gamma/Delta codes.",
                     "Dictionary Compression: Front coding."
                 ]
+            },
+            "formula": {
+                "equation": "g_i = d_{i} - d_{i-1} \\quad \\text{where } d_0 = 0",
+                "description": "Delta Gaps (Gap Encoding) reduce the magnitude of numbers in a postings list by storing differences between consecutive document IDs rather than absolute values.",
+                "terms": [
+                    {
+                        "symbol": "d_i",
+                        "meaning": "The i-th Document ID in a sorted postings list"
+                    },
+                    {
+                        "symbol": "g_i",
+                        "meaning": "The gap (difference) to be stored in the compressed index"
+                    },
+                    {
+                        "symbol": "d_{i-1}",
+                        "meaning": "The previous Document ID in the list"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Gap Encoding Transformation",
+                    "description": "Compressing a postings list for a common term.",
+                    "steps": [
+                        {
+                            "label": "Sorted List",
+                            "formula": "D = [4500, 4503, 4510, 4525]",
+                            "note": "Document IDs are large (4 digits)."
+                        },
+                        {
+                            "label": "Calculate First Entry",
+                            "formula": "g_1 = 4500 - 0 = 4500",
+                            "note": "First entry is stored as is."
+                        },
+                        {
+                            "label": "Calculate Subsequent Gaps",
+                            "formula": "g_2=3, g_3=7, g_4=15",
+                            "note": "D-Gaps are 4503-4500, 4510-4503, etc."
+                        },
+                        {
+                            "label": "Compressed Sequence",
+                            "formula": "G = [4500, 3, 7, 15]",
+                            "note": "Smaller numbers require fewer bits to store."
+                        }
+                    ],
+                    "input": "[4500, 4503, 4510, 4525]",
+                    "output": "[4500, 3, 7, 15] (Compressed)"
+                }
             }
         },
         {

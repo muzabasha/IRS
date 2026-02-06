@@ -23,6 +23,52 @@
                     "Need for persistent search history",
                     "Importance of 'pivoting' on new keywords"
                 ]
+            },
+            "formula": {
+                "equation": "U_{total} = \\sum_{i=1}^{n} Gain(d_i) \\cdot P(r_i)",
+                "description": "The total utility of an information access process is the sum of relevant information (Gain) extracted from each document 'd' encountered on the search path.",
+                "terms": [
+                    {
+                        "symbol": "U_{total}",
+                        "meaning": "Cumulative utility/knowledge gained by the user"
+                    },
+                    {
+                        "symbol": "Gain(d_i)",
+                        "meaning": "New, non-redundant information found in document i"
+                    },
+                    {
+                        "symbol": "P(r_i)",
+                        "meaning": "Probability that the user actually reads/reaches document i"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Berry-Picking Utility",
+                    "description": "Calculating total knowledge gain from 3 partially relevant docs.",
+                    "steps": [
+                        {
+                            "label": "Document 1",
+                            "formula": "Gain=10, P=1.0",
+                            "note": "First doc seen, all info is new."
+                        },
+                        {
+                            "label": "Document 2",
+                            "formula": "Gain=5, P=0.8",
+                            "note": "Some info overlaps with Doc 1; 80% chance of reading."
+                        },
+                        {
+                            "label": "Document 3",
+                            "formula": "Gain=2, P=0.5",
+                            "note": "Mostly redundant; 50% chance user stopped before here."
+                        },
+                        {
+                            "label": "Total Utility",
+                            "formula": "U = (10 \\times 1) + (5 \\times 0.8) + (2 \\times 0.5) = 15",
+                            "note": "Synthesis of information across multiple encounters."
+                        }
+                    ],
+                    "input": "Gains:[10, 5, 2], Probs:[1.0, 0.8, 0.5]",
+                    "output": "Total Info Value: 15"
+                }
             }
         },
         {

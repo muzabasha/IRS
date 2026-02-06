@@ -20,6 +20,56 @@
             "content": {
                 "text": "Multimedia objects are stored as 'Feature Vectors'. We extract mathematical descriptors (colors, textures, audio frequencies) and represent them in a high-dimensional space.",
                 "hook": "The Semantic Gap: The difference between raw pixels (computer view) and concepts like 'A happy dog' (human view)."
+            },
+            "formula": {
+                "equation": "d(\\vec{x}, \\vec{y}) = \\sqrt{\\sum_{i=1}^{n} (x_i - y_i)^2}",
+                "description": "Euclidean Distance is the standard metric used to measure similarity between multimedia feature vectors in a multi-dimensional space.",
+                "terms": [
+                    {
+                        "symbol": "d(\\vec{x}, \\vec{y})",
+                        "meaning": "Euclidean distance between example vector x and database vector y"
+                    },
+                    {
+                        "symbol": "x_i",
+                        "meaning": "The i-th feature value of the query object (e.g., average red channel brightness)"
+                    },
+                    {
+                        "symbol": "y_i",
+                        "meaning": "The i-th feature value of the stored document"
+                    },
+                    {
+                        "symbol": "n",
+                        "meaning": "Number of dimensions (number of extracted features)"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Image Similarity Check",
+                    "description": "Comparing two images based on 2 color features: [Red, Green].",
+                    "steps": [
+                        {
+                            "label": "Extract Features",
+                            "formula": "Img_{Q} = [0.8, 0.2], Img_{D} = [0.7, 0.3]",
+                            "note": "Normalized color values (0-1 range)."
+                        },
+                        {
+                            "label": "Calculate Differences",
+                            "formula": "\\Delta R = 0.1, \\Delta G = -0.1",
+                            "note": "Subtracting corresponding features."
+                        },
+                        {
+                            "label": "Sum of Squares",
+                            "formula": "(0.1)^2 + (-0.1)^2 = 0.01 + 0.01 = 0.02",
+                            "note": "Squaring ensures positive values."
+                        },
+                        {
+                            "label": "Final Distance",
+                            "formula": "\\sqrt{0.02} \\approx 0.141",
+                            "note": "Lower distance means higher similarity."
+                        }
+                    ],
+                    "input": "Q:[0.8, 0.2], D:[0.7, 0.3]",
+                    "output": "Distance: 0.141"
+                }
             }
         },
         {

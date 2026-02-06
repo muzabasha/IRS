@@ -32,6 +32,52 @@
             "content": {
                 "text": "The web structure is a 'Directed Graph'. It follows a Power Law distribution (a few sites have millions of links; most have almost none).",
                 "hook": "The Bow-tie Structure of the Web: Strong Connected Component (SCC), IN, OUT, and Tendrils."
+            },
+            "formula": {
+                "equation": "P(k) \\propto k^{-\\gamma}",
+                "description": "Web growth follows a Power Law distribution, where the probability of a page having 'k' incoming links is proportional to k raised to a negative exponent (typically gamma is between 2 and 3).",
+                "terms": [
+                    {
+                        "symbol": "P(k)",
+                        "meaning": "Probability that a random page has exactly 'k' links"
+                    },
+                    {
+                        "symbol": "k",
+                        "meaning": "Number of links (degree of the node in the graph)"
+                    },
+                    {
+                        "symbol": "\\gamma",
+                        "meaning": "Power law exponent (indicates how fast the tail drops off)"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Link Distribution Estimation",
+                    "description": "Estimating relative frequency of high-link vs low-link pages.",
+                    "steps": [
+                        {
+                            "label": "Assume Exponent",
+                            "formula": "\\gamma = 2.0",
+                            "note": "Simplifying the model for calculation."
+                        },
+                        {
+                            "label": "Calculate P(10)",
+                            "formula": "10^{-2} = 0.01",
+                            "note": "A page with 10 links has a 1% probability."
+                        },
+                        {
+                            "label": "Calculate P(100)",
+                            "formula": "100^{-2} = 0.0001",
+                            "note": "A page with 100 links is 100x rarer than a page with 10."
+                        },
+                        {
+                            "label": "Ratio Analysis",
+                            "formula": "0.01 / 0.0001 = 100",
+                            "note": "The 'Long Tail' means most pages have extremely few links."
+                        }
+                    ],
+                    "input": "k:10 vs k:100, gamma:2",
+                    "output": "100x frequency difference"
+                }
             }
         },
         {

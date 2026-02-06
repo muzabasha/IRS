@@ -40,6 +40,52 @@
             "content": {
                 "text": "How systems help you ask. 1. Autocorrect/Suggest: Predictive typing. 2. Query expansion suggestions. 3. Filters during input (e.g. searching 'Movies' vs 'Actors').",
                 "hook": "A good specifier reduces the 'Gulf of Execution'."
+            },
+            "formula": {
+                "equation": "lev_{a,b}(i,j) = \\min \\begin{cases} lev_{a,b}(i-1,j) + 1 \\\\ lev_{a,b}(i,j-1) + 1 \\\\ lev_{a,b}(i-1,j-1) + [a_i \\neq b_j] \\end{cases}",
+                "description": "Levenshtein Distance (Edit Distance) calculates the number of insertions, deletions, or substitutions required to transform one string into another, enabling 'Did you mean?' suggestions.",
+                "terms": [
+                    {
+                        "symbol": "lev_{a,b}(i,j)",
+                        "meaning": "Edit distance between prefix of string 'a' and 'b'"
+                    },
+                    {
+                        "symbol": "i-1, j-1",
+                        "meaning": "Recursive subproblems (smaller prefixes)"
+                    },
+                    {
+                        "symbol": "a_i \\neq b_j",
+                        "meaning": "Cost of 1 if characters differ (substitution), 0 if they match"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Autocorrect Case Study",
+                    "description": "Calculating distance between 'Kitten' and 'Sitting'.",
+                    "steps": [
+                        {
+                            "label": "Substitute K with S",
+                            "formula": "k \\to s",
+                            "note": "Cost = 1."
+                        },
+                        {
+                            "label": "Substitute e with i",
+                            "formula": "e \\to i",
+                            "note": "Cost = 1+1 = 2."
+                        },
+                        {
+                            "label": "Add g at end",
+                            "formula": "\\dots n \\to \\dots ng",
+                            "note": "Cost = 2+1 = 3."
+                        },
+                        {
+                            "label": "Final Distance",
+                            "formula": "Dist = 3",
+                            "note": "System suggests 'Sitting' if distance is below threshold."
+                        }
+                    ],
+                    "input": "a:'kitten', b:'sitting'",
+                    "output": "Edit Distance: 3"
+                }
             }
         },
         {

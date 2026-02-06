@@ -102,6 +102,60 @@
             "content": {
                 "text": "The core intelligence of the system. It calculates a score for each document (Sim(q, d)) indicating how well it matches the query.",
                 "hook": "Ranking is what separates a search engine from a database."
+            },
+            "formula": {
+                "equation": "J(A, B) = \\frac{|A \\cap B|}{|A \\cup B|} = \\frac{|A \\cap B|}{|A| + |B| - |A \\cap B|}",
+                "description": "The Jaccard Coefficient is a simple set-theoretic measure of similarity between a query and a document.",
+                "terms": [
+                    {
+                        "symbol": "J(A, B)",
+                        "meaning": "Jaccard similarity score (range: 0 to 1)"
+                    },
+                    {
+                        "symbol": "A",
+                        "meaning": "The set of unique terms in Document A"
+                    },
+                    {
+                        "symbol": "B",
+                        "meaning": "The set of unique terms in Query B"
+                    },
+                    {
+                        "symbol": "|A \\cap B|",
+                        "meaning": "Number of terms present in both the document and the query"
+                    },
+                    {
+                        "symbol": "|A \\cup B|",
+                        "meaning": "Total number of unique terms in the combination of document and query"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Set-Theoretic Matching",
+                    "description": "Comparing a query 'blue sky' with a document.",
+                    "steps": [
+                        {
+                            "label": "Tokenize Input",
+                            "formula": "Q = \\{blue, sky\\}, D = \\{sky, clear, sunny\\}",
+                            "note": "Document mentions sky but not blue."
+                        },
+                        {
+                            "label": "Calculate Intersection",
+                            "formula": "|Q \\cap D| = |\\{sky\\}| = 1",
+                            "note": "They share 1 word."
+                        },
+                        {
+                            "label": "Calculate Union",
+                            "formula": "|Q \\cup D| = |\\{blue, sky, clear, sunny\\}| = 4",
+                            "note": "There are 4 unique words total."
+                        },
+                        {
+                            "label": "Jaccard Score",
+                            "formula": "J = \\frac{1}{4} = 0.25",
+                            "note": "Similarity is 25%."
+                        }
+                    ],
+                    "input": "Q:2 terms, D:3 terms, Overlap:1",
+                    "output": "Sim: 0.25"
+                }
             }
         },
         {

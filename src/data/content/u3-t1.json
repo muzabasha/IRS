@@ -24,6 +24,56 @@
                     "Cognitive load reduction",
                     "Iterative design cycles"
                 ]
+            },
+            "formula": {
+                "equation": "T = a + b \\log_2 \\left( 1 + \\frac{D}{W} \\right)",
+                "description": "Fitts's Law predicts the time (T) required to move to a target (like a search button), helping designers optimize button size and placement for faster search interactions.",
+                "terms": [
+                    {
+                        "symbol": "T",
+                        "meaning": "Mean time to complete the movement"
+                    },
+                    {
+                        "symbol": "D",
+                        "meaning": "Distance from the starting point to the target"
+                    },
+                    {
+                        "symbol": "W",
+                        "meaning": "Width of the target (size along the axis of movement)"
+                    },
+                    {
+                        "symbol": "a, b",
+                        "meaning": "Empirical constants depending on the device"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Search Button Placement",
+                    "description": "Comparing the efficiency of two search button sizes.",
+                    "steps": [
+                        {
+                            "label": "Define distance",
+                            "formula": "D = 500 \\text{ pixels}",
+                            "note": "Cursor starts 500px away from the search bar."
+                        },
+                        {
+                            "label": "Scenario A: Small Button",
+                            "formula": "W = 10, ID = \\log_2(1+50) \\approx 5.6",
+                            "note": "Narrow buttons take significantly more effort to hit."
+                        },
+                        {
+                            "label": "Scenario B: Large Button",
+                            "formula": "W = 50, ID = \\log_2(1+10) \\approx 3.5",
+                            "note": "A 5x larger button is 37% easier to target."
+                        },
+                        {
+                            "label": "Performance Boost",
+                            "formula": "\\Delta T = b \\times (5.6 - 3.5) = 2.1b",
+                            "note": "Users reach larger search bars significantly faster."
+                        }
+                    ],
+                    "input": "D:500, W1:10, W2:50",
+                    "output": "Index of Difficulty reduction: 37%"
+                }
             }
         },
         {

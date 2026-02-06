@@ -74,7 +74,30 @@
                         "symbol": "\\sum \\vec{d}_j / |D_r|",
                         "meaning": "Centroid (average vector) of relevant documents"
                     }
-                ]
+                ],
+                "calculation": {
+                    "exampleTitle": "Query Vector Update",
+                    "description": "Adjusting a 1D query weight based on one relevant result.",
+                    "steps": [
+                        {
+                            "label": "Input Vectors",
+                            "formula": "q_0 = 0.5, d_{rel} = 1.0, d_{non} = 0.0",
+                            "note": "Initial query is weak (0.5), relevant doc is strong (1.0)."
+                        },
+                        {
+                            "label": "Apply Rocchio",
+                            "formula": "q_m = (1.0 \\times 0.5) + (0.75 \\times 1.0) - (0.15 \\times 0.0)",
+                            "note": "Adding 75% of relevant doc's profile."
+                        },
+                        {
+                            "label": "Final Weight",
+                            "formula": "q_m = 0.5 + 0.75 = 1.25",
+                            "note": "New query puts more trust in the topic."
+                        }
+                    ],
+                    "input": "q0:0.5, d_rel:1.0, alpha:1, beta:0.75",
+                    "output": "New Weight: 1.25"
+                }
             }
         },
         {

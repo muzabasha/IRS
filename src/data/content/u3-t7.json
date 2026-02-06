@@ -32,6 +32,52 @@
                 "text": "The shift from 'query-response' to 'turn-taking dialogue'. The system maintains state and context over multiple exchanges.",
                 "problem": "Trust and Hallucination. If the interface is too human-like, users may trust it too much when it's wrong."
             },
+            "formula": {
+                "equation": "\\text{Sim}(Q_{curr}, Q_{prev}) = \\frac{\\sum A_i B_i}{\\sqrt{\\sum A_i^2} \\sqrt{\\sum B_i^2}}",
+                "description": "Conversational systems use Cosine Similarity between the current query vector and previous dialogue turns to determine if the user is still on the same topic or has shifted intent.",
+                "terms": [
+                    {
+                        "symbol": "Q_{curr}",
+                        "meaning": "Vector representation of the current user utterance"
+                    },
+                    {
+                        "symbol": "Q_{prev}",
+                        "meaning": "Context vector representing previous turns in the session"
+                    },
+                    {
+                        "symbol": "\\text{Sim}",
+                        "meaning": "Similarity score (1.0 = same topic, 0.0 = completely new topic)"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Topic Shift Detection",
+                    "description": "Comparing a follow-up query to the session context.",
+                    "steps": [
+                        {
+                            "label": "Turn 1",
+                            "formula": "Q_1 = [1, 0] \\text{ (Topic: AI)}",
+                            "note": "User asks about Artificial Intelligence."
+                        },
+                        {
+                            "label": "Turn 2",
+                            "formula": "Q_2 = [0.9, 0.1] \\text{ (Topic: ML)}",
+                            "note": "User asks about Machine Learning (very similar)."
+                        },
+                        {
+                            "label": "Similarity Score",
+                            "formula": "\\text{Sim} = 0.95",
+                            "note": "High similarity; system keeps the 'AI' context active."
+                        },
+                        {
+                            "label": "Turn 3",
+                            "formula": "Q_3 = [0.1, 0.9] \\text{ (Topic: Cooking)}",
+                            "note": "User suddenly asks about a recipe."
+                        }
+                    ],
+                    "input": "Q1:[1,0], Q2:[0.9, 0.1]",
+                    "output": "Action: Maintain Context"
+                }
+            },
             "subTopics": [
                 {
                     "title": "Topic Mastery: State Management",

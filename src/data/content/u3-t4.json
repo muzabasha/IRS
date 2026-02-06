@@ -29,6 +29,60 @@
             "content": {
                 "text": "How systems learn what is good. 1. Explicit Feedback: Users marking results. 2. Implicit Feedback: Click-through rate, dwell time, bookmarking, purchasing.",
                 "hook": "Implicit signals are the goldmine of modern search engines."
+            },
+            "formula": {
+                "equation": "\\vec{q}_m = \\alpha \\vec{q}_0 + \\beta \\frac{1}{|D_r|} \\sum_{d_j \\in D_r} \\vec{d}_j - \\gamma \\frac{1}{|D_{nr}|} \\sum_{d_j \\in D_{nr}} \\vec{d}_j",
+                "description": "The Rocchio Algorithm is the classic method for implementing relevance feedback by adjusting the query vector towards relevant documents and away from non-relevant ones.",
+                "terms": [
+                    {
+                        "symbol": "\\vec{q}_m",
+                        "meaning": "Modified Query vector - the improved query after feedback"
+                    },
+                    {
+                        "symbol": "\\vec{q}_0",
+                        "meaning": "Original Query vector - the user's initial search"
+                    },
+                    {
+                        "symbol": "D_r",
+                        "meaning": "Set of documents marked as Relevant by the user"
+                    },
+                    {
+                        "symbol": "D_{nr}",
+                        "meaning": "Set of documents marked as Non-Relevant"
+                    },
+                    {
+                        "symbol": "\\alpha, \\beta, \\gamma",
+                        "meaning": "Weights (Tuning parameters) - typically alpha=1, beta=0.75, gamma=0.25"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Query Refinement (Rocchio)",
+                    "description": "Adjusting a 1D query vector based on one relevant and one non-relevant document.",
+                    "steps": [
+                        {
+                            "label": "Initial State",
+                            "formula": "q_0 = 1.0, d_{rel} = 5.0, d_{non} = 0.0",
+                            "note": "Query is weak, document is strong in target topic."
+                        },
+                        {
+                            "label": "Apply Weights",
+                            "formula": "\\alpha=1, \\beta=0.8, \\gamma=0.2",
+                            "note": "We trust positive feedback more than negative."
+                        },
+                        {
+                            "label": "Calculate Vector Shift",
+                            "formula": "q_m = (1 \\times 1.0) + (0.8 \\times 5.0) - (0.2 \\times 0.0)",
+                            "note": "Shifting query towards relevant document."
+                        },
+                        {
+                            "label": "Final Query",
+                            "formula": "q_m = 1.0 + 4.0 = 5.0",
+                            "note": "The new query is much closer to the relevant document's profile."
+                        }
+                    ],
+                    "input": "q0:1, d_rel:5, d_nr:0",
+                    "output": "New Query: 5.0"
+                }
             }
         },
         {
