@@ -36,6 +36,22 @@ export function Sidebar({ className }: { className?: string }) {
         </div>
         <div className="px-4 flex-1 overflow-auto py-2">
           <div className="mb-4">
+            <h3 className="px-2 text-xs font-medium text-muted-foreground mb-2">QUICK LINKS</h3>
+            <div className="space-y-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-full justify-start font-normal text-xs h-auto py-1.5 text-muted-foreground hover:text-foreground"
+                asChild
+              >
+                <Link href="/instructor">
+                  <span className="text-lg leading-none mr-2">👨‍🏫</span>
+                  <span>Instructor Profile</span>
+                </Link>
+              </Button>
+            </div>
+          </div>
+          <div className="mb-4">
             <h3 className="px-2 text-xs font-medium text-muted-foreground mb-2">COURSE MODULES</h3>
             <Accordion type="single" collapsible className="w-full" defaultValue="unit-1">
               {syllabus.units.map((unit) => (
