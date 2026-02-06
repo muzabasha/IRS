@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Search, BookOpen, Menu, GraduationCap } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Sidebar } from "@/components/sidebar"
 
@@ -11,7 +12,7 @@ export function SiteHeader() {
                 <div className="md:hidden mr-2">
                     <Sheet>
                         <SheetTrigger asChild>
-                            <Button variant="ghost" size="icon" className="md:hidden">
+                            <Button variant="ghost" size="icon" className="md:hidden h-9 w-9">
                                 <Menu className="h-5 w-5" />
                                 <span className="sr-only">Toggle menu</span>
                             </Button>
@@ -37,13 +38,20 @@ export function SiteHeader() {
                 </div>
                 <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
                     <div className="w-full flex-1 md:w-auto md:flex-none">
-                        {/* Search placeholder */}
+                        <div className="relative w-full md:w-64 hidden sm:block">
+                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                            <Input
+                                type="search"
+                                placeholder="Search topics..."
+                                className="pl-9 h-9 bg-muted/40 border-muted-foreground/10 focus-visible:bg-background transition-colors"
+                            />
+                        </div>
                     </div>
                     <nav className="flex items-center gap-2">
-                        <div className="text-sm font-medium hidden sm:block whitespace-nowrap">
+                        <div className="text-sm font-medium hidden lg:block whitespace-nowrap">
                             Dr. Syed Muzamil Basha
                         </div>
-                        <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0">
+                        <div className="h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 ring-2 ring-background border border-primary/20">
                             <span className="text-xs font-bold">SMB</span>
                         </div>
                     </nav>

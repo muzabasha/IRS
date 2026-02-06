@@ -9,13 +9,13 @@ export default function Home() {
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
             {/* Hero Section */}
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/10 via-primary/5 to-background border border-primary/10 p-8 md:p-12 shadow-sm">
+            <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-primary/10 via-primary/5 to-background border border-primary/10 p-6 sm:p-8 md:p-12 shadow-sm">
                 <div className="relative z-10 flex flex-col items-start gap-4 max-w-2xl">
                     <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
                         <Sparkles className="mr-1 h-3 w-3" />
                         Welcome back
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
                         Ready to master Information Retrieval?
                     </h1>
                     <p className="text-lg text-muted-foreground/90 leading-relaxed">
@@ -171,7 +171,7 @@ export default function Home() {
                         </div>
                     </CardContent>
                     <div className="p-6 pt-0 mt-auto">
-                        <div className="rounded-xl bg-gradient-to-r from-violet-600/10 to-indigo-600/10 p-4 border border-violet-500/20">
+                        <div className="rounded-xl bg-linear-to-r from-violet-600/10 to-indigo-600/10 p-4 border border-violet-500/20">
                             <p className="text-xs text-muted-foreground mb-2">Need help?</p>
                             <h4 className="text-sm font-semibold mb-2 text-violet-700 dark:text-violet-300">Access the AI Tutor</h4>
                             <p className="text-xs text-muted-foreground mb-3">Get instant answers to your IR questions.</p>

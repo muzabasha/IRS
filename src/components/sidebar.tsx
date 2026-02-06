@@ -41,7 +41,7 @@ export function Sidebar({ className }: { className?: string }) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="w-full justify-start font-normal text-xs h-auto py-1.5 text-muted-foreground hover:text-foreground"
+                className="w-full justify-start font-normal text-sm h-auto py-2 text-muted-foreground hover:text-foreground"
                 asChild
               >
                 <Link href="/instructor">
@@ -69,7 +69,7 @@ export function Sidebar({ className }: { className?: string }) {
                             variant={isActive ? "secondary" : "ghost"}
                             size="sm"
                             className={cn(
-                              "w-full justify-start font-normal text-xs h-auto py-1.5 whitespace-normal text-left mb-0.5",
+                              "w-full justify-start font-normal text-sm h-auto py-2 whitespace-normal text-left mb-0.5",
                               isActive ? "bg-primary/10 text-primary hover:bg-primary/15" : "text-muted-foreground hover:text-foreground"
                             )}
                             asChild
@@ -88,7 +88,7 @@ export function Sidebar({ className }: { className?: string }) {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="w-full justify-start font-semibold text-xs text-primary/80 mt-2 hover:text-primary hover:bg-primary/5"
+                        className="w-full justify-start font-semibold text-sm text-primary/80 mt-2 hover:text-primary hover:bg-primary/5 py-2"
                         asChild
                       >
                         <Link href={`/unit/${unit.id}/assessment`}>

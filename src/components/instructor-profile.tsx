@@ -34,8 +34,8 @@ export function InstructorProfile() {
             url: 'https://www.researchgate.net/profile/Muzamil_Basha',
         },
         {
-            label: 'YouTube',
-            url: 'https://www.youtube.com/c/MuzamilBashaSM',
+            label: 'LinkedIn',
+            url: 'https://www.linkedin.com/in/muzamil-basha-syed-19612a25/',
         },
     ]
 
@@ -62,7 +62,7 @@ export function InstructorProfile() {
                         <div className="md:col-span-2 space-y-6">
                             {/* Header */}
                             <div className="space-y-2">
-                                <h1 className="text-4xl font-bold bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
+                                <h1 className="text-4xl font-bold bg-linear-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
                                     Dr. Syed Muzamil Basha
                                 </h1>
                                 <p className="text-lg text-primary font-semibold">
@@ -74,7 +74,7 @@ export function InstructorProfile() {
                             {/* Contact Information */}
                             <div className="space-y-3 bg-secondary/30 p-4 rounded-lg">
                                 <div className="flex items-start gap-3">
-                                    <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                                    <MapPin className="h-5 w-5 text-primary mt-0.5 shrink-0" />
                                     <div className="text-sm">
                                         <p className="font-medium">REVA University</p>
                                         <p className="text-muted-foreground">
@@ -84,14 +84,14 @@ export function InstructorProfile() {
                                 </div>
 
                                 <div className="flex items-center gap-3">
-                                    <Mail className="h-5 w-5 text-primary flex-shrink-0" />
+                                    <Mail className="h-5 w-5 text-primary shrink-0" />
                                     <a href="mailto:muzamilbasha.s@reva.edu.in" className="text-sm hover:text-primary transition-colors">
                                         muzamilbasha.s@reva.edu.in
                                     </a>
                                 </div>
 
                                 <div className="flex items-center gap-3">
-                                    <Phone className="h-5 w-5 text-primary flex-shrink-0" />
+                                    <Phone className="h-5 w-5 text-primary shrink-0" />
                                     <div className="text-sm space-y-1">
                                         <p>+91 8331977568</p>
                                         <p>+91 7259421438</p>
