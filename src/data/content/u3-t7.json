@@ -131,6 +131,17 @@
         },
         {
             "slideNumber": 6,
+            "type": "python_demo",
+            "title": "Python Demo: Interest Profile Modeling",
+            "content": {
+                "code": "def update_user_profile(profile, category_clicked, learning_rate=0.1):\n    # Re-weight user interests based on behavior\n    for cat in profile:\n        if cat == category_clicked:\n            profile[cat] += learning_rate * (1 - profile[cat])\n        else:\n            profile[cat] -= learning_rate * profile[cat]\n    return {k: round(v, 3) for k, v in profile.items()}\n\ncurrent_profile = {'Tech': 0.7, 'Arts': 0.3}\nnew_profile = update_user_profile(current_profile, 'Arts')\nprint(f\"Updated Interest Profile: {new_profile}\")",
+                "input": "Profile: Tech(0.7), Arts(0.3). Event: Arts clicked.",
+                "output": "Updated Interest Profile: {'Tech': 0.63, 'Arts': 0.37}",
+                "interpretation": "Adaptive IR systems build models of user interests.\nWhen a user interacts with 'Arts' content, the system increases its weight in the profile.\nThis enables 'Personalized Search' where the same query returns different results for different users."
+            }
+        },
+        {
+            "slideNumber": 7,
             "type": "summary",
             "title": "Unit Wrap-up",
             "content": {

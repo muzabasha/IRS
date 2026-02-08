@@ -117,6 +117,17 @@
         },
         {
             "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Robots.txt Politeness",
+            "content": {
+                "code": "import time\n\ndef polite_fetch(url, last_hit_time, delay=1.0):\n    now = time.time()\n    elapsed = now - last_hit_time\n    if elapsed < delay:\n        wait = delay - elapsed\n        print(f\"Politeness active. Waiting {round(wait, 2)}s\")\n        time.sleep(wait)\n    return f\"Retrieved {url}\"\n\npolite_fetch(\"mysite.com\", time.time() - 0.5)",
+                "input": "Last hit: 0.5s ago, ReqDelay: 1s",
+                "output": "Politeness active. Waiting 0.5s\nRetrieved mysite.com",
+                "interpretation": "Crawlers must be 'Polite' to web servers.\nMaking too many requests too fast (DDOS) can get your IP banned.\nRespecting robots.txt and adding delays is the hallmark of a good bot."
+            }
+        },
+        {
+            "slideNumber": 8,
             "type": "summary",
             "title": "Wrap-up",
             "content": {

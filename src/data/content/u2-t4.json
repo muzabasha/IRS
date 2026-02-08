@@ -39,7 +39,7 @@
             }
         },
         {
-            "slideNumber": 3,
+            "slideNumber": 4,
             "type": "standard",
             "title": "Boolean Queries",
             "content": {
@@ -52,7 +52,7 @@
             }
         },
         {
-            "slideNumber": 4,
+            "slideNumber": 5,
             "type": "standard",
             "title": "Sequential Searching",
             "content": {
@@ -66,7 +66,7 @@
             }
         },
         {
-            "slideNumber": 5,
+            "slideNumber": 6,
             "type": "list",
             "title": "Pattern Matching & Structural Queries",
             "items": [
@@ -76,7 +76,7 @@
             ]
         },
         {
-            "slideNumber": 6,
+            "slideNumber": 7,
             "type": "standard",
             "title": "Index Compression",
             "content": {
@@ -135,7 +135,7 @@
             }
         },
         {
-            "slideNumber": 7,
+            "slideNumber": 8,
             "type": "activity",
             "title": "Activity: List Merge",
             "content": {
@@ -144,7 +144,7 @@
             }
         },
         {
-            "slideNumber": 8,
+            "slideNumber": 9,
             "type": "quiz",
             "title": "Topic Quiz",
             "questions": [
@@ -155,7 +155,18 @@
             ]
         },
         {
-            "slideNumber": 9,
+            "slideNumber": 10,
+            "type": "python_demo",
+            "title": "Python Demo: Rocchio Formula",
+            "content": {
+                "code": "def rocchio_update(q_old, rel_docs, non_rel_docs, alpha=1.0, beta=0.75, gamma=0.25):\n    # Simplified: Vector Addition\n    q_new = [alpha * x for x in q_old]\n    \n    # Add relevant influence\n    for doc in rel_docs:\n        q_new = [q + beta * d for q, d in zip(q_new, doc)]\n        \n    # Subtract non-relevant influence\n    for doc in non_rel_docs:\n        q_new = [q - gamma * d for q, d in zip(q_new, doc)]\n        \n    return [round(x, 2) for x in q_new]\n\nq = [1.0, 0.0]\nrel = [[0.8, 0.2]]\nnon = [[0.1, 0.9]]\n\nupdated = rocchio_update(q, rel, non)\nprint(f\"New Query Vector: {updated}\")",
+                "input": "Q:[1,0], Rel:[[0.8, 0.2]], Non:[[0.1, 0.9]]",
+                "output": "New Query Vector: [1.58, -0.07]",
+                "interpretation": "Rocchio moves the query vector closer to relevant docs and away from non-relevant ones.\nThe new vector [1.58, -0.07] has increased its first dimension (where the relevant doc was strong).\nThis is the mathematical basis for 'Relevance Feedback'."
+            }
+        },
+        {
+            "slideNumber": 11,
             "type": "summary",
             "title": "Unit Wrap-up",
             "content": {

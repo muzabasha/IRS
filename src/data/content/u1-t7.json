@@ -166,6 +166,17 @@
         },
         {
             "slideNumber": 11,
+            "type": "python_demo",
+            "title": "Python Demo: Fuzzy Set Matching",
+            "content": {
+                "code": "def fuzzy_score(membership_query, membership_doc):\n    # Fuzzy AND is MIN operator\n    return min(membership_query, membership_doc)\n\n# User wants 'highly relevant' (degree 0.9)\n# Doc has 'partial match' (degree 0.4)\nmatch = fuzzy_score(0.9, 0.4)\nprint(f\"Fuzzy Match Degree: {match}\")",
+                "input": "QueryDegree: 0.9, DocDegree: 0.4",
+                "output": "Fuzzy Match Degree: 0.4",
+                "interpretation": "Fuzzy retrieval moves beyond binary (0 or 1) matches.\nIt calculates a 'degree of membership'.\nIn this example, the resulting match is limited by the document's partial relevance (0.4)."
+            }
+        },
+        {
+            "slideNumber": 12,
             "type": "summary",
             "title": "Topic Wrap-up",
             "content": {

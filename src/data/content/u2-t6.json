@@ -143,6 +143,17 @@
         },
         {
             "slideNumber": 10,
+            "type": "python_demo",
+            "title": "Python Demo: Binary Independence Model",
+            "content": {
+                "code": "def calculate_rsv(p_rel, u_nonrel):\n    # Simplified Retrieval Status Value\n    import math\n    rsv = 0\n    for p, u in zip(p_rel, u_nonrel):\n        rsv += math.log( (p * (1-u)) / (u * (1-p)) )\n    return round(rsv, 3)\n\n# Term 1: p=0.8 (rel), u=0.1 (non-rel)\n# Term 2: p=0.7 (rel), u=0.2 (non-rel)\nstatus = calculate_rsv([0.8, 0.7], [0.1, 0.2])\nprint(f\"RSV Score: {status}\")",
+                "input": "P:[0.8, 0.7], U:[0.1, 0.2]",
+                "output": "RSV Score: 3.296",
+                "interpretation": "BIM calculates the log-odds of a document being relevant.\nIf a term appears frequently in relevant docs (High P) and rarely in non-relevant ones (Low U), the score increases.\nThis is the core of probabilistic retrieval theories."
+            }
+        },
+        {
+            "slideNumber": 11,
             "type": "summary",
             "title": "Topic Wrap-up",
             "content": {

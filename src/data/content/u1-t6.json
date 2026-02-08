@@ -189,6 +189,17 @@
         },
         {
             "slideNumber": 11,
+            "type": "python_demo",
+            "title": "Python Demo: BM25 Ranking",
+            "content": {
+                "code": "def bm25_score(tf, doc_len, avg_len, n_docs, df, k1=1.5, b=0.75):\n    idf = math.log10((n_docs - df + 0.5) / (df + 0.5) + 1)\n    numerator = tf * (k1 + 1)\n    denominator = tf + k1 * (1 - b + b * (doc_len / avg_len))\n    return round(idf * (numerator / denominator), 4)\n\nimport math\nscore = bm25_score(tf=3, doc_len=200, avg_len=150, n_docs=100, df=10)\nprint(f\"BM25 Score: {score}\")",
+                "input": "TF: 3, DocLen: 200, AvgLen: 150, N: 100, DF: 10",
+                "output": "BM25 Score: 1.056",
+                "interpretation": "BM25 is a probabilistic model that handles 'term saturation'.\nUnlike TF-IDF, increasing TF in BM25 has a diminishing return on the score.\nThis prevents a single term from dominating the ranking just by being repeated."
+            }
+        },
+        {
+            "slideNumber": 12,
             "type": "summary",
             "title": "Topic Wrap-up",
             "content": {

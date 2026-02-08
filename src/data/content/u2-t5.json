@@ -151,6 +151,17 @@
         },
         {
             "slideNumber": 10,
+            "type": "python_demo",
+            "title": "Python Demo: Thesaurus Expansion",
+            "content": {
+                "code": "thesaurus = {\n    \"car\": [\"automobile\", \"vehicle\", \"sedan\"],\n    \"fast\": [\"quick\", \"speedy\", \"rapid\"]\n}\n\ndef expand_query(query):\n    tokens = query.split()\n    expanded = []\n    for t in tokens:\n        expanded.append(t)\n        if t in thesaurus:\n            expanded.extend(thesaurus[t])\n    return \" \".join(expanded)\n\nq = \"fast car\"\nprint(f\"Original: {q}\")\nprint(f\"Expanded: {expand_query(q)}\")",
+                "input": "\"fast car\"",
+                "output": "Original: fast car\nExpanded: fast quick speedy rapid car automobile vehicle sedan",
+                "interpretation": "Global analysis uses external knowledge (thesaurus) to fix 'vocabulary mismatch'.\nBy expanding the query, the system can find a document about 'quick vehicles' even if the user typed 'fast car'.\nThis drastically improves Recall."
+            }
+        },
+        {
+            "slideNumber": 11,
             "type": "summary",
             "title": "Topic Wrap-up",
             "content": {

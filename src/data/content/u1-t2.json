@@ -188,6 +188,17 @@
         },
         {
             "slideNumber": 12,
+            "type": "python_demo",
+            "title": "Python Demo: Text Tokenization Pipeline",
+            "content": {
+                "code": "import re\n\ndef simple_tokenizer(text):\n    # 1. Lowercase\n    text = text.lower()\n    # 2. Remove punctuation using regex\n    text = re.sub(r'[^a-z0-9\\s]', '', text)\n    # 3. Split by whitespace\n    tokens = text.split()\n    return tokens\n\nraw_data = \"Hello, IR Student! Welcome to Unit 1: Introduction to IR.\"\nclean_tokens = simple_tokenizer(raw_data)\nprint(f\"Raw: {raw_data}\")\nprint(f\"Tokens: {clean_tokens}\")",
+                "input": "\"Hello, IR Student! Welcome to Unit 1: Introduction to IR.\"",
+                "output": "Raw: Hello, IR Student! Welcome to Unit 1: Introduction to IR.\nTokens: ['hello', 'ir', 'student', 'welcome', 'to', 'unit', '1', 'introduction', 'to', 'ir']",
+                "interpretation": "Tokenization is the first step in the retrieval process. \nBy converting text to lowercase and removing punctuation, we ensure that 'Hello,' and 'hello' are treated as the same index term.\nThis normalization is crucial for increasing the probability of a match between a query and a document."
+            }
+        },
+        {
+            "slideNumber": 13,
             "type": "summary",
             "title": "Topic Wrap-up",
             "content": {

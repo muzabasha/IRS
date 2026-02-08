@@ -93,7 +93,7 @@
             }
         },
         {
-            "slideNumber": 4,
+            "slideNumber": 5,
             "type": "grid",
             "title": "Visualization Support",
             "items": [
@@ -104,7 +104,7 @@
             ]
         },
         {
-            "slideNumber": 5,
+            "slideNumber": 6,
             "type": "activity",
             "title": "Activity: Feature Audit",
             "content": {
@@ -113,7 +113,7 @@
             }
         },
         {
-            "slideNumber": 6,
+            "slideNumber": 7,
             "type": "quiz",
             "title": "Topic Quiz",
             "questions": [
@@ -124,7 +124,18 @@
             ]
         },
         {
-            "slideNumber": 7,
+            "slideNumber": 8,
+            "type": "python_demo",
+            "title": "Python Demo: Dwell Time Analysis",
+            "content": {
+                "code": "def user_interest(dwell_seconds):\n    if dwell_seconds > 60:\n        return \"HIGH (Read fully)\"\n    elif dwell_seconds > 10:\n        return \"MEDIUM (Skimmed)\"\n    else:\n        return \"LOW (Bounce)\"\n\nprint(f\"Dwell 15s: {user_interest(15)}\")\nprint(f\"Dwell 5s: {user_interest(5)}\")",
+                "input": "15 seconds, 5 seconds",
+                "output": "Dwell 15s: MEDIUM (Skimmed)\nDwell 5s: LOW (Bounce)",
+                "interpretation": "Dwell time is an implicit feedback signal.\nIf a user stays on a page for 60s, we assume it was relevant.\nWe use this data to re-rank similar documents for others."
+            }
+        },
+        {
+            "slideNumber": 9,
             "type": "summary",
             "title": "Wrap-up",
             "content": {

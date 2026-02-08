@@ -119,6 +119,17 @@
         },
         {
             "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Query Reformulation Logic",
+            "content": {
+                "code": "def reformulate(initial, suggested_additions):\n    return f\"{initial} {' '.join(suggested_additions)}\"\n\nold_q = \"jaguar\"\nsuggested = [\"v8\", \"engine\", \"specs\"]\n\nnew_q = reformulate(old_q, suggested)\nprint(f\"New Query: {new_q}\")",
+                "input": "Old: 'jaguar', Add: ['v8', 'engine']",
+                "output": "New Query: jaguar v8 engine specs",
+                "interpretation": "Dynamic UI suggests terms to help users narrow their search.\nThis 'Interactive Feedback' reduces the cognitive load of thinking of keywords.\nIt guides the user from a generic concept to a specific need."
+            }
+        },
+        {
+            "slideNumber": 8,
             "type": "summary",
             "title": "Wrap-up",
             "content": {

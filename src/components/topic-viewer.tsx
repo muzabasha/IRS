@@ -16,6 +16,9 @@ import Link from "next/link"
 import 'katex/dist/katex.min.css'
 import katex from 'katex'
 
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
+
 interface Slide {
     slideNumber: number
     type: string
@@ -209,9 +212,16 @@ export function TopicViewer({ data }: { data: TopicData }) {
 function SlideContent({ slide }: { slide: Slide }) {
     const { type, content, items, questions, answers } = slide;
     const [showAnswer, setShowAnswer] = useState<Record<number, boolean>>({});
+    const [copied, setCopied] = useState(false);
 
     const toggleAnswer = (idx: number) => {
         setShowAnswer(prev => ({ ...prev, [idx]: !prev[idx] }));
+    };
+
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
     };
 
     // Helper to get answer from either slide root or content object
@@ -222,6 +232,94 @@ function SlideContent({ slide }: { slide: Slide }) {
     };
 
     switch (type) {
+        case "python_demo":
+            return (
+                <Card className="overflow-hidden border-blue-500/20 bg-slate-950 text-slate-50 shadow-2xl transition-all hover:shadow-blue-500/5 group/card">
+                    <div className="p-4 border-b border-white/10 flex items-center justify-between bg-white/5">
+                        <div className="flex items-center gap-2">
+                            <div className="flex gap-1.5 mr-2">
+                                <div className="h-3 w-3 rounded-full bg-red-500/40 group-hover/card:bg-red-500/70 transition-colors" />
+                                <div className="h-3 w-3 rounded-full bg-amber-500/40 group-hover/card:bg-amber-500/70 transition-colors" />
+                                <div className="h-3 w-3 rounded-full bg-emerald-500/40 group-hover/card:bg-emerald-500/70 transition-colors" />
+                            </div>
+                            <Terminal className="h-4 w-4 text-blue-400" />
+                            <span className="text-sm font-mono font-bold text-blue-300">implementation.py</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-7 px-2 text-[10px] text-slate-400 hover:text-white hover:bg-white/10"
+                                onClick={() => copyToClipboard(content.code)}
+                            >
+                                {copied ? (
+                                    <><CheckCircle className="h-3 w-3 mr-1 text-emerald-400" /> Copied</>
+                                ) : (
+                                    <><Terminal className="h-3 w-3 mr-1" /> Copy Code</>
+                                )}
+                            </Button>
+                            <Badge variant="outline" className="text-[10px] border-blue-500/30 text-blue-400/80 bg-blue-500/5 hidden sm:flex">
+                                Python 3.10+
+                            </Badge>
+                        </div>
+                    </div>
+                    <CardContent className="p-0">
+                        <div className="relative group">
+                            <SyntaxHighlighter
+                                language="python"
+                                style={vscDarkPlus}
+                                customStyle={{
+                                    margin: 0,
+                                    padding: '2rem',
+                                    fontSize: '0.95rem',
+                                    backgroundColor: 'transparent',
+                                    lineHeight: '1.6'
+                                }}
+                                showLineNumbers={true}
+                                lineNumberStyle={{ minWidth: '3em', paddingRight: '1em', color: '#4b5563', textAlign: 'right' }}
+                            >
+                                {content.code}
+                            </SyntaxHighlighter>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 border-t border-white/10 bg-white/[0.01]">
+                            <div className="p-6 border-b md:border-b-0 md:border-r border-white/10 space-y-4">
+                                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 flex items-center gap-2">
+                                    <div className="h-1.5 w-1.5 rounded-full bg-slate-600" /> Sample Input
+                                </h4>
+                                <pre className="text-xs font-mono text-slate-400 bg-black/40 p-4 rounded-xl border border-white/5 overflow-x-auto leading-relaxed">
+                                    {content.input}
+                                </pre>
+                            </div>
+                            <div className="p-6 space-y-4">
+                                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500 flex items-center gap-2">
+                                    <div className="h-1.5 w-1.5 rounded-full bg-blue-500" /> Execution Output
+                                </h4>
+                                <pre className="text-xs font-mono text-blue-300/90 bg-blue-500/5 p-4 rounded-xl border border-blue-500/10 overflow-x-auto leading-relaxed">
+                                    {content.output}
+                                </pre>
+                            </div>
+                        </div>
+
+                        {content.interpretation && (
+                            <div className="p-8 bg-linear-to-br from-blue-500/[0.07] to-indigo-500/[0.07] border-t border-white/10">
+                                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-400 mb-4 flex items-center gap-2">
+                                    <Lightbulb className="h-3.5 w-3.5" /> Logic Interpretation
+                                </h4>
+                                <div className="text-sm text-slate-300 leading-relaxed space-y-2">
+                                    {content.interpretation.split('\n').map((line: string, i: number) => (
+                                        <p key={i} className="flex gap-3">
+                                            <span className="text-blue-500/50 mt-1">•</span>
+                                            <span>{line}</span>
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+            )
+
         case "list":
         case "grid":
             return (

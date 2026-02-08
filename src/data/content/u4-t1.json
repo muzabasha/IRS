@@ -103,6 +103,17 @@
         },
         {
             "slideNumber": 6,
+            "type": "python_demo",
+            "title": "Python Demo: Seed-based Crawler Frontier",
+            "content": {
+                "code": "frontier = [\"http://google.com\", \"http://wikipedia.org\"]\nvisited = set()\n\ndef crawl_step():\n    if not frontier: return\n    url = frontier.pop(0)\n    if url in visited: return\n    \n    print(f\"Fetching: {url}\")\n    visited.add(url)\n    # Simulating found links\n    new_links = [url + \"/about\", url + \"/contact\"]\n    frontier.extend(new_links)\n\ncrawl_step()\nprint(f\"Frontier Size: {len(frontier)}\")",
+                "input": "Seeds: [google.com, wikipedia.org]",
+                "output": "Fetching: http://google.com\nFrontier Size: 3",
+                "interpretation": "Web Crawling starts with 'Seed' URLs.\nThe 'Frontier' (Queue) tracks what to visit next.\nWe use a 'Visited' set to avoid infinite loops between pages."
+            }
+        },
+        {
+            "slideNumber": 7,
             "type": "summary",
             "title": "Trends & Wrap-up",
             "content": {

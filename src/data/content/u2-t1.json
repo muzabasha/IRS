@@ -179,6 +179,17 @@
         },
         {
             "slideNumber": 9,
+            "type": "python_demo",
+            "title": "Python Demo: Morphological Analysis",
+            "content": {
+                "code": "def simple_stemmer(word):\n    suffixes = ['ing', 'ed', 'es', 's', 'ly']\n    for suffix in suffixes:\n        if word.endswith(suffix):\n            return word[:-len(suffix)]\n    return word\n\nwords = [\"fishing\", \"played\", \"cities\", \"quickly\"]\nstems = [simple_stemmer(w) for w in words]\nprint(f\"Stems: {stems}\")",
+                "input": "['fishing', 'played', 'cities', 'quickly']",
+                "output": "Stems: ['fish', 'play', 'citi', 'quick']",
+                "interpretation": "Stemming reduces words to their roots to improve recall.\nBy stripping suffixes, 'fishing' and 'fish' both map to the same index term.\nThis ensures a user searching for 'fish' finds documents about 'fishing'."
+            }
+        },
+        {
+            "slideNumber": 10,
             "type": "summary",
             "title": "Trends and Research Issues",
             "content": {

@@ -307,6 +307,17 @@
         },
         {
             "slideNumber": 19,
+            "type": "python_demo",
+            "title": "Python Demo: IR Metrics Calculation",
+            "content": {
+                "code": "def calculate_metrics(relevant_total, retrieved_total, relevant_retrieved):\n    precision = relevant_retrieved / retrieved_total if retrieved_total > 0 else 0\n    recall = relevant_retrieved / relevant_total if relevant_total > 0 else 0\n    f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0\n    return {\"Precision\": round(precision, 2), \"Recall\": round(recall, 2), \"F1\": round(f1, 2)}\n\n# Case Study: Collection of 100 documents\n# 20 are relevant, system retrieved 30, and 15 of them were relevant\nstats = calculate_metrics(relevant_total=20, retrieved_total=30, relevant_retrieved=15)\nprint(f\"Evaluation Results: {stats}\")",
+                "input": "RelevantDocs = 20\nRetrievedDocs = 30\nRelevantHits = 15",
+                "output": "Evaluation Results: {'Precision': 0.5, 'Recall': 0.75, 'F1': 0.6}",
+                "interpretation": "This script automates the evaluation of an IR system. \nPrecision (0.5) tells us that 50% of the results shown to the user are relevant.\nRecall (0.75) tells us that the system successfully found 75% of all existing relevant documents.\nThe F1-Score (0.6) provides a balanced harmonic mean of both metrics."
+            }
+        },
+        {
+            "slideNumber": 20,
             "type": "exam",
             "title": "Model Examination Questions",
             "questions": [
@@ -316,7 +327,7 @@
             ]
         },
         {
-            "slideNumber": 20,
+            "slideNumber": 21,
             "type": "summary",
             "title": "Plan for Next Class",
             "content": {

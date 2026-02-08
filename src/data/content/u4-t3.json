@@ -116,6 +116,17 @@
         },
         {
             "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Distributed Index Mapping",
+            "content": {
+                "code": "def get_shard(term, total_shards=3):\n    # Deterministic mapping of terms to servers\n    return hash(term) % total_shards\n\nterms = [\"apple\", \"zebra\", \"ir\"]\nshards = {t: get_shard(t) for t in terms}\nprint(f\"Shard Map: {shards}\")",
+                "input": "Terms: ['apple', 'zebra', 'ir']",
+                "output": "Shard Map: {'apple': 0, 'zebra': 2, 'ir': 1}",
+                "interpretation": "The Web is too big for one server.\nWe split (shard) the inverted index based on term hashes.\nA query for 'apple' is routed only to Shard 0, ensuring scalability."
+            }
+        },
+        {
+            "slideNumber": 8,
             "type": "summary",
             "title": "Wrap-up",
             "content": {

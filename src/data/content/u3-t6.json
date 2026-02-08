@@ -113,6 +113,17 @@
         },
         {
             "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Search Log Analysis",
+            "content": {
+                "code": "def analyze_logs(logs):\n    # Extract top queries from search logs\n    query_freq = {}\n    for entry in logs:\n        q = entry['query'].lower()\n        query_freq[q] = query_freq.get(q, 0) + 1\n    return dict(sorted(query_freq.items(), key=lambda x: x[1], reverse=True))\n\nlogs = [\n    {'user': '1', 'query': 'IR models'},\n    {'user': '2', 'query': 'Python'},\n    {'user': '3', 'query': 'IR models'},\n    {'user': '4', 'query': 'Vector Space'}\n]\n\nprint(f\"Query Trends: {analyze_logs(logs)}\")",
+                "input": "Logs: 4 entries with recurring queries",
+                "output": "Query Trends: {'ir models': 2, 'python': 1, 'vector space': 1}",
+                "interpretation": "Case studies often involve analyzing real-world search logs.\nThis script identifies trending topics by counting query frequencies.\nSystems use this data to pre-cache popular results and suggest 'hot' terms."
+            }
+        },
+        {
+            "slideNumber": 8,
             "type": "summary",
             "title": "Unit Wrap-up",
             "content": {

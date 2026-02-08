@@ -104,6 +104,17 @@
         },
         {
             "slideNumber": 6,
+            "type": "python_demo",
+            "title": "Python Demo: Question Answering Logic",
+            "content": {
+                "code": "def answer_question(query, candidates):\n    # Simple keyword overlap for QA\n    q_words = set(query.lower().split())\n    scores = []\n    for c in candidates:\n        overlap = len(q_words & set(c.lower().split()))\n        scores.append((overlap, c))\n    return sorted(scores, reverse=True)[0][1]\n\nquestion = \"Who founded Google?\"\nkb = [\"Google was founded by Larry Page.\", \"IR is a field.\"]\nprint(f\"Answer: {answer_question(question, kb)}\")",
+                "input": "Q: 'Who founded Google?', KB: [..., ...]",
+                "output": "Answer: Google was founded by Larry Page.",
+                "interpretation": "QA systems try to find the specific fact, not just documents.\nBy matching question words against a knowledge base, it extracts the most likely candidate.\nThis is the technology behind Alexa and Siri."
+            }
+        },
+        {
+            "slideNumber": 7,
             "type": "summary",
             "title": "Course Wrap-up",
             "content": {

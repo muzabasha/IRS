@@ -282,6 +282,17 @@
         },
         {
             "slideNumber": 13,
+            "type": "python_demo",
+            "title": "Python Demo: Model Comparison",
+            "content": {
+                "code": "def boolean_match(query_terms, doc_terms):\n    return set(query_terms).issubset(set(doc_terms))\n\nquery = ['information', 'retrieval']\ndoc1 = ['this', 'is', 'an', 'information', 'retrieval', 'system']\ndoc2 = ['only', 'information', 'here']\n\nprint(f\"Doc 1 Match: {boolean_match(query, doc1)}\")\nprint(f\"Doc 2 Match: {boolean_match(query, doc2)}\")",
+                "input": "Query: ['information', 'retrieval']\nDoc1: [...information, retrieval...]\nDoc2: [...information...]",
+                "output": "Doc 1 Match: True\nDoc 2 Match: False",
+                "interpretation": "This demonstrates the strict Boolean model. \nDoc 1 matches because it contains ALL query terms.\nDoc 2 fails (False) because it is missing the term 'retrieval'.\nThis 'all-or-nothing' approach is the baseline for IR models."
+            }
+        },
+        {
+            "slideNumber": 14,
             "type": "summary",
             "title": "Topic Wrap-up",
             "content": {

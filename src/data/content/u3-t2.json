@@ -117,6 +117,17 @@
         },
         {
             "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: K-Means Clustering",
+            "content": {
+                "code": "import random\n\ndef mock_cluster(docs, k=2):\n    # Simplified: Random assignment for demo\n    clusters = {i: [] for i in range(k)}\n    for d in docs:\n        clusters[random.randint(0, k-1)].append(d)\n    return clusters\n\ndoc_list = [\"Python basics\", \"Java guide\", \"Snake care\", \"C++ manual\"]\nprint(f\"Clusters: {mock_cluster(doc_list)}\")",
+                "input": "['Python basics', 'Java guide', 'Snake care', 'C++ manual']",
+                "output": "Clusters: {0: ['Python basics', 'C++ manual'], 1: ['Java guide', 'Snake care']}",
+                "interpretation": "Clustering groups results into folders (e.g., Programming vs Biology).\nEven with simple logic, it helps organize overwhelming result sets.\nModern IR uses K-Means or Hierarchical clustering for 'Result-Set Organization'."
+            }
+        },
+        {
+            "slideNumber": 8,
             "type": "summary",
             "title": "Wrap-up",
             "content": {

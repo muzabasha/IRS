@@ -107,6 +107,17 @@
         },
         {
             "slideNumber": 6,
+            "type": "python_demo",
+            "title": "Python Demo: Key-Word In Context (KWIC)",
+            "content": {
+                "code": "def generate_snippet(text, query, window=5):\n    pos = text.lower().find(query.lower())\n    if pos == -1: return text[:50] + \"...\"\n    \n    start = max(0, pos - window*10)\n    end = min(len(text), pos + len(query) + window*10)\n    \n    snippet = text[start:end]\n    return f\"...{snippet}...\"",
+                "input": "Text: 'IR is the science of searching for info. It covers indexing and ranking.'\nQuery: 'searching'",
+                "output": "...science of searching for info. It c...",
+                "interpretation": "A good UI provides 'Snippets' to help the user judge relevance quickly.\nThis script extracts text around the keyword to show context.\nIn a real app, 'searching' would be wrapped in <b> tags."
+            }
+        },
+        {
+            "slideNumber": 7,
             "type": "summary",
             "title": "Wrap-up",
             "content": {

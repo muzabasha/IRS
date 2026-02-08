@@ -142,6 +142,17 @@
         },
         {
             "slideNumber": 9,
+            "type": "python_demo",
+            "title": "Python Demo: Cosine Similarity",
+            "content": {
+                "code": "import math\n\ndef cosine_sim(v1, v2):\n    dot = sum(a*b for a, b in zip(v1, v2))\n    norm1 = math.sqrt(sum(a*a for a in v1))\n    norm2 = math.sqrt(sum(b*b for b in v2))\n    return dot / (norm1 * norm2) if norm1*norm2 > 0 else 0\n\nq = [1, 0, 1]\nd = [1, 1, 0]\n\nsim = cosine_sim(q, d)\nprint(f\"Similarity: {round(sim, 3)}\")",
+                "input": "Query: [1, 0, 1]\nDoc: [1, 1, 0]",
+                "output": "Similarity: 0.5",
+                "interpretation": "Cosine similarity measures the angle between vectors.\nA score of 0.5 means the query and document vectors are 60 degrees apart.\nThis is the standard ranking metric for the Vector Space Model."
+            }
+        },
+        {
+            "slideNumber": 10,
             "type": "summary",
             "title": "Wrap-up",
             "content": {

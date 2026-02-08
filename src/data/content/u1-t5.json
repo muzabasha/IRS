@@ -185,6 +185,17 @@
         },
         {
             "slideNumber": 11,
+            "type": "python_demo",
+            "title": "Python Demo: TF-IDF Weighting",
+            "content": {
+                "code": "import math\n\ndef calculate_tfidf(tf, df, total_docs):\n    idf = math.log10(total_docs / df)\n    return round(tf * idf, 4)\n\n# Term 'retrieval' in a doc\ntf = 5\ndf = 10\nN = 1000\n\nweight = calculate_tfidf(tf, df, N)\nprint(f\"TF-IDF Weight: {weight}\")",
+                "input": "TF: 5 (freq in doc)\nDF: 10 (docs with term)\nN: 1000 (total docs)",
+                "output": "TF-IDF Weight: 10.0",
+                "interpretation": "TF-IDF balances term frequency and rarity.\nTerms that appear often in one doc but rarely in others (low DF) get high weights.\nThis allows the Vector Space Model to rank specific documents higher than generic ones."
+            }
+        },
+        {
+            "slideNumber": 12,
             "type": "summary",
             "title": "Topic Wrap-up",
             "content": {

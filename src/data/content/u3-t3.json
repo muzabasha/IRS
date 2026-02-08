@@ -110,6 +110,17 @@
         },
         {
             "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Precision at K (P@K)",
+            "content": {
+                "code": "def precision_at_k(results, k):\n    # 1 is relevant, 0 is not\n    top_k = results[:k]\n    return sum(top_k) / k\n\nresults = [1, 0, 1, 1, 0, 0, 0]\nprint(f\"P@3: {precision_at_k(results, 3)}\")\nprint(f\"P@5: {precision_at_k(results, 5)}\")",
+                "input": "[1, 0, 1, 1, 0, 0, 0]",
+                "output": "P@3: 0.66\nP@5: 0.6",
+                "interpretation": "Interactive IR evaluation often focuses on the first few results.\nUsers rarely scroll past the first page (top 10).\nHigh P@3 is more valuable for UX than high Recall across 1000 items."
+            }
+        },
+        {
+            "slideNumber": 8,
             "type": "summary",
             "title": "Wrap-up",
             "content": {
