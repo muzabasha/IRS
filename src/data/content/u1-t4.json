@@ -180,6 +180,44 @@
         },
         {
             "slideNumber": 12,
+            "type": "research_perspective",
+            "title": "Research Perspective: Cognitive Subjectivity & Fuzzy IR",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "Subjectivity of Relevance: Can membership functions effectively model the ambiguity of 'Relevance' better than binary set theory?",
+                        "answer": "Binary relevance (0 or 1) fails to capture how a user perceives information. Research in 'Vague IR' uses fuzzy membership functions where relevance is a continuous variable. The challenge lies in 'Fuzzification'—systematically defining the membership curves (Triangular, Gaussian) based on user behavior data to minimize the error between system ranking and human judgment."
+                    },
+                    {
+                        "question": "The P-Norm Parameterization: Is there a 'Universal Operator' that can switch between Boolean logic and Vector Space behavior?",
+                        "answer": "The Extended Boolean model's P-norm operator acts as a mathematical bridge. Research indicates that as p tends to infinity, the model converges to strict Boolean logic, while at p=1, it converges to a sum-based vector model. This allows for 'Query Optimization' where the system dynamically adjusts the p-value based on the user's observed intent (strict filtering vs exploratory browsing)."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling the Boolean interpretation of 'AND' and 'OR' in a fuzzy continuous space using p-norms.",
+                    "derivation": [
+                        {
+                            "step": "Define the Extended Boolean distance (similarity) from the ideal point (1, 1) for a query (A AND B).",
+                            "equation": "sim(D, q_{and}) = 1 - \\sqrt[p]{ \\frac{(1-x_a)^p + (1-x_b)^p}{2} }",
+                            "interpretation": "Similarity is measured as the complement of the normalized p-distance from the 'perfect match' point."
+                        },
+                        {
+                            "step": "Define the Extended Boolean distance (similarity) from the origin (0, 0) for a query (A OR B).",
+                            "equation": "sim(D, q_{or}) = \\sqrt[p]{ \\frac{x_a^p + x_b^p}{2} }",
+                            "interpretation": "Similarity is measured as the p-distance from the 'null match' point."
+                        },
+                        {
+                            "step": "Analyze the convergence behavior as p increases.",
+                            "equation": "\\lim_{p \\to \\infty} \\sqrt[p]{ \\frac{x_a^p + x_b^p}{2} } = \\max(x_a, x_b)",
+                            "interpretation": "Mathematically proves that the p-norm OR behaves exactly like a Fuzzy OR (Max) at high p values."
+                        }
+                    ],
+                    "conclusion": "Extended Boolean and Fuzzy models provided the first rigorous mathematical framework for handling the subjective nature of 'Best Match' retrieval, proving that logic and mathematics can be unified to handle human ambiguity."
+                }
+            }
+        },
+        {
+            "slideNumber": 13,
             "type": "summary",
             "title": "Topic Wrap-up",
             "content": {

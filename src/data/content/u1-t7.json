@@ -177,6 +177,44 @@
         },
         {
             "slideNumber": 12,
+            "type": "research_perspective",
+            "title": "Research Perspective: Granularity & Structural Reasoning",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "The Focused Retrieval Problem: How can a system determine the optimal 'Size' (Granularity) of a search result in structured text?",
+                        "answer": "When searching a large XML book, returning the whole book is too broad, but returning a single sentence is too narrow. Research in Focused Retrieval (INEX) focuses on 'Relevant Element Extraction'. This uses mathematical propagation techniques where the relevance score of a leaf node is 'bubbled up' to parent nodes, and the node with the highest 'Information Density' is selected as the result unit."
+                    },
+                    {
+                        "question": "Structural Context: To what extent does the tree-distance between terms impact the semantic interpretation of a query?",
+                        "answer": "In structured IR, terms 'A' and 'B' in the same section are more related than if they are in different chapters. Research models this using 'Tree Edit Distance' and 'LCA (Lowest Common Ancestor)' distance. The retrieval score is attenuated by a function of the path length between terms in the document hierarchy, ensuring that structural proximity mirrors semantic proximity."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling the relevance of a structural node based on the weighting and containment of terms.",
+                    "derivation": [
+                        {
+                            "step": "Define a Document as a Tree T = (V, E) and a query as a set of content-structure constraints.",
+                            "equation": "Score(v) = \\sum_{t \\in q} w(t, v) \\cdot \\Phi(v, query\\_tag)",
+                            "interpretation": "The score of node v depends on the content weight and a structural binary function that checks if v matches the requested tag (e.g., v=Section)."
+                        },
+                        {
+                            "step": "Model the 'Parent-Child' relevance propagation using an attenuation factor.",
+                            "equation": "Weight(parent) = \\sum_{child \\in children(parent)} \\gamma \\cdot Weight(child)",
+                            "interpretation": "Relevance scores are aggregated up the tree, but attenuated by \\gamma (0 < \\gamma < 1) to account for data dilution."
+                        },
+                        {
+                            "step": "Solve for the 'Optimal Retrieval Unit' (ORU) using the Information Gain per character.",
+                            "equation": "ORU = \\arg \\max_{v} \\frac{Score(v)}{Length(v)}",
+                            "interpretation": "The system chooses the node that provides the highest concentration of relevant keywords, avoiding long nodes with scattered matches."
+                        }
+                    ],
+                    "conclusion": "Structured IR demonstrates that Information Retrieval is a 2-dimensional problem: finding the right 'What' (content) in the right 'Where' (structure), proving that hierarchies define the boundaries of information utility."
+                }
+            }
+        },
+        {
+            "slideNumber": 13,
             "type": "summary",
             "title": "Topic Wrap-up",
             "content": {

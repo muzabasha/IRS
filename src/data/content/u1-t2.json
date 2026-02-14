@@ -199,6 +199,44 @@
         },
         {
             "slideNumber": 13,
+            "type": "research_perspective",
+            "title": "Research Perspective: The User-System Interaction Model",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "Cognitive Load vs. System Recall: Is there a mathematical upper bound to how many results a human can process before precision becomes irrelevant?",
+                        "answer": "Academic research in Interactive IR (IIR) utilizes 'Information Foraging Theory' to model users as optimal foragers. Mathematically, there is a 'diminishing returns' point where the cost of scanning (cognitive load) exceeds the expected gain in information. Advanced systems use this to dynamically truncate result lists or switch from ranking to summarization when confidence drops below a threshold."
+                    },
+                    {
+                        "question": "The Vocabulary Mismatch Problem: To what extent can automated query expansion solve semantic ambiguity without introducing 'Query Drift'?",
+                        "answer": "Query Drift occurs when expansion terms (synonyms) shift the query's meaning away from the original intent (e.g., expanding 'jaguar' to 'car' when the user wanted 'animal'). Research uses 'Pseudo-Relevance Feedback' models to measure the variance in term co-occurrence matrices, only expanding when the top-k results show high internal coherence."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling the Information Retrieval Process as a Markov Decision Process (MDP).",
+                    "derivation": [
+                        {
+                            "step": "Define the state S as the user's current knowledge state and the query representation.",
+                            "equation": "S_t = \\{Q_t, R_{1:t}, D_{1:t}\\}",
+                            "interpretation": "The state includes the current query, previous rewards (relevance), and viewed documents."
+                        },
+                        {
+                            "step": "Model the user's action A (reformulating or clicking) as a transition between states.",
+                            "equation": "P(S_{t+1} | S_t, A_t)",
+                            "interpretation": "Each search action changes the system's state and the user's understanding."
+                        },
+                        {
+                            "step": "Define the Value Function for an optimal search policy.",
+                            "equation": "V(s) = \\max_a \\sum_{s'} P(s'|s,a) [R(s,a,s') + \\gamma V(s')]",
+                            "interpretation": "The Bellman equation shows that a user chooses search actions to maximize the total 'Expected Information Gain'."
+                        }
+                    ],
+                    "conclusion": "Information Retrieval is not just a static match but a dynamic optimization problem where the 'Optimal Searcher' balances the exploration of new terms and exploitation of current high-ranking documents."
+                }
+            }
+        },
+        {
+            "slideNumber": 14,
             "type": "summary",
             "title": "Topic Wrap-up",
             "content": {

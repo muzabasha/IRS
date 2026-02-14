@@ -328,6 +328,44 @@
         },
         {
             "slideNumber": 21,
+            "type": "research_perspective",
+            "title": "Research Perspective: Theoretical Foundations of IR",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "How does the 'Semantic Gap' impact the theoretical bounds of retrieval precision in unstructured data?",
+                        "answer": "The Semantic Gap represents the disconnect between low-level data representations (tokens/pixels) and high-level human concepts. Research focuses on bridging this using Latent Semantic Indexing (LSI) and Neural Embeddings. It shifts the problem from exact term matching to 'Concept Matching', where the system must infer intent from latent relationships in a high-dimensional vector space."
+                    },
+                    {
+                        "question": "The problem of ad-hoc retrieval vs filtering: How do Bayesian models distinguish between static user profiles and dynamic information needs?",
+                        "answer": "Ad-hoc retrieval assumes a one-time search over a large collection, whereas filtering deals with incoming streams against a profile. Research models this using Bayesian Inference, where the 'Information Need' is a posterior probability distribution that is updated based on feedback. Filtering requires modeling 'Drift' in the user's profile over time."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling Information Overload as a Shannon Entropy problem in communication systems.",
+                    "derivation": [
+                        {
+                            "step": "Define the Document Collection as a source of information S.",
+                            "equation": "H(S) = -\\sum_{i=1}^{n} P(d_i) \\log_2 P(d_i)",
+                            "interpretation": "Entropy measures the uncertainty or 'surprise' in the collection. High entropy indicates lack of structure."
+                        },
+                        {
+                            "step": "Model the Retrieval process as a noise-reduction filter.",
+                            "equation": "I(Q; D) = H(D) - H(D|Q)",
+                            "interpretation": "Mutual Information I(Q;D) represents the amount of information the query Q provides about the relevant document D. We seek to maximize this."
+                        },
+                        {
+                            "step": "Derive the optimal filtering threshold using the Probability Ranking Principle.",
+                            "equation": "P(R=1|D, Q) > \\tau",
+                            "interpretation": "A document is retrieved only if the posterior probability of relevance exceeds a threshold defined by the cost of Type I vs Type II errors."
+                        }
+                    ],
+                    "conclusion": "The retrieval system is mathematically optimized when it minimizes the residual entropy of the collection relative to the query, fulfilling the user's information need with minimum cognitive load."
+                }
+            }
+        },
+        {
+            "slideNumber": 22,
             "type": "summary",
             "title": "Plan for Next Class",
             "content": {

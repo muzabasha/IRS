@@ -19,6 +19,7 @@ import {
     Home
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
 
 interface Question {
     id: number
@@ -48,16 +49,11 @@ export function QuizModule({ data }: { data: QuizData }) {
     const currentQuestion = data.questions[currentIndex]
     const progress = ((currentIndex) / data.questions.length) * 100
 
-    useEffect(() => {
-        if (gameState === 'playing' && startTime === 0) {
-            setStartTime(Date.now())
-        }
-        if (gameState === 'summary' && duration === 0) {
-            setDuration(Math.floor((Date.now() - startTime) / 1000))
-        }
-    }, [gameState])
 
-    const startQuiz = () => setGameState('playing')
+    const startQuiz = () => {
+        setGameState('playing')
+        setStartTime(Date.now())
+    }
 
     const handleSubmit = () => {
         if (selectedOption === null) return
@@ -79,6 +75,7 @@ export function QuizModule({ data }: { data: QuizData }) {
             setIsAnswered(false)
         } else {
             setGameState('summary')
+            setDuration(Math.floor((Date.now() - startTime) / 1000))
         }
     }
 
@@ -175,8 +172,8 @@ export function QuizModule({ data }: { data: QuizData }) {
                                         </h2>
                                         <p className="text-xl text-muted-foreground">
                                             {isPassed
-                                                ? `You've demonstrated a strong grasp of ${data.title.split(':')[0]}.`
-                                                : "You're close, but you need 70% to pass this module."}
+                                                ? `You&apos;ve demonstrated a strong grasp of ${data.title.split(':')[0]}.`
+                                                : "You&apos;re close, but you need 70% to pass this module."}
                                         </p>
                                     </div>
                                     <div className="flex flex-wrap gap-4 justify-center md:justify-start">
@@ -190,7 +187,7 @@ export function QuizModule({ data }: { data: QuizData }) {
                                     <div className="flex flex-col sm:flex-row gap-4">
                                         {isPassed ? (
                                             <Button size="lg" className="rounded-full px-8 bg-green-600 hover:bg-green-700" asChild>
-                                                <a href="/"><Home className="mr-2 h-4 w-4" /> Back to Dashboard</a>
+                                                <Link href="/"><Home className="mr-2 h-4 w-4" /> Back to Dashboard</Link>
                                             </Button>
                                         ) : (
                                             <Button size="lg" className="rounded-full px-8" onClick={() => window.location.reload()}>
@@ -198,7 +195,7 @@ export function QuizModule({ data }: { data: QuizData }) {
                                             </Button>
                                         )}
                                         <Button size="lg" variant="outline" className="rounded-full px-8" asChild>
-                                            <a href="#breakdown">View Breakdown</a>
+                                            <Link href="#breakdown">View Breakdown</Link>
                                         </Button>
                                     </div>
                                 </div>

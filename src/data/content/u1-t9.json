@@ -168,6 +168,44 @@
         },
         {
             "slideNumber": 11,
+            "type": "research_perspective",
+            "title": "Research Perspective: The Neural & Ethical Shift",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "Axiomatic IR: Can we mathematically define the 'Rules of Fairness' that a ranking algorithm must never break?",
+                        "answer": "Research in Axiomatic IR seeks to identify fundamental constraints (Axioms) that any reasonable retrieval model should satisfy (e.g., if we add more query terms to a document, its score should not decrease). As we move to 'Black Box' neural models, verifying these axioms becomes a critical research area to ensure predictable and explainable behavior."
+                    },
+                    {
+                        "question": "The Privacy Paradox: How can we achieve high personalization without compromising individual user anonymity?",
+                        "answer": "Modern research utilizes 'Differential Privacy' and 'Federated Learning'. Mathematically, we add calibrated noise to user profiles such that the system learns aggregate trends without being able to identify a single user's specific query history. The research challenge is the 'Utility-Privacy Tradeoff': more noise protects privacy but degrades retrieval precision."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling the 'Learning to Rank' (LTR) objective using Pairwise Cross-Entropy Loss.",
+                    "derivation": [
+                        {
+                            "step": "Define a pair of documents (d_i, d_j) where d_i is more relevant than d_j.",
+                            "equation": "h(d_i, d_j) = P(d_i \\succ d_j) = \\frac{1}{1 + e^{-(s_i - s_j)}}",
+                            "interpretation": "We model the probability that the system correctly ranks i above j as a logistic function of the score difference."
+                        },
+                        {
+                            "step": "Define the Binary Cross-Entropy loss for the entire ranking task.",
+                            "equation": "L = - \\sum_{(i,j) \\in S} \\log(P(d_i \\succ d_j))",
+                            "interpretation": "The model is optimized by minimizing the log-likelihood of incorrect rankings across all known preference pairs."
+                        },
+                        {
+                            "step": "Incorporate a 'Fairness Constraint' using a Lagrangian Multiplier.",
+                            "equation": "L_{total} = L + \\lambda \\cdot |Mean(s_{GroupA}) - Mean(s_{GroupB})|",
+                            "interpretation": "We penalize the model if the average scores for different demographic groups deviate significantly, enforcing statistical parity."
+                        }
+                    ],
+                    "conclusion": "The future of IR research lies at the intersection of Deep Learning and Ethics, where mathematical models must optimize not just for 'Relevance', but for 'Trustworthiness', 'Fairness', and 'Privacy'."
+                }
+            }
+        },
+        {
+            "slideNumber": 12,
             "type": "summary",
             "title": "Unit Wrap-up",
             "content": {

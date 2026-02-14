@@ -19,8 +19,8 @@ export default function Home() {
                         Ready to master Information Retrieval?
                     </h1>
                     <p className="text-lg text-muted-foreground/90 leading-relaxed">
-                        You're currently making great progress in <span className="font-semibold text-foreground">Unit 1</span>.
-                        Let's keep the momentum going!
+                        You&apos;re currently making great progress in <span className="font-semibold text-foreground">Unit 1</span>.
+                        Let&apos;s keep the momentum going!
                     </p>
                     <div className="flex flex-wrap gap-4 mt-2">
                         <Button size="lg" className="rounded-full shadow-lg shadow-primary/20" asChild>

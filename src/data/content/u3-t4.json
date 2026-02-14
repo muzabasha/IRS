@@ -130,6 +130,44 @@
         },
         {
             "slideNumber": 8,
+            "type": "research_perspective",
+            "title": "Research Perspective: Inference from Implicit Signals",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "Implicit Feedback Bias: How do 'Position Bias' and 'Presentation Bias' skew the interpretation of user clicks?",
+                        "answer": "Users are more likely to click the first result regardless of quality (Position Bias). Research in 'Click Models' uses the 'Examination Hypothesis': $P(Click) = P(Examination) \\cdot P(Relevance)$. To mathematically isolate true relevance, we must de-bias the clicks by estimating the examination probability for each position using historical log data."
+                    },
+                    {
+                        "question": "The Satisfaction Problem: Can 'Dwell Time' distinguish between a satisfied user and a frustrated user struggling with complex text?",
+                        "answer": "High dwell time (long view) is often a proxy for relevance, but for 'Quick Answer' queries, a short dwell time might mean success. Research uses 'Satisfied Click (s-click)' models, where a click is only relevant if the dwell time exceeds a specific threshold (e.g., 30 seconds), filtered by the query's complexity class."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling user clicking behavior as a Dependent Click Model (DCM).",
+                    "derivation": [
+                        {
+                            "step": "Model the probability of clicking result i as a product of examination (E) and relevance (R).",
+                            "equation": "P(C_i=1) = P(E_i=1)P(R_i=1)",
+                            "interpretation": "A click only happens if the user sees the document AND judges it relevant based on the snippet."
+                        },
+                        {
+                            "step": "Model the 'Examination' probability as dependent on the previous result's relevance.",
+                            "equation": "P(E_{i+1}=1 | E_i=1, C_i) = \\Phi(C_i)",
+                            "interpretation": "If the user was satisfied with result i, they are less likely to examine i+1. This captures the 'Satisfaction' dynamic of browsing."
+                        },
+                        {
+                            "step": "Derive the Expected Reciprocal Rank (ERR) based on the Cascade Model of clicks.",
+                            "equation": "ERR = \\sum_{i=1}^{n} \\frac{1}{i} P(\\text{user stops at i})",
+                            "interpretation": "The evaluation metric shifts from 'How many docs are good' to 'How quickly did the user find what they needed'."
+                        }
+                    ],
+                    "conclusion": "Relevance is not a static property of a document; it is a dynamic posterior probability that can only be inferred through the noisy, biased, and context-dependent lens of user interaction behavior."
+                }
+            }
+        },
+        {
+            "slideNumber": 9,
             "type": "summary",
             "title": "Wrap-up",
             "content": {

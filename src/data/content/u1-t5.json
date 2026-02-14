@@ -196,6 +196,44 @@
         },
         {
             "slideNumber": 12,
+            "type": "research_perspective",
+            "title": "Research Perspective: Latent Semantic Space & Factorization",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "The Optimal Rank k: At what point does dimensionality reduction lose the 'Signal' of the semantics?",
+                        "answer": "Research in LSA focuses on the 'Elbow Method' in the distribution of singular values. High singular values represent stable semantic structures (signal), while low ones represent document-specific noise. The mathematical challenge is finding a $k$ that minimizes the Frobenius norm $||A - A_k||_F$ while maximizing the separability of document clusters in the reduced space."
+                    },
+                    {
+                        "question": "The Problem of Incrementality: How can algebraic models scale to dynamic document streams like the Web?",
+                        "answer": "SVD is computationally expensive ($O(min(mn^2, m^2n))$). Current research focuses on 'Fold-in' techniques and Incremental LSA, which update the concept space without recomputing the entire decomposition. This shift from batch to online learning is critical for modern real-time search applications."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Identifying Latent Semantic relationships as a Low-Rank Approximation problem.",
+                    "derivation": [
+                        {
+                            "step": "Model the term-document matrix A as a product of orthogonal concept bases.",
+                            "equation": "A = U \\Sigma V^T",
+                            "interpretation": "U maps terms to concepts, V maps documents to concepts, and $\\Sigma$ scales them by importance."
+                        },
+                        {
+                            "step": "Reduce the rank of the system to filter out synonymy noise.",
+                            "equation": "\\hat{D}_{sim}(d_i, d_j) = \\vec{v}_i^T \\Sigma_k^2 \\vec{v}_j",
+                            "interpretation": "Similarity is re-calculated in the k-dimensional concept space rather than the sparse term space."
+                        },
+                        {
+                            "step": "Analyze the error of approximation using the Eckart-Young Theorem.",
+                            "equation": "\\min_{rank(B) = k} ||A - B||_F = ||A - A_k||_F = \\sqrt{\\sum_{i=k+1}^{r} \\sigma_i^2}",
+                            "interpretation": "The total semantic loss is exactly the square root of the sum of squares of the discarded singular values."
+                        }
+                    ],
+                    "conclusion": "Algebraic models like LSI prove that 'meaning' can be extracted purely from the co-occurrence structure of text, provided we can correctly partition the signal from the noise in the matrix manifold."
+                }
+            }
+        },
+        {
+            "slideNumber": 13,
             "type": "summary",
             "title": "Topic Wrap-up",
             "content": {

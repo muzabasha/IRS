@@ -114,6 +114,44 @@
         },
         {
             "slideNumber": 7,
+            "type": "research_perspective",
+            "title": "Research Perspective: High-Dimensional Geometry & Neural Features",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "The Curse of Dimensionality: Why does Euclidean Distance become a poor similarity metric as we extract more features?",
+                        "answer": "In high-dimensional space (e.g., 1000+ features from a ResNet model), the ratio between the distance to the nearest neighbor and the farthest neighbor converges to 1. This is the 'Concentration of Measure' phenomenon. Research focuses on 'Manifold Learning' (e.g., t-SNE, UMAP) to project these high-D vectors onto a lower-dimensional non-linear manifold where distance is more semantically meaningful."
+                    },
+                    {
+                        "question": "Feature Fusion: How can we mathematically combine visual features and acoustic features into a single 'Multi-modal' ranking?",
+                        "answer": "Research explores 'Early Fusion' (combining raw vectors) vs 'Late Fusion' (merging scores). A common research model is 'Canonical Correlation Analysis' (CCA), which identifies a shared latent subspace where visual and text vectors are maximally correlated, allowing us to 'Search for an image using a text description' through cross-modal alignment."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling Image Feature Extraction as a Convolutional Neural Network (CNN) Transformation.",
+                    "derivation": [
+                        {
+                            "step": "Model the image $I$ as a 3D tensor and the feature extraction as a series of convolutional filters $K$.",
+                            "equation": "F(I, K) = \\sum_{m,n} I(m,n) \\cdot K(i-m, j-n)",
+                            "interpretation": "Convolution calculates the dot product between a sliding window of pixels and a learned weight matrix (kernel) that responds to specific patterns like edges or textures."
+                        },
+                        {
+                            "step": "Apply a non-linear activation (ReLU) and Pooling to achieve spatial invariance.",
+                            "equation": "h = \\max(0, F(I, K)) \\xrightarrow{Pooling} \\vec{v}_{feature}",
+                            "interpretation": "Pooling reduces the spatial resolution while preserving the most 'active' features, ensuring that the system can recognize a dog regardless of its position in the photo."
+                        },
+                        {
+                            "step": "Measure similarity in the Neural Embedding Space using Cosine Proximity.",
+                            "equation": "S(I_1, I_2) = \\frac{\\Phi(I_1) \\cdot \\Phi(I_2)}{|\\Phi(I_1)| |\\Phi(I_2)|}",
+                            "interpretation": "The 'Semantic Gap' is bridged by shifting from raw pixel distance to distance in the deep feature space $\\Phi$, which captures high-level conceptual similarity."
+                        }
+                    ],
+                    "conclusion": "Multimedia IR is the ultimate frontier of retrieval, where the system must mathematically 'Interpret' the raw signal of the physical world to match it with human concept space."
+                }
+            }
+        },
+        {
+            "slideNumber": 8,
             "type": "summary",
             "title": "Trends & Wrap-up",
             "content": {

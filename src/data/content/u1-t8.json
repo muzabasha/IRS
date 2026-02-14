@@ -169,6 +169,44 @@
         },
         {
             "slideNumber": 11,
+            "type": "research_perspective",
+            "title": "Research Perspective: Information Foraging & Scent",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "The Information Scent: How do users decide which link to click without knowing the destination content?",
+                        "answer": "Research in 'Information Foraging Theory' suggests that users estimate the 'closeness' of a link to their goal based on semantic cues (the anchor text). We model this using 'Vector Similarity' between the user's latent goal and the link's text. A user will only traverse a link if the expected 'Scent' exceeds the cost of the click."
+                    },
+                    {
+                        "question": "Cognitive Maps vs. Linear Navigation: Why do users get 'Lost in Hyperspace'?",
+                        "answer": "Human cognition is naturally spatial. When browsing non-linear hypertext, the mental 'Cognitive Map' of the session can become fragmented. Research uses 'Graph Entropy' to measure the complexity of a site structure; higher structural entropy correlates with increased user disorientation and session abandonment."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling the 'Random Surfer' and 'Intentional Browser' as a Stochastic Process.",
+                    "derivation": [
+                        {
+                            "step": "Define a browsing session as a transition matrix P where P(i,j) is the probability of moving from node i to node j.",
+                            "equation": "P(i, j) = \\frac{1}{d_{out}(i)}",
+                            "interpretation": "In a random walk (like basic PageRank), all outgoing links are equally likely."
+                        },
+                        {
+                            "step": "Incorporate 'User Intent' by weighting transitions based on semantic scent (utility U).",
+                            "equation": "P(i, j | Goal) = \\frac{e^{U(Goal, j)}}{\\sum_{k \\in Links(i)} e^{U(Goal, k)}}",
+                            "interpretation": "This is the Softmax distribution over links. A link that matches the goal semantically has an exponentially higher probability of being chosen."
+                        },
+                        {
+                            "step": "Calculate the expected 'Stopping Time' - the point at which the user finds all berries or gives up.",
+                            "equation": "E[T] = (I - P)^{-1} \\mathbf{1}",
+                            "interpretation": "The fundamental matrix of the Markov chain provides the average number of steps a user takes before reaching a terminal (success or failure) state."
+                        }
+                    ],
+                    "conclusion": "Browsing is not random; it is a mathematically predictable optimization process where users maximize their 'Information Gain' per unit of 'Interaction Cost'."
+                }
+            }
+        },
+        {
+            "slideNumber": 12,
             "type": "summary",
             "title": "Topic Wrap-up",
             "content": {

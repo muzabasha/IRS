@@ -293,6 +293,44 @@
         },
         {
             "slideNumber": 14,
+            "type": "research_perspective",
+            "title": "Research Perspective: Advanced Modeling in Classic IR",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "The Orthogonality Assumption in Vector Space Models: How does term dependency undermine the independence assumption of the basis vectors?",
+                        "answer": "The standard VSM assumes terms are independent (basis vectors are orthogonal). However, semantic dependencies (e.g., 'car' and 'engine' appearing together) invalidate this. Research in the 'Generalized Vector Space Model' (GVSM) solves this by redefining the inner product space using a Term-Term Correlation Matrix (G), allowing the system to match documents that are semantically related even if they share few exact terms."
+                    },
+                    {
+                        "question": "The Curse of Dimensionality: Does Cosine Similarity remain a valid metric in ultra-high dimensional sparse vocabularies?",
+                        "answer": "In high-dimensional spaces, the distance between any two random points tends to converge, making discrimination difficult. Research shows that for sparse IR vectors, the 'Fractional Distance Metric' or 'Manhattan Distance (L1)' can sometimes provide more robust ranking than Euclidean (L2) or Cosine, particularly when dealing with long-tail vocabulary distributions."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Deriving TF-IDF as a measure of 'Self-Information' from Shannon's Information Theory.",
+                    "derivation": [
+                        {
+                            "step": "Define the probability of a term t appearing in a random document d.",
+                            "equation": "P(t) = \\frac{df_t}{N}",
+                            "interpretation": "Common words have high probability; rare words have low probability."
+                        },
+                        {
+                            "step": "Calculate the Self-Information (Surprisal) of term t.",
+                            "equation": "I(t) = -\\log_2 P(t) = \\log_2 \\frac{N}{df_t}",
+                            "interpretation": "This is the mathematical foundation of IDF. A term that appears rarely provides more 'Information' when it is found."
+                        },
+                        {
+                            "step": "Combine with Term Frequency to get the total information contribution of term t to document d.",
+                            "equation": "w_{t,d} = tf_{t,d} \\times (-\\log \\frac{df_t}{N})",
+                            "interpretation": "TF-IDF is essentially the total 'Information Content' of a term within a specific document relative to the whole corpus."
+                        }
+                    ],
+                    "conclusion": "Classic models like VSM and TF-IDF are not mere heuristics; they are grounded in Geometric Algebra and Information Theory, providing a rigourous framework for ranking unstructured text."
+                }
+            }
+        },
+        {
+            "slideNumber": 15,
             "type": "summary",
             "title": "Topic Wrap-up",
             "content": {

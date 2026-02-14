@@ -155,7 +155,7 @@ export default function ProjectsPage() {
                                                         <Presentation className="h-4 w-4" /> Demonstration
                                                     </h4>
                                                     <p className="text-sm font-medium leading-relaxed italic">
-                                                        "{selectedProject.demonstration}"
+                                                        &ldquo;{selectedProject.demonstration}&rdquo;
                                                     </p>
                                                 </section>
 

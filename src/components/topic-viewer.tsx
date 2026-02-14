@@ -24,6 +24,7 @@ interface Slide {
     type: string
     title: string
     subtitle?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     content?: any
     items?: string[]
     questions?: string[]
@@ -232,6 +233,102 @@ function SlideContent({ slide }: { slide: Slide }) {
     };
 
     switch (type) {
+        case "research_perspective":
+            return (
+                <div className="space-y-8">
+                    <Card className="bg-slate-900 border-indigo-500/30 text-slate-100 overflow-hidden shadow-2xl">
+                        <div className="p-6 border-b border-indigo-500/20 bg-indigo-500/10">
+                            <h3 className="text-xl font-bold flex items-center gap-2 text-indigo-300">
+                                <BookOpen className="h-5 w-5" /> Research Front: Advanced Inquiries
+                            </h3>
+                            <p className="text-sm text-indigo-400/80 mt-1">PhD & Postgraduate Level Theoretical Perspectives</p>
+                        </div>
+                        <CardContent className="p-8 space-y-10">
+                            {content?.researchQuestions && content.researchQuestions.map((rq: { question: string, answer: string }, i: number) => (
+                                <div key={i} className="space-y-4">
+                                    <div className="flex gap-4">
+                                        <div className="h-8 w-8 rounded-full bg-indigo-500/20 flex items-center justify-center shrink-0 border border-indigo-500/40 text-indigo-300 font-bold text-xs">
+                                            Q{i + 1}
+                                        </div>
+                                        <h4 className="text-lg font-semibold leading-relaxed text-indigo-100">
+                                            {rq.question}
+                                        </h4>
+                                    </div>
+                                    <div className="pl-12">
+                                        <p className="text-slate-400 leading-relaxed text-base">
+                                            {rq.answer}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </CardContent>
+                    </Card>
+
+                    {content?.mathematicalModeling && (
+                        <div className="p-8 rounded-3xl bg-linear-to-br from-indigo-900/40 to-slate-900 border border-indigo-500/20 shadow-xl overflow-hidden relative">
+                            <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+                                <Terminal className="h-40 w-40" />
+                            </div>
+
+                            <h4 className="text-xs font-black uppercase tracking-[0.3em] text-indigo-400 mb-8 border-b border-indigo-500/20 pb-4">
+                                Mathematical Modeling & Interpretative Derivation
+                            </h4>
+
+                            <div className="space-y-8 relative z-10">
+                                <div className="space-y-2">
+                                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Problem Statement</span>
+                                    <p className="text-lg font-medium text-slate-200">{content.mathematicalModeling.problemStatement}</p>
+                                </div>
+
+                                <div className="space-y-6">
+                                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Derivation Path</span>
+                                    {content.mathematicalModeling.derivation.map((step: { step: string, equation?: string, interpretation: string }, idx: number) => (
+                                        <div key={idx} className="flex gap-6 items-start group">
+                                            <div className="flex flex-col items-center">
+                                                <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0 group-hover:bg-indigo-500/20 transition-colors">
+                                                    {idx + 1}
+                                                </div>
+                                                {idx < content.mathematicalModeling.derivation.length - 1 && (
+                                                    <div className="w-0.5 h-12 bg-linear-to-b from-indigo-500/30 to-transparent" />
+                                                )}
+                                            </div>
+                                            <div className="space-y-4 flex-1">
+                                                <p className="text-slate-300 font-medium">{step.step}</p>
+                                                {step.equation && (
+                                                    <div
+                                                        className="my-3 p-4 bg-black/40 rounded-xl border border-indigo-500/10 overflow-x-auto text-center"
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: katex.renderToString(step.equation, {
+                                                                throwOnError: false,
+                                                                displayMode: true
+                                                            })
+                                                        }}
+                                                    />
+                                                )}
+                                                <p className="text-sm text-indigo-300/60 italic leading-relaxed">
+                                                    <span className="font-bold text-indigo-400/80 mr-2">Interpretation:</span>
+                                                    {step.interpretation}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="pt-6 border-t border-indigo-500/20">
+                                    <div className="flex items-center gap-3">
+                                        <CheckCircle className="h-5 w-5 text-emerald-400" />
+                                        <span className="text-sm font-bold text-emerald-400/80 uppercase tracking-wider">Solution Synthesis</span>
+                                    </div>
+                                    <p className="mt-3 text-slate-300 font-medium leading-relaxed">
+                                        {content.mathematicalModeling.conclusion}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )
+
         case "python_demo":
             return (
                 <Card className="overflow-hidden border-blue-500/20 bg-slate-950 text-slate-50 shadow-2xl transition-all hover:shadow-blue-500/5 group/card">
@@ -494,7 +591,7 @@ function SlideContent({ slide }: { slide: Slide }) {
 
                             {content.description && (
                                 <p className="mt-12 text-center text-sm text-foreground/60 italic px-6 font-medium max-w-2xl mx-auto bg-background/50 p-4 rounded-xl border border-dashed">
-                                    "{content.description}"
+                                    &ldquo;{content.description}&rdquo;
                                 </p>
                             )}
                         </div>

@@ -168,6 +168,44 @@
         },
         {
             "slideNumber": 10,
+            "type": "research_perspective",
+            "title": "Research Perspective: Iterative Convergence & Query Drift",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "Stability of Feedback: Does the Rocchio algorithm always converge to the 'Ideal' query vector?",
+                        "answer": "Mathematically, Rocchio is a greedy optimization. Research shows that while it usually improves precision by moving the query closer to the relevant document centroid, it can become trapped in 'Local Optima' if the initial query is too far from any relevant cluster. Advanced research uses 'Constraint-based feedback' to prevent the query vector from moving beyond the semantic bounds of the original intent."
+                    },
+                    {
+                        "question": "The Pseudo-Relevance Feedback (PRF) Risk: How can we mathematically detect if the top-k results are 'Polluted' before expanding the query?",
+                        "answer": "Query Drift occurs when the top-k results are non-relevant. Research uses 'Clarity Scores' (relative entropy between the query language model and the collection model) to predict PRF success. If the Clarity Score is low, the system aborts automatic expansion to avoid introducing noise terms that would degrade performance."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling Query Modification as a vector translation in a Hilbert Space.",
+                    "derivation": [
+                        {
+                            "step": "Define the 'Optimal Query' q* as the vector that maximizes the separation between relevant and non-relevant docs.",
+                            "equation": "\\vec{q}^* = \\arg \\max_{\\vec{q}} [ \\text{sim}(\\vec{q}, C_r) - \\text{sim}(\\vec{q}, C_{nr}) ]",
+                            "interpretation": "The theoretical goal is to find a query vector that is at the exact center of the relevant cluster and maximal distance from the non-relevant ones."
+                        },
+                        {
+                            "step": "Model the 'Information Gain' from expanding the query with term t using Mutual Information.",
+                            "equation": "I(T; R) = \\sum_{t,r} P(t,r) \\log \\frac{P(t,r)}{P(t)P(r)}",
+                            "interpretation": "We only add term t to the query if it provides significant information about the relevance class R."
+                        },
+                        {
+                            "step": "Derive the 'Drift Factor' - the probability that a new term t changes the query's centroid excessively.",
+                            "equation": "Drift(t) = 1 - \\cos(\\theta_{\\vec{q}_0, \\vec{q}_{expanded}})",
+                            "interpretation": "If the angle between the original and expanded query is too large, the expansion is rejected as it likely changes the search intent."
+                        }
+                    ],
+                    "conclusion": "Query Operations move IR from a static 'One-Shot' process to a dynamic 'Optimization Pass', where the system mathematically refines its understanding of user intent through successive approximations."
+                }
+            }
+        },
+        {
+            "slideNumber": 11,
             "type": "summary",
             "title": "Trends and Research Issues",
             "content": {
