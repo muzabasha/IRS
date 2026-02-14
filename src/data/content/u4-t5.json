@@ -89,7 +89,7 @@
             "subTopics": [
                 {
                     "title": "Deep Dive: The Random Surfer Model",
-                    "content": "Why is the damping factor (d) 0.85? It represents the average person's patience before they get bored and type a new URL.",
+                    "content": "Why is the damping factor (d) 0.85? It represents the average person's patience before they get bored and type a new URL (Uniform Resource Locator).",
                     "subSubTopics": [
                         {
                             "title": "Dangling Links",
@@ -225,7 +225,7 @@
                 "code": "def search_xml(node, tag, content):\n    results = []\n    if node['tag'] == tag and content in node['text']:\n        results.append(node['id'])\n    for child in node.get('children', []):\n        results.extend(search_xml(child, tag, content))\n    return results\n\nroot = {\"tag\": \"book\", \"text\": \"\", \"id\": 0, \"children\": [\n    {\"tag\": \"title\", \"text\": \"Intro to IR\", \"id\": 1},\n    {\"tag\": \"content\", \"text\": \"vectors...\", \"id\": 2}\n]}\n\nprint(f\"Title Match: {search_xml(root, 'title', 'IR')}\")",
                 "input": "Tag: 'title', Content: 'IR'",
                 "output": "Title Match: [1]",
-                "interpretation": "XML retrieval allows 'Fielded' searching.\nInstead of searching the whole document, we specify tags like <title>.\nThis structural information provides higher precision than flat-text search."
+                "interpretation": "XML (eXtensible Markup Language) retrieval allows 'Fielded' searching.\nInstead of searching the whole document, we specify tags like <title>.\nThis structural information provides higher precision than flat-text search."
             }
         },
         {

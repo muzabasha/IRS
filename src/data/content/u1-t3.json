@@ -9,7 +9,7 @@
             "title": "Classic Information Retrieval Models",
             "subtitle": "Boolean, Vector, and Probabilistic",
             "content": {
-                "text": "IR Models provide the mathematical framework for defining the retrieval process. The 'Classic' models are the foundation of all modern search systems.",
+                "text": "IR (Information Retrieval) Models provide the mathematical framework for defining the retrieval process. The 'Classic' models are the foundation of all modern search systems.",
                 "hook": "How do you mathematically prove that Document A is more relevant than Document B?"
             }
         },
@@ -22,7 +22,7 @@
                 "steps": [
                     "Set-Theoretic (Boolean)",
                     "Algebraic (Vector Space)",
-                    "Probabilistic (BM25)"
+                    "Probabilistic (BM25 - Best Match 25)"
                 ]
             }
         },

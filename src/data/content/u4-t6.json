@@ -9,8 +9,8 @@
             "title": "Question Answering Systems",
             "subtitle": "Beyond Document Lists",
             "content": {
-                "text": "Users often don't want a list of documents; they want an answer. QA systems extract specific facts or generate responses from a corpus.",
-                "hook": "Search: 'Where is Tokyo?' -> [Link 1, Link 2]. QA: 'Where is Tokyo?' -> 'Tokyo is in Japan.'"
+                "text": "QA (Question Answering) systems extract specific facts or generate responses from a corpus.",
+                "hook": "Search: 'Where is Tokyo?' -> [Link 1, Link 2]. QA (Question Answering): 'Where is Tokyo?' -> 'Tokyo is in Japan.'"
             }
         },
         {
@@ -27,9 +27,9 @@
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "QA Architecture",
+            "title": "QA (Question Answering) Architecture",
             "content": {
-                "text": "The traditional pipeline for QA.",
+                "text": "The traditional pipeline for QA (Question Answering).",
                 "steps": [
                     "Question Processing: Determine 'Answer Type' (Person, Date, etc).",
                     "Document Retrieval: Find relevant passages.",
@@ -39,7 +39,7 @@
             },
             "formula": {
                 "equation": "\\text{MRR} = \\frac{1}{|Q|} \\sum_{i=1}^{|Q|} \\frac{1}{rank_i}",
-                "description": "Mean Reciprocal Rank (MRR) is the standard metric for evaluating QA systems, where we care only about the position (rank) of the first correct answer.",
+                "description": "Mean Reciprocal Rank (MRR) is the standard metric for evaluating QA (Question Answering) systems, where we care only about the position (rank) of the first correct answer.",
                 "terms": [
                     {
                         "symbol": "Q",
@@ -55,8 +55,8 @@
                     }
                 ],
                 "calculation": {
-                    "exampleTitle": "QA System Benchmark",
-                    "description": "Evaluating 3 queries against a QA system.",
+                    "exampleTitle": "QA (Question Answering) System Benchmark",
+                    "description": "Evaluating 3 queries against a QA (Question Answering) system.",
                     "steps": [
                         {
                             "label": "Query 1",
@@ -87,10 +87,10 @@
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "The Role of NLP",
+            "title": "The Role of NLP (Natural Language Processing)",
             "content": {
-                "text": "QA relies heavily on Natural Language Processing (NLP) techniques like Named Entity Recognition (NER), Part-of-Speech tagging, and Semantic Parsing.",
-                "hook": "Modern QA systems (like LLMs) generate answers by predicting next tokens, but traditional systems 'highlight' existing facts."
+                "text": "QA (Question Answering) relies heavily on Natural Language Processing (NLP) techniques like Named Entity Recognition (NER), Part-of-Speech (POS) tagging, and Semantic Parsing.",
+                "hook": "Modern QA (Question Answering) systems (like LLMs - Large Language Models) generate answers by predicting next tokens, but traditional systems 'highlight' existing facts."
             }
         },
         {
@@ -98,8 +98,8 @@
             "type": "activity",
             "title": "Activity: Extract the Fact",
             "content": {
-                "activity": "The QA Challenge",
-                "description": "Text: 'Dr. Muzamil founded the IR lab in 2024.' Question: 'Who founded the lab?' What part of speech is the answer? What entity type?"
+                "activity": "The QA (Question Answering) Challenge",
+                "description": "Text: 'Dr. Muzamil founded the IR (Information Retrieval) lab in 2024.' Question: 'Who founded the lab?' What part of speech is the answer? What entity type?"
             }
         },
         {
@@ -107,10 +107,10 @@
             "type": "python_demo",
             "title": "Python Demo: Question Answering Logic",
             "content": {
-                "code": "def answer_question(query, candidates):\n    # Simple keyword overlap for QA\n    q_words = set(query.lower().split())\n    scores = []\n    for c in candidates:\n        overlap = len(q_words & set(c.lower().split()))\n        scores.append((overlap, c))\n    return sorted(scores, reverse=True)[0][1]\n\nquestion = \"Who founded Google?\"\nkb = [\"Google was founded by Larry Page.\", \"IR is a field.\"]\nprint(f\"Answer: {answer_question(question, kb)}\")",
-                "input": "Q: 'Who founded Google?', KB: [..., ...]",
+                "code": "def answer_question(query, candidates):\n    # Simple keyword overlap for QA\n    q_words = set(query.lower().split())\n    scores = []\n    for c in candidates:\n        overlap = len(q_words & set(c.lower().split()))\n        scores.append((overlap, c))\n    return sorted(scores, reverse=True)[0][1]\n\nquestion = \"Who founded Google?\"\nkb = [\"Google was founded by Larry Page.\", \"IR (Information Retrieval) is a field.\"]\nprint(f\"Answer: {answer_question(question, kb)}\")",
+                "input": "Q: 'Who founded Google?', KB (Knowledge Base): [..., ...]",
                 "output": "Answer: Google was founded by Larry Page.",
-                "interpretation": "QA systems try to find the specific fact, not just documents.\nBy matching question words against a knowledge base, it extracts the most likely candidate.\nThis is the technology behind Alexa and Siri."
+                "interpretation": "QA (Question Answering) systems try to find the specific fact, not just documents.\nBy matching question words against a knowledge base, it extracts the most likely candidate.\nThis is the technology behind Alexa and Siri (AI - Artificial Intelligence assistants)."
             }
         },
         {
@@ -118,7 +118,7 @@
             "type": "summary",
             "title": "Course Wrap-up",
             "content": {
-                "linkage": "You have completed the full course on B22EQ0601 Information Retrieval. From basic models to advanced recommendation and QA systems.",
+                "linkage": "You have completed the full course on B22EQ0601 Information Retrieval. From basic models to advanced recommendation and QA (Question Answering) systems.",
                 "nextTopic": "Final Assessment",
                 "preparation": "Review all units for the final course project."
             }

@@ -18,7 +18,7 @@
             "type": "standard",
             "title": "Current Trending Topics",
             "content": {
-                "text": "Neural Information Retrieval (BERT, GPT integration) is transforming search from exact keyword matching to semantic meaning matching.",
+                "text": "Neural Information Retrieval (BERT - Bidirectional Encoder Representations from Transformers, GPT - Generative Pre-trained Transformer integration) is transforming search from exact keyword matching to semantic meaning matching.",
                 "outcomes": [
                     "Dense retrieval (vectors)",
                     "Cross-lingual search",
@@ -82,7 +82,7 @@
             "title": "The Semantic Web",
             "content": {
                 "definition": "Web 3.0. Moving from a 'Web of Documents' to a 'Web of Data'.",
-                "text": "Using RDF, SPARQL, and Ontologies to help machines understand the *meaning* of data, not just keyword matches."
+                "text": "Using RDF (Resource Description Framework), SPARQL (SPARQL Protocol and RDF Query Language), and Ontologies to help machines understand the *meaning* of data, not just keyword matches."
             }
         },
         {
@@ -114,7 +114,7 @@
             "type": "standard",
             "title": "Privacy vs Personalization",
             "content": {
-                "text": "Better search requires knowing the user (Location, History). This conflicts with privacy concerns (GDPR). Research focuses on 'Privacy-Preserving IR'.",
+                "text": "Better search requires knowing the user (Location, History). This conflicts with privacy concerns (GDPR - General Data Protection Regulation). Research focuses on 'Privacy-Preserving IR (Information Retrieval)'.",
                 "hook": "Can we personalize without tracking?"
             }
         },

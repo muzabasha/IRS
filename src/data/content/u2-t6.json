@@ -9,8 +9,8 @@
             "type": "title",
             "subtitle": "Optimizing Space and Speed",
             "content": {
-                "text": "A full inverted index for the web would be multi-terabyte. We compress the dictionary (to fit in RAM) and the postings (to save disk IO).",
-                "hook": "Compression doesn't just save space; it often makes search faster by reducing I/O."
+                "text": "A full inverted index for the web would be multi-terabyte. We compress the dictionary (to fit in RAM - Random Access Memory) and the postings (to save disk I/O - Input/Output).",
+                "hook": "Compression doesn't just save space; it often makes search faster by reducing I/O (Input/Output)."
             }
         },
         {
