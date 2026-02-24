@@ -90,6 +90,32 @@ export default function LabPage() {
                 </div>
             </div>
 
+            {/* Unit 1 Quiz Banner */}
+            <Card className="border-2 border-green-500 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950">
+                <CardContent className="p-6">
+                    <div className="flex items-center justify-between gap-4">
+                        <div className="flex-1">
+                            <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                                🎓 Unit 1 Assessment Quiz
+                            </h3>
+                            <p className="text-sm text-muted-foreground mb-3">
+                                Test your understanding of IR Models with 10 comprehensive questions. Includes detailed explanations and study resources.
+                            </p>
+                            <div className="flex gap-2 flex-wrap">
+                                <Badge variant="outline">10 Questions</Badge>
+                                <Badge variant="outline">Instant Feedback</Badge>
+                                <Badge variant="outline">Study Guides Included</Badge>
+                            </div>
+                        </div>
+                        <Button asChild size="lg">
+                            <Link href="/lab/unit-1-quiz">
+                                Take Quiz <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Learning Path */}
             <Card className="border-none shadow-lg bg-gradient-to-br from-primary/5 to-background">
                 <CardHeader>
@@ -176,15 +202,20 @@ export default function LabPage() {
                                     </div>
                                     <div>
                                         <h3 className="font-bold">Unit 1: IR Models</h3>
-                                        <p className="text-sm text-muted-foreground">5 Labs</p>
+                                        <p className="text-sm text-muted-foreground">5 Labs + Quiz</p>
                                     </div>
                                 </div>
                                 <p className="text-sm text-muted-foreground mb-3">
                                     Boolean, VSM, Probabilistic, Structured Text, Browsing Models
                                 </p>
-                                <Button asChild variant="outline" className="w-full">
-                                    <Link href="/lab">View Unit 1 Labs</Link>
-                                </Button>
+                                <div className="space-y-2">
+                                    <Button asChild variant="outline" className="w-full">
+                                        <Link href="/lab">View Unit 1 Labs</Link>
+                                    </Button>
+                                    <Button asChild className="w-full">
+                                        <Link href="/lab/unit-1-quiz">Take Assessment Quiz</Link>
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
                         <Card className="hover:shadow-md transition-all">
