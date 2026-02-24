@@ -1,0 +1,242 @@
+{
+    "models": [
+        {
+            "id": "boolean-model",
+            "title": "Boolean Model",
+            "level": "Beginner",
+            "order": 1,
+            "motivation": {
+                "title": "Why Learn Boolean Model?",
+                "content": "The Boolean Model is the foundation of Information Retrieval. It teaches exact matching using set theory, which is essential for understanding how search engines filter documents before ranking them.",
+                "realWorld": [
+                    "Legal document search requiring exact term matching",
+                    "Database SQL WHERE clauses",
+                    "Email spam filtering rules",
+                    "Library catalog systems"
+                ]
+            },
+            "scoringFunction": {
+                "equation": "sim(d, q) = 1 if q ⊆ d, else 0",
+                "latex": "\\text{sim}(d, q) = \\begin{cases} 1 & \\text{if } q \\subseteq d \\\\ 0 & \\text{otherwise} \\end{cases}",
+                "components": [
+                    {
+                        "symbol": "sim(d, q)",
+                        "meaning": "Similarity score between document d and query q"
+                    },
+                    {
+                        "symbol": "q ⊆ d",
+                        "meaning": "Query terms are a subset of document terms"
+                    },
+                    {
+                        "symbol": "1 or 0",
+                        "meaning": "Binary output: exact match (1) or no match (0)"
+                    }
+                ]
+            },
+            "interpretation": {
+                "operations": [
+                    {
+                        "name": "AND (Intersection)",
+                        "formula": "Result = Set(t1) ∩ Set(t2)",
+                        "meaning": "Document must contain BOTH terms",
+                        "example": "Query: 'machine AND learning' → Only docs with both terms"
+                    },
+                    {
+                        "name": "OR (Union)",
+                        "formula": "Result = Set(t1) ∪ Set(t2)",
+                        "meaning": "Document must contain EITHER term (or both)",
+                        "example": "Query: 'machine OR learning' → Docs with at least one term"
+                    },
+                    {
+                        "name": "NOT (Complement)",
+                        "formula": "Result = Set(t1) - Set(t2)",
+                        "meaning": "Document must contain first term but NOT second",
+                        "example": "Query: 'machine NOT learning' → Docs with 'machine' but not 'learning'"
+                    }
+                ]
+            },
+            "illustration": {
+                "example": "Query: 'machine AND learning'",
+                "steps": [
+                    {
+                        "step": 1,
+                        "action": "Identify query terms",
+                        "result": "Terms: ['machine', 'learning']"
+                    },
+                    {
+                        "step": 2,
+                        "action": "Find documents containing 'machine'",
+                        "result": "Set A = {Doc1, Doc3, Doc5}"
+                    },
+                    {
+                        "step": 3,
+                        "action": "Find documents containing 'learning'",
+                        "result": "Set B = {Doc1, Doc2, Doc4, Doc5}"
+                    },
+                    {
+                        "step": 4,
+                        "action": "Compute intersection (A ∩ B)",
+                        "result": "Final Result = {Doc1, Doc5}"
+                    }
+                ]
+            },
+            "limitations": [
+                {
+                    "issue": "No Ranking",
+                    "description": "All matching documents get score = 1. If 1000 documents match, they're all 'equally relevant'. No way to prioritize results.",
+                    "impact": "Users must manually scan through all results"
+                },
+                {
+                    "issue": "Too Strict or Too Loose",
+                    "description": "AND can return 0 results (too restrictive). OR can return thousands (too permissive). Hard to find the right balance.",
+                    "impact": "Poor user experience with query formulation"
+                },
+                {
+                    "issue": "No Partial Matching",
+                    "description": "A document with 'machine' appearing 50 times is treated the same as one with it appearing once. Term frequency is completely ignored.",
+                    "impact": "Cannot distinguish between highly relevant and barely relevant documents"
+                },
+                {
+                    "issue": "Binary Decision",
+                    "description": "Real-world relevance is not binary. A document can be 'somewhat relevant' or 'highly relevant', but Boolean model cannot express this nuance.",
+                    "impact": "Loss of relevance information"
+                }
+            ],
+            "solution": {
+                "nextModel": "Vector Space Model (VSM)",
+                "improvements": [
+                    "Introduces continuous ranking scores (0 to 1) instead of binary",
+                    "Considers term frequency - more occurrences = higher relevance",
+                    "Allows partial matching - documents can match some query terms",
+                    "Uses cosine similarity for nuanced relevance measurement"
+                ]
+            }
+        }
+    ]
+},
+{
+    "id": "vector-space-model",
+    "title": "Vector Space Model (VSM)",
+    "level": "Intermediate",
+    "order": 2,
+    "motivation": {
+        "title": "Why Learn Vector Space Model?",
+        "content": "VSM solves the Boolean Model's ranking problem by representing documents and queries as vectors in a multi-dimensional space. This allows us to measure 'how similar' documents are to a query, not just whether they match.",
+        "realWorld": [
+            "Google Search ranking algorithm foundation",
+            "Document clustering and classification",
+            "Recommendation systems (similar items)",
+            "Plagiarism detection"
+        ]
+    },
+    "scoringFunction": {
+        "equation": "sim(d, q) = cos(θ) = (d · q) / (||d|| × ||q||)",
+        "latex": "\\text{sim}(d, q) = \\cos(\\theta) = \\frac{\\vec{d} \\cdot \\vec{q}}{||\\vec{d}|| \\times ||\\vec{q}||} = \\frac{\\sum_{i=1}^{n} w_{d,i} \\times w_{q,i}}{\\sqrt{\\sum_{i=1}^{n} w_{d,i}^2} \\times \\sqrt{\\sum_{i=1}^{n} w_{q,i}^2}}",
+        "components": [
+            {
+                "symbol": "d · q",
+                "meaning": "Dot product of document and query vectors"
+            },
+            {
+                "symbol": "||d||",
+                "meaning": "Magnitude (length) of document vector"
+            },
+            {
+                "symbol": "||q||",
+                "meaning": "Magnitude (length) of query vector"
+            },
+            {
+                "symbol": "cos(θ)",
+                "meaning": "Cosine of angle between vectors (0 to 1)"
+            },
+            {
+                "symbol": "w_{d,i}",
+                "meaning": "Weight of term i in document d (TF-IDF)"
+            }
+        ]
+    },
+    "tfidf": {
+        "equation": "w_{d,t} = TF(t, d) × IDF(t)",
+        "tf": {
+            "formula": "TF(t, d) = f_{t,d} / |d|",
+            "meaning": "Term Frequency: How often term t appears in document d, normalized by document length"
+        },
+        "idf": {
+            "formula": "IDF(t) = log(N / df_t)",
+            "meaning": "Inverse Document Frequency: How rare/important term t is across all N documents"
+        }
+    },
+    "interpretation": {
+        "concept": "Documents and queries are points in high-dimensional space. Similarity is measured by the angle between them.",
+        "steps": [
+            "Convert documents to TF-IDF weighted vectors",
+            "Convert query to TF-IDF weighted vector",
+            "Calculate cosine similarity (angle between vectors)",
+            "Rank documents by similarity score (highest first)"
+        ]
+    },
+    "illustration": {
+        "example": "Query: 'machine learning', Documents: 3 docs",
+        "vocabulary": [
+            "machine",
+            "learning",
+            "data",
+            "network"
+        ],
+        "steps": [
+            {
+                "step": 1,
+                "action": "Calculate TF for each term in each document",
+                "result": "Doc1: machine=2/5, learning=1/5, data=1/5; Doc2: learning=2/4, network=1/4"
+            },
+            {
+                "step": 2,
+                "action": "Calculate IDF for each term",
+                "result": "machine: log(3/2)=0.18, learning: log(3/3)=0, data: log(3/1)=0.48"
+            },
+            {
+                "step": 3,
+                "action": "Calculate TF-IDF weights",
+                "result": "Doc1: [0.072, 0, 0.096, 0]; Doc2: [0, 0, 0, 0.12]"
+            },
+            {
+                "step": 4,
+                "action": "Calculate cosine similarity with query",
+                "result": "Doc1: 0.65, Doc2: 0.32 → Doc1 ranked higher"
+            }
+        ]
+    },
+    "limitations": [
+        {
+            "issue": "Term Independence Assumption",
+            "description": "VSM treats all terms as independent. It cannot capture that 'New York' is a single entity, not two separate words 'New' and 'York'.",
+            "impact": "Misses semantic relationships and phrases"
+        },
+        {
+            "issue": "Vocabulary Mismatch",
+            "description": "If query uses 'car' but document uses 'automobile', VSM gives 0 similarity despite same meaning (synonyms not handled).",
+            "impact": "Relevant documents missed due to different terminology"
+        },
+        {
+            "issue": "No Probabilistic Foundation",
+            "description": "TF-IDF weights are heuristic, not derived from probability theory. Why multiply TF and IDF? Why use log for IDF?",
+            "impact": "Lacks theoretical justification for parameter choices"
+        },
+        {
+            "issue": "High Dimensionality",
+            "description": "With millions of unique terms, vectors become extremely sparse and computationally expensive.",
+            "impact": "Scalability challenges for large collections"
+        }
+    ],
+    "solution": {
+        "nextModel": "Probabilistic Model (BM25)",
+        "improvements": [
+            "Provides probabilistic interpretation of relevance",
+            "Includes document length normalization to handle varying doc sizes",
+            "Saturation function prevents over-weighting of high-frequency terms",
+            "Tunable parameters (k1, b) for different collections"
+        ]
+    }
+}
+]
+}

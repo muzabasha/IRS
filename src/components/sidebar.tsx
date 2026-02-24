@@ -44,6 +44,17 @@ export function Sidebar({ className }: { className?: string }) {
                 className="w-full justify-start font-normal text-sm h-auto py-2 text-muted-foreground hover:text-foreground"
                 asChild
               >
+                <Link href="/lab">
+                  <span className="text-lg leading-none mr-2">🧪</span>
+                  <span>IR Models Lab</span>
+                </Link>
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-full justify-start font-normal text-sm h-auto py-2 text-muted-foreground hover:text-foreground"
+                asChild
+              >
                 <Link href="/instructor">
                   <span className="text-lg leading-none mr-2">👨‍🏫</span>
                   <span>Instructor Profile</span>
