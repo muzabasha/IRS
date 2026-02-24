@@ -90,6 +90,33 @@ export default function LabPage() {
                 </div>
             </div>
 
+            {/* Learning Journey Banner */}
+            <Card className="border-2 border-purple-500 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950">
+                <CardContent className="p-6">
+                    <div className="flex items-center justify-between gap-4">
+                        <div className="flex-1">
+                            <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                                🗺️ Interactive Learning Journey
+                            </h3>
+                            <p className="text-sm text-muted-foreground mb-3">
+                                Explore all concepts with an interactive mind map. Track your progress across all units with prerequisites, difficulty levels, and completion status.
+                            </p>
+                            <div className="flex gap-2 flex-wrap">
+                                <Badge variant="outline">Mind Map View</Badge>
+                                <Badge variant="outline">Progress Tracking</Badge>
+                                <Badge variant="outline">28 Learning Nodes</Badge>
+                                <Badge variant="outline">Prerequisite System</Badge>
+                            </div>
+                        </div>
+                        <Button asChild size="lg">
+                            <Link href="/lab/learning-journey">
+                                Start Journey <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Unit 1 Quiz Banner */}
             <Card className="border-2 border-green-500 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950">
                 <CardContent className="p-6">
