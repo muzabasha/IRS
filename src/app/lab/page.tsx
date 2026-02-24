@@ -226,15 +226,20 @@ export default function LabPage() {
                                     </div>
                                     <div>
                                         <h3 className="font-bold">Unit 2: Query Operations</h3>
-                                        <p className="text-sm text-muted-foreground">4 Labs</p>
+                                        <p className="text-sm text-muted-foreground">4 Labs + Quiz</p>
                                     </div>
                                 </div>
                                 <p className="text-sm text-muted-foreground mb-3">
                                     Query Languages, Relevance Feedback, Text Preprocessing, Indexing
                                 </p>
-                                <Button asChild variant="outline" className="w-full">
-                                    <Link href="/lab/unit-2">View Unit 2 Labs</Link>
-                                </Button>
+                                <div className="space-y-2">
+                                    <Button asChild variant="outline" className="w-full">
+                                        <Link href="/lab/unit-2">View Unit 2 Labs</Link>
+                                    </Button>
+                                    <Button asChild className="w-full">
+                                        <Link href="/lab/unit-2-quiz">Take Assessment Quiz</Link>
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
                         <Card className="hover:shadow-md transition-all">
@@ -245,15 +250,20 @@ export default function LabPage() {
                                     </div>
                                     <div>
                                         <h3 className="font-bold">Unit 3: User Interfaces</h3>
-                                        <p className="text-sm text-muted-foreground">4 Labs</p>
+                                        <p className="text-sm text-muted-foreground">4 Labs + Quiz</p>
                                     </div>
                                 </div>
                                 <p className="text-sm text-muted-foreground mb-3">
                                     HCI, Query Specification, Visualization, Relevance Judgments
                                 </p>
-                                <Button asChild variant="outline" className="w-full">
-                                    <Link href="/lab/unit-3">View Unit 3 Labs</Link>
-                                </Button>
+                                <div className="space-y-2">
+                                    <Button asChild variant="outline" className="w-full">
+                                        <Link href="/lab/unit-3">View Unit 3 Labs</Link>
+                                    </Button>
+                                    <Button asChild className="w-full">
+                                        <Link href="/lab/unit-3-quiz">Take Assessment Quiz</Link>
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
                         <Card className="hover:shadow-md transition-all">
@@ -264,15 +274,20 @@ export default function LabPage() {
                                     </div>
                                     <div>
                                         <h3 className="font-bold">Unit 4: Multimedia & Web</h3>
-                                        <p className="text-sm text-muted-foreground">4 Labs</p>
+                                        <p className="text-sm text-muted-foreground">4 Labs + Quiz</p>
                                     </div>
                                 </div>
                                 <p className="text-sm text-muted-foreground mb-3">
                                     Multimedia IR, Web Search, PageRank, Meta-search
                                 </p>
-                                <Button asChild variant="outline" className="w-full">
-                                    <Link href="/lab/unit-4">View Unit 4 Labs</Link>
-                                </Button>
+                                <div className="space-y-2">
+                                    <Button asChild variant="outline" className="w-full">
+                                        <Link href="/lab/unit-4">View Unit 4 Labs</Link>
+                                    </Button>
+                                    <Button asChild className="w-full">
+                                        <Link href="/lab/unit-4-quiz">Take Assessment Quiz</Link>
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
                     </div>
