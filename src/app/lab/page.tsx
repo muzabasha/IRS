@@ -158,6 +158,96 @@ export default function LabPage() {
                 </CardContent>
             </Card>
 
+            {/* Unit Navigation */}
+            <Card className="border-none shadow-lg bg-gradient-to-br from-purple/5 to-background">
+                <CardHeader>
+                    <CardTitle>Explore Labs by Unit</CardTitle>
+                    <CardDescription>
+                        Comprehensive lab coverage for all course units
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="grid md:grid-cols-2 gap-4">
+                        <Card className="hover:shadow-md transition-all">
+                            <CardContent className="p-6">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="h-10 w-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+                                        1
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold">Unit 1: IR Models</h3>
+                                        <p className="text-sm text-muted-foreground">5 Labs</p>
+                                    </div>
+                                </div>
+                                <p className="text-sm text-muted-foreground mb-3">
+                                    Boolean, VSM, Probabilistic, Structured Text, Browsing Models
+                                </p>
+                                <Button asChild variant="outline" className="w-full">
+                                    <Link href="/lab">View Unit 1 Labs</Link>
+                                </Button>
+                            </CardContent>
+                        </Card>
+                        <Card className="hover:shadow-md transition-all">
+                            <CardContent className="p-6">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="h-10 w-10 rounded-full bg-green-500 text-white flex items-center justify-center font-bold">
+                                        2
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold">Unit 2: Query Operations</h3>
+                                        <p className="text-sm text-muted-foreground">4 Labs</p>
+                                    </div>
+                                </div>
+                                <p className="text-sm text-muted-foreground mb-3">
+                                    Query Languages, Relevance Feedback, Text Preprocessing, Indexing
+                                </p>
+                                <Button asChild variant="outline" className="w-full">
+                                    <Link href="/lab/unit-2">View Unit 2 Labs</Link>
+                                </Button>
+                            </CardContent>
+                        </Card>
+                        <Card className="hover:shadow-md transition-all">
+                            <CardContent className="p-6">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="h-10 w-10 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold">
+                                        3
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold">Unit 3: User Interfaces</h3>
+                                        <p className="text-sm text-muted-foreground">4 Labs</p>
+                                    </div>
+                                </div>
+                                <p className="text-sm text-muted-foreground mb-3">
+                                    HCI, Query Specification, Visualization, Relevance Judgments
+                                </p>
+                                <Button asChild variant="outline" className="w-full">
+                                    <Link href="/lab/unit-3">View Unit 3 Labs</Link>
+                                </Button>
+                            </CardContent>
+                        </Card>
+                        <Card className="hover:shadow-md transition-all">
+                            <CardContent className="p-6">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="h-10 w-10 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold">
+                                        4
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold">Unit 4: Multimedia & Web</h3>
+                                        <p className="text-sm text-muted-foreground">4 Labs</p>
+                                    </div>
+                                </div>
+                                <p className="text-sm text-muted-foreground mb-3">
+                                    Multimedia IR, Web Search, PageRank, Meta-search
+                                </p>
+                                <Button asChild variant="outline" className="w-full">
+                                    <Link href="/lab/unit-4">View Unit 4 Labs</Link>
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Lab Structure Info */}
             <Card className="border-none shadow-md">
                 <CardHeader>
