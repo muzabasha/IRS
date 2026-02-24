@@ -185,6 +185,33 @@ export default function Unit2LabPage() {
                 </CardContent>
             </Card>
 
+            {/* Complete Comparison */}
+            <Card className="border-none shadow-lg bg-gradient-to-br from-orange/5 to-background">
+                <CardHeader>
+                    <CardTitle>Complete Technique Comparison</CardTitle>
+                    <CardDescription>
+                        See all query operations side-by-side with the same input
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="bg-gradient-to-r from-primary/10 to-purple/10 p-6 rounded-lg border-2 border-primary/20">
+                        <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                            <TrendingUp className="h-5 w-5" />
+                            Unit 2 Complete Comparison Journey
+                        </h3>
+                        <p className="text-sm text-muted-foreground mb-4">
+                            Compare query languages, text preprocessing, and indexing techniques side-by-side.
+                            See how keyword, Boolean, proximity, and wildcard queries process the same input differently.
+                        </p>
+                        <Button asChild size="lg" className="w-full">
+                            <Link href="/lab/unit-2-comparison">
+                                View Complete Comparison <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Lab Structure Info */}
             <Card className="border-none shadow-md">
                 <CardHeader>
