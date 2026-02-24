@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { BookOpen, Code, Lightbulb, TrendingUp, CheckCircle2 } from 'lucide-react'
+import { BookOpen, Code, Lightbulb, TrendingUp, CheckCircle2, ArrowRight } from 'lucide-react'
 
 export default function LabPage() {
     const labModels = [
@@ -163,7 +163,22 @@ export default function LabPage() {
                 <CardHeader>
                     <CardTitle>What You'll Learn in Each Lab</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="space-y-6">
+                    <div className="bg-gradient-to-r from-primary/10 to-purple/10 p-6 rounded-lg border-2 border-primary/20">
+                        <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                            <TrendingUp className="h-5 w-5" />
+                            Complete Model Comparison Journey
+                        </h3>
+                        <p className="text-sm text-muted-foreground mb-4">
+                            See all IR models side-by-side with the same input. Understand how each model processes queries differently and the progressive improvements from Boolean to Browsing models.
+                        </p>
+                        <Button asChild size="lg" className="w-full">
+                            <Link href="/lab/model-comparison">
+                                View Complete Comparison <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
+                    </div>
+
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {[
                             { icon: '🎯', title: 'Motivation', desc: 'Why this model exists and what problem it solves' },
