@@ -37,28 +37,28 @@ export default function LabPage() {
             description: 'Learn probability-based relevance',
             motivation: 'Statistical foundations of IR',
             limitation: 'Parameter tuning complexity',
-            nextModel: 'Language Model'
+            nextModel: 'Structured Text Retrieval'
         },
         {
-            id: 'language-model',
-            title: 'Language Model',
+            id: 'structured-text-retrieval',
+            title: 'Structured Text Retrieval',
             level: 'Advanced',
             duration: '75 mins',
             color: 'bg-orange-500',
-            description: 'Query likelihood estimation',
-            motivation: 'Generative approach to IR',
-            limitation: 'Smoothing challenges',
-            nextModel: 'Neural IR'
+            description: 'Content-in-context with hierarchical structures',
+            motivation: 'Exploiting document structure',
+            limitation: 'Requires structured documents',
+            nextModel: 'Browsing Models'
         },
         {
-            id: 'neural-ir',
-            title: 'Neural IR (BERT/Dense Retrieval)',
+            id: 'browsing-models',
+            title: 'Browsing Models',
             level: 'Advanced',
-            duration: '90 mins',
-            color: 'bg-red-500',
-            description: 'Deep learning for semantic search',
-            motivation: 'Beyond keyword matching',
-            limitation: 'Computational cost',
+            duration: '75 mins',
+            color: 'bg-pink-500',
+            description: 'Exploratory navigation and Berry-Picking',
+            motivation: 'Supporting discovery and exploration',
+            limitation: 'Inefficient for known-item search',
             nextModel: 'Complete'
         }
     ]
