@@ -56,8 +56,8 @@ export function Sidebar({ className }: { className?: string }) {
                 asChild
               >
                 <a href="https://scholar-sparkle-web.lovable.app/" target="_blank" rel="noopener noreferrer">
-                  <span className="text-lg leading-none mr-2">✨</span>
-                  <span>Scholar Sparkle</span>
+                  <span className="text-lg leading-none mr-2">👨‍🏫</span>
+                  <span>Instructor</span>
                 </a>
               </Button>
             </div>

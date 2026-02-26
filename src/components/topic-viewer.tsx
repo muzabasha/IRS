@@ -77,17 +77,28 @@ interface TopicData {
 
 export function TopicViewer({ data }: { data: TopicData }) {
     const [isRead, setIsRead] = useState(false);
+    const [isTocVisible, setIsTocVisible] = useState(true);
 
     // Load read status from localStorage
     React.useEffect(() => {
         const saved = localStorage.getItem(`read-${data.id}`);
         if (saved === 'true') setIsRead(true);
+
+        // Load TOC visibility preference
+        const tocVisible = localStorage.getItem('toc-visible');
+        if (tocVisible !== null) setIsTocVisible(tocVisible === 'true');
     }, [data.id]);
 
     const toggleRead = () => {
         const nextState = !isRead;
         setIsRead(nextState);
         localStorage.setItem(`read-${data.id}`, String(nextState));
+    };
+
+    const toggleToc = () => {
+        const nextState = !isTocVisible;
+        setIsTocVisible(nextState);
+        localStorage.setItem('toc-visible', String(nextState));
     };
 
     // Generate Table of Contents
@@ -167,41 +178,57 @@ export function TopicViewer({ data }: { data: TopicData }) {
                 </div>
             </div>
 
-            {/* Sticky Table of Contents Sidebar */}
+            {/* Sticky Table of Contents Sidebar with Toggle */}
             <div className="hidden lg:block w-80 shrink-0">
-                <div className="sticky top-24 p-6 rounded-xl border bg-card/50 backdrop-blur-sm">
-                    <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-muted-foreground">
-                        On this page
-                    </h4>
-                    <nav className="space-y-1 max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
-                        {toc.map((item, i) => (
-                            <button
-                                key={i}
-                                onClick={() => scrollToSection(item.id)}
-                                className="block w-full text-left px-3 py-2 text-sm text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-md transition-all truncate"
-                            >
-                                {item.title}
-                            </button>
-                        ))}
-                    </nav>
-                    <Separator className="my-4" />
-                    <div className="space-y-3">
-                        <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                            <Activity className="h-4 w-4" />
-                            <span>Estimated Time: 25 mins</span>
+                <div className="sticky top-24">
+                    {/* Toggle Button */}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={toggleToc}
+                        className="mb-3 w-full justify-between rounded-lg"
+                    >
+                        <span className="text-sm font-medium">On this page</span>
+                        {isTocVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </Button>
+
+                    {/* Collapsible TOC Content */}
+                    <div
+                        className={`overflow-hidden transition-all duration-300 ease-in-out ${isTocVisible ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+                            }`}
+                    >
+                        <div className="p-6 rounded-xl border bg-card/50 backdrop-blur-sm">
+                            <nav className="space-y-1 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
+                                {toc.map((item, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => scrollToSection(item.id)}
+                                        className="block w-full text-left px-3 py-2 text-sm text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-md transition-all truncate"
+                                    >
+                                        {item.title}
+                                    </button>
+                                ))}
+                            </nav>
+                            <Separator className="my-4" />
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                                    <Activity className="h-4 w-4" />
+                                    <span>Estimated Time: 25 mins</span>
+                                </div>
+                                <Button
+                                    variant={isRead ? "default" : "outline"}
+                                    size="sm"
+                                    className={`w-full justify-start text-xs rounded-full transition-all ${isRead ? 'bg-green-600 hover:bg-green-700' : ''}`}
+                                    onClick={toggleRead}
+                                >
+                                    {isRead ? (
+                                        <><CheckCircle className="mr-2 h-3.5 w-3.5" /> Completed</>
+                                    ) : (
+                                        <><BookOpen className="mr-2 h-3.5 w-3.5" /> Mark as Read</>
+                                    )}
+                                </Button>
+                            </div>
                         </div>
-                        <Button
-                            variant={isRead ? "default" : "outline"}
-                            size="sm"
-                            className={`w-full justify-start text-xs rounded-full transition-all ${isRead ? 'bg-green-600 hover:bg-green-700' : ''}`}
-                            onClick={toggleRead}
-                        >
-                            {isRead ? (
-                                <><CheckCircle className="mr-2 h-3.5 w-3.5" /> Completed</>
-                            ) : (
-                                <><BookOpen className="mr-2 h-3.5 w-3.5" /> Mark as Read</>
-                            )}
-                        </Button>
                     </div>
                 </div>
             </div>
