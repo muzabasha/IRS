@@ -321,26 +321,115 @@ export default function LabPage() {
                 </CardContent>
             </Card>
 
+            {/* Complete Comparison Journeys */}
+            <Card className="border-none shadow-md">
+                <CardHeader>
+                    <CardTitle>Complete Comparison Journeys</CardTitle>
+                    <CardDescription>
+                        See all techniques side-by-side with the same input across all units
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    {/* Unit 1 Comparison */}
+                    <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950 p-6 rounded-lg border-2 border-blue-500/20">
+                        <div className="flex items-start gap-4">
+                            <div className="h-12 w-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg flex-shrink-0">
+                                1
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                                    <TrendingUp className="h-5 w-5" />
+                                    Unit 1: IR Models Comparison
+                                </h3>
+                                <p className="text-sm text-muted-foreground mb-4">
+                                    See all IR models side-by-side with the same input. Compare Boolean, VSM, BM25, Structured Text, and Browsing models. Understand progressive improvements from exact matching to exploratory navigation.
+                                </p>
+                                <Button asChild size="lg" className="w-full">
+                                    <Link href="/lab/model-comparison">
+                                        View Unit 1 Comparison <ArrowRight className="ml-2 h-4 w-4" />
+                                    </Link>
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Unit 2 Comparison */}
+                    <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 p-6 rounded-lg border-2 border-green-500/20">
+                        <div className="flex items-start gap-4">
+                            <div className="h-12 w-12 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-lg flex-shrink-0">
+                                2
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                                    <TrendingUp className="h-5 w-5" />
+                                    Unit 2: Query Operations Comparison
+                                </h3>
+                                <p className="text-sm text-muted-foreground mb-4">
+                                    Compare query languages (Keyword, Boolean, Proximity, Wildcard) and text preprocessing pipeline. See tokenization, stopword removal, stemming, and inverted index construction in action.
+                                </p>
+                                <Button asChild size="lg" className="w-full">
+                                    <Link href="/lab/unit-2-comparison">
+                                        View Unit 2 Comparison <ArrowRight className="ml-2 h-4 w-4" />
+                                    </Link>
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Unit 3 Comparison */}
+                    <div className="bg-gradient-to-r from-purple-50 to-violet-50 dark:from-purple-950 dark:to-violet-950 p-6 rounded-lg border-2 border-purple-500/20">
+                        <div className="flex items-start gap-4">
+                            <div className="h-12 w-12 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold text-lg flex-shrink-0">
+                                3
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                                    <TrendingUp className="h-5 w-5" />
+                                    Unit 3: User Interface Comparison
+                                </h3>
+                                <p className="text-sm text-muted-foreground mb-4">
+                                    Compare HCI principles (Fitts&apos;s Law), query specification (Autocomplete, Spell Check), and result visualization (List, KWIC, Faceted Search). Interactive UI technique demonstrations.
+                                </p>
+                                <Button asChild size="lg" className="w-full">
+                                    <Link href="/lab/unit-3-comparison">
+                                        View Unit 3 Comparison <ArrowRight className="ml-2 h-4 w-4" />
+                                    </Link>
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Unit 4 Comparison */}
+                    <div className="bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950 dark:to-amber-950 p-6 rounded-lg border-2 border-orange-500/20">
+                        <div className="flex items-start gap-4">
+                            <div className="h-12 w-12 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold text-lg flex-shrink-0">
+                                4
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                                    <TrendingUp className="h-5 w-5" />
+                                    Unit 4: Multimedia & Web Search Comparison
+                                </h3>
+                                <p className="text-sm text-muted-foreground mb-4">
+                                    Compare multimedia IR (Color-based Image Retrieval), web crawling (BFS Strategy), PageRank algorithm with convergence, and meta-search result aggregation. See web-scale techniques in action.
+                                </p>
+                                <Button asChild size="lg" className="w-full">
+                                    <Link href="/lab/unit-4-comparison">
+                                        View Unit 4 Comparison <ArrowRight className="ml-2 h-4 w-4" />
+                                    </Link>
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Lab Structure Info */}
             <Card className="border-none shadow-md">
                 <CardHeader>
                     <CardTitle>What You'll Learn in Each Lab</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                    <div className="bg-gradient-to-r from-primary/10 to-purple/10 p-6 rounded-lg border-2 border-primary/20">
-                        <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
-                            <TrendingUp className="h-5 w-5" />
-                            Complete Model Comparison Journey
-                        </h3>
-                        <p className="text-sm text-muted-foreground mb-4">
-                            See all IR models side-by-side with the same input. Understand how each model processes queries differently and the progressive improvements from Boolean to Browsing models.
-                        </p>
-                        <Button asChild size="lg" className="w-full">
-                            <Link href="/lab/model-comparison">
-                                View Complete Comparison <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                        </Button>
-                    </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {[
