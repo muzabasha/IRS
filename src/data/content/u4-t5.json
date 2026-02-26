@@ -240,7 +240,7 @@
                     },
                     {
                         "question": "Topic-Sensitive PageRank: Can we bias the global rank to favor a specific user's expertise?",
-                        "answer": "Global PageRank is query-independent. Research in 'Personalized PageRank' (PPR) modifies the teleportation vector $(1-d)$ such that the surfer doesn't jump to a random page, but to a set of pages preferred by the user. Mathematically, this shifts the steady-state probability distribution to favor the local neighborhood of the user's interest."
+                        "answer": "Global PageRank is query-independent. Research in 'Personalized PageRank' (PPR) modifies the teleportation vector (1-d) such that the surfer doesn't jump to a random page, but to a set of pages preferred by the user. Mathematically, this shifts the steady-state probability distribution to favor the local neighborhood of the user's interest."
                     }
                 ],
                 "mathematicalModeling": {
@@ -252,14 +252,14 @@
                             "interpretation": "M ensures the graph is 'Irreducible' and 'Aperiodic', which are necessary conditions for a unique solution."
                         },
                         {
-                            "step": "Identify the PageRank vector $\\pi$ as the principal eigenvector of matrix M.",
+                            "step": "Identify the PageRank vector π as the principal eigenvector of matrix M.",
                             "equation": "\\pi = \\pi M",
                             "interpretation": "The 'Steady State' is reached when further browsing doesn't change the probability of being on any given page. This is the Page Rank."
                         },
                         {
                             "step": "Solve using the Power Iteration method.",
                             "equation": "\\vec{x}_{k+1} = M^T \\vec{x}_k",
-                            "interpretation": "Repeatedly multiplying the probability vector by the transition matrix converges to the dominant eigenvector at a rate determined by the second eigenvalue $\\lambda_2$."
+                            "interpretation": "Repeatedly multiplying the probability vector by the transition matrix converges to the dominant eigenvector at a rate determined by the second eigenvalue λ₂."
                         }
                     ],
                     "conclusion": "Link analysis proves that the 'Utility' of a node in a network is a global property determined by its structural centrality, transforming IR from a local word-counting task into a global graph-theory problem."

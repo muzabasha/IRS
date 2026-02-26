@@ -196,18 +196,18 @@
                 "researchQuestions": [
                     {
                         "question": "The Expressivity-Efficiency Tradeoff: Why hasn't the Web adopted more powerful structural query languages like XQuery?",
-                        "answer": "Research shows that as query language expressivity increases, computational complexity rises (from $O(n)$ for keywords to $O(n^3)$ or worse for certain structural joins). For the web-scale, 'At-Least-N' keyword models are favored. The research challenge is implementing 'Deep Structure' search on top of 'Flat' inverted indices using specialized data structures like Trigram or Suffix Trees."
+                        "answer": "Research shows that as query language expressivity increases, computational complexity rises (from O(n) for keywords to O(n³) or worse for certain structural joins). For the web-scale, 'At-Least-N' keyword models are favored. The research challenge is implementing 'Deep Structure' search on top of 'Flat' inverted indices using specialized data structures like Trigram or Suffix Trees."
                     },
                     {
                         "question": "Natural Language to Formal Logic: Can we bypass the query language entirely using Semantic Parsing?",
-                        "answer": "Users prefer natural language questions over formal logic ($A \\cap B$). Research in 'Semantic Parsing' focuses on automatically translating 'Who won the Oscar in 2023?' into a formal SPARQL or SQL-like query. The core mathematical problem is the 'Ambiguity of Quantifiers' and correctly mapping natural entities to knowledge graph nodes."
+                        "answer": "Users prefer natural language questions over formal logic (A ∩ B). Research in 'Semantic Parsing' focuses on automatically translating 'Who won the Oscar in 2023?' into a formal SPARQL or SQL-like query. The core mathematical problem is the 'Ambiguity of Quantifiers' and correctly mapping natural entities to knowledge graph nodes."
                     }
                 ],
                 "mathematicalModeling": {
                     "problemStatement": "Modeling Pattern Matching as a Finite State Automaton (FSA) problem.",
                     "derivation": [
                         {
-                            "step": "Define a query pattern $P$ as a Regular Expression that generates a formal language $L(P)$.",
+                            "step": "Define a query pattern P as a Regular Expression that generates a formal language L(P).",
                             "equation": "M(P, D) = \\{d \\in D | \\exists w \\in d, w \\in L(P)\\}",
                             "interpretation": "A document matches if it contains at least one word that is a member of the language defined by the pattern P."
                         },

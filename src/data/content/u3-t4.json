@@ -136,7 +136,7 @@
                 "researchQuestions": [
                     {
                         "question": "Implicit Feedback Bias: How do 'Position Bias' and 'Presentation Bias' skew the interpretation of user clicks?",
-                        "answer": "Users are more likely to click the first result regardless of quality (Position Bias). Research in 'Click Models' uses the 'Examination Hypothesis': $P(Click) = P(Examination) \\cdot P(Relevance)$. To mathematically isolate true relevance, we must de-bias the clicks by estimating the examination probability for each position using historical log data."
+                        "answer": "Users are more likely to click the first result regardless of quality (Position Bias). Research in 'Click Models' uses the 'Examination Hypothesis': P(Click) = P(Examination) × P(Relevance). To mathematically isolate true relevance, we must de-bias the clicks by estimating the examination probability for each position using historical log data."
                     },
                     {
                         "question": "The Satisfaction Problem: Can 'Dwell Time' distinguish between a satisfied user and a frustrated user struggling with complex text?",

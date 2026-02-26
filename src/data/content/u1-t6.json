@@ -206,11 +206,11 @@
                 "researchQuestions": [
                     {
                         "question": "The Zero-Frequency Problem: How can Bayesian Smoothing prevent the 'Zero-Probability' pitfall without distorting the model?",
-                        "answer": "Probabilistic models often encounter terms in queries that are absent from a document ($tf=0$). A naive model would return zero probability. Research in Jelinek-Mercer and Dirichlet Smoothing proves that we must treat a document not as a static set, but as a sample from a distribution. Smoothing acts as a 'Prior' that incorporates collection-wide term statistics, ensuring every query can be ranked against every document."
+                        "answer": "Probabilistic models often encounter terms in queries that are absent from a document (tf=0). A naive model would return zero probability. Research in Jelinek-Mercer and Dirichlet Smoothing proves that we must treat a document not as a static set, but as a sample from a distribution. Smoothing acts as a 'Prior' that incorporates collection-wide term statistics, ensuring every query can be ranked against every document."
                     },
                     {
                         "question": "BM25 vs. Language Models: Why does IDF emerge naturally in the Query Likelihood approach?",
-                        "answer": "In Language Modeling for IR, we estimate $P(Q|M_D)$. Research shows that the 'IDF' effect isn't an explicit weight but a consequence of the denominator in the smoothing equation. A term that is common in the collection ($P(w|C)$ is high) contributes less to the document-specific likelihood than a rare term, providing a unified probabilistic explanation for the success of traditional heuristics."
+                        "answer": "In Language Modeling for IR, we estimate P(Q|M_D). Research shows that the 'IDF' effect isn't an explicit weight but a consequence of the denominator in the smoothing equation. A term that is common in the collection (P(w|C) is high) contributes less to the document-specific likelihood than a rare term, providing a unified probabilistic explanation for the success of traditional heuristics."
                     }
                 ],
                 "mathematicalModeling": {

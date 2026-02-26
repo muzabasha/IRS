@@ -131,7 +131,7 @@
                     "problemStatement": "Modeling Image Feature Extraction as a Convolutional Neural Network (CNN) Transformation.",
                     "derivation": [
                         {
-                            "step": "Model the image $I$ as a 3D tensor and the feature extraction as a series of convolutional filters $K$.",
+                            "step": "Model the image I as a 3D tensor and the feature extraction as a series of convolutional filters K.",
                             "equation": "F(I, K) = \\sum_{m,n} I(m,n) \\cdot K(i-m, j-n)",
                             "interpretation": "Convolution calculates the dot product between a sliding window of pixels and a learned weight matrix (kernel) that responds to specific patterns like edges or textures."
                         },
@@ -143,7 +143,7 @@
                         {
                             "step": "Measure similarity in the Neural Embedding Space using Cosine Proximity.",
                             "equation": "S(I_1, I_2) = \\frac{\\Phi(I_1) \\cdot \\Phi(I_2)}{|\\Phi(I_1)| |\\Phi(I_2)|}",
-                            "interpretation": "The 'Semantic Gap' is bridged by shifting from raw pixel distance to distance in the deep feature space $\\Phi$, which captures high-level conceptual similarity."
+                            "interpretation": "The 'Semantic Gap' is bridged by shifting from raw pixel distance to distance in the deep feature space Φ, which captures high-level conceptual similarity."
                         }
                     ],
                     "conclusion": "Multimedia IR is the ultimate frontier of retrieval, where the system must mathematically 'Interpret' the raw signal of the physical world to match it with human concept space."

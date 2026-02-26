@@ -202,11 +202,11 @@
                 "researchQuestions": [
                     {
                         "question": "The Optimal Rank k: At what point does dimensionality reduction lose the 'Signal' of the semantics?",
-                        "answer": "Research in LSA focuses on the 'Elbow Method' in the distribution of singular values. High singular values represent stable semantic structures (signal), while low ones represent document-specific noise. The mathematical challenge is finding a $k$ that minimizes the Frobenius norm $||A - A_k||_F$ while maximizing the separability of document clusters in the reduced space."
+                        "answer": "Research in LSA focuses on the 'Elbow Method' in the distribution of singular values. High singular values represent stable semantic structures (signal), while low ones represent document-specific noise. The mathematical challenge is finding a k that minimizes the Frobenius norm ||A - Aₖ||_F while maximizing the separability of document clusters in the reduced space."
                     },
                     {
                         "question": "The Problem of Incrementality: How can algebraic models scale to dynamic document streams like the Web?",
-                        "answer": "SVD is computationally expensive ($O(min(mn^2, m^2n))$). Current research focuses on 'Fold-in' techniques and Incremental LSA, which update the concept space without recomputing the entire decomposition. This shift from batch to online learning is critical for modern real-time search applications."
+                        "answer": "SVD is computationally expensive (O(min(mn², m²n))). Current research focuses on 'Fold-in' techniques and Incremental LSA, which update the concept space without recomputing the entire decomposition. This shift from batch to online learning is critical for modern real-time search applications."
                     }
                 ],
                 "mathematicalModeling": {
@@ -215,7 +215,7 @@
                         {
                             "step": "Model the term-document matrix A as a product of orthogonal concept bases.",
                             "equation": "A = U \\Sigma V^T",
-                            "interpretation": "U maps terms to concepts, V maps documents to concepts, and $\\Sigma$ scales them by importance."
+                            "interpretation": "U maps terms to concepts, V maps documents to concepts, and Σ scales them by importance."
                         },
                         {
                             "step": "Reduce the rank of the system to filter out synonymy noise.",
