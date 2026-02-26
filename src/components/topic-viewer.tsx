@@ -265,38 +265,39 @@ function SlideContent({ slide }: { slide: Slide }) {
                     </Card>
 
                     {content?.mathematicalModeling && (
-                        <div className="p-8 rounded-3xl bg-linear-to-br from-indigo-900/40 to-slate-900 border border-indigo-500/20 shadow-xl overflow-hidden relative">
+                        <div className="p-10 rounded-3xl bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-950 border-4 border-blue-600 dark:border-blue-400 shadow-2xl overflow-hidden relative">
                             <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
                                 <Terminal className="h-40 w-40" />
                             </div>
 
-                            <h4 className="text-xs font-black uppercase tracking-[0.3em] text-indigo-400 mb-8 border-b border-indigo-500/20 pb-4">
-                                Mathematical Modeling & Interpretative Derivation
+                            <h4 className="text-2xl font-black uppercase tracking-wider text-blue-900 dark:text-blue-100 mb-10 border-b-4 border-blue-600 dark:border-blue-400 pb-6 bg-blue-100 dark:bg-blue-900/30 -mx-10 -mt-10 px-10 pt-10">
+                                📐 Mathematical Modeling & Interpretative Derivation
                             </h4>
 
-                            <div className="space-y-8 relative z-10">
-                                <div className="space-y-2">
-                                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Problem Statement</span>
-                                    <p className="text-lg font-medium text-slate-200">{content.mathematicalModeling.problemStatement}</p>
+                            <div className="space-y-10 relative z-10">
+                                <div className="space-y-4 bg-white dark:bg-slate-800 p-6 rounded-2xl border-2 border-blue-300 dark:border-blue-700 shadow-lg">
+                                    <span className="text-sm font-black text-blue-700 dark:text-blue-300 uppercase tracking-widest bg-blue-100 dark:bg-blue-900/50 px-4 py-2 rounded-full inline-block">Problem Statement</span>
+                                    <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 leading-relaxed">{content.mathematicalModeling.problemStatement}</p>
                                 </div>
 
-                                <div className="space-y-6">
-                                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Derivation Path</span>
+                                <div className="space-y-8">
+                                    <span className="text-sm font-black text-blue-700 dark:text-blue-300 uppercase tracking-widest bg-blue-100 dark:bg-blue-900/50 px-4 py-2 rounded-full inline-block">Derivation Path</span>
                                     {content.mathematicalModeling.derivation.map((step: { step: string, equation?: string, interpretation: string }, idx: number) => (
-                                        <div key={idx} className="flex gap-6 items-start group">
+                                        <div key={idx} className="flex gap-8 items-start group">
                                             <div className="flex flex-col items-center">
-                                                <div className="h-10 w-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0 group-hover:bg-indigo-500/20 transition-colors">
+                                                <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 border-4 border-blue-300 dark:border-blue-600 flex items-center justify-center text-white text-2xl font-black shrink-0 shadow-xl group-hover:scale-110 transition-transform">
                                                     {idx + 1}
                                                 </div>
                                                 {idx < content.mathematicalModeling.derivation.length - 1 && (
-                                                    <div className="w-0.5 h-12 bg-linear-to-b from-indigo-500/30 to-transparent" />
+                                                    <div className="w-1 h-16 bg-gradient-to-b from-blue-500 to-blue-300 dark:from-blue-400 dark:to-blue-600 rounded-full my-2" />
                                                 )}
                                             </div>
-                                            <div className="space-y-4 flex-1">
-                                                <p className="text-slate-300 font-medium">{step.step}</p>
+                                            <div className="space-y-6 flex-1">
+                                                <p className="text-xl font-bold text-slate-900 dark:text-slate-100 leading-relaxed bg-white dark:bg-slate-800 p-5 rounded-xl border-2 border-blue-200 dark:border-blue-800 shadow-md">{step.step}</p>
                                                 {step.equation && (
                                                     <div
-                                                        className="my-3 p-4 bg-black/40 rounded-xl border border-indigo-500/10 overflow-x-auto text-center"
+                                                        className="my-4 p-8 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950 dark:to-yellow-950 rounded-2xl border-4 border-amber-400 dark:border-amber-600 overflow-x-auto text-center shadow-xl"
+                                                        style={{ fontSize: '1.8rem' }}
                                                         dangerouslySetInnerHTML={{
                                                             __html: katex.renderToString(step.equation, {
                                                                 throwOnError: false,
@@ -305,21 +306,23 @@ function SlideContent({ slide }: { slide: Slide }) {
                                                         }}
                                                     />
                                                 )}
-                                                <p className="text-sm text-indigo-300/60 italic leading-relaxed">
-                                                    <span className="font-bold text-indigo-400/80 mr-2">Interpretation:</span>
-                                                    {step.interpretation}
-                                                </p>
+                                                <div className="bg-blue-50 dark:bg-blue-900/30 p-5 rounded-xl border-2 border-blue-200 dark:border-blue-700">
+                                                    <p className="text-lg text-slate-800 dark:text-slate-200 leading-relaxed">
+                                                        <span className="font-black text-blue-700 dark:text-blue-300 mr-3 text-xl">💡 Interpretation:</span>
+                                                        <span className="font-semibold">{step.interpretation}</span>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
 
-                                <div className="pt-6 border-t border-indigo-500/20">
-                                    <div className="flex items-center gap-3">
-                                        <CheckCircle className="h-5 w-5 text-emerald-400" />
-                                        <span className="text-sm font-bold text-emerald-400/80 uppercase tracking-wider">Solution Synthesis</span>
+                                <div className="pt-8 border-t-4 border-green-500 dark:border-green-400 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 p-8 rounded-2xl shadow-xl">
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <CheckCircle className="h-10 w-10 text-green-600 dark:text-green-400" />
+                                        <span className="text-xl font-black text-green-700 dark:text-green-300 uppercase tracking-wider">✓ Solution Synthesis</span>
                                     </div>
-                                    <p className="mt-3 text-slate-300 font-medium leading-relaxed">
+                                    <p className="text-2xl text-slate-900 dark:text-slate-100 font-bold leading-relaxed">
                                         {content.mathematicalModeling.conclusion}
                                     </p>
                                 </div>
@@ -681,19 +684,20 @@ function SlideContent({ slide }: { slide: Slide }) {
 
                     {/* Mathematical Formula Rendering */}
                     {slide.formula && (
-                        <div className="my-8 p-6 bg-linear-to-br from-blue-50/50 to-indigo-50/50 dark:from-blue-950/20 dark:to-indigo-950/20 rounded-2xl border-2 border-blue-200 dark:border-blue-900/50 shadow-lg">
-                            <div className="flex items-center gap-2 mb-4">
-                                <Terminal className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                                <h4 className="text-sm font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide">Mathematical Model</h4>
+                        <div className="my-10 p-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 rounded-3xl border-4 border-blue-500 dark:border-blue-400 shadow-2xl">
+                            <div className="flex items-center gap-3 mb-6 bg-blue-600 dark:bg-blue-500 text-white px-6 py-4 rounded-2xl -mx-8 -mt-8 mb-8">
+                                <Terminal className="h-8 w-8" />
+                                <h4 className="text-2xl font-black uppercase tracking-wide">📐 Mathematical Model</h4>
                             </div>
 
                             {slide.formula.description && (
-                                <p className="text-sm text-muted-foreground mb-4 italic">{slide.formula.description}</p>
+                                <p className="text-xl text-slate-800 dark:text-slate-200 mb-6 font-semibold leading-relaxed bg-white dark:bg-slate-800 p-5 rounded-xl border-2 border-blue-200 dark:border-blue-700">{slide.formula.description}</p>
                             )}
 
                             {/* Render equation using KaTeX */}
                             <div
-                                className="my-6 p-4 bg-white dark:bg-gray-900 rounded-lg border border-blue-100 dark:border-blue-900 overflow-x-auto text-center text-xl"
+                                className="my-8 p-10 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950 dark:to-yellow-950 rounded-2xl border-4 border-amber-400 dark:border-amber-600 overflow-x-auto text-center shadow-xl"
+                                style={{ fontSize: '2rem' }}
                                 dangerouslySetInnerHTML={{
                                     __html: katex.renderToString(slide.formula.equation, {
                                         throwOnError: false,
@@ -704,20 +708,20 @@ function SlideContent({ slide }: { slide: Slide }) {
 
                             {/* Term Explanations */}
                             {slide.formula.terms && slide.formula.terms.length > 0 && (
-                                <div className="mt-6 space-y-3">
-                                    <h5 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Term Definitions</h5>
-                                    <div className="grid gap-2">
+                                <div className="mt-8 space-y-4">
+                                    <h5 className="text-lg font-black uppercase tracking-wider text-blue-700 dark:text-blue-300 mb-4 bg-blue-100 dark:bg-blue-900/50 px-4 py-2 rounded-full inline-block">Term Definitions</h5>
+                                    <div className="grid gap-4">
                                         {slide.formula.terms.map((term, idx) => (
-                                            <div key={idx} className="flex items-start gap-3 p-3 bg-white/50 dark:bg-gray-900/50 rounded-lg border border-blue-100/50 dark:border-blue-900/30">
+                                            <div key={idx} className="flex items-start gap-4 p-5 bg-white dark:bg-slate-800 rounded-xl border-2 border-blue-300 dark:border-blue-700 shadow-lg hover:shadow-xl transition-shadow">
                                                 <div
-                                                    className="font-mono text-blue-600 dark:text-blue-400 font-bold shrink-0 min-w-[60px]"
+                                                    className="font-mono text-blue-700 dark:text-blue-300 font-black shrink-0 min-w-[80px] text-2xl"
                                                     dangerouslySetInnerHTML={{
                                                         __html: katex.renderToString(term.symbol, {
                                                             throwOnError: false
                                                         })
                                                     }}
                                                 />
-                                                <span className="text-sm text-foreground/80 leading-relaxed">{term.meaning}</span>
+                                                <span className="text-lg text-slate-900 dark:text-slate-100 font-semibold leading-relaxed">{term.meaning}</span>
                                             </div>
                                         ))}
                                     </div>
