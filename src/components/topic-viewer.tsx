@@ -116,11 +116,13 @@ export function TopicViewer({ data }: { data: TopicData }) {
 
     return (
         <div className="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto p-4 lg:p-8 animate-in fade-in duration-700">
-            {/* Main Content Column */}
-            <div className="flex-1 space-y-12">
+            {/* Main Content Column - Dynamic width based on TOC visibility */}
+            <div className={`space-y-12 transition-all duration-300 ease-in-out ${isTocVisible ? 'flex-1' : 'w-full max-w-5xl mx-auto'
+                }`}>
 
-                {/* Topic Header */}
-                <div className="space-y-4 pb-6 border-b">
+                {/* Topic Header - Dynamic styling based on TOC visibility */}
+                <div className={`space-y-4 pb-6 border-b transition-all duration-300 ${!isTocVisible ? 'max-w-4xl' : ''
+                    }`}>
                     <div className="flex items-center gap-2 text-primary font-medium">
                         <span className="p-1 px-3 rounded-full bg-primary/10 text-xs uppercase tracking-wider">
                             {data.unitId.replace("-", " ")}
@@ -128,16 +130,19 @@ export function TopicViewer({ data }: { data: TopicData }) {
                         <ChevronRight className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm text-foreground/80">{data.title}</span>
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+                    <h1 className={`font-bold tracking-tight text-foreground transition-all duration-300 ${!isTocVisible ? 'text-5xl md:text-6xl' : 'text-4xl md:text-5xl'
+                        }`}>
                         {data.title}
                     </h1>
-                    <p className="text-xl text-muted-foreground max-w-3xl leading-relaxed">
+                    <p className={`text-muted-foreground leading-relaxed transition-all duration-300 ${!isTocVisible ? 'text-2xl max-w-4xl' : 'text-xl max-w-3xl'
+                        }`}>
                         {data.slides[0]?.content?.text || "Explore the core concepts and methodologies in this comprehensive guide."}
                     </p>
                 </div>
 
-                {/* Render Sections */}
-                <div className="space-y-16">
+                {/* Render Sections - Dynamic styling based on TOC visibility */}
+                <div className={`space-y-16 transition-all duration-300 ${!isTocVisible ? 'max-w-4xl' : ''
+                    }`}>
                     {data.slides.map((slide, index) => {
                         // Skip Title slide as it's used in header
                         if (slide.type === "title") return null;
@@ -149,15 +154,18 @@ export function TopicViewer({ data }: { data: TopicData }) {
                                 className="scroll-mt-24 group"
                             >
                                 <div className="flex items-center gap-4 mb-6">
-                                    <div className="flex items-center justify-center h-8 w-8 rounded-full border border-muted-foreground/30 text-xs font-mono text-muted-foreground">
+                                    <div className={`flex items-center justify-center rounded-full border border-muted-foreground/30 text-xs font-mono text-muted-foreground transition-all duration-300 ${!isTocVisible ? 'h-10 w-10' : 'h-8 w-8'
+                                        }`}>
                                         {slide.slideNumber}
                                     </div>
-                                    <h2 className="text-2xl font-semibold tracking-tight group-hover:text-primary transition-colors">
+                                    <h2 className={`font-semibold tracking-tight group-hover:text-primary transition-all duration-300 ${!isTocVisible ? 'text-3xl' : 'text-2xl'
+                                        }`}>
                                         {slide.title}
                                     </h2>
                                 </div>
-                                <div className="pl-0 md:pl-12">
-                                    <SlideContent slide={slide} />
+                                <div className={`transition-all duration-300 ${!isTocVisible ? 'pl-0 md:pl-14 text-lg' : 'pl-0 md:pl-12'
+                                    }`}>
+                                    <SlideContent slide={slide} isTocVisible={isTocVisible} />
                                 </div>
                             </section>
                         )
@@ -178,8 +186,9 @@ export function TopicViewer({ data }: { data: TopicData }) {
                 </div>
             </div>
 
-            {/* Sticky Table of Contents Sidebar with Toggle */}
-            <div className="hidden lg:block w-80 shrink-0">
+            {/* Sticky Table of Contents Sidebar with Toggle - Dynamic width */}
+            <div className={`hidden lg:block shrink-0 transition-all duration-300 ease-in-out ${isTocVisible ? 'w-80' : 'w-auto'
+                }`}>
                 <div className="sticky top-24">
                     {/* Toggle Button */}
                     <Button
@@ -237,7 +246,7 @@ export function TopicViewer({ data }: { data: TopicData }) {
 }
 
 // Sub-component to render specific slide types
-function SlideContent({ slide }: { slide: Slide }) {
+function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisible?: boolean }) {
     const { type, content, items, questions, answers } = slide;
     const [showAnswer, setShowAnswer] = useState<Record<number, boolean>>({});
     const [copied, setCopied] = useState(false);
