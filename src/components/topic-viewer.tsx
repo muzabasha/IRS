@@ -235,27 +235,27 @@ function SlideContent({ slide }: { slide: Slide }) {
     switch (type) {
         case "research_perspective":
             return (
-                <div className="space-y-8">
-                    <Card className="bg-slate-900 border-indigo-500/30 text-slate-100 overflow-hidden shadow-2xl">
-                        <div className="p-6 border-b border-indigo-500/20 bg-indigo-500/10">
-                            <h3 className="text-xl font-bold flex items-center gap-2 text-indigo-300">
-                                <BookOpen className="h-5 w-5" /> Research Front: Advanced Inquiries
+                <div className="space-y-10">
+                    <Card className="bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-indigo-950 border-4 border-indigo-600 dark:border-indigo-400 text-slate-900 dark:text-slate-100 overflow-hidden shadow-2xl">
+                        <div className="p-8 border-b-4 border-indigo-600 dark:border-indigo-400 bg-indigo-600 dark:bg-indigo-500 text-white">
+                            <h3 className="text-3xl font-black flex items-center gap-3 uppercase tracking-wide">
+                                <BookOpen className="h-8 w-8" /> 🔬 Research Front: Advanced Inquiries
                             </h3>
-                            <p className="text-sm text-indigo-400/80 mt-1">PhD & Postgraduate Level Theoretical Perspectives</p>
+                            <p className="text-xl font-semibold mt-3">PhD & Postgraduate Level Theoretical Perspectives</p>
                         </div>
-                        <CardContent className="p-8 space-y-10">
+                        <CardContent className="p-10 space-y-12">
                             {content?.researchQuestions && content.researchQuestions.map((rq: { question: string, answer: string }, i: number) => (
-                                <div key={i} className="space-y-4">
-                                    <div className="flex gap-4">
-                                        <div className="h-8 w-8 rounded-full bg-indigo-500/20 flex items-center justify-center shrink-0 border border-indigo-500/40 text-indigo-300 font-bold text-xs">
+                                <div key={i} className="space-y-6 bg-white dark:bg-slate-800 p-8 rounded-2xl border-2 border-indigo-300 dark:border-indigo-700 shadow-lg">
+                                    <div className="flex gap-6">
+                                        <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shrink-0 border-4 border-indigo-300 dark:border-indigo-600 text-white font-black text-2xl shadow-xl">
                                             Q{i + 1}
                                         </div>
-                                        <h4 className="text-lg font-semibold leading-relaxed text-indigo-100">
+                                        <h4 className="text-2xl font-bold leading-relaxed">
                                             {rq.question}
                                         </h4>
                                     </div>
-                                    <div className="pl-12">
-                                        <p className="text-slate-400 leading-relaxed text-base">
+                                    <div className="pl-22 bg-indigo-50 dark:bg-indigo-900/30 p-6 rounded-xl border-2 border-indigo-200 dark:border-indigo-700">
+                                        <p className="text-xl font-semibold leading-relaxed">
                                             {rq.answer}
                                         </p>
                                     </div>
@@ -423,11 +423,11 @@ function SlideContent({ slide }: { slide: Slide }) {
         case "list":
         case "grid":
             return (
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-6">
                     {items?.map((item, i) => (
-                        <div key={i} className="flex items-start gap-3 p-4 rounded-lg border bg-card/50 hover:bg-card hover:shadow-md transition-all">
-                            <div className="h-2 w-2 mt-2 rounded-full bg-primary shrink-0" />
-                            <span className="text-foreground/90">{item}</span>
+                        <div key={i} className="flex items-start gap-4 p-6 rounded-xl border-2 border-blue-300 dark:border-blue-700 bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:shadow-xl transition-all shadow-lg">
+                            <div className="h-4 w-4 mt-1 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 shrink-0 shadow-md" />
+                            <span className="text-lg font-semibold text-slate-900 dark:text-slate-100 leading-relaxed">{item}</span>
                         </div>
                     ))}
                 </div>
@@ -436,29 +436,31 @@ function SlideContent({ slide }: { slide: Slide }) {
         case "exam":
         case "quiz":
             return (
-                <div className="space-y-4">
+                <div className="space-y-6">
                     {questions?.map((q, i) => (
-                        <Card key={i} className="overflow-hidden border-orange-200/50 dark:border-orange-900/50 transition-all hover:border-orange-300">
-                            <div className="bg-orange-50 m-1 md:m-1.5 p-4 rounded-md dark:bg-orange-950/20 flex gap-4">
-                                <HelpCircle className="h-5 w-5 text-orange-600 mt-1 shrink-0" />
-                                <div className="space-y-3 w-full">
-                                    <p className="font-medium text-foreground">{q}</p>
+                        <Card key={i} className="overflow-hidden border-4 border-orange-400 dark:border-orange-600 transition-all hover:border-orange-500 shadow-xl">
+                            <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950 dark:to-amber-950 m-2 p-6 rounded-xl flex gap-6">
+                                <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center shrink-0 text-white shadow-lg">
+                                    <HelpCircle className="h-7 w-7" />
+                                </div>
+                                <div className="space-y-4 w-full">
+                                    <p className="font-bold text-xl text-slate-900 dark:text-slate-100 leading-relaxed">{q}</p>
 
                                     {/* Only show answer button if 'answers' exists */}
                                     {getAnswer(i) && (
-                                        <div className="pt-2">
+                                        <div className="pt-3">
                                             {showAnswer[i] ? (
                                                 <div className="animate-in fade-in slide-in-from-top-2">
-                                                    <div className="text-sm text-muted-foreground bg-background/50 p-3 rounded border mb-2">
+                                                    <div className="text-lg font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800 p-5 rounded-xl border-2 border-green-400 dark:border-green-600 mb-3 shadow-md">
                                                         {getAnswer(i)}
                                                     </div>
-                                                    <Button variant="ghost" size="sm" onClick={() => toggleAnswer(i)} className="text-muted-foreground h-auto p-0 hover:bg-transparent">
-                                                        <EyeOff className="h-3 w-3 mr-1" /> Hide Answer
+                                                    <Button variant="ghost" size="lg" onClick={() => toggleAnswer(i)} className="text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold">
+                                                        <EyeOff className="h-5 w-5 mr-2" /> Hide Answer
                                                     </Button>
                                                 </div>
                                             ) : (
-                                                <Button variant="ghost" size="sm" onClick={() => toggleAnswer(i)} className="text-orange-600 hover:text-orange-700 hover:bg-orange-100 flex items-center gap-1 p-0 h-auto font-normal px-2 py-1 rounded">
-                                                    <Eye className="h-3 w-3" /> Show Answer
+                                                <Button variant="default" size="lg" onClick={() => toggleAnswer(i)} className="bg-orange-600 hover:bg-orange-700 text-white font-bold text-lg px-6 py-3 shadow-lg">
+                                                    <Eye className="h-5 w-5 mr-2" /> Show Answer
                                                 </Button>
                                             )}
                                         </div>
@@ -654,29 +656,29 @@ function SlideContent({ slide }: { slide: Slide }) {
         default:
             // Standard text rendering
             return (
-                <div className="space-y-6 text-lg leading-relaxed text-foreground/90">
+                <div className="space-y-8 text-xl leading-relaxed text-slate-900 dark:text-slate-100">
                     {/* Render text with smart paragraph splitting */}
                     {content?.text && (
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                             {content.text.split('\n').map((paragraph: string, idx: number) => (
-                                paragraph.trim() && <p key={idx}>{paragraph}</p>
+                                paragraph.trim() && <p key={idx} className="font-semibold leading-relaxed">{paragraph}</p>
                             ))}
                         </div>
                     )}
 
                     {content?.hook && (
-                        <div className="flex gap-4 p-6 bg-primary/5 rounded-2xl border border-primary/10 items-start shadow-sm mx-0 md:-mx-4">
-                            <Lightbulb className="h-6 w-6 text-primary shrink-0 mt-0.5" />
-                            <p className="italic text-foreground/80 font-medium font-serif text-xl border-l-2 border-primary/20 pl-4">{content.hook}</p>
+                        <div className="flex gap-6 p-8 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950 dark:to-yellow-950 rounded-2xl border-4 border-amber-400 dark:border-amber-600 items-start shadow-xl">
+                            <Lightbulb className="h-10 w-10 text-amber-600 dark:text-amber-400 shrink-0 mt-1" />
+                            <p className="italic text-slate-900 dark:text-slate-100 font-bold text-2xl border-l-4 border-amber-500 dark:border-amber-400 pl-6 leading-relaxed">{content.hook}</p>
                         </div>
                     )}
 
                     {content?.definition && (
-                        <div className="p-6 bg-muted/30 rounded-xl my-6 border-l-4 border-primary">
-                            <h4 className="text-sm font-bold text-primary uppercase tracking-wide mb-2 flex items-center gap-2">
-                                <BookOpen className="h-4 w-4" /> Definition
+                        <div className="p-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 rounded-2xl my-8 border-l-8 border-blue-600 dark:border-blue-400 shadow-xl">
+                            <h4 className="text-xl font-black text-blue-700 dark:text-blue-300 uppercase tracking-wide mb-4 flex items-center gap-3 bg-blue-100 dark:bg-blue-900/50 px-4 py-2 rounded-full inline-block">
+                                <BookOpen className="h-6 w-6" /> 📖 Definition
                             </h4>
-                            <p className="text-xl font-medium text-foreground">
+                            <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 leading-relaxed">
                                 {content.definition}
                             </p>
                         </div>
