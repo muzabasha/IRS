@@ -77,16 +77,11 @@ interface TopicData {
 
 export function TopicViewer({ data }: { data: TopicData }) {
     const [isRead, setIsRead] = useState(false);
-    const [isTocVisible, setIsTocVisible] = useState(true);
 
     // Load read status from localStorage
     React.useEffect(() => {
         const saved = localStorage.getItem(`read-${data.id}`);
         if (saved === 'true') setIsRead(true);
-
-        // Load TOC visibility preference
-        const tocVisible = localStorage.getItem('toc-visible');
-        if (tocVisible !== null) setIsTocVisible(tocVisible === 'true');
     }, [data.id]);
 
     const toggleRead = () => {
@@ -95,34 +90,13 @@ export function TopicViewer({ data }: { data: TopicData }) {
         localStorage.setItem(`read-${data.id}`, String(nextState));
     };
 
-    const toggleToc = () => {
-        const nextState = !isTocVisible;
-        setIsTocVisible(nextState);
-        localStorage.setItem('toc-visible', String(nextState));
-    };
-
-    // Generate Table of Contents
-    const toc = data.slides.filter(s => s.type !== "title" && s.type !== "summary").map(s => ({
-        id: `section-${s.slideNumber}`,
-        title: s.title
-    }))
-
-    const scrollToSection = (id: string) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-
     return (
-        <div className="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto p-4 lg:p-8 animate-in fade-in duration-700">
-            {/* Main Content Column - Dynamic width based on TOC visibility */}
-            <div className={`space-y-12 transition-all duration-300 ease-in-out ${isTocVisible ? 'flex-1' : 'w-full max-w-5xl mx-auto'
-                }`}>
+        <div className="max-w-7xl mx-auto p-4 lg:p-8 animate-in fade-in duration-700">
+            {/* Main Content - Full Width */}
+            <div className="space-y-12 w-full">
 
-                {/* Topic Header - Dynamic styling based on TOC visibility */}
-                <div className={`space-y-4 pb-6 border-b transition-all duration-300 ${!isTocVisible ? 'max-w-4xl' : ''
-                    }`}>
+                {/* Topic Header */}
+                <div className="space-y-4 pb-6 border-b max-w-5xl mx-auto">
                     <div className="flex items-center gap-2 text-primary font-medium">
                         <span className="p-1 px-3 rounded-full bg-primary/10 text-xs uppercase tracking-wider">
                             {data.unitId.replace("-", " ")}
@@ -130,19 +104,16 @@ export function TopicViewer({ data }: { data: TopicData }) {
                         <ChevronRight className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm text-foreground/80">{data.title}</span>
                     </div>
-                    <h1 className={`font-bold tracking-tight text-foreground transition-all duration-300 ${!isTocVisible ? 'text-5xl md:text-6xl' : 'text-4xl md:text-5xl'
-                        }`}>
+                    <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-foreground">
                         {data.title}
                     </h1>
-                    <p className={`text-muted-foreground leading-relaxed transition-all duration-300 ${!isTocVisible ? 'text-2xl max-w-4xl' : 'text-xl max-w-3xl'
-                        }`}>
+                    <p className="text-2xl text-muted-foreground leading-relaxed">
                         {data.slides[0]?.content?.text || "Explore the core concepts and methodologies in this comprehensive guide."}
                     </p>
                 </div>
 
-                {/* Render Sections - Dynamic styling based on TOC visibility */}
-                <div className={`space-y-16 transition-all duration-300 ${!isTocVisible ? 'max-w-4xl' : ''
-                    }`}>
+                {/* Render Sections - Optimized full-width layout */}
+                <div className="space-y-16 max-w-6xl mx-auto">
                     {data.slides.map((slide, index) => {
                         // Skip Title slide as it's used in header
                         if (slide.type === "title") return null;
@@ -154,18 +125,15 @@ export function TopicViewer({ data }: { data: TopicData }) {
                                 className="scroll-mt-24 group"
                             >
                                 <div className="flex items-center gap-4 mb-6">
-                                    <div className={`flex items-center justify-center rounded-full border border-muted-foreground/30 text-xs font-mono text-muted-foreground transition-all duration-300 ${!isTocVisible ? 'h-10 w-10' : 'h-8 w-8'
-                                        }`}>
+                                    <div className="flex items-center justify-center h-12 w-12 rounded-full border-2 border-muted-foreground/30 text-sm font-mono text-muted-foreground">
                                         {slide.slideNumber}
                                     </div>
-                                    <h2 className={`font-semibold tracking-tight group-hover:text-primary transition-all duration-300 ${!isTocVisible ? 'text-3xl' : 'text-2xl'
-                                        }`}>
+                                    <h2 className="text-3xl font-semibold tracking-tight group-hover:text-primary transition-colors">
                                         {slide.title}
                                     </h2>
                                 </div>
-                                <div className={`transition-all duration-300 ${!isTocVisible ? 'pl-0 md:pl-14 text-lg' : 'pl-0 md:pl-12'
-                                    }`}>
-                                    <SlideContent slide={slide} isTocVisible={isTocVisible} />
+                                <div className="pl-0 md:pl-16">
+                                    <SlideContent slide={slide} />
                                 </div>
                             </section>
                         )
@@ -173,7 +141,7 @@ export function TopicViewer({ data }: { data: TopicData }) {
                 </div>
 
                 {/* Footer Navigation */}
-                <div className="pt-12 border-t mt-12 flex justify-between items-center bg-muted/20 p-8 rounded-2xl">
+                <div className="pt-12 border-t mt-12 flex justify-between items-center bg-muted/20 p-8 rounded-2xl max-w-5xl mx-auto">
                     <div>
                         <p className="text-sm text-muted-foreground mb-1">Finished this topic?</p>
                         <h3 className="text-lg font-semibold">Ready for the next challenge?</h3>
@@ -185,68 +153,12 @@ export function TopicViewer({ data }: { data: TopicData }) {
                     </Button>
                 </div>
             </div>
-
-            {/* Sticky Table of Contents Sidebar with Toggle - Dynamic width */}
-            <div className={`hidden lg:block shrink-0 transition-all duration-300 ease-in-out ${isTocVisible ? 'w-80' : 'w-auto'
-                }`}>
-                <div className="sticky top-24">
-                    {/* Toggle Button */}
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={toggleToc}
-                        className="mb-3 w-full justify-between rounded-lg"
-                    >
-                        <span className="text-sm font-medium">On this page</span>
-                        {isTocVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </Button>
-
-                    {/* Collapsible TOC Content */}
-                    <div
-                        className={`overflow-hidden transition-all duration-300 ease-in-out ${isTocVisible ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
-                            }`}
-                    >
-                        <div className="p-6 rounded-xl border bg-card/50 backdrop-blur-sm">
-                            <nav className="space-y-1 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
-                                {toc.map((item, i) => (
-                                    <button
-                                        key={i}
-                                        onClick={() => scrollToSection(item.id)}
-                                        className="block w-full text-left px-3 py-2 text-sm text-foreground/70 hover:text-primary hover:bg-primary/5 rounded-md transition-all truncate"
-                                    >
-                                        {item.title}
-                                    </button>
-                                ))}
-                            </nav>
-                            <Separator className="my-4" />
-                            <div className="space-y-3">
-                                <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                                    <Activity className="h-4 w-4" />
-                                    <span>Estimated Time: 25 mins</span>
-                                </div>
-                                <Button
-                                    variant={isRead ? "default" : "outline"}
-                                    size="sm"
-                                    className={`w-full justify-start text-xs rounded-full transition-all ${isRead ? 'bg-green-600 hover:bg-green-700' : ''}`}
-                                    onClick={toggleRead}
-                                >
-                                    {isRead ? (
-                                        <><CheckCircle className="mr-2 h-3.5 w-3.5" /> Completed</>
-                                    ) : (
-                                        <><BookOpen className="mr-2 h-3.5 w-3.5" /> Mark as Read</>
-                                    )}
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     )
 }
 
 // Sub-component to render specific slide types
-function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisible?: boolean }) {
+function SlideContent({ slide }: { slide: Slide }) {
     const { type, content, items, questions, answers } = slide;
     const [showAnswer, setShowAnswer] = useState<Record<number, boolean>>({});
     const [copied, setCopied] = useState(false);
@@ -271,27 +183,27 @@ function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisib
     switch (type) {
         case "research_perspective":
             return (
-                <div className={`space-y-10 transition-all duration-300 ${!isTocVisible ? 'max-w-6xl' : ''}`}>
-                    <Card className={`bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-indigo-950 border-4 border-indigo-600 dark:border-indigo-400 text-slate-900 dark:text-slate-100 overflow-hidden shadow-2xl transition-all duration-300 ${!isTocVisible ? 'scale-105' : ''}`}>
-                        <div className={`p-8 border-b-4 border-indigo-600 dark:border-indigo-400 bg-indigo-600 dark:bg-indigo-500 text-white transition-all duration-300 ${!isTocVisible ? 'p-10' : ''}`}>
-                            <h3 className={`font-black flex items-center gap-3 uppercase tracking-wide transition-all duration-300 ${!isTocVisible ? 'text-4xl' : 'text-3xl'}`}>
-                                <BookOpen className={`transition-all duration-300 ${!isTocVisible ? 'h-10 w-10' : 'h-8 w-8'}`} /> 🔬 Research Front: Advanced Inquiries
+                <div className="space-y-10">
+                    <Card className="bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-indigo-950 border-4 border-indigo-600 dark:border-indigo-400 text-slate-900 dark:text-slate-100 overflow-hidden shadow-2xl">
+                        <div className="p-10 border-b-4 border-indigo-600 dark:border-indigo-400 bg-indigo-600 dark:bg-indigo-500 text-white">
+                            <h3 className="text-4xl font-black flex items-center gap-3 uppercase tracking-wide">
+                                <BookOpen className="h-10 w-10" /> 🔬 Research Front: Advanced Inquiries
                             </h3>
-                            <p className={`font-semibold mt-3 transition-all duration-300 ${!isTocVisible ? 'text-2xl' : 'text-xl'}`}>PhD & Postgraduate Level Theoretical Perspectives</p>
+                            <p className="text-2xl font-semibold mt-3">PhD & Postgraduate Level Theoretical Perspectives</p>
                         </div>
-                        <CardContent className={`space-y-12 transition-all duration-300 ${!isTocVisible ? 'p-12' : 'p-10'}`}>
+                        <CardContent className="p-12 space-y-12">
                             {content?.researchQuestions && content.researchQuestions.map((rq: { question: string, answer: string }, i: number) => (
-                                <div key={i} className={`space-y-6 bg-white dark:bg-slate-800 rounded-2xl border-2 border-indigo-300 dark:border-indigo-700 shadow-lg transition-all duration-300 ${!isTocVisible ? 'p-10' : 'p-8'}`}>
+                                <div key={i} className="space-y-6 bg-white dark:bg-slate-800 p-10 rounded-2xl border-2 border-indigo-300 dark:border-indigo-700 shadow-lg">
                                     <div className="flex gap-6">
-                                        <div className={`rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shrink-0 border-4 border-indigo-300 dark:border-indigo-600 text-white font-black shadow-xl transition-all duration-300 ${!isTocVisible ? 'h-20 w-20 text-3xl' : 'h-16 w-16 text-2xl'}`}>
+                                        <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shrink-0 border-4 border-indigo-300 dark:border-indigo-600 text-white font-black text-3xl shadow-xl">
                                             Q{i + 1}
                                         </div>
-                                        <h4 className={`font-bold leading-relaxed transition-all duration-300 ${!isTocVisible ? 'text-3xl' : 'text-2xl'}`}>
+                                        <h4 className="text-3xl font-bold leading-relaxed">
                                             {rq.question}
                                         </h4>
                                     </div>
-                                    <div className={`pl-22 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl border-2 border-indigo-200 dark:border-indigo-700 transition-all duration-300 ${!isTocVisible ? 'p-8' : 'p-6'}`}>
-                                        <p className={`font-semibold leading-relaxed transition-all duration-300 ${!isTocVisible ? 'text-2xl' : 'text-xl'}`}>
+                                    <div className="pl-22 bg-indigo-50 dark:bg-indigo-900/30 p-8 rounded-xl border-2 border-indigo-200 dark:border-indigo-700">
+                                        <p className="text-2xl font-semibold leading-relaxed">
                                             {rq.answer}
                                         </p>
                                     </div>
@@ -301,7 +213,7 @@ function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisib
                     </Card>
 
                     {content?.mathematicalModeling && (
-                        <div className={`rounded-3xl bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-950 border-4 border-blue-600 dark:border-blue-400 shadow-2xl overflow-hidden relative transition-all duration-300 ${!isTocVisible ? 'p-12' : 'p-10'}`}>
+                        <div className="p-12 rounded-3xl bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-950 border-4 border-blue-600 dark:border-blue-400 shadow-2xl overflow-hidden relative">
                             <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
                                 <Terminal className="h-40 w-40" />
                             </div>
@@ -459,15 +371,11 @@ function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisib
         case "list":
         case "grid":
             return (
-                <div className={`grid gap-6 transition-all duration-300 ${!isTocVisible ? 'md:grid-cols-3 lg:grid-cols-3' : 'md:grid-cols-2'
-                    }`}>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {items?.map((item, i) => (
-                        <div key={i} className={`flex items-start gap-4 rounded-xl border-2 border-blue-300 dark:border-blue-700 bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:shadow-xl transition-all shadow-lg ${!isTocVisible ? 'p-8' : 'p-6'
-                            }`}>
-                            <div className={`mt-1 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 shrink-0 shadow-md transition-all duration-300 ${!isTocVisible ? 'h-5 w-5' : 'h-4 w-4'
-                                }`} />
-                            <span className={`font-semibold text-slate-900 dark:text-slate-100 leading-relaxed transition-all duration-300 ${!isTocVisible ? 'text-xl' : 'text-lg'
-                                }`}>{item}</span>
+                        <div key={i} className="flex items-start gap-4 p-8 rounded-xl border-2 border-blue-300 dark:border-blue-700 bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:shadow-xl transition-all shadow-lg">
+                            <div className="h-5 w-5 mt-1 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 shrink-0 shadow-md" />
+                            <span className="text-xl font-semibold text-slate-900 dark:text-slate-100 leading-relaxed">{item}</span>
                         </div>
                     ))}
                 </div>
@@ -476,26 +384,22 @@ function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisib
         case "exam":
         case "quiz":
             return (
-                <div className={`space-y-6 transition-all duration-300 ${!isTocVisible ? 'max-w-5xl' : ''}`}>
+                <div className="space-y-6">
                     {questions?.map((q, i) => (
                         <Card key={i} className="overflow-hidden border-4 border-orange-400 dark:border-orange-600 transition-all hover:border-orange-500 shadow-xl">
-                            <div className={`bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950 dark:to-amber-950 m-2 rounded-xl flex gap-6 transition-all duration-300 ${!isTocVisible ? 'p-8' : 'p-6'
-                                }`}>
-                                <div className={`rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center shrink-0 text-white shadow-lg transition-all duration-300 ${!isTocVisible ? 'h-14 w-14' : 'h-12 w-12'
-                                    }`}>
-                                    <HelpCircle className={`transition-all duration-300 ${!isTocVisible ? 'h-8 w-8' : 'h-7 w-7'}`} />
+                            <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950 dark:to-amber-950 m-2 p-8 rounded-xl flex gap-6">
+                                <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center shrink-0 text-white shadow-lg">
+                                    <HelpCircle className="h-8 w-8" />
                                 </div>
                                 <div className="space-y-4 w-full">
-                                    <p className={`font-bold text-slate-900 dark:text-slate-100 leading-relaxed transition-all duration-300 ${!isTocVisible ? 'text-2xl' : 'text-xl'
-                                        }`}>{q}</p>
+                                    <p className="font-bold text-2xl text-slate-900 dark:text-slate-100 leading-relaxed">{q}</p>
 
                                     {/* Only show answer button if 'answers' exists */}
                                     {getAnswer(i) && (
                                         <div className="pt-3">
                                             {showAnswer[i] ? (
                                                 <div className="animate-in fade-in slide-in-from-top-2">
-                                                    <div className={`font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800 rounded-xl border-2 border-green-400 dark:border-green-600 mb-3 shadow-md transition-all duration-300 ${!isTocVisible ? 'text-xl p-6' : 'text-lg p-5'
-                                                        }`}>
+                                                    <div className="text-xl font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800 p-6 rounded-xl border-2 border-green-400 dark:border-green-600 mb-3 shadow-md">
                                                         {getAnswer(i)}
                                                     </div>
                                                     <Button variant="ghost" size="lg" onClick={() => toggleAnswer(i)} className="text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold">
@@ -503,8 +407,7 @@ function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisib
                                                     </Button>
                                                 </div>
                                             ) : (
-                                                <Button variant="default" size="lg" onClick={() => toggleAnswer(i)} className={`bg-orange-600 hover:bg-orange-700 text-white font-bold shadow-lg transition-all duration-300 ${!isTocVisible ? 'text-xl px-8 py-4' : 'text-lg px-6 py-3'
-                                                    }`}>
+                                                <Button variant="default" size="lg" onClick={() => toggleAnswer(i)} className="bg-orange-600 hover:bg-orange-700 text-white font-bold text-xl px-8 py-4 shadow-lg">
                                                     <Eye className="h-5 w-5 mr-2" /> Show Answer
                                                 </Button>
                                             )}
@@ -521,14 +424,11 @@ function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisib
         case "activity":
         case "case_study":
             return (
-                <Card className={`bg-linear-to-br from-blue-50/50 via-background to-background dark:from-blue-900/10 border-blue-100 dark:border-blue-900 overflow-hidden transform transition-all hover:shadow-lg duration-300 ${!isTocVisible ? 'max-w-5xl' : ''
-                    }`}>
-                    <CardContent className={`transition-all duration-300 ${!isTocVisible ? 'p-8' : 'p-6'}`}>
-                        {content.description && <p className={`mb-6 text-foreground/80 leading-relaxed transition-all duration-300 ${!isTocVisible ? 'text-xl' : 'text-lg'
-                            }`}>{content.description}</p>}
+                <Card className="bg-linear-to-br from-blue-50/50 via-background to-background dark:from-blue-900/10 border-blue-100 dark:border-blue-900 overflow-hidden transform transition-all hover:shadow-lg">
+                    <CardContent className="p-8">
+                        {content.description && <p className="mb-6 text-foreground/80 leading-relaxed text-xl">{content.description}</p>}
 
-                        <div className={`grid gap-6 transition-all duration-300 ${!isTocVisible ? 'md:grid-cols-3' : 'md:grid-cols-2'
-                            }`}>
+                        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                             {content.problem && (
                                 <div className="space-y-2">
                                     <h4 className="flex items-center gap-2 text-sm font-bold text-red-600 uppercase tracking-wide">
