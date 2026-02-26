@@ -119,6 +119,31 @@ export function InstructorProfile() {
                                 </div>
                             </div>
 
+                            {/* Scholar Sparkle - Featured Link */}
+                            <div className="space-y-3">
+                                <p className="text-sm font-semibold text-muted-foreground">Interactive Research Portfolio</p>
+                                <a
+                                    href="https://scholar-sparkle-web.lovable.app/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block"
+                                >
+                                    <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-[2px] hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                                        <div className="bg-card rounded-lg p-4 flex items-center justify-between gap-4">
+                                            <div className="flex-1">
+                                                <p className="font-bold text-lg bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                                                    Scholar Sparkle
+                                                </p>
+                                                <p className="text-sm text-muted-foreground mt-1">
+                                                    Explore interactive research analytics and publications
+                                                </p>
+                                            </div>
+                                            <ExternalLink className="h-6 w-6 text-primary shrink-0" />
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
                             {/* Social Links */}
                             <div className="space-y-3">
                                 <p className="text-sm font-semibold text-muted-foreground">Research Profiles</p>
