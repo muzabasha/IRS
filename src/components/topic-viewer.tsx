@@ -271,27 +271,27 @@ function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisib
     switch (type) {
         case "research_perspective":
             return (
-                <div className="space-y-10">
-                    <Card className="bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-indigo-950 border-4 border-indigo-600 dark:border-indigo-400 text-slate-900 dark:text-slate-100 overflow-hidden shadow-2xl">
-                        <div className="p-8 border-b-4 border-indigo-600 dark:border-indigo-400 bg-indigo-600 dark:bg-indigo-500 text-white">
-                            <h3 className="text-3xl font-black flex items-center gap-3 uppercase tracking-wide">
-                                <BookOpen className="h-8 w-8" /> 🔬 Research Front: Advanced Inquiries
+                <div className={`space-y-10 transition-all duration-300 ${!isTocVisible ? 'max-w-6xl' : ''}`}>
+                    <Card className={`bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-indigo-950 border-4 border-indigo-600 dark:border-indigo-400 text-slate-900 dark:text-slate-100 overflow-hidden shadow-2xl transition-all duration-300 ${!isTocVisible ? 'scale-105' : ''}`}>
+                        <div className={`p-8 border-b-4 border-indigo-600 dark:border-indigo-400 bg-indigo-600 dark:bg-indigo-500 text-white transition-all duration-300 ${!isTocVisible ? 'p-10' : ''}`}>
+                            <h3 className={`font-black flex items-center gap-3 uppercase tracking-wide transition-all duration-300 ${!isTocVisible ? 'text-4xl' : 'text-3xl'}`}>
+                                <BookOpen className={`transition-all duration-300 ${!isTocVisible ? 'h-10 w-10' : 'h-8 w-8'}`} /> 🔬 Research Front: Advanced Inquiries
                             </h3>
-                            <p className="text-xl font-semibold mt-3">PhD & Postgraduate Level Theoretical Perspectives</p>
+                            <p className={`font-semibold mt-3 transition-all duration-300 ${!isTocVisible ? 'text-2xl' : 'text-xl'}`}>PhD & Postgraduate Level Theoretical Perspectives</p>
                         </div>
-                        <CardContent className="p-10 space-y-12">
+                        <CardContent className={`space-y-12 transition-all duration-300 ${!isTocVisible ? 'p-12' : 'p-10'}`}>
                             {content?.researchQuestions && content.researchQuestions.map((rq: { question: string, answer: string }, i: number) => (
-                                <div key={i} className="space-y-6 bg-white dark:bg-slate-800 p-8 rounded-2xl border-2 border-indigo-300 dark:border-indigo-700 shadow-lg">
+                                <div key={i} className={`space-y-6 bg-white dark:bg-slate-800 rounded-2xl border-2 border-indigo-300 dark:border-indigo-700 shadow-lg transition-all duration-300 ${!isTocVisible ? 'p-10' : 'p-8'}`}>
                                     <div className="flex gap-6">
-                                        <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shrink-0 border-4 border-indigo-300 dark:border-indigo-600 text-white font-black text-2xl shadow-xl">
+                                        <div className={`rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center shrink-0 border-4 border-indigo-300 dark:border-indigo-600 text-white font-black shadow-xl transition-all duration-300 ${!isTocVisible ? 'h-20 w-20 text-3xl' : 'h-16 w-16 text-2xl'}`}>
                                             Q{i + 1}
                                         </div>
-                                        <h4 className="text-2xl font-bold leading-relaxed">
+                                        <h4 className={`font-bold leading-relaxed transition-all duration-300 ${!isTocVisible ? 'text-3xl' : 'text-2xl'}`}>
                                             {rq.question}
                                         </h4>
                                     </div>
-                                    <div className="pl-22 bg-indigo-50 dark:bg-indigo-900/30 p-6 rounded-xl border-2 border-indigo-200 dark:border-indigo-700">
-                                        <p className="text-xl font-semibold leading-relaxed">
+                                    <div className={`pl-22 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl border-2 border-indigo-200 dark:border-indigo-700 transition-all duration-300 ${!isTocVisible ? 'p-8' : 'p-6'}`}>
+                                        <p className={`font-semibold leading-relaxed transition-all duration-300 ${!isTocVisible ? 'text-2xl' : 'text-xl'}`}>
                                             {rq.answer}
                                         </p>
                                     </div>
@@ -301,7 +301,7 @@ function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisib
                     </Card>
 
                     {content?.mathematicalModeling && (
-                        <div className="p-10 rounded-3xl bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-950 border-4 border-blue-600 dark:border-blue-400 shadow-2xl overflow-hidden relative">
+                        <div className={`rounded-3xl bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-950 border-4 border-blue-600 dark:border-blue-400 shadow-2xl overflow-hidden relative transition-all duration-300 ${!isTocVisible ? 'p-12' : 'p-10'}`}>
                             <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
                                 <Terminal className="h-40 w-40" />
                             </div>
@@ -459,11 +459,15 @@ function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisib
         case "list":
         case "grid":
             return (
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className={`grid gap-6 transition-all duration-300 ${!isTocVisible ? 'md:grid-cols-3 lg:grid-cols-3' : 'md:grid-cols-2'
+                    }`}>
                     {items?.map((item, i) => (
-                        <div key={i} className="flex items-start gap-4 p-6 rounded-xl border-2 border-blue-300 dark:border-blue-700 bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:shadow-xl transition-all shadow-lg">
-                            <div className="h-4 w-4 mt-1 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 shrink-0 shadow-md" />
-                            <span className="text-lg font-semibold text-slate-900 dark:text-slate-100 leading-relaxed">{item}</span>
+                        <div key={i} className={`flex items-start gap-4 rounded-xl border-2 border-blue-300 dark:border-blue-700 bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:shadow-xl transition-all shadow-lg ${!isTocVisible ? 'p-8' : 'p-6'
+                            }`}>
+                            <div className={`mt-1 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 shrink-0 shadow-md transition-all duration-300 ${!isTocVisible ? 'h-5 w-5' : 'h-4 w-4'
+                                }`} />
+                            <span className={`font-semibold text-slate-900 dark:text-slate-100 leading-relaxed transition-all duration-300 ${!isTocVisible ? 'text-xl' : 'text-lg'
+                                }`}>{item}</span>
                         </div>
                     ))}
                 </div>
@@ -472,22 +476,26 @@ function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisib
         case "exam":
         case "quiz":
             return (
-                <div className="space-y-6">
+                <div className={`space-y-6 transition-all duration-300 ${!isTocVisible ? 'max-w-5xl' : ''}`}>
                     {questions?.map((q, i) => (
                         <Card key={i} className="overflow-hidden border-4 border-orange-400 dark:border-orange-600 transition-all hover:border-orange-500 shadow-xl">
-                            <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950 dark:to-amber-950 m-2 p-6 rounded-xl flex gap-6">
-                                <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center shrink-0 text-white shadow-lg">
-                                    <HelpCircle className="h-7 w-7" />
+                            <div className={`bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950 dark:to-amber-950 m-2 rounded-xl flex gap-6 transition-all duration-300 ${!isTocVisible ? 'p-8' : 'p-6'
+                                }`}>
+                                <div className={`rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 flex items-center justify-center shrink-0 text-white shadow-lg transition-all duration-300 ${!isTocVisible ? 'h-14 w-14' : 'h-12 w-12'
+                                    }`}>
+                                    <HelpCircle className={`transition-all duration-300 ${!isTocVisible ? 'h-8 w-8' : 'h-7 w-7'}`} />
                                 </div>
                                 <div className="space-y-4 w-full">
-                                    <p className="font-bold text-xl text-slate-900 dark:text-slate-100 leading-relaxed">{q}</p>
+                                    <p className={`font-bold text-slate-900 dark:text-slate-100 leading-relaxed transition-all duration-300 ${!isTocVisible ? 'text-2xl' : 'text-xl'
+                                        }`}>{q}</p>
 
                                     {/* Only show answer button if 'answers' exists */}
                                     {getAnswer(i) && (
                                         <div className="pt-3">
                                             {showAnswer[i] ? (
                                                 <div className="animate-in fade-in slide-in-from-top-2">
-                                                    <div className="text-lg font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800 p-5 rounded-xl border-2 border-green-400 dark:border-green-600 mb-3 shadow-md">
+                                                    <div className={`font-semibold text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-800 rounded-xl border-2 border-green-400 dark:border-green-600 mb-3 shadow-md transition-all duration-300 ${!isTocVisible ? 'text-xl p-6' : 'text-lg p-5'
+                                                        }`}>
                                                         {getAnswer(i)}
                                                     </div>
                                                     <Button variant="ghost" size="lg" onClick={() => toggleAnswer(i)} className="text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold">
@@ -495,7 +503,8 @@ function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisib
                                                     </Button>
                                                 </div>
                                             ) : (
-                                                <Button variant="default" size="lg" onClick={() => toggleAnswer(i)} className="bg-orange-600 hover:bg-orange-700 text-white font-bold text-lg px-6 py-3 shadow-lg">
+                                                <Button variant="default" size="lg" onClick={() => toggleAnswer(i)} className={`bg-orange-600 hover:bg-orange-700 text-white font-bold shadow-lg transition-all duration-300 ${!isTocVisible ? 'text-xl px-8 py-4' : 'text-lg px-6 py-3'
+                                                    }`}>
                                                     <Eye className="h-5 w-5 mr-2" /> Show Answer
                                                 </Button>
                                             )}
@@ -512,11 +521,14 @@ function SlideContent({ slide, isTocVisible = true }: { slide: Slide, isTocVisib
         case "activity":
         case "case_study":
             return (
-                <Card className="bg-linear-to-br from-blue-50/50 via-background to-background dark:from-blue-900/10 border-blue-100 dark:border-blue-900 overflow-hidden transform transition-all hover:shadow-lg">
-                    <CardContent className="p-6">
-                        {content.description && <p className="mb-6 text-foreground/80 leading-relaxed text-lg">{content.description}</p>}
+                <Card className={`bg-linear-to-br from-blue-50/50 via-background to-background dark:from-blue-900/10 border-blue-100 dark:border-blue-900 overflow-hidden transform transition-all hover:shadow-lg duration-300 ${!isTocVisible ? 'max-w-5xl' : ''
+                    }`}>
+                    <CardContent className={`transition-all duration-300 ${!isTocVisible ? 'p-8' : 'p-6'}`}>
+                        {content.description && <p className={`mb-6 text-foreground/80 leading-relaxed transition-all duration-300 ${!isTocVisible ? 'text-xl' : 'text-lg'
+                            }`}>{content.description}</p>}
 
-                        <div className="grid gap-6 md:grid-cols-2">
+                        <div className={`grid gap-6 transition-all duration-300 ${!isTocVisible ? 'md:grid-cols-3' : 'md:grid-cols-2'
+                            }`}>
                             {content.problem && (
                                 <div className="space-y-2">
                                     <h4 className="flex items-center gap-2 text-sm font-bold text-red-600 uppercase tracking-wide">
