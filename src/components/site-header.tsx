@@ -33,7 +33,7 @@ export function SiteHeader() {
                         <Link href="/" className="transition-colors hover:text-foreground/80 text-foreground/60">Dashboard</Link>
                         <Link href="/lab" className="transition-colors hover:text-foreground/80 text-foreground/60">Lab</Link>
                         <Link href="/projects" className="transition-colors hover:text-foreground/80 text-foreground/60">Projects</Link>
-                        <Link href="/instructor" className="transition-colors hover:text-foreground/80 text-foreground/60">Instructor</Link>
+                        <a href="https://scholar-sparkle-web.lovable.app/" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-foreground/80 text-foreground/60">Scholar Sparkle</a>
                         <Link href="/analytics" className="transition-colors hover:text-foreground/80 text-foreground/60">Analytics</Link>
                     </nav>
                 </div>

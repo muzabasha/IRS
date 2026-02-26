@@ -55,10 +55,10 @@ export function Sidebar({ className }: { className?: string }) {
                 className="w-full justify-start font-normal text-sm h-auto py-2 text-muted-foreground hover:text-foreground"
                 asChild
               >
-                <Link href="/instructor">
-                  <span className="text-lg leading-none mr-2">👨‍🏫</span>
-                  <span>Instructor Profile</span>
-                </Link>
+                <a href="https://scholar-sparkle-web.lovable.app/" target="_blank" rel="noopener noreferrer">
+                  <span className="text-lg leading-none mr-2">✨</span>
+                  <span>Scholar Sparkle</span>
+                </a>
               </Button>
             </div>
           </div>
