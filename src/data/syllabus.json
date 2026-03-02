@@ -47,20 +47,52 @@
       "title": "Query Languages and Query Operations",
       "topics": [
         {
-          "id": "u2-t1",
-          "title": "Query Languages (Keyword, Pattern, Structural, Protocols)"
+          "id": "u2-t1-keyword",
+          "title": "Keyword Queries"
         },
         {
-          "id": "u2-t2",
-          "title": "Query Operations (Relevance Feedback, Local/Global Analysis)"
+          "id": "u2-t1-pattern",
+          "title": "Pattern Queries"
         },
         {
-          "id": "u2-t3",
-          "title": "Text Operations (Preprocessing, Clustering, Compression)"
+          "id": "u2-t1-structural",
+          "title": "Structural Queries"
         },
         {
-          "id": "u2-t4",
-          "title": "Indexing and Searching (Inverted Files, Boolean, Pattern)"
+          "id": "u2-t2-relevance-feedback",
+          "title": "Relevance Feedback (Rocchio Algorithm)"
+        },
+        {
+          "id": "u2-t2-local-analysis",
+          "title": "Local Analysis (Pseudo-Relevance Feedback)"
+        },
+        {
+          "id": "u2-t2-global-analysis",
+          "title": "Global Analysis (Thesaurus and LSI)"
+        },
+        {
+          "id": "u2-t3-preprocessing",
+          "title": "Text Preprocessing"
+        },
+        {
+          "id": "u2-t3-clustering",
+          "title": "Document Clustering"
+        },
+        {
+          "id": "u2-t3-compression",
+          "title": "Text Compression"
+        },
+        {
+          "id": "u2-t4-inverted-index",
+          "title": "Inverted Index Structure"
+        },
+        {
+          "id": "u2-t4-boolean-search",
+          "title": "Boolean Search Operations"
+        },
+        {
+          "id": "u2-t4-index-compression",
+          "title": "Index Compression"
         }
       ]
     },

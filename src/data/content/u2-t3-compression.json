@@ -1,0 +1,218 @@
+{
+    "id": "u2-t3-compression",
+    "title": "Text Compression",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Text Compression",
+            "subtitle": "Reducing Storage and Increasing Speed",
+            "content": {
+                "text": "Text compression reduces the space needed to store documents and indices, enabling faster disk I/O and fitting more data in memory. It's essential for large-scale IR systems.",
+                "hook": "A gigabyte saved is a gigabyte earned - and a second of search time saved."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Why Compress Text?",
+            "content": {
+                "text": "Benefits of compression in IR systems:",
+                "outcomes": [
+                    "Reduced storage costs: Store more documents",
+                    "Faster disk I/O: Read less data from disk",
+                    "More data in RAM: Fit indices in memory",
+                    "Faster network transfer: Send less data",
+                    "Trade-off: CPU time for compression/decompression"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Entropy and Compression Limits",
+            "content": {
+                "text": "Shannon's entropy defines the theoretical compression limit:",
+                "outcomes": [
+                    "Entropy H: Average bits needed per symbol",
+                    "Depends on symbol probabilities",
+                    "Frequent symbols should use fewer bits",
+                    "Rare symbols can use more bits",
+                    "No lossless compression can beat entropy"
+                ]
+            },
+            "formula": {
+                "equation": "H = - \\sum_{i} P(s_i) \\log_2 P(s_i)",
+                "description": "Entropy (H) defines the theoretical limit of text compression. It measures the average information content per symbol.",
+                "terms": [
+                    {
+                        "symbol": "H",
+                        "meaning": "Entropy - average bits required per symbol"
+                    },
+                    {
+                        "symbol": "P(s_i)",
+                        "meaning": "Probability of occurrence for symbol i in the text"
+                    },
+                    {
+                        "symbol": "\\log_2",
+                        "meaning": "Logarithm base 2 (yields units of bits)"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Entropy Calculation",
+                    "description": "Computing theoretical compression limit for 3 symbols.",
+                    "steps": [
+                        {
+                            "label": "Symbol Probabilities",
+                            "formula": "P(A)=0.5, P(B)=0.3, P(C)=0.2",
+                            "note": "A is most common, C is rarest."
+                        },
+                        {
+                            "label": "Compute Terms",
+                            "formula": "H_A = -0.5 \\log_2(0.5) = 0.5",
+                            "note": "Contribution from symbol A."
+                        },
+                        {
+                            "label": "Sum All Terms",
+                            "formula": "H = 0.5 + 0.52 + 0.46 = 1.49 \\text{ bits}",
+                            "note": "Average bits per symbol."
+                        },
+                        {
+                            "label": "Compare to Fixed",
+                            "formula": "\\text{Fixed: } \\log_2(3) = 1.58 \\text{ bits}",
+                            "note": "Entropy is lower - compression possible!"
+                        }
+                    ],
+                    "input": "Probabilities: [0.5, 0.3, 0.2]",
+                    "output": "Entropy: 1.49 bits (vs 1.58 fixed)"
+                }
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Huffman Coding",
+            "content": {
+                "text": "Variable-length prefix codes based on symbol frequency:",
+                "outcomes": [
+                    "Frequent symbols get short codes",
+                    "Rare symbols get long codes",
+                    "Prefix-free: No code is prefix of another",
+                    "Optimal for symbol-by-symbol encoding",
+                    "Build tree bottom-up from frequencies"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Dictionary-Based Compression",
+            "content": {
+                "text": "LZ77, LZ78, and LZW algorithms:",
+                "outcomes": [
+                    "Replace repeated strings with references",
+                    "Build dictionary of seen patterns",
+                    "Good for text with repetition",
+                    "Used in ZIP, GZIP, PNG",
+                    "Better compression than Huffman for text"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Compression Trade-offs",
+            "content": {
+                "text": "Choosing a compression method:",
+                "outcomes": [
+                    "Compression ratio: How much space saved",
+                    "Encoding speed: How fast to compress",
+                    "Decoding speed: How fast to decompress (critical!)",
+                    "Random access: Can we jump to middle?",
+                    "For IR: Decoding speed matters most"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Simple Huffman Coding",
+            "content": {
+                "code": "from collections import Counter\nimport heapq\n\ndef build_huffman_tree(text):\n    \"\"\"Build Huffman tree from character frequencies\"\"\"\n    # Count character frequencies\n    freq = Counter(text)\n    \n    # Build heap of (frequency, unique_id, char, left, right)\n    heap = [[f, i, c, None, None] for i, (c, f) in enumerate(freq.items())]\n    heapq.heapify(heap)\n    \n    # Build tree\n    next_id = len(heap)\n    while len(heap) > 1:\n        left = heapq.heappop(heap)\n        right = heapq.heappop(heap)\n        merged = [left[0] + right[0], next_id, None, left, right]\n        heapq.heappush(heap, merged)\n        next_id += 1\n    \n    return heap[0]\n\ndef build_codes(tree, prefix='', codes=None):\n    \"\"\"Extract Huffman codes from tree\"\"\"\n    if codes is None:\n        codes = {}\n    \n    if tree[2] is not None:  # Leaf node\n        codes[tree[2]] = prefix or '0'\n    else:  # Internal node\n        if tree[3]:  # Left child\n            build_codes(tree[3], prefix + '0', codes)\n        if tree[4]:  # Right child\n            build_codes(tree[4], prefix + '1', codes)\n    \n    return codes\n\n# Example\ntext = \"AAABBC\"\ntree = build_huffman_tree(text)\ncodes = build_codes(tree)\n\nprint(f\"Text: {text}\")\nprint(f\"Frequencies: {Counter(text)}\")\nprint(f\"Huffman Codes: {codes}\")\n\n# Calculate compression\noriginal_bits = len(text) * 8  # ASCII\ncompressed_bits = sum(len(codes[c]) for c in text)\nprint(f\"Original: {original_bits} bits\")\nprint(f\"Compressed: {compressed_bits} bits\")\nprint(f\"Savings: {100 * (1 - compressed_bits/original_bits):.1f}%\")",
+                "input": "Text: 'AAABBC' (3 A's, 2 B's, 1 C)",
+                "output": "Text: AAABBC\nFrequencies: {'A': 3, 'B': 2, 'C': 1}\nHuffman Codes: {'A': '0', 'B': '10', 'C': '11'}\nOriginal: 48 bits\nCompressed: 9 bits\nSavings: 81.2%",
+                "interpretation": "Huffman coding assigns shorter codes to frequent characters. 'A' (most frequent) gets '0' (1 bit), 'B' gets '10' (2 bits), 'C' (rarest) gets '11' (2 bits). The compressed text uses only 9 bits vs 48 bits for ASCII, saving 81%. This is close to the theoretical entropy limit."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: Huffman Tree",
+            "content": {
+                "activity": "Build a Huffman Tree",
+                "description": "Text: 'MISSISSIPPI'\nFrequencies: I=4, S=4, P=2, M=1\n\n1. Create leaf nodes for each character\n2. Merge two smallest frequencies repeatedly\n3. Assign 0/1 to left/right branches\n4. What codes do you get?"
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is entropy and why is it important for compression?",
+                "How does Huffman coding achieve compression?",
+                "Why is decoding speed more important than encoding speed in IR?",
+                "What is the difference between Huffman and LZ compression?"
+            ],
+            "answers": [
+                "Entropy is the theoretical minimum average bits per symbol for lossless compression. It's important because no compression algorithm can beat this limit - it tells us the best possible compression ratio.",
+                "Huffman assigns shorter bit codes to frequent symbols and longer codes to rare symbols. Since frequent symbols appear more often, the average code length is reduced below fixed-length encoding.",
+                "In IR systems, documents are compressed once but decompressed many times (every search). Fast decompression is critical for query response time, while slow encoding is acceptable during indexing.",
+                "Huffman encodes individual symbols with variable-length codes. LZ (Lempel-Ziv) replaces repeated strings with references to earlier occurrences. LZ typically achieves better compression for text because it exploits repetition at the string level."
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "research_perspective",
+            "title": "Research Perspective: Compressed Indices",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "Can we search compressed text without decompressing?",
+                        "answer": "Yes! Compressed pattern matching algorithms (e.g., on LZ-compressed text) can search without full decompression. Wavelet trees and FM-indices enable fast search on compressed text. This is crucial for web-scale systems where decompression would be too slow."
+                    },
+                    {
+                        "question": "What's the best compression for inverted indices?",
+                        "answer": "Research shows that gap encoding (storing differences between document IDs) combined with variable-byte or gamma codes works best. Modern systems use techniques like PForDelta (patched frame of reference) that exploit the sorted nature of posting lists."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling compression ratio and speed trade-offs.",
+                    "derivation": [
+                        {
+                            "step": "Define compression ratio as ratio of compressed to original size.",
+                            "equation": "CR = \\frac{|C|}{|O|}",
+                            "interpretation": "Lower CR means better compression. Typical text compression achieves CR = 0.3-0.5."
+                        },
+                        {
+                            "step": "Model total query time including decompression.",
+                            "equation": "T_{total} = T_{disk} \\cdot CR + T_{decomp} \\cdot |C|",
+                            "interpretation": "Compression reduces disk time but adds decompression time. Optimal CR balances both."
+                        }
+                    ],
+                    "conclusion": "Text compression is essential for large-scale IR. The key is choosing methods with fast decompression that still achieve good compression ratios."
+                }
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "summary",
+            "title": "Key Takeaways",
+            "content": {
+                "text": "Text compression reduces storage and speeds up I/O. Huffman coding and dictionary-based methods (LZ) are the main approaches, with different trade-offs for IR systems.",
+                "nextTopic": "Inverted Index Structure",
+                "preparation": "Learn about the core data structure for fast text retrieval."
+            }
+        }
+    ]
+}

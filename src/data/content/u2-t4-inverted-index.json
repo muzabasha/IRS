@@ -1,0 +1,173 @@
+{
+    "id": "u2-t4-inverted-index",
+    "title": "Inverted Index Structure",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Inverted Index",
+            "subtitle": "The Core Data Structure of Search Engines",
+            "content": {
+                "text": "The inverted index is the fundamental data structure that enables fast text retrieval. It maps terms to the documents containing them, allowing sub-second search over billions of documents.",
+                "hook": "Searching without an index is like reading every book in the library to find one quote."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "What is an Inverted Index?",
+            "content": {
+                "definition": "A mapping from terms to the list of documents containing those terms. It's called 'inverted' because it inverts the document-term relationship.",
+                "text": "Forward index: Document → Terms. Inverted index: Term → Documents.",
+                "outcomes": [
+                    "Enables fast term lookup",
+                    "Core of all modern search engines",
+                    "Supports Boolean and ranked retrieval",
+                    "Can store additional information (positions, frequencies)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Index Components",
+            "content": {
+                "text": "Three main parts of an inverted index:",
+                "outcomes": [
+                    "1. Dictionary (Vocabulary): All unique terms",
+                    "2. Postings Lists: Document IDs for each term",
+                    "3. Payloads: Additional info (frequency, positions)",
+                    "Dictionary is small (fits in memory)",
+                    "Postings lists are large (stored on disk)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Building an Inverted Index",
+            "content": {
+                "text": "Steps to construct the index:",
+                "outcomes": [
+                    "1. Collect documents and assign IDs",
+                    "2. Tokenize and preprocess text",
+                    "3. Create (term, docID) pairs",
+                    "4. Sort pairs by term",
+                    "5. Merge pairs with same term into postings list",
+                    "6. Store dictionary and postings"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Postings List Format",
+            "content": {
+                "text": "What information to store in postings:",
+                "outcomes": [
+                    "Basic: Just document IDs [5, 12, 23, 45]",
+                    "With frequency: [(5, 3), (12, 1), (23, 2)]",
+                    "With positions: [(5, [10, 25, 40]), (12, [5])]",
+                    "More info = better ranking but larger index",
+                    "Trade-off between size and functionality"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Index Size Considerations",
+            "content": {
+                "text": "How large is an inverted index?",
+                "outcomes": [
+                    "Typically 10-50% of original text size",
+                    "Dictionary: Small (millions of terms)",
+                    "Postings: Large (billions of entries)",
+                    "With positions: 2-3x larger",
+                    "Compression essential for large collections"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Building an Inverted Index",
+            "content": {
+                "code": "from collections import defaultdict\nimport re\n\ndef build_inverted_index(documents):\n    \"\"\"\n    Build a simple inverted index\n    documents: dict of {doc_id: text}\n    \"\"\"\n    index = defaultdict(list)\n    \n    for doc_id, text in documents.items():\n        # Tokenize\n        terms = re.findall(r'\\w+', text.lower())\n        \n        # Add to index (with term frequency)\n        term_freq = {}\n        for term in terms:\n            term_freq[term] = term_freq.get(term, 0) + 1\n        \n        for term, freq in term_freq.items():\n            index[term].append((doc_id, freq))\n    \n    # Sort postings by doc_id\n    for term in index:\n        index[term].sort()\n    \n    return dict(index)\n\ndef search_term(index, term):\n    \"\"\"Search for a term in the index\"\"\"\n    term = term.lower()\n    if term in index:\n        return index[term]\n    return []\n\n# Example\ndocs = {\n    1: \"machine learning algorithms\",\n    2: \"deep learning neural networks\",\n    3: \"machine learning and deep learning\"\n}\n\nindex = build_inverted_index(docs)\n\nprint(\"Inverted Index:\")\nfor term in sorted(index.keys()):\n    print(f\"  {term}: {index[term]}\")\n\nprint(\"\\nSearch 'learning':\")\nresults = search_term(index, \"learning\")\nfor doc_id, freq in results:\n    print(f\"  Doc {doc_id}: frequency={freq}\")",
+                "input": "3 documents about machine learning",
+                "output": "Inverted Index:\n  algorithms: [(1, 1)]\n  and: [(3, 1)]\n  deep: [(2, 1), (3, 1)]\n  learning: [(1, 1), (2, 1), (3, 2)]\n  machine: [(1, 1), (3, 1)]\n  neural: [(2, 1)]\n  networks: [(2, 1)]\n\nSearch 'learning':\n  Doc 1: frequency=1\n  Doc 2: frequency=1\n  Doc 3: frequency=2",
+                "interpretation": "The inverted index maps each term to its postings list. For 'learning', the postings list shows it appears in docs 1, 2, and 3, with frequencies 1, 1, and 2. This structure enables instant lookup - we can find all documents containing 'learning' without scanning any documents."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: Manual Index Construction",
+            "content": {
+                "activity": "Build an Index",
+                "description": "Documents:\nDoc1: 'cat dog'\nDoc2: 'dog bird'\nDoc3: 'cat bird'\n\nCreate the inverted index:\ncat: ?\ndog: ?\nbird: ?"
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What are the three main parts of an inverted index?",
+                "Why is it called an 'inverted' index?",
+                "What is a postings list?",
+                "Why do we sort postings lists by document ID?"
+            ],
+            "answers": [
+                "1) Dictionary/Vocabulary (all unique terms), 2) Postings Lists (document IDs for each term), 3) Payloads (additional information like term frequency and positions).",
+                "Because it inverts the natural document-to-terms relationship. Instead of 'Document 5 contains terms A, B, C', it stores 'Term A appears in documents 5, 12, 23'.",
+                "A postings list is the list of document IDs (and optionally additional information) for a specific term. It answers 'which documents contain this term?'",
+                "Sorted postings lists enable efficient merging for Boolean queries (AND, OR operations) and support compression techniques like gap encoding."
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "research_perspective",
+            "title": "Research Perspective: Distributed Indexing",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "How do we build indices for billions of documents?",
+                        "answer": "MapReduce-style distributed indexing: 1) Map phase creates (term, docID) pairs in parallel, 2) Shuffle phase groups by term, 3) Reduce phase builds postings lists. Systems like Elasticsearch and Solr use distributed indexing with sharding."
+                    },
+                    {
+                        "question": "How do we update indices efficiently?",
+                        "answer": "Research on dynamic indexing: 1) Incremental updates (add new docs without rebuilding), 2) Multi-level indices (small in-memory index + large disk index), 3) Log-structured merge trees (LSM trees) for write-heavy workloads."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling index construction time and space.",
+                    "derivation": [
+                        {
+                            "step": "Define index construction time as function of collection size.",
+                            "equation": "T_{build} = O(N \\cdot L \\cdot \\log(V))",
+                            "interpretation": "N documents, L average length, V vocabulary size. Sorting dominates the cost."
+                        },
+                        {
+                            "step": "Model index space as function of postings.",
+                            "equation": "S_{index} = V \\cdot (s_{term} + \\bar{df} \\cdot s_{posting})",
+                            "interpretation": "V terms, each with average document frequency df, plus term storage overhead."
+                        }
+                    ],
+                    "conclusion": "Inverted indices enable sub-linear query time at the cost of linear space and O(N log N) construction time."
+                }
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "summary",
+            "title": "Key Takeaways",
+            "content": {
+                "text": "The inverted index is the core data structure enabling fast text search. It maps terms to documents, supporting both Boolean and ranked retrieval.",
+                "nextTopic": "Boolean Search Operations",
+                "preparation": "Learn how to process AND, OR, NOT queries using the index."
+            }
+        }
+    ]
+}

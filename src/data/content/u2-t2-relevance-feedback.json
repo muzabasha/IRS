@@ -1,0 +1,239 @@
+{
+    "id": "u2-t2-relevance-feedback",
+    "title": "Relevance Feedback (Rocchio Algorithm)",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Relevance Feedback",
+            "subtitle": "Learning from User Judgments",
+            "content": {
+                "text": "Relevance feedback is an interactive process where users mark search results as relevant or non-relevant, and the system uses this information to improve the query automatically.",
+                "hook": "Search is not a one-step process; it's a conversation between user and system."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "What is Relevance Feedback?",
+            "content": {
+                "definition": "A cycle where the user marks results as Relevant or Non-Relevant, and the system uses this info to run a better query.",
+                "text": "The process: 1) User submits initial query, 2) System returns results, 3) User marks some as relevant/non-relevant, 4) System modifies query, 5) New improved results returned.",
+                "outcomes": [
+                    "Improves recall by adding related terms",
+                    "Improves precision by re-weighting terms",
+                    "Overcomes vocabulary mismatch problem",
+                    "Adapts to user's specific information need"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "The Rocchio Algorithm",
+            "content": {
+                "text": "The classic approach for relevance feedback. It modifies the query vector by moving it toward relevant documents and away from non-relevant ones in vector space.",
+                "outcomes": [
+                    "Geometric interpretation: Move query point in vector space",
+                    "Toward centroid of relevant documents",
+                    "Away from centroid of non-relevant documents",
+                    "Controlled by three parameters: α, β, γ"
+                ]
+            },
+            "formula": {
+                "equation": "\\vec{q}_m = \\alpha \\vec{q}_0 + \\beta \\frac{1}{|D_r|} \\sum_{\\vec{d}_j \\in D_r} \\vec{d}_j - \\gamma \\frac{1}{|D_{nr}|} \\sum_{\\vec{d}_k \\in D_{nr}} \\vec{d}_k",
+                "description": "Rocchio Algorithm modifies the original query vector by moving it toward relevant documents and away from non-relevant ones.",
+                "terms": [
+                    {
+                        "symbol": "\\vec{q}_m",
+                        "meaning": "Modified (new) query vector after relevance feedback"
+                    },
+                    {
+                        "symbol": "\\vec{q}_0",
+                        "meaning": "Original query vector before feedback"
+                    },
+                    {
+                        "symbol": "\\alpha",
+                        "meaning": "Weight for original query (typical: 1.0) - controls trust in initial query"
+                    },
+                    {
+                        "symbol": "\\beta",
+                        "meaning": "Weight for relevant documents (typical: 0.75) - how much to move toward relevant docs"
+                    },
+                    {
+                        "symbol": "\\gamma",
+                        "meaning": "Weight for non-relevant documents (typical: 0.15) - how much to move away from irrelevant docs"
+                    },
+                    {
+                        "symbol": "D_r",
+                        "meaning": "Set of documents marked as relevant by the user"
+                    },
+                    {
+                        "symbol": "|D_r|",
+                        "meaning": "Number of relevant documents"
+                    },
+                    {
+                        "symbol": "D_{nr}",
+                        "meaning": "Set of documents marked as non-relevant"
+                    },
+                    {
+                        "symbol": "\\vec{d}_j",
+                        "meaning": "Document vector for the j-th relevant document"
+                    },
+                    {
+                        "symbol": "\\sum \\vec{d}_j / |D_r|",
+                        "meaning": "Centroid (average vector) of relevant documents"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Query Vector Update",
+                    "description": "Adjusting a 1D query weight based on one relevant result.",
+                    "steps": [
+                        {
+                            "label": "Input Vectors",
+                            "formula": "q_0 = 0.5, d_{rel} = 1.0, d_{non} = 0.0",
+                            "note": "Initial query is weak (0.5), relevant doc is strong (1.0)."
+                        },
+                        {
+                            "label": "Apply Rocchio",
+                            "formula": "q_m = (1.0 \\times 0.5) + (0.75 \\times 1.0) - (0.15 \\times 0.0)",
+                            "note": "Adding 75% of relevant doc's profile."
+                        },
+                        {
+                            "label": "Final Weight",
+                            "formula": "q_m = 0.5 + 0.75 = 1.25",
+                            "note": "New query puts more trust in the topic."
+                        }
+                    ],
+                    "input": "q0:0.5, d_rel:1.0, alpha:1, beta:0.75",
+                    "output": "New Weight: 1.25"
+                }
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Parameter Tuning",
+            "content": {
+                "text": "The three parameters control how much the query changes:",
+                "outcomes": [
+                    "α (alpha): Trust in original query. Usually 1.0 (keep original intent)",
+                    "β (beta): Weight for relevant docs. Usually 0.75 (strong positive signal)",
+                    "γ (gamma): Weight for non-relevant docs. Usually 0.15 (weak negative signal)",
+                    "Why β > γ? Positive examples are more reliable than negative ones"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Advantages of Relevance Feedback",
+            "content": {
+                "text": "Why relevance feedback works well:",
+                "outcomes": [
+                    "Automatic query expansion - adds related terms",
+                    "Term re-weighting - emphasizes important terms",
+                    "Vocabulary mismatch solution - finds synonyms",
+                    "Personalization - adapts to individual user needs",
+                    "No query syntax required - user just clicks"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Limitations of Relevance Feedback",
+            "content": {
+                "text": "Challenges with relevance feedback:",
+                "outcomes": [
+                    "Requires user interaction - extra effort",
+                    "Query drift - can move away from original intent",
+                    "Expensive computation - recalculating vectors",
+                    "Cold start problem - needs initial results",
+                    "User fatigue - marking many documents is tedious"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Rocchio Algorithm",
+            "content": {
+                "code": "def rocchio_update(q_old, rel_docs, non_rel_docs, alpha=1.0, beta=0.75, gamma=0.15):\n    \"\"\"\n    Rocchio algorithm for query modification\n    \"\"\"\n    # Start with weighted original query\n    q_new = [alpha * x for x in q_old]\n    \n    # Add centroid of relevant documents\n    if rel_docs:\n        rel_centroid = [sum(doc[i] for doc in rel_docs) / len(rel_docs) \n                       for i in range(len(q_old))]\n        q_new = [q + beta * r for q, r in zip(q_new, rel_centroid)]\n    \n    # Subtract centroid of non-relevant documents\n    if non_rel_docs:\n        non_centroid = [sum(doc[i] for doc in non_rel_docs) / len(non_rel_docs) \n                       for i in range(len(q_old))]\n        q_new = [q - gamma * n for q, n in zip(q_new, non_centroid)]\n    \n    return [round(x, 3) for x in q_new]\n\n# Example: 2D vector space\noriginal_query = [1.0, 0.0]\nrelevant_docs = [[0.8, 0.2], [0.9, 0.3]]\nnon_relevant_docs = [[0.1, 0.9]]\n\nmodified_query = rocchio_update(original_query, relevant_docs, non_relevant_docs)\nprint(f\"Original Query: {original_query}\")\nprint(f\"Modified Query: {modified_query}\")\nprint(f\"Change: Moved toward relevant docs, away from non-relevant\")",
+                "input": "Q:[1.0, 0.0], Rel:[[0.8,0.2], [0.9,0.3]], Non:[[0.1,0.9]]",
+                "output": "Original Query: [1.0, 0.0]\nModified Query: [1.623, 0.053]\nChange: Increased first dimension (relevant docs strong there)",
+                "interpretation": "Rocchio moves the query vector in vector space. The modified query [1.623, 0.053] has increased its first dimension because relevant documents had high values there. The second dimension increased slightly from relevant docs but was pulled down by the non-relevant doc. This geometric transformation improves retrieval by making the query more similar to relevant documents."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: Manual Feedback",
+            "content": {
+                "activity": "Query Refinement Exercise",
+                "description": "Original Query: 'jaguar'\nResults: 1) Jaguar car specs, 2) Jaguar animal facts, 3) Jacksonville Jaguars team\n\nIf you mark #2 as relevant and #1, #3 as non-relevant, what terms might be added to the query? (Think: animal, cat, predator, wildlife)"
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the main goal of the Rocchio algorithm?",
+                "Why is β typically larger than γ?",
+                "What is query drift and when does it occur?",
+                "How does relevance feedback solve the vocabulary mismatch problem?"
+            ],
+            "answers": [
+                "To modify the query vector by moving it toward relevant documents and away from non-relevant documents in vector space, improving subsequent retrieval.",
+                "Because positive examples (relevant docs) are more reliable signals than negative examples (non-relevant docs). Users are better at identifying what they want than what they don't want.",
+                "Query drift occurs when the modified query moves too far from the original intent, often due to poor initial results or too much weight on feedback. The query starts retrieving documents on a different topic.",
+                "By adding terms from relevant documents that the user didn't think to include. If relevant docs use 'automobile' instead of 'car', those terms get added to the query automatically."
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "research_perspective",
+            "title": "Research Perspective: Convergence and Stability",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "Does the Rocchio algorithm always converge to the optimal query vector?",
+                        "answer": "Mathematically, Rocchio is a greedy optimization that usually improves precision by moving the query closer to the relevant document centroid. However, it can become trapped in local optima if the initial query is too far from any relevant cluster. Research uses constraint-based feedback to prevent the query vector from moving beyond the semantic bounds of the original intent."
+                    },
+                    {
+                        "question": "How can we detect when relevance feedback will hurt rather than help?",
+                        "answer": "Research uses 'Clarity Scores' (relative entropy between the query language model and the collection model) to predict feedback success. If the clarity score is low, the system may abort automatic expansion to avoid introducing noise terms that would degrade performance."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling query modification as vector translation in Hilbert Space.",
+                    "derivation": [
+                        {
+                            "step": "Define the optimal query q* as the vector maximizing separation between relevant and non-relevant docs.",
+                            "equation": "\\vec{q}^* = \\arg \\max_{\\vec{q}} [ \\text{sim}(\\vec{q}, C_r) - \\text{sim}(\\vec{q}, C_{nr}) ]",
+                            "interpretation": "The theoretical goal is to find a query vector at the exact center of the relevant cluster and maximal distance from non-relevant ones."
+                        },
+                        {
+                            "step": "Model the drift factor - probability that a new term changes the query's centroid excessively.",
+                            "equation": "Drift(t) = 1 - \\cos(\\theta_{\\vec{q}_0, \\vec{q}_{expanded}})",
+                            "interpretation": "If the angle between original and expanded query is too large, the expansion is rejected as it likely changes the search intent."
+                        }
+                    ],
+                    "conclusion": "Relevance feedback transforms IR from a static one-shot process to a dynamic optimization, where the system mathematically refines its understanding of user intent through successive approximations."
+                }
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "summary",
+            "title": "Key Takeaways",
+            "content": {
+                "text": "Relevance feedback uses the Rocchio algorithm to automatically improve queries based on user judgments. It's powerful but requires user interaction and careful parameter tuning.",
+                "nextTopic": "Local Analysis (Pseudo-Relevance Feedback)",
+                "preparation": "Learn about automatic feedback without explicit user judgments."
+            }
+        }
+    ]
+}

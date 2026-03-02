@@ -1,0 +1,173 @@
+{
+    "id": "u2-t2-global-analysis",
+    "title": "Global Analysis (Thesaurus and LSI)",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Global Analysis",
+            "subtitle": "Collection-Wide Query Expansion",
+            "content": {
+                "text": "Global analysis expands queries using knowledge from the entire document collection, not just the top results. It uses thesauri, word relationships, and latent semantic analysis.",
+                "hook": "Sometimes the best expansion terms aren't in your search results - they're hidden in the collection."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "What is Global Analysis?",
+            "content": {
+                "definition": "Query expansion based on the entire document collection, using pre-computed word relationships, thesauri, or statistical co-occurrence patterns.",
+                "text": "Unlike local analysis (which uses top K results), global analysis uses collection-wide statistics to find related terms. It's more stable but computationally expensive.",
+                "outcomes": [
+                    "Uses entire collection, not just top results",
+                    "Pre-computed relationships (offline processing)",
+                    "More stable than local analysis",
+                    "Handles synonyms and related concepts",
+                    "Computationally expensive to build"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Thesaurus-Based Expansion",
+            "content": {
+                "text": "Using a thesaurus to find synonyms and related terms:",
+                "outcomes": [
+                    "Manual thesaurus: WordNet, domain-specific dictionaries",
+                    "Automatic thesaurus: Built from co-occurrence statistics",
+                    "Example: 'car' → 'automobile', 'vehicle', 'auto'",
+                    "Advantage: Handles vocabulary mismatch",
+                    "Challenge: Word sense disambiguation (bank = river vs money)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Statistical Thesaurus Construction",
+            "content": {
+                "text": "Building a thesaurus automatically from the collection:",
+                "outcomes": [
+                    "Co-occurrence analysis: Terms appearing together are related",
+                    "Context vectors: Represent each term by its context",
+                    "Similarity computation: Cosine similarity between context vectors",
+                    "Example: 'doctor' and 'physician' have similar contexts",
+                    "Result: Automatic synonym discovery"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Latent Semantic Indexing (LSI)",
+            "content": {
+                "text": "Using Singular Value Decomposition (SVD) to find hidden semantic relationships:",
+                "outcomes": [
+                    "Reduces term-document matrix to lower dimensions",
+                    "Discovers latent concepts underlying the collection",
+                    "Groups synonyms automatically",
+                    "Handles polysemy (multiple meanings)",
+                    "Computationally expensive but powerful"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Comparison: Local vs Global",
+            "content": {
+                "text": "When to use each approach:",
+                "outcomes": [
+                    "Local: Fast, context-specific, risk of query drift",
+                    "Global: Stable, handles synonyms, expensive to build",
+                    "Local: Good for focused queries with good initial results",
+                    "Global: Good for ambiguous queries, vocabulary mismatch",
+                    "Hybrid: Combine both for best results"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Simple Thesaurus Expansion",
+            "content": {
+                "code": "from collections import defaultdict\n\ndef build_simple_thesaurus(documents):\n    \"\"\"\n    Build co-occurrence based thesaurus\n    \"\"\"\n    # Track which terms appear together\n    co_occurrence = defaultdict(lambda: defaultdict(int))\n    \n    for doc in documents:\n        terms = doc.lower().split()\n        # Count co-occurrences within same document\n        for i, term1 in enumerate(terms):\n            for term2 in terms[i+1:]:\n                if term1 != term2:\n                    co_occurrence[term1][term2] += 1\n                    co_occurrence[term2][term1] += 1\n    \n    return co_occurrence\n\ndef expand_query_global(query, thesaurus, top_k=3):\n    \"\"\"\n    Expand query using thesaurus\n    \"\"\"\n    query_terms = query.lower().split()\n    expansion_terms = set()\n    \n    for term in query_terms:\n        if term in thesaurus:\n            # Get top K related terms\n            related = sorted(thesaurus[term].items(), \n                           key=lambda x: x[1], reverse=True)[:top_k]\n            expansion_terms.update([t for t, _ in related])\n    \n    # Remove original query terms\n    expansion_terms -= set(query_terms)\n    \n    expanded = query + ' ' + ' '.join(list(expansion_terms)[:top_k])\n    return expanded, list(expansion_terms)[:top_k]\n\n# Example\ndocs = [\n    \"machine learning algorithms\",\n    \"machine learning models\",\n    \"deep learning neural networks\",\n    \"artificial intelligence machine learning\"\n]\n\nthesaurus = build_simple_thesaurus(docs)\nexpanded, terms = expand_query_global(\"machine\", thesaurus, top_k=3)\n\nprint(f\"Original Query: machine\")\nprint(f\"Expansion Terms: {terms}\")\nprint(f\"Expanded Query: {expanded}\")",
+                "input": "Query: 'machine', Collection: 4 ML documents",
+                "output": "Original Query: machine\nExpansion Terms: ['learning', 'algorithms', 'models']\nExpanded Query: machine learning algorithms models",
+                "interpretation": "Global analysis builds a thesaurus from the entire collection by tracking which terms co-occur. For 'machine', the most related terms are 'learning', 'algorithms', and 'models' because they frequently appear together in documents. This expansion is stable across queries because it's based on collection-wide statistics, not just top results."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: Thesaurus Building",
+            "content": {
+                "activity": "Manual Co-occurrence Analysis",
+                "description": "Documents:\n1. 'car automobile vehicle'\n2. 'car truck vehicle'\n3. 'automobile sedan vehicle'\n\nBuild a simple thesaurus: Which terms co-occur most with 'car'? (Answer: vehicle=3, automobile=2, truck=1, sedan=0)"
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the main difference between local and global analysis?",
+                "How does a statistical thesaurus differ from a manual thesaurus?",
+                "What is Latent Semantic Indexing (LSI)?",
+                "When is global analysis better than local analysis?"
+            ],
+            "answers": [
+                "Local analysis uses only the top K results from the current query, while global analysis uses statistics from the entire document collection. Global is more stable but expensive to compute.",
+                "A manual thesaurus (like WordNet) is created by humans with explicit synonym relationships. A statistical thesaurus is built automatically from co-occurrence patterns in the collection.",
+                "LSI uses Singular Value Decomposition (SVD) to reduce the term-document matrix to lower dimensions, discovering hidden semantic relationships and grouping synonyms automatically.",
+                "When queries have vocabulary mismatch problems, when initial results are poor (avoiding query drift), when the collection has stable semantics, or when synonym handling is critical."
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "research_perspective",
+            "title": "Research Perspective: Semantic Spaces",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "Can we learn better semantic representations than LSI?",
+                        "answer": "Modern approaches use neural word embeddings (Word2Vec, GloVe, BERT) that learn dense vector representations capturing semantic relationships. These embeddings are trained on massive corpora and capture more nuanced relationships than LSI's linear algebra approach."
+                    },
+                    {
+                        "question": "How can we handle word sense disambiguation in global analysis?",
+                        "answer": "Context-aware embeddings (ELMo, BERT) generate different vectors for the same word in different contexts. 'Bank' in 'river bank' gets a different vector than 'bank' in 'savings bank', solving the polysemy problem."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling semantic similarity in vector space.",
+                    "derivation": [
+                        {
+                            "step": "Define term similarity using context vector overlap.",
+                            "equation": "sim(t_1, t_2) = \\frac{\\vec{c}_1 \\cdot \\vec{c}_2}{||\\vec{c}_1|| \\cdot ||\\vec{c}_2||}",
+                            "interpretation": "Terms with similar contexts (co-occurring with similar words) are semantically related."
+                        },
+                        {
+                            "step": "Model LSI dimensionality reduction using SVD.",
+                            "equation": "M = U \\Sigma V^T \\approx U_k \\Sigma_k V_k^T",
+                            "interpretation": "Keeping only top k singular values captures main semantic dimensions while reducing noise."
+                        }
+                    ],
+                    "conclusion": "Global analysis provides stable, collection-wide query expansion. Modern neural approaches extend these ideas with learned semantic representations."
+                }
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "summary",
+            "title": "Key Takeaways",
+            "content": {
+                "text": "Global analysis uses collection-wide statistics for stable query expansion. Thesauri and LSI handle synonyms and semantic relationships effectively.",
+                "nextTopic": "Text Preprocessing",
+                "preparation": "Learn about tokenization, stemming, and stopword removal."
+            }
+        }
+    ]
+}

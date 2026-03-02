@@ -1,0 +1,218 @@
+{
+    "id": "u2-t4-index-compression",
+    "title": "Index Compression",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Index Compression",
+            "subtitle": "Making Indices Fit in Memory",
+            "content": {
+                "text": "Index compression reduces the space needed to store inverted indices, enabling faster search by fitting more data in RAM. Gap encoding and variable-byte codes are the key techniques.",
+                "hook": "A compressed index in RAM beats an uncompressed index on disk - every time."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "Why Compress Indices?",
+            "content": {
+                "text": "Benefits of index compression:",
+                "outcomes": [
+                    "Fit larger indices in RAM (faster access)",
+                    "Reduce disk I/O (read less data)",
+                    "Lower storage costs",
+                    "Faster query processing (less data to scan)",
+                    "Trade-off: CPU time for decompression"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Gap Encoding (D-Gaps)",
+            "content": {
+                "definition": "Store differences between consecutive document IDs instead of absolute IDs.",
+                "text": "Postings lists are sorted, so gaps are smaller than absolute IDs. Smaller numbers need fewer bits.",
+                "outcomes": [
+                    "Transform [100, 105, 110] → [100, 5, 5]",
+                    "Gaps are smaller than original IDs",
+                    "Enables better compression",
+                    "Must decompress sequentially"
+                ]
+            },
+            "formula": {
+                "equation": "g_i = d_{i} - d_{i-1} \\quad \\text{where } d_0 = 0",
+                "description": "Delta Gaps (Gap Encoding) reduce the magnitude of numbers in a postings list by storing differences between consecutive document IDs.",
+                "terms": [
+                    {
+                        "symbol": "d_i",
+                        "meaning": "The i-th Document ID in a sorted postings list"
+                    },
+                    {
+                        "symbol": "g_i",
+                        "meaning": "The gap (difference) to be stored in the compressed index"
+                    },
+                    {
+                        "symbol": "d_{i-1}",
+                        "meaning": "The previous Document ID in the list"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Gap Encoding Transformation",
+                    "description": "Compressing a postings list for a common term.",
+                    "steps": [
+                        {
+                            "label": "Sorted List",
+                            "formula": "D = [4500, 4503, 4510, 4525]",
+                            "note": "Document IDs are large (4 digits)."
+                        },
+                        {
+                            "label": "Calculate First Entry",
+                            "formula": "g_1 = 4500 - 0 = 4500",
+                            "note": "First entry is stored as is."
+                        },
+                        {
+                            "label": "Calculate Subsequent Gaps",
+                            "formula": "g_2=3, g_3=7, g_4=15",
+                            "note": "Gaps: 4503-4500, 4510-4503, 4525-4510."
+                        },
+                        {
+                            "label": "Compressed Sequence",
+                            "formula": "G = [4500, 3, 7, 15]",
+                            "note": "Smaller numbers require fewer bits to store."
+                        }
+                    ],
+                    "input": "[4500, 4503, 4510, 4525]",
+                    "output": "[4500, 3, 7, 15] (Compressed)"
+                }
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Variable-Byte Encoding",
+            "content": {
+                "text": "Use variable number of bytes based on integer size:",
+                "outcomes": [
+                    "Small numbers: 1 byte (0-127)",
+                    "Medium numbers: 2 bytes (128-16383)",
+                    "Large numbers: 3+ bytes",
+                    "Continuation bit indicates more bytes",
+                    "Fast to decode (byte-aligned)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Gamma and Delta Codes",
+            "content": {
+                "text": "Bit-level variable-length codes:",
+                "outcomes": [
+                    "Gamma code: Unary length + binary value",
+                    "Delta code: Gamma-encoded length + binary value",
+                    "Better compression than variable-byte",
+                    "Slower to decode (bit-level operations)",
+                    "Used when space is critical"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Dictionary Compression",
+            "content": {
+                "text": "Compressing the term dictionary:",
+                "outcomes": [
+                    "Front coding: Store common prefixes once",
+                    "Example: 'computer', 'computing' → 'comput' + 'er', 'ing'",
+                    "Reduces dictionary size by 30-50%",
+                    "Important for large vocabularies",
+                    "Trade-off: Slower term lookup"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Gap Encoding and Variable-Byte",
+            "content": {
+                "code": "def gap_encode(doc_ids):\n    \"\"\"Convert document IDs to gaps\"\"\"\n    if not doc_ids:\n        return []\n    \n    gaps = [doc_ids[0]]\n    for i in range(1, len(doc_ids)):\n        gaps.append(doc_ids[i] - doc_ids[i-1])\n    return gaps\n\ndef gap_decode(gaps):\n    \"\"\"Convert gaps back to document IDs\"\"\"\n    if not gaps:\n        return []\n    \n    doc_ids = [gaps[0]]\n    for i in range(1, len(gaps)):\n        doc_ids.append(doc_ids[-1] + gaps[i])\n    return doc_ids\n\ndef variable_byte_encode(n):\n    \"\"\"Encode integer using variable-byte encoding\"\"\"\n    bytes_list = []\n    while n >= 128:\n        bytes_list.append(n % 128)\n        n //= 128\n    bytes_list.append(n + 128)  # Set high bit on last byte\n    return bytes_list\n\ndef variable_byte_decode(bytes_list):\n    \"\"\"Decode variable-byte encoded integer\"\"\"\n    n = 0\n    for i, byte in enumerate(bytes_list):\n        if byte < 128:\n            n += byte * (128 ** i)\n        else:\n            n += (byte - 128) * (128 ** i)\n            break\n    return n\n\n# Example\ndoc_ids = [100, 105, 110, 150, 200]\nprint(f\"Original IDs: {doc_ids}\")\n\n# Gap encoding\ngaps = gap_encode(doc_ids)\nprint(f\"Gaps: {gaps}\")\nprint(f\"Decoded: {gap_decode(gaps)}\")\n\n# Variable-byte encoding\nprint(f\"\\nVariable-byte encoding:\")\nfor gap in gaps:\n    encoded = variable_byte_encode(gap)\n    print(f\"  {gap} → {encoded} ({len(encoded)} bytes)\")\n\n# Calculate compression\noriginal_bits = len(doc_ids) * 32  # 32-bit integers\ngap_bits = sum(len(variable_byte_encode(g)) * 8 for g in gaps)\nprint(f\"\\nOriginal: {original_bits} bits\")\nprint(f\"Compressed: {gap_bits} bits\")\nprint(f\"Compression ratio: {gap_bits/original_bits:.2f}\")",
+                "input": "Document IDs: [100, 105, 110, 150, 200]",
+                "output": "Original IDs: [100, 105, 110, 150, 200]\nGaps: [100, 5, 5, 40, 50]\nDecoded: [100, 105, 110, 150, 200]\n\nVariable-byte encoding:\n  100 → [228] (1 bytes)\n  5 → [133] (1 bytes)\n  5 → [133] (1 bytes)\n  40 → [168] (1 bytes)\n  50 → [178] (1 bytes)\n\nOriginal: 160 bits\nCompressed: 40 bits\nCompression ratio: 0.25",
+                "interpretation": "Gap encoding transforms large document IDs into small gaps. Variable-byte encoding then uses 1 byte for small gaps instead of 4 bytes for full integers. In this example, we achieve 4x compression (160 bits → 40 bits). The combination of gap encoding and variable-byte encoding is standard in modern search engines."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: Manual Gap Encoding",
+            "content": {
+                "activity": "Compress a Postings List",
+                "description": "Postings list: [10, 15, 20, 25, 100]\n\n1. Convert to gaps\n2. How many bits for each gap with variable-byte encoding?\n3. What's the compression ratio vs 32-bit integers?"
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "Why does gap encoding work well for postings lists?",
+                "What is the advantage of variable-byte encoding over gamma codes?",
+                "Why must gap-encoded lists be decompressed sequentially?",
+                "How does dictionary compression using front coding work?"
+            ],
+            "answers": [
+                "Postings lists are sorted by document ID, so consecutive IDs are close together. Gaps (differences) are much smaller than absolute IDs, requiring fewer bits to store.",
+                "Variable-byte encoding is byte-aligned, making it much faster to decode (simple byte operations). Gamma codes are bit-aligned, requiring bit-level operations which are slower. Variable-byte trades slightly worse compression for much faster decompression.",
+                "Because each gap is relative to the previous document ID. To find the 5th document ID, you must decode gaps 1-4 first to reconstruct the absolute ID. Random access requires decompressing from the beginning.",
+                "Front coding stores common prefixes once. For 'computer' and 'computing', store 'comput' as the prefix, then 'er' and 'ing' as suffixes. This exploits the fact that dictionary terms are sorted alphabetically, so similar terms are adjacent."
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "research_perspective",
+            "title": "Research Perspective: Modern Compression",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "Can we achieve better compression while maintaining fast decompression?",
+                        "answer": "Modern techniques like PForDelta (Patched Frame of Reference) achieve excellent compression with SIMD-accelerated decompression. They encode blocks of gaps using a base value plus small deltas, with exceptions handled separately. This enables parallel decompression."
+                    },
+                    {
+                        "question": "How do we handle updates to compressed indices?",
+                        "answer": "Research on dynamic compression: 1) Keep small uncompressed buffer for new documents, 2) Periodically merge with compressed index, 3) Use log-structured merge trees (LSM) for write-heavy workloads, 4) Incremental recompression of affected postings lists."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling compression ratio and query time trade-off.",
+                    "derivation": [
+                        {
+                            "step": "Define compression ratio as ratio of compressed to original size.",
+                            "equation": "CR = \\frac{|C|}{|O|}",
+                            "interpretation": "Lower CR means better compression. Gap encoding + variable-byte typically achieves CR = 0.2-0.3."
+                        },
+                        {
+                            "step": "Model query time including decompression.",
+                            "equation": "T_q = T_{disk} \\cdot CR + T_{decomp} \\cdot |C| + T_{merge}",
+                            "interpretation": "Compression reduces disk time but adds decompression time. Optimal CR balances both for minimum total query time."
+                        }
+                    ],
+                    "conclusion": "Index compression is essential for large-scale IR. Gap encoding with variable-byte codes provides excellent compression with fast decompression, making it the standard approach."
+                }
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "summary",
+            "title": "Key Takeaways",
+            "content": {
+                "text": "Index compression uses gap encoding and variable-byte codes to reduce space while maintaining fast decompression. It's critical for fitting indices in RAM and speeding up search.",
+                "nextTopic": "Unit 3: User Interfaces",
+                "preparation": "Learn about HCI principles and query specification interfaces."
+            }
+        }
+    ]
+}

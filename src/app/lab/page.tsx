@@ -253,11 +253,11 @@ export default function LabPage() {
                                     </div>
                                     <div>
                                         <h3 className="font-bold">Unit 2: Query Operations</h3>
-                                        <p className="text-sm text-muted-foreground">6 Labs + Quiz</p>
+                                        <p className="text-sm text-muted-foreground">12 Labs + Quiz</p>
                                     </div>
                                 </div>
                                 <p className="text-sm text-muted-foreground mb-3">
-                                    Keyword, Pattern, Structural Queries, Relevance Feedback, Text Preprocessing, Indexing
+                                    Keyword/Pattern/Structural Queries, Relevance Feedback, Local/Global Analysis, Text Preprocessing, Clustering, Compression, Inverted Index, Boolean Search, Index Compression
                                 </p>
                                 <div className="space-y-2">
                                     <Button asChild variant="outline" className="w-full">

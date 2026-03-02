@@ -1,0 +1,172 @@
+{
+    "id": "u2-t3-preprocessing",
+    "title": "Text Preprocessing",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Text Preprocessing",
+            "subtitle": "Preparing Raw Text for Indexing",
+            "content": {
+                "text": "Text preprocessing transforms raw, messy text into clean, normalized tokens ready for indexing. It's the foundation of all text retrieval systems.",
+                "hook": "Garbage in, garbage out - clean text is the key to good search."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "The Preprocessing Pipeline",
+            "content": {
+                "text": "Standard steps to prepare text for indexing:",
+                "outcomes": [
+                    "1. Tokenization: Split text into words",
+                    "2. Normalization: Lowercase, remove punctuation",
+                    "3. Stopword Removal: Filter common words",
+                    "4. Stemming/Lemmatization: Reduce to root form",
+                    "5. Term Normalization: Handle special cases"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Tokenization",
+            "content": {
+                "definition": "Breaking text into individual tokens (words, numbers, symbols).",
+                "text": "Challenges: Hyphenated words (state-of-the-art), contractions (don't), URLs, emails, numbers with commas (1,000), compound words.",
+                "outcomes": [
+                    "Whitespace tokenization: Split on spaces",
+                    "Punctuation-based: Split on punctuation",
+                    "Regular expressions: Custom patterns",
+                    "Language-specific: Chinese, Japanese (no spaces)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Stopword Removal",
+            "content": {
+                "text": "Removing high-frequency, low-information words:",
+                "outcomes": [
+                    "Common stopwords: the, a, an, and, or, but, in, on, at",
+                    "Benefits: Reduces index size by 30-50%",
+                    "Benefits: Speeds up query processing",
+                    "Risk: Loses phrase information ('to be or not to be')",
+                    "Modern trend: Keep stopwords, use positions"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Stemming",
+            "content": {
+                "definition": "Reducing words to their root or stem form by removing suffixes.",
+                "text": "Porter Stemmer: fishing → fish, fished → fish, fisher → fisher. Aggressive but fast.",
+                "outcomes": [
+                    "Improves recall: Matches different word forms",
+                    "May hurt precision: Over-stemming (university → univers)",
+                    "Language-specific: Different rules per language",
+                    "Porter, Snowball, Lancaster algorithms"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Lemmatization",
+            "content": {
+                "text": "Reducing words to their dictionary form (lemma) using linguistic knowledge:",
+                "outcomes": [
+                    "More accurate than stemming: better → good, was → be",
+                    "Requires part-of-speech tagging",
+                    "Slower but more precise",
+                    "Example: running (verb) → run, running (noun) → running",
+                    "Uses morphological analysis"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Text Preprocessing Pipeline",
+            "content": {
+                "code": "import re\nfrom collections import Counter\n\ndef simple_stemmer(word):\n    \"\"\"Simple suffix removal stemmer\"\"\"\n    suffixes = ['ing', 'ed', 'es', 's', 'ly', 'er', 'est']\n    for suffix in suffixes:\n        if word.endswith(suffix) and len(word) > len(suffix) + 2:\n            return word[:-len(suffix)]\n    return word\n\ndef preprocess_text(text, remove_stopwords=True, apply_stemming=True):\n    \"\"\"\n    Complete preprocessing pipeline\n    \"\"\"\n    # 1. Lowercase\n    text = text.lower()\n    \n    # 2. Tokenization (simple)\n    tokens = re.findall(r'\\b\\w+\\b', text)\n    \n    # 3. Stopword removal\n    stopwords = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for'}\n    if remove_stopwords:\n        tokens = [t for t in tokens if t not in stopwords]\n    \n    # 4. Stemming\n    if apply_stemming:\n        tokens = [simple_stemmer(t) for t in tokens]\n    \n    return tokens\n\n# Example\ntext = \"The quick brown foxes are jumping over the lazy dogs\"\n\nprint(\"Original:\", text)\nprint(\"Tokens:\", preprocess_text(text, remove_stopwords=False, apply_stemming=False))\nprint(\"No stopwords:\", preprocess_text(text, remove_stopwords=True, apply_stemming=False))\nprint(\"Stemmed:\", preprocess_text(text, remove_stopwords=True, apply_stemming=True))",
+                "input": "Text: 'The quick brown foxes are jumping over the lazy dogs'",
+                "output": "Original: The quick brown foxes are jumping over the lazy dogs\nTokens: ['the', 'quick', 'brown', 'foxes', 'are', 'jumping', 'over', 'the', 'lazy', 'dogs']\nNo stopwords: ['quick', 'brown', 'foxes', 'jumping', 'lazy', 'dogs']\nStemmed: ['quick', 'brown', 'fox', 'jump', 'lazy', 'dog']",
+                "interpretation": "The preprocessing pipeline transforms raw text into clean tokens. Tokenization splits into words, stopword removal eliminates common words (reducing from 10 to 6 tokens), and stemming reduces words to roots (foxes→fox, jumping→jump, dogs→dog). This normalization helps match different forms of the same word."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: Manual Preprocessing",
+            "content": {
+                "activity": "Process a Sentence",
+                "description": "Text: 'The researchers are studying machine learning algorithms.'\n\nApply each step:\n1. Tokenize\n2. Remove stopwords (the, are)\n3. Stem (researchers→research, studying→study, algorithms→algorithm)\n\nFinal result?"
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the difference between stemming and lemmatization?",
+                "Why do we remove stopwords?",
+                "What is over-stemming and why is it a problem?",
+                "When might you want to keep stopwords?"
+            ],
+            "answers": [
+                "Stemming removes suffixes using rules (fishing→fish), while lemmatization uses linguistic knowledge to find dictionary forms (better→good). Lemmatization is more accurate but slower.",
+                "Stopwords are high-frequency, low-information words that don't help distinguish documents. Removing them reduces index size by 30-50% and speeds up processing.",
+                "Over-stemming occurs when stemming removes too much, merging unrelated words (university→univers, universe→univers). This hurts precision by matching unrelated terms.",
+                "For phrase queries ('to be or not to be'), for exact matching, for languages where stopwords carry meaning, or when using positional indices that can handle them efficiently."
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "research_perspective",
+            "title": "Research Perspective: Neural Tokenization",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "Can we learn better tokenization than rule-based approaches?",
+                        "answer": "Subword tokenization (BPE, WordPiece, SentencePiece) learns optimal token boundaries from data. These methods handle rare words, morphology, and multiple languages better than fixed vocabularies. BERT and GPT use learned tokenization."
+                    },
+                    {
+                        "question": "Do we still need stemming with neural models?",
+                        "answer": "Neural models with subword tokenization implicitly handle morphology. 'running' and 'run' share subword tokens, so explicit stemming becomes less critical. However, stemming still helps for small datasets and traditional IR systems."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling the information loss from preprocessing.",
+                    "derivation": [
+                        {
+                            "step": "Define information content of a term using entropy.",
+                            "equation": "H(T) = -\\sum_t P(t) \\log P(t)",
+                            "interpretation": "Preprocessing reduces vocabulary size, changing the term distribution and potentially losing information."
+                        },
+                        {
+                            "step": "Model stemming as a many-to-one mapping.",
+                            "equation": "stem: V \\rightarrow V', |V'| < |V|",
+                            "interpretation": "Stemming maps multiple surface forms to fewer stems, trading precision for recall."
+                        }
+                    ],
+                    "conclusion": "Preprocessing is a balancing act between normalization (improving recall) and information preservation (maintaining precision)."
+                }
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "summary",
+            "title": "Key Takeaways",
+            "content": {
+                "text": "Text preprocessing cleans and normalizes text through tokenization, stopword removal, and stemming. It's essential for effective indexing and retrieval.",
+                "nextTopic": "Document Clustering",
+                "preparation": "Learn about grouping similar documents together."
+            }
+        }
+    ]
+}

@@ -1,0 +1,173 @@
+{
+    "id": "u2-t2-local-analysis",
+    "title": "Local Analysis (Pseudo-Relevance Feedback)",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Local Analysis",
+            "subtitle": "Automatic Query Expansion Without User Feedback",
+            "content": {
+                "text": "Local analysis, also known as Pseudo-Relevance Feedback or Blind Feedback, automatically assumes the top K retrieved documents are relevant and uses them to expand the query.",
+                "hook": "What if we could improve queries without asking the user anything?"
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "What is Pseudo-Relevance Feedback?",
+            "content": {
+                "definition": "An automatic technique that assumes the top K results from the initial query are relevant, extracts terms from them, and adds those terms to the query.",
+                "text": "The process: 1) Run initial query, 2) Assume top K docs are relevant, 3) Extract common terms, 4) Add terms to query, 5) Re-run query with expanded terms.",
+                "outcomes": [
+                    "Fully automatic - no user interaction needed",
+                    "Fast query expansion",
+                    "Works well when initial results are good",
+                    "Risky when initial results are poor (query drift)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "How It Works",
+            "content": {
+                "text": "Steps in pseudo-relevance feedback:",
+                "outcomes": [
+                    "1. Retrieve top K documents (typically K=10-20)",
+                    "2. Extract terms from these documents",
+                    "3. Rank terms by frequency or TF-IDF",
+                    "4. Select top M terms (typically M=10-20)",
+                    "5. Add selected terms to original query",
+                    "6. Re-run query with expanded terms"
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Term Selection Strategies",
+            "content": {
+                "text": "How to choose which terms to add:",
+                "outcomes": [
+                    "Frequency: Most common terms in top K docs",
+                    "TF-IDF: Terms with high weight in top K docs",
+                    "Chi-square: Terms statistically associated with top K",
+                    "Mutual Information: Terms that reduce uncertainty",
+                    "Robertson Selection Value: Probabilistic term selection"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Advantages of Local Analysis",
+            "content": {
+                "text": "Why pseudo-relevance feedback is popular:",
+                "outcomes": [
+                    "No user effort required - fully automatic",
+                    "Fast and efficient - single pass over top docs",
+                    "Context-specific - terms from actual results",
+                    "Improves recall - finds related terms",
+                    "Works well for most queries"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "The Query Drift Problem",
+            "content": {
+                "text": "The main risk of pseudo-relevance feedback:",
+                "outcomes": [
+                    "If initial results are poor, expansion makes it worse",
+                    "Query can drift to a different topic entirely",
+                    "Example: 'apple' returns tech results, expansion adds 'iPhone', 'Mac', now can't find fruit",
+                    "Solution: Use clarity scores to detect when to skip PRF",
+                    "Solution: Limit expansion to closely related terms"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Pseudo-Relevance Feedback",
+            "content": {
+                "code": "from collections import Counter\nimport re\n\ndef pseudo_relevance_feedback(query, top_docs, k=10, m=5):\n    \"\"\"\n    Extract top M terms from top K documents\n    \"\"\"\n    # Combine all top documents\n    combined_text = ' '.join(top_docs[:k])\n    \n    # Tokenize and count terms\n    terms = re.findall(r'\\w+', combined_text.lower())\n    term_freq = Counter(terms)\n    \n    # Remove query terms and stopwords\n    query_terms = set(query.lower().split())\n    stopwords = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at'}\n    \n    # Filter and get top M terms\n    expansion_terms = [\n        term for term, freq in term_freq.most_common(m + 20)\n        if term not in query_terms and term not in stopwords\n    ][:m]\n    \n    # Create expanded query\n    expanded_query = query + ' ' + ' '.join(expansion_terms)\n    return expanded_query, expansion_terms\n\n# Example\nquery = \"machine learning\"\ntop_docs = [\n    \"machine learning algorithms for data analysis\",\n    \"deep learning neural networks and machine learning\",\n    \"artificial intelligence and machine learning applications\"\n]\n\nexpanded, terms = pseudo_relevance_feedback(query, top_docs, k=3, m=3)\nprint(f\"Original Query: {query}\")\nprint(f\"Expansion Terms: {terms}\")\nprint(f\"Expanded Query: {expanded}\")",
+                "input": "Query: 'machine learning', Top 3 docs about ML",
+                "output": "Original Query: machine learning\nExpansion Terms: ['algorithms', 'neural', 'networks']\nExpanded Query: machine learning algorithms neural networks",
+                "interpretation": "Pseudo-relevance feedback automatically extracts common terms from top results. In this example, 'algorithms', 'neural', and 'networks' appear frequently in the top documents, so they're added to the query. This helps find more relevant documents that use these related terms, improving recall without user interaction."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: PRF Simulation",
+            "content": {
+                "activity": "Manual Term Extraction",
+                "description": "Query: 'climate'\nTop 3 Results: 1) 'climate change global warming', 2) 'climate patterns weather systems', 3) 'climate science temperature data'\n\nWhat are the top 3 expansion terms? (Hint: change, global, warming, patterns, weather, science, temperature, data)"
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the main assumption in pseudo-relevance feedback?",
+                "Why is it called 'blind' feedback?",
+                "What is query drift and how does it happen in PRF?",
+                "When should a system skip pseudo-relevance feedback?"
+            ],
+            "answers": [
+                "That the top K documents retrieved by the initial query are relevant, even though we don't have explicit user feedback confirming this.",
+                "Because the system blindly assumes the top results are relevant without any user confirmation or judgment.",
+                "Query drift occurs when the initial results are poor, so the expansion terms come from non-relevant documents, pushing the query further away from the user's intent. The query 'drifts' to a different topic.",
+                "When the clarity score is low (indicating uncertain results), when the initial query is very short, or when the top results show high diversity (suggesting ambiguous query)."
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "research_perspective",
+            "title": "Research Perspective: Predicting PRF Success",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "How can we mathematically detect if the top-k results are polluted before expanding the query?",
+                        "answer": "Research uses Clarity Scores (relative entropy between the query language model and the collection model) to predict PRF success. If the Clarity Score is low, the system aborts automatic expansion to avoid introducing noise terms that would degrade performance. The clarity score measures how focused the top results are on a specific topic."
+                    },
+                    {
+                        "question": "Can we selectively apply PRF only to queries that will benefit?",
+                        "answer": "Machine learning models can predict PRF effectiveness using features like: query length, result diversity, clarity score, and query ambiguity. Systems can learn when to apply PRF and when to skip it, improving average performance."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling the information gain from expanding the query with term t.",
+                    "derivation": [
+                        {
+                            "step": "Define information gain using Mutual Information between term and relevance.",
+                            "equation": "I(T; R) = \\sum_{t,r} P(t,r) \\log \\frac{P(t,r)}{P(t)P(r)}",
+                            "interpretation": "We only add term t to the query if it provides significant information about the relevance class R."
+                        },
+                        {
+                            "step": "Model clarity score as KL-divergence between query model and collection model.",
+                            "equation": "Clarity(Q) = \\sum_{w} P(w|Q) \\log \\frac{P(w|Q)}{P(w|C)}",
+                            "interpretation": "High clarity means the query model is very different from the collection model, indicating focused results suitable for PRF."
+                        }
+                    ],
+                    "conclusion": "Local analysis provides automatic query improvement but requires careful monitoring to avoid query drift. Clarity scores and selective application are key to success."
+                }
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "summary",
+            "title": "Key Takeaways",
+            "content": {
+                "text": "Pseudo-relevance feedback automatically expands queries using top results. It's fast and effective but risks query drift when initial results are poor.",
+                "nextTopic": "Global Analysis",
+                "preparation": "Learn about collection-wide query expansion using thesauri and LSI."
+            }
+        }
+    ]
+}

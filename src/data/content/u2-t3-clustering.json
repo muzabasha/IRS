@@ -1,0 +1,173 @@
+{
+    "id": "u2-t3-clustering",
+    "title": "Document Clustering",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Document Clustering",
+            "subtitle": "Grouping Similar Documents Together",
+            "content": {
+                "text": "Document clustering automatically groups similar documents together without supervision. It helps organize results, speed up search, and discover document relationships.",
+                "hook": "Birds of a feather flock together - so do documents about the same topic."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "What is Document Clustering?",
+            "content": {
+                "definition": "Unsupervised grouping of documents based on content similarity, where documents in the same cluster are more similar to each other than to documents in other clusters.",
+                "text": "Unlike classification (supervised), clustering discovers groups automatically without predefined categories.",
+                "outcomes": [
+                    "Unsupervised learning - no labeled data needed",
+                    "Groups similar documents automatically",
+                    "Discovers hidden structure in collections",
+                    "Helps organize and browse large collections"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Applications in IR",
+            "content": {
+                "text": "How clustering improves information retrieval:",
+                "outcomes": [
+                    "Cluster pruning: Search only relevant clusters (faster)",
+                    "Result organization: Group search results by topic",
+                    "Collection organization: Create browsable hierarchies",
+                    "Duplicate detection: Find near-duplicate documents",
+                    "Topic discovery: Identify main themes in collection"
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "K-Means Clustering",
+            "content": {
+                "text": "The most popular clustering algorithm:",
+                "outcomes": [
+                    "1. Choose K (number of clusters)",
+                    "2. Initialize K random centroids",
+                    "3. Assign each document to nearest centroid",
+                    "4. Recalculate centroids as cluster means",
+                    "5. Repeat steps 3-4 until convergence",
+                    "Fast and simple, but requires choosing K"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Hierarchical Clustering",
+            "content": {
+                "text": "Building a tree of clusters:",
+                "outcomes": [
+                    "Agglomerative (bottom-up): Start with individual docs, merge similar ones",
+                    "Divisive (top-down): Start with all docs, split into groups",
+                    "Creates dendrogram showing relationships",
+                    "No need to choose K in advance",
+                    "More expensive than K-means"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Similarity Measures",
+            "content": {
+                "text": "How to measure document similarity:",
+                "outcomes": [
+                    "Cosine similarity: Angle between document vectors",
+                    "Euclidean distance: Straight-line distance",
+                    "Jaccard similarity: Overlap of term sets",
+                    "For text: Cosine similarity works best",
+                    "Normalize vectors before computing distance"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Simple K-Means Clustering",
+            "content": {
+                "code": "import math\nfrom collections import defaultdict\n\ndef cosine_similarity(v1, v2):\n    \"\"\"Compute cosine similarity between two vectors\"\"\"\n    dot = sum(a * b for a, b in zip(v1, v2))\n    norm1 = math.sqrt(sum(a * a for a in v1))\n    norm2 = math.sqrt(sum(b * b for b in v2))\n    return dot / (norm1 * norm2) if norm1 * norm2 > 0 else 0\n\ndef kmeans_clustering(documents, k=2, max_iters=10):\n    \"\"\"\n    Simple K-means clustering for documents\n    documents: list of term frequency vectors\n    \"\"\"\n    # Initialize centroids (first k documents)\n    centroids = documents[:k]\n    \n    for iteration in range(max_iters):\n        # Assign documents to nearest centroid\n        clusters = defaultdict(list)\n        for i, doc in enumerate(documents):\n            similarities = [cosine_similarity(doc, c) for c in centroids]\n            nearest = similarities.index(max(similarities))\n            clusters[nearest].append(i)\n        \n        # Recalculate centroids\n        new_centroids = []\n        for cluster_id in range(k):\n            if cluster_id in clusters and clusters[cluster_id]:\n                cluster_docs = [documents[i] for i in clusters[cluster_id]]\n                # Average of all documents in cluster\n                centroid = [sum(doc[j] for doc in cluster_docs) / len(cluster_docs)\n                           for j in range(len(documents[0]))]\n                new_centroids.append(centroid)\n            else:\n                new_centroids.append(centroids[cluster_id])\n        \n        centroids = new_centroids\n    \n    return clusters, centroids\n\n# Example: 4 documents, 3 terms\ndocs = [\n    [1.0, 0.0, 0.0],  # Doc 0: about term 0\n    [0.9, 0.1, 0.0],  # Doc 1: about term 0\n    [0.0, 0.0, 1.0],  # Doc 2: about term 2\n    [0.0, 0.1, 0.9]   # Doc 3: about term 2\n]\n\nclusters, centroids = kmeans_clustering(docs, k=2)\nprint(\"Clusters:\")\nfor cluster_id, doc_ids in clusters.items():\n    print(f\"  Cluster {cluster_id}: Documents {doc_ids}\")",
+                "input": "4 documents with 3-dimensional vectors, K=2",
+                "output": "Clusters:\n  Cluster 0: Documents [0, 1]\n  Cluster 1: Documents [2, 3]",
+                "interpretation": "K-means groups similar documents together. Documents 0 and 1 are similar (both focus on term 0), so they form one cluster. Documents 2 and 3 are similar (both focus on term 2), forming another cluster. The algorithm iteratively refines cluster assignments until convergence."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: Manual Clustering",
+            "content": {
+                "activity": "Group Documents by Topic",
+                "description": "Documents:\n1. 'machine learning algorithms'\n2. 'neural networks deep learning'\n3. 'database management systems'\n4. 'artificial intelligence machine learning'\n5. 'SQL database queries'\n\nManually create 2 clusters. Which documents go together?"
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the difference between clustering and classification?",
+                "How does K-means decide which cluster a document belongs to?",
+                "What is cluster pruning and how does it speed up search?",
+                "Why is cosine similarity better than Euclidean distance for text?"
+            ],
+            "answers": [
+                "Classification is supervised (uses labeled training data to assign predefined categories), while clustering is unsupervised (discovers groups automatically without labels).",
+                "K-means assigns each document to the cluster whose centroid is most similar (closest) to the document, typically using cosine similarity or Euclidean distance.",
+                "Cluster pruning searches only clusters likely to contain relevant documents, skipping irrelevant clusters. This reduces the number of documents to examine, speeding up retrieval.",
+                "Cosine similarity measures angle (direction) between vectors, ignoring magnitude. For text, document length doesn't matter - a short and long document about the same topic should be similar. Euclidean distance is affected by document length."
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "research_perspective",
+            "title": "Research Perspective: Scalable Clustering",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "How can we cluster billions of documents efficiently?",
+                        "answer": "Research focuses on approximate clustering methods: 1) Sampling-based approaches that cluster a subset, 2) Locality-Sensitive Hashing (LSH) to find similar documents quickly, 3) Distributed clustering algorithms (MapReduce K-means), 4) Online clustering that processes documents in streams."
+                    },
+                    {
+                        "question": "Can we automatically determine the optimal number of clusters K?",
+                        "answer": "Methods include: 1) Elbow method (plot within-cluster variance vs K), 2) Silhouette score (measures cluster quality), 3) Gap statistic (compares to random data), 4) Hierarchical clustering (no K needed). Neural approaches learn representations where clusters emerge naturally."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling clustering as an optimization problem.",
+                    "derivation": [
+                        {
+                            "step": "Define K-means objective as minimizing within-cluster variance.",
+                            "equation": "\\min \\sum_{k=1}^{K} \\sum_{d \\in C_k} ||d - \\mu_k||^2",
+                            "interpretation": "Find cluster assignments and centroids that minimize the sum of squared distances from documents to their cluster centers."
+                        },
+                        {
+                            "step": "Model cluster quality using silhouette coefficient.",
+                            "equation": "s(i) = \\frac{b(i) - a(i)}{\\max(a(i), b(i))}",
+                            "interpretation": "For document i, a(i) is average distance to same-cluster docs, b(i) is average distance to nearest other cluster. High s(i) means good clustering."
+                        }
+                    ],
+                    "conclusion": "Clustering organizes documents into meaningful groups, enabling faster search and better organization. Scalability and automatic K selection remain active research areas."
+                }
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "summary",
+            "title": "Key Takeaways",
+            "content": {
+                "text": "Document clustering groups similar documents automatically. K-means and hierarchical clustering are the main approaches, with applications in search optimization and collection organization.",
+                "nextTopic": "Text Compression",
+                "preparation": "Learn about reducing storage requirements for text and indices."
+            }
+        }
+    ]
+}
