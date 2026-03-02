@@ -194,20 +194,46 @@ export default function Unit2QuizPage() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                     <p className="text-sm text-muted-foreground">
-                        Review this comprehensive study guide before taking the quiz:
+                        Review these comprehensive study materials before taking the quiz:
                     </p>
-                    <a
-                        href="https://notebooklm.google.com/notebook/3598797a-4144-4917-8800-3553d72533a6?artifactId=2977322e-ef25-4ff7-b876-f9440f1fa4d6"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
-                    >
-                        <ExternalLink className="h-4 w-4 text-primary" />
-                        <div>
-                            <p className="font-semibold text-sm">Unit 2 Study Guide</p>
-                            <p className="text-xs text-muted-foreground">NotebookLM - Query Operations & Indexing</p>
-                        </div>
-                    </a>
+                    <div className="space-y-2">
+                        <a
+                            href="https://notebooklm.google.com/notebook/7bd9f248-cd5f-4aa4-84f8-9452ab51a9f5?artifactId=bb971d11-9628-47f4-bccf-20c43e83ce10"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
+                        >
+                            <ExternalLink className="h-4 w-4 text-primary" />
+                            <div>
+                                <p className="font-semibold text-sm">Unit 2 Study Guide (Quiz Prep)</p>
+                                <p className="text-xs text-muted-foreground">NotebookLM - Comprehensive Quiz Preparation</p>
+                            </div>
+                        </a>
+                        <a
+                            href="https://gamma.app/docs/Overview-of-Query-Languages-Query-Operations-Text-Operations-xt8sde4i9qksxyr"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
+                        >
+                            <ExternalLink className="h-4 w-4 text-blue-600" />
+                            <div>
+                                <p className="font-semibold text-sm">Unit 2 Overview Presentation</p>
+                                <p className="text-xs text-muted-foreground">Gamma - Query Languages, Operations & Text Processing</p>
+                            </div>
+                        </a>
+                        <a
+                            href="https://notebooklm.google.com/notebook/7bd9f248-cd5f-4aa4-84f8-9452ab51a9f5?artifactId=4f72d818-95ac-4eb9-b045-bb73c85a64a6"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 p-4 border rounded-lg hover:bg-secondary/50 transition-colors"
+                        >
+                            <ExternalLink className="h-4 w-4 text-purple-600" />
+                            <div>
+                                <p className="font-semibold text-sm">Unit 2 Overview Video</p>
+                                <p className="text-xs text-muted-foreground">NotebookLM - Audio Overview & Discussion</p>
+                            </div>
+                        </a>
+                    </div>
                 </CardContent>
             </Card>
 

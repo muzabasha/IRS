@@ -91,6 +91,56 @@ export default function Unit2LabPage() {
                 </div>
             </div>
 
+            {/* Study Resources */}
+            <Card className="border-2 border-blue-500 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950">
+                <CardContent className="p-6">
+                    <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+                        📚 Unit 2 Study Resources
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                        Comprehensive study materials to help you master query operations and indexing
+                    </p>
+                    <div className="grid md:grid-cols-3 gap-3">
+                        <a
+                            href="https://notebooklm.google.com/notebook/7bd9f248-cd5f-4aa4-84f8-9452ab51a9f5?artifactId=bb971d11-9628-47f4-bccf-20c43e83ce10"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex flex-col gap-2 p-4 border-2 border-primary/20 rounded-lg hover:bg-white dark:hover:bg-gray-900 transition-colors bg-white/50 dark:bg-gray-900/50"
+                        >
+                            <div className="flex items-center gap-2">
+                                <BookOpen className="h-5 w-5 text-primary" />
+                                <p className="font-semibold text-sm">Study Guide</p>
+                            </div>
+                            <p className="text-xs text-muted-foreground">NotebookLM - Quiz Preparation</p>
+                        </a>
+                        <a
+                            href="https://gamma.app/docs/Overview-of-Query-Languages-Query-Operations-Text-Operations-xt8sde4i9qksxyr"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex flex-col gap-2 p-4 border-2 border-blue-500/20 rounded-lg hover:bg-white dark:hover:bg-gray-900 transition-colors bg-white/50 dark:bg-gray-900/50"
+                        >
+                            <div className="flex items-center gap-2">
+                                <Code className="h-5 w-5 text-blue-600" />
+                                <p className="font-semibold text-sm">Overview PPT</p>
+                            </div>
+                            <p className="text-xs text-muted-foreground">Gamma - Visual Presentation</p>
+                        </a>
+                        <a
+                            href="https://notebooklm.google.com/notebook/7bd9f248-cd5f-4aa4-84f8-9452ab51a9f5?artifactId=4f72d818-95ac-4eb9-b045-bb73c85a64a6"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex flex-col gap-2 p-4 border-2 border-purple-500/20 rounded-lg hover:bg-white dark:hover:bg-gray-900 transition-colors bg-white/50 dark:bg-gray-900/50"
+                        >
+                            <div className="flex items-center gap-2">
+                                <Lightbulb className="h-5 w-5 text-purple-600" />
+                                <p className="font-semibold text-sm">Overview Video</p>
+                            </div>
+                            <p className="text-xs text-muted-foreground">NotebookLM - Audio Discussion</p>
+                        </a>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Unit 2 Quiz Banner */}
             <Card className="border-2 border-green-500 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950">
                 <CardContent className="p-6">
