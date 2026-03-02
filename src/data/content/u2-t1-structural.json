@@ -1,0 +1,259 @@
+{
+    "id": "u2-t1-structural",
+    "title": "Structural Queries",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Structural Queries",
+            "subtitle": "Searching Within Document Structure",
+            "content": {
+                "text": "Structural queries combine content search with document structure constraints. They allow searching within specific fields, tags, or hierarchical elements of documents.",
+                "hook": "Not all parts of a document are equal - sometimes you only want to search titles, not the entire text."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "What are Structural Queries?",
+            "content": {
+                "text": "Structural queries exploit the organization of documents. Instead of treating documents as flat text, they recognize fields (title, author, date) or XML/HTML tags and allow targeted searching.",
+                "outcomes": [
+                    "Field-specific search: title:, author:, date:",
+                    "XML/HTML tag search: Find content within specific tags",
+                    "Hierarchical queries: Search within nested structures",
+                    "Proximity within structure: Terms near each other in same section"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Field-Specific Queries",
+            "content": {
+                "text": "The simplest form of structural queries searches within document fields:",
+                "outcomes": [
+                    "title:'machine learning' - Search only in titles",
+                    "author:'Smith' - Find documents by author",
+                    "date:2024 - Filter by publication year",
+                    "subject:'AI' - Search in subject field",
+                    "from:'boss@company.com' - Email field search"
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "XML and HTML Queries",
+            "content": {
+                "text": "For structured documents (XML, HTML), queries can target specific tags:",
+                "outcomes": [
+                    "//title[contains(., 'Hamlet')] - XPath query",
+                    "Find 'Shakespeare' in <author> tags",
+                    "Search within <abstract> but not <references>",
+                    "Containment: <book> containing <chapter> with 'AI'",
+                    "Proximity: Terms in same <paragraph>"
+                ]
+            },
+            "formula": {
+                "equation": "R(q, s) = \\{e \\in E | content(e) \\text{ matches } q \\land structure(e) \\text{ matches } s\\}",
+                "description": "Structural queries find elements that match both content criteria and structural constraints.",
+                "terms": [
+                    {
+                        "symbol": "R(q, s)",
+                        "meaning": "Result set of elements matching query q with structure s"
+                    },
+                    {
+                        "symbol": "E",
+                        "meaning": "Set of all elements (tags, fields) in the document collection"
+                    },
+                    {
+                        "symbol": "content(e)",
+                        "meaning": "Text content within element e"
+                    },
+                    {
+                        "symbol": "structure(e)",
+                        "meaning": "Structural properties of element e (tag name, hierarchy, position)"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Field-Specific Search",
+                    "description": "Searching for a term within a specific document field.",
+                    "steps": [
+                        {
+                            "label": "Define Query",
+                            "formula": "q = \\text{title:'machine learning'}",
+                            "note": "Search for 'machine learning' only in title field."
+                        },
+                        {
+                            "label": "Define Document Structure",
+                            "formula": "D_1 = \\{title: \\text{'Machine Learning Basics'}, body: \\text{'Introduction to AI'}\\}",
+                            "note": "Document 1 with title and body fields."
+                        },
+                        {
+                            "label": "Check Title Field",
+                            "formula": "\\text{'machine learning'} \\in \\text{title}(D_1) = \\text{True}",
+                            "note": "Title contains the search terms."
+                        },
+                        {
+                            "label": "Check Body Field",
+                            "formula": "\\text{'machine learning'} \\in \\text{body}(D_1) = \\text{False}",
+                            "note": "Body doesn't contain the terms (but we're not searching there)."
+                        },
+                        {
+                            "label": "Result",
+                            "formula": "D_1 \\in R(q) \\text{ because title matches}",
+                            "note": "Document 1 is returned because title field matches."
+                        }
+                    ],
+                    "input": "Query: title:'machine learning', 3 documents",
+                    "output": "Result: Documents with matching titles only"
+                }
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Content-and-Structure (CAS) Queries",
+            "content": {
+                "text": "CAS queries specify both what to find and where to find it:",
+                "outcomes": [
+                    "Explicit structure: //book[author='Shakespeare']/title",
+                    "Nested constraints: Find 'climate' in <abstract> within <article>",
+                    "Multiple conditions: <section> with 'AI' AND <author> with 'Smith'",
+                    "Ranked retrieval: Prefer matches in specific tags"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Content-Only (CO) Queries",
+            "content": {
+                "text": "CO queries ignore structure for matching but use it for display:",
+                "outcomes": [
+                    "Find 'climate change' anywhere in document",
+                    "Return most specific matching element (not whole document)",
+                    "Prefer <abstract> over <body> for display",
+                    "Balance between precision and recall"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "standard",
+            "title": "Advantages of Structural Queries",
+            "content": {
+                "text": "Why structural queries improve search:",
+                "outcomes": [
+                    "Higher precision: Search only relevant fields",
+                    "Faster processing: Smaller search space",
+                    "Better ranking: Weight fields differently (title > body)",
+                    "Focused results: Return specific elements, not whole documents",
+                    "Metadata filtering: Use date, author, type constraints"
+                ]
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "standard",
+            "title": "Limitations of Structural Queries",
+            "content": {
+                "text": "Challenges with structural search:",
+                "outcomes": [
+                    "Requires structured documents: Not all text has fields/tags",
+                    "Complex syntax: Users must learn XPath or field syntax",
+                    "Index overhead: Must store structure information",
+                    "Granularity problem: What element to return?",
+                    "Heterogeneous structures: Different documents, different schemas"
+                ]
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "python_demo",
+            "title": "Python Demo: Field-Specific Search",
+            "content": {
+                "code": "def structural_query(field, term, documents):\n    \"\"\"\n    Search for term within specific document field\n    \"\"\"\n    results = []\n    \n    for doc_id, doc_data in documents.items():\n        # Check if field exists and contains term\n        if field in doc_data:\n            field_text = doc_data[field].lower()\n            if term.lower() in field_text:\n                results.append({\n                    'doc_id': doc_id,\n                    'field': field,\n                    'content': doc_data[field]\n                })\n    \n    return results\n\n# Example usage\ndocs = {\n    1: {\n        'title': 'Machine Learning Basics',\n        'author': 'John Smith',\n        'body': 'Introduction to AI and ML'\n    },\n    2: {\n        'title': 'Deep Learning Guide',\n        'author': 'Jane Doe',\n        'body': 'Neural networks and machine learning'\n    },\n    3: {\n        'title': 'Data Science Handbook',\n        'author': 'John Smith',\n        'body': 'Statistics and algorithms'\n    }\n}\n\n# Search for 'machine' in titles only\nresults = structural_query('title', 'machine', docs)\nprint(f\"Query: title:'machine'\")\nfor r in results:\n    print(f\"Doc {r['doc_id']}: {r['content']}\")\n\n# Search for 'John Smith' in authors\nresults = structural_query('author', 'John Smith', docs)\nprint(f\"\\nQuery: author:'John Smith'\")\nfor r in results:\n    print(f\"Doc {r['doc_id']}: {r['content']}\")",
+                "input": "Query: title:'machine', 3 documents with fields",
+                "output": "Doc 1: Machine Learning Basics\nDoc 2: Deep Learning Guide (contains 'machine' in body, not title)\n\nQuery: author:'John Smith'\nDoc 1: John Smith\nDoc 3: John Smith",
+                "interpretation": "Field-specific search finds documents where the term appears in the specified field only. The first query finds documents with 'machine' in the title (docs 1). The second query finds all documents authored by 'John Smith' (docs 1 and 3). Document 2 has 'machine' in the body but not the title, so it's excluded from the first query."
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "activity",
+            "title": "Activity: Structural Search Practice",
+            "content": {
+                "activity": "Experiment with Field Queries",
+                "description": "Try these structural queries on Google Scholar or email:\n1. intitle:'machine learning' - Search only in titles\n2. author:'Smith' - Find papers by Smith\n3. filetype:pdf - Filter by file type\n4. site:edu - Search only educational sites\n5. from:boss@company.com - Email from specific sender\n\nNotice how structural constraints narrow results."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the difference between CAS and CO queries?",
+                "Why are structural queries more precise than keyword queries?",
+                "What is the granularity problem in XML retrieval?",
+                "How do structural queries improve search performance?"
+            ],
+            "answers": [
+                "CAS (Content-and-Structure) queries specify both what to find and where (e.g., 'Shakespeare' in <author>). CO (Content-Only) queries ignore structure for matching but use it for display (find 'climate' anywhere, return best element).",
+                "Structural queries search only in relevant fields/tags, reducing false matches. For example, title:'AI' won't match documents that mention 'AI' only in references.",
+                "The granularity problem asks: what element should be returned? The whole document, a section, a paragraph? Systems must balance specificity (return smallest relevant element) with completeness (don't miss context).",
+                "By searching only specific fields, structural queries reduce the search space, enable faster index lookups, and allow field-specific optimizations (e.g., title index separate from body index)."
+            ]
+        },
+        {
+            "slideNumber": 12,
+            "type": "research_perspective",
+            "title": "Research Perspective: Structured Document Retrieval",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "How can we automatically determine the best granularity for XML retrieval?",
+                        "answer": "Research on focused retrieval aims to return the most specific element that fully answers the query. Approaches include: 1) Machine learning to predict optimal element size, 2) User feedback on element usefulness, 3) Structural scoring that balances specificity and completeness."
+                    },
+                    {
+                        "question": "Can we handle heterogeneous document structures in a unified way?",
+                        "answer": "Schema-free retrieval systems don't require predefined structure. They use: 1) Automatic structure extraction from documents, 2) Flexible path expressions that work across schemas, 3) Ontology mapping to align different field names (author vs creator)."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling structural relevance in XML retrieval.",
+                    "derivation": [
+                        {
+                            "step": "Define element relevance as combination of content and structure scores.",
+                            "equation": "score(e, q) = \\alpha \\cdot content\\_score(e, q) + (1-\\alpha) \\cdot structure\\_score(e, q)",
+                            "interpretation": "Element score balances content relevance with structural appropriateness. α controls the weight."
+                        },
+                        {
+                            "step": "Model structure score based on element specificity.",
+                            "equation": "structure\\_score(e) = \\frac{1}{1 + depth(e)} \\cdot \\frac{size(e)}{size(doc)}",
+                            "interpretation": "Prefer elements that are neither too deep (too specific) nor too large (too general)."
+                        },
+                        {
+                            "step": "Derive optimal element selection strategy.",
+                            "equation": "e^* = \\arg\\max_{e \\in ancestors(leaf)} score(e, q)",
+                            "interpretation": "For each matching leaf element, select the ancestor with highest combined score."
+                        }
+                    ],
+                    "conclusion": "Structural queries enable precise, efficient search in structured documents. Research focuses on automatic granularity selection and handling diverse document schemas."
+                }
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "summary",
+            "title": "Key Takeaways",
+            "content": {
+                "text": "Structural queries leverage document organization for more precise search. They're essential for XML/HTML retrieval, email search, and any domain with structured data.",
+                "nextTopic": "Query Operations",
+                "preparation": "Learn about relevance feedback and query refinement techniques."
+            }
+        }
+    ]
+}

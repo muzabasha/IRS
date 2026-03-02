@@ -1,0 +1,225 @@
+{
+    "id": "u2-t1-keyword",
+    "title": "Keyword Queries",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Keyword Queries",
+            "subtitle": "The Foundation of Information Retrieval",
+            "content": {
+                "text": "Keyword queries are the most common and intuitive form of search. Users simply type words that describe what they're looking for, and the system finds matching documents.",
+                "hook": "Google processes over 8.5 billion searches per day - most are simple keyword queries."
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "What are Keyword Queries?",
+            "content": {
+                "text": "A keyword query consists of one or more words that users believe will appear in relevant documents. The system treats these words as search terms and retrieves documents containing them.",
+                "outcomes": [
+                    "Single-word queries (e.g., 'python')",
+                    "Multi-word queries (e.g., 'machine learning')",
+                    "Phrase queries (e.g., 'information retrieval')"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Boolean Logic in Keyword Queries",
+            "content": {
+                "text": "Keyword queries use Boolean logic to combine terms. The system can treat multiple keywords as AND (all terms must appear) or OR (any term can appear).",
+                "outcomes": [
+                    "AND logic: Narrow search, higher precision",
+                    "OR logic: Broad search, higher recall",
+                    "NOT logic: Exclude unwanted terms"
+                ]
+            },
+            "formula": {
+                "equation": "R(q_{AND}) = \\bigcap_{t \\in q} Dist(t), \\quad R(q_{OR}) = \\bigcup_{t \\in q} Dist(t)",
+                "description": "Keyword queries are mathematically modeled as set operations over the distribution of terms in the document collection.",
+                "terms": [
+                    {
+                        "symbol": "R(q)",
+                        "meaning": "Result set - list of documents matching the query 'q'"
+                    },
+                    {
+                        "symbol": "\\bigcap",
+                        "meaning": "Intersection (AND logic) - document must contain ALL terms"
+                    },
+                    {
+                        "symbol": "\\bigcup",
+                        "meaning": "Union (OR logic) - document can contain ANY of the terms"
+                    },
+                    {
+                        "symbol": "Dist(t)",
+                        "meaning": "Distribution set of term 't' (all doc IDs where 't' occurs)"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Boolean Set Matching",
+                    "description": "Evaluating a multi-term keyword query against an inverted index.",
+                    "steps": [
+                        {
+                            "label": "Define Index",
+                            "formula": "D(\\text{cat}) = \\{1, 2, 4\\}, D(\\text{dog}) = \\{2, 3, 4\\}",
+                            "note": "A small 4-document collection with term postings."
+                        },
+                        {
+                            "label": "Intersection (AND)",
+                            "formula": "\\{1, 2, 4\\} \\cap \\{2, 3, 4\\} = \\{2, 4\\}",
+                            "note": "Only Docs 2 and 4 contain both 'cat' AND 'dog'."
+                        },
+                        {
+                            "label": "Union (OR)",
+                            "formula": "\\{1, 2, 4\\} \\cup \\{2, 3, 4\\} = \\{1, 2, 3, 4\\}",
+                            "note": "All docs match if search is 'cat OR dog'."
+                        },
+                        {
+                            "label": "Negation (NOT)",
+                            "formula": "D(\\text{cat}) - D(\\text{dog}) = \\{1\\}",
+                            "note": "Doc 1 has 'cat' but NOT 'dog'."
+                        }
+                    ],
+                    "input": "Query: 'cat AND dog'",
+                    "output": "Result: Documents [2, 4]"
+                }
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Query Processing Steps",
+            "content": {
+                "text": "How the system processes a keyword query:",
+                "outcomes": [
+                    "1. Tokenization: Split query into individual terms",
+                    "2. Normalization: Convert to lowercase, remove punctuation",
+                    "3. Stopword removal: Remove common words (optional)",
+                    "4. Stemming: Reduce words to root form (optional)",
+                    "5. Index lookup: Find documents containing terms",
+                    "6. Boolean combination: Apply AND/OR logic",
+                    "7. Ranking: Order results by relevance"
+                ]
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Advantages of Keyword Queries",
+            "content": {
+                "text": "Why keyword queries dominate web search:",
+                "outcomes": [
+                    "Simple and intuitive - no syntax to learn",
+                    "Fast processing - direct index lookups",
+                    "Works well for most information needs",
+                    "Easy to refine - just add or remove words",
+                    "Supports natural language input"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Limitations of Keyword Queries",
+            "content": {
+                "text": "Challenges with simple keyword matching:",
+                "outcomes": [
+                    "Vocabulary mismatch: 'car' vs 'automobile'",
+                    "Ambiguity: 'apple' (fruit or company?)",
+                    "No word order: 'dog bites man' vs 'man bites dog'",
+                    "Lack of context: Cannot express complex relationships",
+                    "Synonym problem: Missing related terms"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "python_demo",
+            "title": "Python Demo: Keyword Query Processing",
+            "content": {
+                "code": "def keyword_query(query, documents):\n    \"\"\"\n    Simple keyword query processor with AND logic\n    \"\"\"\n    # Tokenize and normalize query\n    terms = query.lower().split()\n    \n    # Find documents containing ALL terms (AND logic)\n    results = []\n    for doc_id, doc_text in documents.items():\n        doc_lower = doc_text.lower()\n        if all(term in doc_lower for term in terms):\n            results.append(doc_id)\n    \n    return results\n\n# Example usage\ndocs = {\n    1: 'machine learning algorithms',\n    2: 'deep learning neural networks',\n    3: 'machine learning and deep learning',\n    4: 'natural language processing'\n}\n\nquery = 'machine learning'\nresults = keyword_query(query, docs)\nprint(f\"Query: '{query}'\")\nprint(f\"Results: {results}\")",
+                "input": "Query: 'machine learning', Documents: 4 docs",
+                "output": "Results: [1, 3]",
+                "interpretation": "The keyword query processor finds documents 1 and 3 because they contain both 'machine' AND 'learning'. Document 2 has 'learning' but not 'machine', so it's excluded. Document 4 has neither term."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "activity",
+            "title": "Activity: Query Refinement",
+            "content": {
+                "activity": "Experiment with Boolean Logic",
+                "description": "Try these queries on Google and observe the difference in results:\n1. 'python programming' (implicit AND)\n2. 'python OR java' (explicit OR)\n3. 'python -snake' (NOT operator)\n4. '\"machine learning\"' (exact phrase)\n\nNotice how each operator changes the result set."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the difference between AND and OR logic in keyword queries?",
+                "Why are keyword queries faster than pattern queries?",
+                "What is the vocabulary mismatch problem?",
+                "How does stemming help keyword queries?"
+            ],
+            "answers": [
+                "AND logic requires ALL terms to appear (intersection), giving fewer but more precise results. OR logic allows ANY term (union), giving more but less precise results.",
+                "Keyword queries use direct hash-based lookups in the inverted index, while pattern queries require scanning the vocabulary and regex matching.",
+                "Users and documents may use different words for the same concept (e.g., 'car' vs 'automobile'), causing relevant documents to be missed.",
+                "Stemming reduces words to their root form (e.g., 'running' → 'run'), so queries match different word forms and improve recall."
+            ]
+        },
+        {
+            "slideNumber": 10,
+            "type": "research_perspective",
+            "title": "Research Perspective: Query Understanding",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "How can systems understand user intent from simple keyword queries?",
+                        "answer": "Modern search engines use query logs, click-through data, and machine learning to infer intent. For example, 'apple' followed by 'iphone' suggests technology, while 'apple' with 'recipe' suggests fruit. Research focuses on contextual query understanding and personalization."
+                    },
+                    {
+                        "question": "Can we automatically expand keyword queries to overcome vocabulary mismatch?",
+                        "answer": "Query expansion techniques add synonyms and related terms automatically. Methods include: 1) Thesaurus-based expansion, 2) Pseudo-relevance feedback (adding terms from top results), 3) Word embeddings (Word2Vec, BERT) to find semantically similar terms."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling keyword query effectiveness using set theory and probability.",
+                    "derivation": [
+                        {
+                            "step": "Define query effectiveness as the overlap between retrieved and relevant documents.",
+                            "equation": "Precision = \\frac{|R \\cap A|}{|R|}, \\quad Recall = \\frac{|R \\cap A|}{|A|}",
+                            "interpretation": "R is the retrieved set, A is the actual relevant set. Precision measures accuracy, recall measures completeness."
+                        },
+                        {
+                            "step": "Model the probability of term occurrence in relevant documents.",
+                            "equation": "P(t|R) = \\frac{df_R(t)}{|R|}",
+                            "interpretation": "The probability that a relevant document contains term t, where df_R(t) is the document frequency of t in relevant documents."
+                        },
+                        {
+                            "step": "Derive the optimal query expansion strategy.",
+                            "equation": "w(t) = \\log \\frac{P(t|R)}{P(t|\\bar{R})}",
+                            "interpretation": "Terms with high probability in relevant documents but low probability in non-relevant documents should be added to the query."
+                        }
+                    ],
+                    "conclusion": "Keyword queries are simple but powerful. Research aims to make them smarter through automatic understanding, expansion, and personalization while maintaining their ease of use."
+                }
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "summary",
+            "title": "Key Takeaways",
+            "content": {
+                "text": "Keyword queries are the foundation of modern search. They're simple, fast, and effective for most information needs. Understanding Boolean logic and query processing helps users formulate better searches.",
+                "nextTopic": "Pattern Queries",
+                "preparation": "Learn about wildcards and regular expressions for flexible pattern matching."
+            }
+        }
+    ]
+}

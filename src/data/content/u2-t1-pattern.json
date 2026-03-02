@@ -1,0 +1,246 @@
+{
+    "id": "u2-t1-pattern",
+    "title": "Pattern Queries",
+    "unitId": "unit-2",
+    "slides": [
+        {
+            "slideNumber": 1,
+            "type": "title",
+            "title": "Pattern Queries",
+            "subtitle": "Flexible Matching with Wildcards and Regular Expressions",
+            "content": {
+                "text": "Pattern queries allow users to search for words matching a specific pattern rather than exact terms. This enables flexible matching when you don't know the exact word form.",
+                "hook": "What if you want to find 'computer', 'computing', 'computation', and 'computational' all at once?"
+            }
+        },
+        {
+            "slideNumber": 2,
+            "type": "standard",
+            "title": "What are Pattern Queries?",
+            "content": {
+                "text": "Pattern queries use special characters (wildcards) or regular expressions to match multiple word forms. Instead of searching for exact terms, you define a pattern that words must match.",
+                "outcomes": [
+                    "Wildcard queries: Use * and ? for flexible matching",
+                    "Prefix matching: 'comp*' matches computer, computing",
+                    "Suffix matching: '*ing' matches running, swimming",
+                    "Regular expressions: Complex pattern matching"
+                ]
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Wildcard Operators",
+            "content": {
+                "text": "Two main wildcard operators enable pattern matching:",
+                "outcomes": [
+                    "* (asterisk): Matches zero or more characters",
+                    "? (question mark): Matches exactly one character",
+                    "Examples: 'comp*' → computer, compiler, computing",
+                    "Examples: 'wom?n' → woman, women"
+                ]
+            }
+        },
+        {
+            "slideNumber": 4,
+            "type": "standard",
+            "title": "Pattern Matching Process",
+            "content": {
+                "text": "How the system processes pattern queries:",
+                "outcomes": [
+                    "1. Parse pattern: Convert wildcards to regex",
+                    "2. Scan vocabulary: Check each term in the index",
+                    "3. Match terms: Apply regex to find matching terms",
+                    "4. Retrieve postings: Get document lists for matches",
+                    "5. Combine results: Union all matching documents",
+                    "6. Rank results: Order by relevance"
+                ]
+            },
+            "formula": {
+                "equation": "M(P, V) = \\{t \\in V | t \\text{ matches pattern } P\\}",
+                "description": "Pattern matching finds all terms in the vocabulary V that match pattern P, then retrieves their posting lists.",
+                "terms": [
+                    {
+                        "symbol": "M(P, V)",
+                        "meaning": "Set of matching terms from vocabulary V for pattern P"
+                    },
+                    {
+                        "symbol": "P",
+                        "meaning": "Pattern specification (e.g., 'comp*', 'wom?n')"
+                    },
+                    {
+                        "symbol": "V",
+                        "meaning": "Vocabulary - set of all unique terms in the index"
+                    },
+                    {
+                        "symbol": "t",
+                        "meaning": "Individual term from the vocabulary"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Wildcard Pattern Matching",
+                    "description": "Finding all terms matching a wildcard pattern.",
+                    "steps": [
+                        {
+                            "label": "Define Pattern",
+                            "formula": "P = \\text{'comp*'}",
+                            "note": "Pattern to match words starting with 'comp'."
+                        },
+                        {
+                            "label": "Define Vocabulary",
+                            "formula": "V = \\{\\text{computer, compiler, computing, complete, compare}\\}",
+                            "note": "Sample vocabulary from the index."
+                        },
+                        {
+                            "label": "Convert to Regex",
+                            "formula": "P_{regex} = \\text{'^comp.*'}",
+                            "note": "Wildcard * becomes regex .* (any characters)."
+                        },
+                        {
+                            "label": "Match Terms",
+                            "formula": "M = \\{\\text{computer, compiler, computing, complete, compare}\\}",
+                            "note": "All terms start with 'comp', so all match."
+                        },
+                        {
+                            "label": "Retrieve Documents",
+                            "formula": "R = \\bigcup_{t \\in M} Dist(t)",
+                            "note": "Union of all posting lists for matching terms."
+                        }
+                    ],
+                    "input": "Pattern: 'comp*', Vocabulary: 5 terms",
+                    "output": "Matches: 5 terms, Documents: Union of all postings"
+                }
+            }
+        },
+        {
+            "slideNumber": 5,
+            "type": "standard",
+            "title": "Regular Expressions",
+            "content": {
+                "text": "Regular expressions (regex) provide powerful pattern matching beyond simple wildcards:",
+                "outcomes": [
+                    "Character classes: [a-z] matches any lowercase letter",
+                    "Quantifiers: + (one or more), * (zero or more), ? (zero or one)",
+                    "Anchors: ^ (start), $ (end)",
+                    "Groups: (pattern) for capturing",
+                    "Example: '^comp[a-z]+ing$' matches 'computing', 'compiling'"
+                ]
+            }
+        },
+        {
+            "slideNumber": 6,
+            "type": "standard",
+            "title": "Advantages of Pattern Queries",
+            "content": {
+                "text": "When pattern queries are useful:",
+                "outcomes": [
+                    "Unknown word forms: Find all variations of a root",
+                    "Spelling variations: 'colo?r' matches color and colour",
+                    "Morphological variants: 'run*' matches run, runs, running",
+                    "Exploratory search: Discover related terms",
+                    "Code search: Find variable names with patterns"
+                ]
+            }
+        },
+        {
+            "slideNumber": 7,
+            "type": "standard",
+            "title": "Limitations of Pattern Queries",
+            "content": {
+                "text": "Challenges with pattern matching:",
+                "outcomes": [
+                    "Performance: Must scan entire vocabulary (slow)",
+                    "Complexity: Regex syntax is difficult for users",
+                    "Over-matching: Patterns may match unwanted terms",
+                    "No ranking: All matches treated equally",
+                    "Index structure: Requires specialized indices (trigrams)"
+                ]
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "python_demo",
+            "title": "Python Demo: Pattern Query Processing",
+            "content": {
+                "code": "import re\n\ndef pattern_query(pattern, documents):\n    \"\"\"\n    Pattern query processor with wildcard support\n    \"\"\"\n    # Convert wildcard pattern to regex\n    regex_pattern = pattern.replace('*', '.*').replace('?', '.')\n    regex = re.compile(regex_pattern, re.IGNORECASE)\n    \n    # Find documents with matching words\n    results = []\n    for doc_id, doc_text in documents.items():\n        words = doc_text.split()\n        if any(regex.match(word) for word in words):\n            results.append(doc_id)\n    \n    return results\n\n# Example usage\ndocs = {\n    1: 'computer science fundamentals',\n    2: 'computational biology research',\n    3: 'machine learning algorithms',\n    4: 'compiler design principles',\n    5: 'computing in the cloud'\n}\n\npattern = 'comp*'\nresults = pattern_query(pattern, docs)\nprint(f\"Pattern: '{pattern}'\")\nprint(f\"Results: {results}\")\nprint(f\"Matched: {[docs[i] for i in results]}\")",
+                "input": "Pattern: 'comp*', Documents: 5 docs",
+                "output": "Results: [1, 2, 4, 5]\nMatched: ['computer...', 'computational...', 'compiler...', 'computing...']",
+                "interpretation": "The pattern 'comp*' matches any word starting with 'comp'. Documents 1, 2, 4, and 5 contain words matching this pattern (computer, computational, compiler, computing). Document 3 doesn't match because it has no words starting with 'comp'."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "activity",
+            "title": "Activity: Pattern Exploration",
+            "content": {
+                "activity": "Experiment with Wildcards",
+                "description": "Try these pattern queries and observe the results:\n1. 'comput*' - Find all computing-related terms\n2. 'wom?n' - Match woman and women\n3. '*ing' - Find all words ending in 'ing'\n4. 'col*r' - Match color and colour\n\nNotice how patterns can match multiple word forms efficiently."
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is the difference between * and ? wildcards?",
+                "Why are pattern queries slower than keyword queries?",
+                "When would you use a pattern query instead of a keyword query?",
+                "What is the purpose of converting wildcards to regex?"
+            ],
+            "answers": [
+                "* matches zero or more characters (any length), while ? matches exactly one character. Example: 'comp*' matches 'comp', 'computer', 'computing', but 'comp?' only matches 'comps', 'compy'.",
+                "Pattern queries must scan the entire vocabulary and apply regex matching to each term, while keyword queries use direct hash-based lookups in the inverted index.",
+                "When you don't know the exact word form, want to find spelling variations, or need to match multiple morphological variants of a root word.",
+                "Regex provides a standardized, efficient way to perform pattern matching. It converts simple wildcard syntax into a formal pattern matching language that can be compiled and executed efficiently."
+            ]
+        },
+        {
+            "slideNumber": 11,
+            "type": "research_perspective",
+            "title": "Research Perspective: Efficient Pattern Matching",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "How can we make pattern queries as fast as keyword queries?",
+                        "answer": "Research focuses on specialized index structures: 1) Permuterm index: Rotates terms to enable suffix matching, 2) k-gram index: Breaks terms into character sequences for fast pattern lookup, 3) Suffix trees: Enable efficient substring matching. These structures trade space for speed."
+                    },
+                    {
+                        "question": "Can we automatically suggest patterns to users?",
+                        "answer": "Pattern suggestion systems analyze query logs to identify common patterns. For example, if users frequently search 'computer', 'computing', 'computational', the system can suggest the pattern 'comput*'. Machine learning models can learn pattern templates from user behavior."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling pattern matching as a finite state automaton problem.",
+                    "derivation": [
+                        {
+                            "step": "Define a pattern P as a regular expression generating language L(P).",
+                            "equation": "M(P, D) = \\{d \\in D | \\exists w \\in d, w \\in L(P)\\}",
+                            "interpretation": "A document matches if it contains at least one word that is a member of the language defined by pattern P."
+                        },
+                        {
+                            "step": "Model search as state transitions in a non-deterministic finite automaton (NFA).",
+                            "equation": "\\delta(q, a) = \\{q_1, q_2, \\dots, q_k\\}",
+                            "interpretation": "Each character acts as input moving through states, aiming for an accepting state (match)."
+                        },
+                        {
+                            "step": "Analyze search tree growth for wildcard queries.",
+                            "equation": "N(p^*) = \\sum_{i=1}^{L} |V|^i",
+                            "interpretation": "Greedy wildcard search visits every lexical combination, proving why unconstrained patterns are expensive."
+                        }
+                    ],
+                    "conclusion": "Pattern queries provide flexibility at the cost of performance. Research aims to make them faster through specialized indices while maintaining their expressive power."
+                }
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "summary",
+            "title": "Key Takeaways",
+            "content": {
+                "text": "Pattern queries enable flexible matching through wildcards and regular expressions. They're powerful for finding word variations but require careful optimization for performance.",
+                "nextTopic": "Structural Queries",
+                "preparation": "Learn about XML/HTML structure and field-specific searching."
+            }
+        }
+    ]
+}

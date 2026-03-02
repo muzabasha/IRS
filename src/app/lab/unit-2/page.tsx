@@ -9,15 +9,37 @@ import { BookOpen, Code, Lightbulb, TrendingUp, CheckCircle2, ArrowRight, ArrowL
 export default function Unit2LabPage() {
     const labModels = [
         {
-            id: 'query-languages',
-            title: 'Query Languages',
+            id: 'keyword-queries',
+            title: 'Keyword Queries',
             level: 'Beginner',
-            duration: '45 mins',
+            duration: '30 mins',
             color: 'bg-blue-500',
-            description: 'Learn keyword, pattern, and structural queries',
-            motivation: 'How to express search intent',
-            limitation: 'Static queries lack context',
-            nextModel: 'Query Operations'
+            description: 'Simple word matching with Boolean logic',
+            motivation: 'Foundation of all search',
+            limitation: 'Vocabulary mismatch problem',
+            nextModel: 'Pattern Queries'
+        },
+        {
+            id: 'pattern-queries',
+            title: 'Pattern Queries',
+            level: 'Beginner',
+            duration: '35 mins',
+            color: 'bg-cyan-500',
+            description: 'Wildcards and regex for flexible matching',
+            motivation: 'Match multiple word forms',
+            limitation: 'Performance overhead',
+            nextModel: 'Structural Queries'
+        },
+        {
+            id: 'structural-queries',
+            title: 'Structural Queries',
+            level: 'Intermediate',
+            duration: '40 mins',
+            color: 'bg-indigo-500',
+            description: 'Field-specific and XML/HTML tag search',
+            motivation: 'Precision through structure',
+            limitation: 'Requires structured documents',
+            nextModel: 'Relevance Feedback'
         },
         {
             id: 'relevance-feedback',
@@ -28,7 +50,7 @@ export default function Unit2LabPage() {
             description: 'Interactive query refinement with Rocchio',
             motivation: 'Learning from user feedback',
             limitation: 'Requires user interaction',
-            nextModel: 'Text Operations'
+            nextModel: 'Text Preprocessing'
         },
         {
             id: 'text-preprocessing',
