@@ -135,11 +135,75 @@ export default function Unit2ComparisonPage() {
             </div>
 
             <div className="space-y-2">
-                <h1 className="text-4xl font-bold">Unit 2: Query Operations Comparison</h1>
-                <p className="text-lg text-muted-foreground">
+                <h1 className="text-5xl md:text-6xl font-bold">Unit 2: Complete Comparison</h1>
+                <p className="text-2xl text-muted-foreground">
                     Compare query languages, text preprocessing, and indexing techniques side-by-side
                 </p>
             </div>
+
+            {/* Study Resources */}
+            <Card className="border-l-4 border-l-blue-500">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">📚</span> Study Resources
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                    <p className="text-lg text-muted-foreground">
+                        Comprehensive presentations covering all Unit 2 topics:
+                    </p>
+                    <div className="grid md:grid-cols-2 gap-3">
+                        <a
+                            href="https://gamma.app/docs/Keyword-Querying-Pattern-Matching-Structural-Queries-opydi91t7ipoymj"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-3 p-4 border-2 rounded-lg hover:bg-secondary/50 transition-colors"
+                        >
+                            <span className="text-2xl">🔍</span>
+                            <div>
+                                <p className="font-semibold">Keyword, Pattern & Structural Queries</p>
+                                <p className="text-xs text-muted-foreground">Query language fundamentals</p>
+                            </div>
+                        </a>
+                        <a
+                            href="https://gamma.app/docs/Query-Protocols-g355wn4q5txahms"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-3 p-4 border-2 rounded-lg hover:bg-secondary/50 transition-colors"
+                        >
+                            <span className="text-2xl">🔌</span>
+                            <div>
+                                <p className="font-semibold">Query Protocols</p>
+                                <p className="text-xs text-muted-foreground">Z39.50, SRU/SRW, OpenSearch</p>
+                            </div>
+                        </a>
+                        <a
+                            href="https://gamma.app/docs/Query-Operations-in-Information-Retrieval-c0lj4cjoegwnq54"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-3 p-4 border-2 rounded-lg hover:bg-secondary/50 transition-colors"
+                        >
+                            <span className="text-2xl">⚙️</span>
+                            <div>
+                                <p className="font-semibold">Query Operations</p>
+                                <p className="text-xs text-muted-foreground">Relevance feedback, local/global analysis</p>
+                            </div>
+                        </a>
+                        <a
+                            href="https://gamma.app/docs/Trends-Research-Issues-in-Query-Systems-9n1dyfy92xwnoe3"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-3 p-4 border-2 rounded-lg hover:bg-secondary/50 transition-colors"
+                        >
+                            <span className="text-2xl">🔬</span>
+                            <div>
+                                <p className="font-semibold">Trends & Research Issues</p>
+                                <p className="text-xs text-muted-foreground">Current challenges and future directions</p>
+                            </div>
+                        </a>
+                    </div>
+                </CardContent>
+            </Card>
 
             {/* Input Section */}
             <Card className="border-2 border-primary">
