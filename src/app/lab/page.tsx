@@ -211,108 +211,169 @@ export default function LabPage() {
                 </CardContent>
             </Card>
 
-            {/* Unit Navigation */}
+            {/* Unit-wise Component Index */}
             <Card className="border-none shadow-lg bg-gradient-to-br from-purple/5 to-background">
                 <CardHeader>
-                    <CardTitle>Explore Labs by Unit</CardTitle>
+                    <CardTitle>Unit-wise Component Index</CardTitle>
                     <CardDescription>
-                        Comprehensive lab coverage for all course units
+                        Quick access to Labs, Quizzes, Comparisons, and Presentations for each unit
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="grid md:grid-cols-2 gap-4">
-                        <Card className="hover:shadow-md transition-all">
+                    <div className="space-y-6">
+                        {/* Unit 1 */}
+                        <Card className="border-2 border-blue-500/30 hover:shadow-md transition-all">
                             <CardContent className="p-6">
-                                <div className="flex items-center gap-3 mb-3">
-                                    <div className="h-10 w-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="h-12 w-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-xl">
                                         1
                                     </div>
                                     <div>
-                                        <h3 className="font-bold">Unit 1: IR Models</h3>
-                                        <p className="text-sm text-muted-foreground">5 Labs + Quiz</p>
+                                        <h3 className="font-bold text-xl">Unit 1: IR Models</h3>
+                                        <p className="text-sm text-muted-foreground">5 Labs • 1 Quiz • 1 Comparison</p>
                                     </div>
                                 </div>
-                                <p className="text-sm text-muted-foreground mb-3">
+                                <p className="text-sm text-muted-foreground mb-4">
                                     Boolean, VSM, Probabilistic, Structured Text, Browsing Models
                                 </p>
-                                <div className="space-y-2">
+                                <div className="grid md:grid-cols-3 gap-3">
                                     <Button asChild variant="outline" className="w-full">
-                                        <Link href="/lab">View Unit 1 Labs</Link>
+                                        <Link href="/lab">
+                                            <BookOpen className="mr-2 h-4 w-4" />
+                                            5 Labs
+                                        </Link>
                                     </Button>
-                                    <Button asChild className="w-full">
-                                        <Link href="/lab/unit-1-quiz">Take Assessment Quiz</Link>
+                                    <Button asChild variant="outline" className="w-full">
+                                        <Link href="/lab/unit-1-quiz">
+                                            <CheckCircle2 className="mr-2 h-4 w-4" />
+                                            Quiz
+                                        </Link>
+                                    </Button>
+                                    <Button asChild variant="outline" className="w-full">
+                                        <Link href="/lab/model-comparison">
+                                            <TrendingUp className="mr-2 h-4 w-4" />
+                                            Comparison
+                                        </Link>
                                     </Button>
                                 </div>
                             </CardContent>
                         </Card>
-                        <Card className="hover:shadow-md transition-all">
+
+                        {/* Unit 2 */}
+                        <Card className="border-2 border-green-500/30 hover:shadow-md transition-all">
                             <CardContent className="p-6">
-                                <div className="flex items-center gap-3 mb-3">
-                                    <div className="h-10 w-10 rounded-full bg-green-500 text-white flex items-center justify-center font-bold">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="h-12 w-12 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-xl">
                                         2
                                     </div>
                                     <div>
-                                        <h3 className="font-bold">Unit 2: Query Operations</h3>
-                                        <p className="text-sm text-muted-foreground">12 Labs + Quiz</p>
+                                        <h3 className="font-bold text-xl">Unit 2: Query Languages & Operations</h3>
+                                        <p className="text-sm text-muted-foreground">12 Labs • 1 Quiz • 1 Comparison • 7 Presentations</p>
                                     </div>
                                 </div>
-                                <p className="text-sm text-muted-foreground mb-3">
-                                    Keyword/Pattern/Structural Queries, Relevance Feedback, Local/Global Analysis, Text Preprocessing, Clustering, Compression, Inverted Index, Boolean Search, Index Compression
+                                <p className="text-sm text-muted-foreground mb-4">
+                                    Query Languages, Relevance Feedback, Text Operations, Indexing & Searching
                                 </p>
-                                <div className="space-y-2">
+                                <div className="grid md:grid-cols-4 gap-3">
                                     <Button asChild variant="outline" className="w-full">
-                                        <Link href="/lab/unit-2">View Unit 2 Labs</Link>
+                                        <Link href="/lab/unit-2">
+                                            <BookOpen className="mr-2 h-4 w-4" />
+                                            12 Labs
+                                        </Link>
                                     </Button>
-                                    <Button asChild className="w-full">
-                                        <Link href="/lab/unit-2-quiz">Take Assessment Quiz</Link>
+                                    <Button asChild variant="outline" className="w-full">
+                                        <Link href="/lab/unit-2-quiz">
+                                            <CheckCircle2 className="mr-2 h-4 w-4" />
+                                            Quiz
+                                        </Link>
+                                    </Button>
+                                    <Button asChild variant="outline" className="w-full">
+                                        <Link href="/lab/unit-2-comparison">
+                                            <TrendingUp className="mr-2 h-4 w-4" />
+                                            Comparison
+                                        </Link>
+                                    </Button>
+                                    <Button asChild variant="default" className="w-full">
+                                        <Link href="/lab/unit-2">
+                                            <Lightbulb className="mr-2 h-4 w-4" />
+                                            7 PPTs
+                                        </Link>
                                     </Button>
                                 </div>
                             </CardContent>
                         </Card>
-                        <Card className="hover:shadow-md transition-all">
+
+                        {/* Unit 3 */}
+                        <Card className="border-2 border-purple-500/30 hover:shadow-md transition-all">
                             <CardContent className="p-6">
-                                <div className="flex items-center gap-3 mb-3">
-                                    <div className="h-10 w-10 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="h-12 w-12 rounded-full bg-purple-500 text-white flex items-center justify-center font-bold text-xl">
                                         3
                                     </div>
                                     <div>
-                                        <h3 className="font-bold">Unit 3: User Interfaces</h3>
-                                        <p className="text-sm text-muted-foreground">4 Labs + Quiz</p>
+                                        <h3 className="font-bold text-xl">Unit 3: User Interfaces</h3>
+                                        <p className="text-sm text-muted-foreground">4 Labs • 1 Quiz • 1 Comparison</p>
                                     </div>
                                 </div>
-                                <p className="text-sm text-muted-foreground mb-3">
-                                    HCI, Query Specification, Visualization, Relevance Judgments
+                                <p className="text-sm text-muted-foreground mb-4">
+                                    HCI Principles, Query Specification, Result Visualization, Search Process
                                 </p>
-                                <div className="space-y-2">
+                                <div className="grid md:grid-cols-3 gap-3">
                                     <Button asChild variant="outline" className="w-full">
-                                        <Link href="/lab/unit-3">View Unit 3 Labs</Link>
+                                        <Link href="/lab/unit-3">
+                                            <BookOpen className="mr-2 h-4 w-4" />
+                                            4 Labs
+                                        </Link>
                                     </Button>
-                                    <Button asChild className="w-full">
-                                        <Link href="/lab/unit-3-quiz">Take Assessment Quiz</Link>
+                                    <Button asChild variant="outline" className="w-full">
+                                        <Link href="/lab/unit-3-quiz">
+                                            <CheckCircle2 className="mr-2 h-4 w-4" />
+                                            Quiz
+                                        </Link>
+                                    </Button>
+                                    <Button asChild variant="outline" className="w-full">
+                                        <Link href="/lab/unit-3-comparison">
+                                            <TrendingUp className="mr-2 h-4 w-4" />
+                                            Comparison
+                                        </Link>
                                     </Button>
                                 </div>
                             </CardContent>
                         </Card>
-                        <Card className="hover:shadow-md transition-all">
+
+                        {/* Unit 4 */}
+                        <Card className="border-2 border-orange-500/30 hover:shadow-md transition-all">
                             <CardContent className="p-6">
-                                <div className="flex items-center gap-3 mb-3">
-                                    <div className="h-10 w-10 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="h-12 w-12 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold text-xl">
                                         4
                                     </div>
                                     <div>
-                                        <h3 className="font-bold">Unit 4: Multimedia & Web</h3>
-                                        <p className="text-sm text-muted-foreground">4 Labs + Quiz</p>
+                                        <h3 className="font-bold text-xl">Unit 4: Multimedia & Web IR</h3>
+                                        <p className="text-sm text-muted-foreground">4 Labs • 1 Quiz • 1 Comparison</p>
                                     </div>
                                 </div>
-                                <p className="text-sm text-muted-foreground mb-3">
-                                    Multimedia IR, Web Search, PageRank, Meta-search
+                                <p className="text-sm text-muted-foreground mb-4">
+                                    Multimedia IR, Web Crawling, PageRank, Meta-search Engines
                                 </p>
-                                <div className="space-y-2">
+                                <div className="grid md:grid-cols-3 gap-3">
                                     <Button asChild variant="outline" className="w-full">
-                                        <Link href="/lab/unit-4">View Unit 4 Labs</Link>
+                                        <Link href="/lab/unit-4">
+                                            <BookOpen className="mr-2 h-4 w-4" />
+                                            4 Labs
+                                        </Link>
                                     </Button>
-                                    <Button asChild className="w-full">
-                                        <Link href="/lab/unit-4-quiz">Take Assessment Quiz</Link>
+                                    <Button asChild variant="outline" className="w-full">
+                                        <Link href="/lab/unit-4-quiz">
+                                            <CheckCircle2 className="mr-2 h-4 w-4" />
+                                            Quiz
+                                        </Link>
+                                    </Button>
+                                    <Button asChild variant="outline" className="w-full">
+                                        <Link href="/lab/unit-4-comparison">
+                                            <TrendingUp className="mr-2 h-4 w-4" />
+                                            Comparison
+                                        </Link>
                                     </Button>
                                 </div>
                             </CardContent>
