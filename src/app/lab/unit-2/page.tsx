@@ -229,6 +229,68 @@ export default function Unit2LabPage() {
                 </CardContent>
             </Card>
 
+            {/* Specialized Topic Resources */}
+            <Card className="border-2 border-purple-500 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950">
+                <CardContent className="p-6">
+                    <h3 className="font-bold text-lg mb-3 flex items-center gap-2">
+                        🎯 Specialized Topic Resources
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                        Deep-dive presentations on specific Unit 2 topics
+                    </p>
+                    <div className="grid md:grid-cols-2 gap-3">
+                        <a
+                            href="https://gamma.app/docs/Trends-and-Research-Issues-in-Query-Operations-lpssaalz9hg5png"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex flex-col gap-2 p-4 border-2 border-green-500/20 rounded-lg hover:bg-white dark:hover:bg-gray-900 transition-colors bg-white/50 dark:bg-gray-900/50"
+                        >
+                            <div className="flex items-center gap-2">
+                                <TrendingUp className="h-5 w-5 text-green-600" />
+                                <p className="font-semibold text-sm">Query Operations Research</p>
+                            </div>
+                            <p className="text-xs text-muted-foreground">Trends & Research Issues</p>
+                        </a>
+                        <a
+                            href="https://gamma.app/docs/Text-Compression-Comparison-of-Techniques-67cqh924hma8vpn"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex flex-col gap-2 p-4 border-2 border-fuchsia-500/20 rounded-lg hover:bg-white dark:hover:bg-gray-900 transition-colors bg-white/50 dark:bg-gray-900/50"
+                        >
+                            <div className="flex items-center gap-2">
+                                <Code className="h-5 w-5 text-fuchsia-600" />
+                                <p className="font-semibold text-sm">Text Compression Comparison</p>
+                            </div>
+                            <p className="text-xs text-muted-foreground">Comparing Compression Techniques</p>
+                        </a>
+                        <a
+                            href="https://gamma.app/docs/Classical-Text-Compression-Techniques-0tp1cp3ba1hnita"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex flex-col gap-2 p-4 border-2 border-pink-500/20 rounded-lg hover:bg-white dark:hover:bg-gray-900 transition-colors bg-white/50 dark:bg-gray-900/50"
+                        >
+                            <div className="flex items-center gap-2">
+                                <BookOpen className="h-5 w-5 text-pink-600" />
+                                <p className="font-semibold text-sm">Classical Compression</p>
+                            </div>
+                            <p className="text-xs text-muted-foreground">Huffman, LZ77, LZ78, LZW</p>
+                        </a>
+                        <a
+                            href="https://gamma.app/docs/Untitled-fmn8u86cwtqpjez"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex flex-col gap-2 p-4 border-2 border-orange-500/20 rounded-lg hover:bg-white dark:hover:bg-gray-900 transition-colors bg-white/50 dark:bg-gray-900/50"
+                        >
+                            <div className="flex items-center gap-2">
+                                <Code className="h-5 w-5 text-orange-600" />
+                                <p className="font-semibold text-sm">Indexing & Searching</p>
+                            </div>
+                            <p className="text-xs text-muted-foreground">Advanced Indexing Techniques</p>
+                        </a>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Unit 2 Quiz Banner */}
             <Card className="border-2 border-green-500 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950">
                 <CardContent className="p-6">
