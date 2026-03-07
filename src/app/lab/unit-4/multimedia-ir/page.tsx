@@ -10,7 +10,8 @@ import { ArrowLeft, ArrowRight, Play } from 'lucide-react'
 
 export default function MultimediaIRLab() {
     const [queryImage, setQueryImage] = useState([0.8, 0.2, 0.1])
-    const [distances, setDistances] = useState<number[]>([])
+    const [distances, setDistances] = useState<Array<{ id: number; name: string; features: number[]; desc: string; distance: number }>>([])
+    const [activeTab, setActiveTab] = useState<'color' | 'texture' | 'shape' | 'deep'>('color')
 
     const imageDatabase = [
         { id: 1, name: 'Sunset', features: [0.9, 0.3, 0.1], desc: 'Red/orange dominant' },
@@ -29,8 +30,15 @@ export default function MultimediaIRLab() {
             distance: euclideanDistance(queryImage, img.features)
         }))
         dists.sort((a, b) => a.distance - b.distance)
-        setDistances(dists.map(d => d.distance))
+        setDistances(dists)
     }
+
+    const tabs = [
+        { key: 'color' as const, label: 'Color Histogram', emoji: '🎨' },
+        { key: 'texture' as const, label: 'Texture Features', emoji: '🧶' },
+        { key: 'shape' as const, label: 'Shape Descriptors', emoji: '📐' },
+        { key: 'deep' as const, label: 'Deep Features (CNN)', emoji: '🧠' },
+    ]
 
     return (
         <div className="space-y-8">
@@ -44,8 +52,8 @@ export default function MultimediaIRLab() {
             </div>
 
             <div className="space-y-2">
-                <h1 className="text-4xl font-bold">Multimedia IR Lab</h1>
-                <p className="text-lg text-muted-foreground">
+                <h1 className="text-5xl md:text-6xl font-bold">Multimedia IR Lab</h1>
+                <p className="text-2xl text-muted-foreground">
                     Content-Based Image Retrieval with color features
                 </p>
             </div>
@@ -53,327 +61,308 @@ export default function MultimediaIRLab() {
             {/* Motivation */}
             <Card className="border-l-4 border-l-blue-500">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">💡</span> Motivation: Searching Beyond Text
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">💡</span> Motivation
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <p className="text-muted-foreground">
-                        How do you search for an image when you can't describe it in words? Multimedia IR extracts
-                        mathematical features (colors, textures, shapes) and finds similar content.
+                    <p className="text-xl text-muted-foreground">
+                        How do you search for an image when you can&apos;t describe it in words? Multimedia IR extracts mathematical features (colors, textures, shapes) and finds similar content.
                     </p>
-                    <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg">
-                        <p className="font-semibold mb-2">Real-world Applications:</p>
-                        <ul className="space-y-1 text-sm">
-                            <li>• Google Lens - search by taking a photo</li>
-                            <li>• Shazam - identify songs by audio fingerprint</li>
-                            <li>• Pinterest - find similar products visually</li>
-                            <li>• Medical imaging - find similar X-rays/MRIs</li>
-                        </ul>
+                </CardContent>
+            </Card>
+
+            {/* Equation Interpretation: Euclidean Distance */}
+            <Card className="bg-blue-50 dark:bg-blue-950 p-6 rounded border-2 border-blue-400">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🔍</span> Equation Interpretation: Euclidean Distance
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="bg-secondary/30 p-8 rounded-lg font-mono text-center">
+                        <div className="text-2xl">d(x, y) = √(Σ<sub>i=1</sub><sup>n</sup> (x<sub>i</sub> - y<sub>i</sub>)²)</div>
                     </div>
-                    <div className="bg-amber-50 dark:bg-amber-950 p-4 rounded-lg">
-                        <p className="font-semibold mb-2">The Semantic Gap:</p>
-                        <p className="text-sm">
-                            The difference between low-level features (pixels, colors) and high-level concepts (happy dog, sunset).
-                            Deep learning helps bridge this gap.
+                    <div className="flex flex-wrap gap-3">
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">d(x,y)</span>: Distance between feature vectors x and y
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">x<sub>i</sub>, y<sub>i</sub></span>: i-th feature value (e.g., red channel intensity)
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">n</span>: Number of features (dimensions)
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">Lower d</span>: More similar images
+                        </div>
+                    </div>
+                    <div className="bg-blue-100 dark:bg-blue-900 p-6 rounded-lg">
+                        <p className="text-lg">
+                            Euclidean distance measures straight-line distance in feature space. For color histograms with 3 channels (RGB), n=3. For CNN embeddings, n can be 512–2048 dimensions. Alternative metrics include cosine similarity (angle-based) and Earth Mover&apos;s Distance (distribution-based).
                         </p>
                     </div>
                 </CardContent>
             </Card>
 
-            {/* Euclidean Distance */}
-            <Card>
+            {/* Equation: Histogram Intersection */}
+            <Card className="bg-blue-50 dark:bg-blue-950 p-6 rounded border-2 border-blue-400">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">📐</span> Euclidean Distance Formula
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🔍</span> Equation Interpretation: Histogram Intersection
                     </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="bg-secondary/30 p-6 rounded-lg font-mono text-center">
-                        <div className="text-lg">d(x, y) = √(Σ(x_i - y_i)²)</div>
+                <CardContent className="space-y-6">
+                    <div className="bg-secondary/30 p-8 rounded-lg font-mono text-center">
+                        <div className="text-2xl">HI(H<sub>q</sub>, H<sub>d</sub>) = Σ<sub>i=1</sub><sup>n</sup> min(H<sub>q</sub>[i], H<sub>d</sub>[i])</div>
                     </div>
-                    <div className="space-y-3">
-                        <div className="grid gap-3">
-                            <div className="flex gap-3 p-3 bg-secondary/20 rounded">
-                                <span className="font-mono font-bold">d(x, y)</span>
-                                <span className="text-muted-foreground">Distance between feature vectors x and y</span>
-                            </div>
-                            <div className="flex gap-3 p-3 bg-secondary/20 rounded">
-                                <span className="font-mono font-bold">x_i, y_i</span>
-                                <span className="text-muted-foreground">i-th feature value (e.g., red channel intensity)</span>
-                            </div>
-                            <div className="flex gap-3 p-3 bg-secondary/20 rounded">
-                                <span className="font-mono font-bold">Lower distance</span>
-                                <span className="text-muted-foreground">= More similar images</span>
-                            </div>
+                    <div className="flex flex-wrap gap-3">
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">H<sub>q</sub></span>: Query image histogram
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">H<sub>d</sub></span>: Database image histogram
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">min()</span>: Overlap between corresponding bins
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">Higher HI</span>: More similar color distribution
                         </div>
                     </div>
+                    <div className="bg-blue-100 dark:bg-blue-900 p-6 rounded-lg">
+                        <p className="text-lg">
+                            Histogram intersection measures the overlap between two color distributions. It&apos;s robust to occlusion (partial visibility) and scale changes. Normalized HI ranges from 0 (no overlap) to 1 (identical distributions).
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+
+            {/* Feature Extraction Tabs */}
+            <Card className="border-4 border-primary">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">📚</span> Feature Extraction Methods
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="flex flex-wrap gap-2">
+                        {tabs.map((tab) => (
+                            <Button key={tab.key} variant={activeTab === tab.key ? 'default' : 'outline'} onClick={() => setActiveTab(tab.key)} className="text-lg px-6 py-4">
+                                {tab.emoji} {tab.label}
+                            </Button>
+                        ))}
+                    </div>
+
+                    {activeTab === 'color' && (
+                        <div className="space-y-4">
+                            <div className="bg-secondary/30 p-6 rounded">
+                                <p className="font-semibold text-xl mb-3">🎨 Color Histogram</p>
+                                <p className="text-lg text-muted-foreground mb-4">Distribution of colors in RGB/HSV space. Fast, rotation-invariant, but ignores spatial layout.</p>
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Global Histogram</p>
+                                        <p className="text-muted-foreground">Entire image → one histogram. Simple but loses spatial info.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Color Correlogram</p>
+                                        <p className="text-muted-foreground">Captures spatial correlation between colors at distance d.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'texture' && (
+                        <div className="space-y-4">
+                            <div className="bg-secondary/30 p-6 rounded">
+                                <p className="font-semibold text-xl mb-3">🧶 Texture Features</p>
+                                <p className="text-lg text-muted-foreground mb-4">Captures patterns of roughness, smoothness, and regularity.</p>
+                                <div className="grid md:grid-cols-3 gap-4">
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Gabor Filters</p>
+                                        <p className="text-muted-foreground">Multi-scale, multi-orientation frequency analysis. Models human visual cortex.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">LBP</p>
+                                        <p className="text-muted-foreground">Local Binary Patterns — compare each pixel to neighbors. Fast and rotation-invariant.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">GLCM</p>
+                                        <p className="text-muted-foreground">Gray-Level Co-occurrence Matrix — statistical texture measures (contrast, energy, entropy).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'shape' && (
+                        <div className="space-y-4">
+                            <div className="bg-secondary/30 p-6 rounded">
+                                <p className="font-semibold text-xl mb-3">📐 Shape Descriptors</p>
+                                <p className="text-lg text-muted-foreground mb-4">Edge detection, contours, and keypoint-based features.</p>
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">SIFT / SURF</p>
+                                        <p className="text-muted-foreground">Scale-Invariant Feature Transform. Detects keypoints robust to scale, rotation, illumination.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Hu Moments</p>
+                                        <p className="text-muted-foreground">7 invariant moments capturing shape regardless of position, scale, rotation.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Fourier Descriptors</p>
+                                        <p className="text-muted-foreground">Represent contour as frequency components. Low frequencies = overall shape.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">ORB</p>
+                                        <p className="text-muted-foreground">Oriented FAST and Rotated BRIEF. Fast alternative to SIFT, patent-free.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'deep' && (
+                        <div className="space-y-4">
+                            <div className="bg-secondary/30 p-6 rounded">
+                                <p className="font-semibold text-xl mb-3">🧠 Deep Features (CNN Embeddings)</p>
+                                <p className="text-lg text-muted-foreground mb-4">State-of-the-art: extract features from pre-trained CNNs. Bridges the semantic gap.</p>
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">ResNet / VGG</p>
+                                        <p className="text-muted-foreground">Extract 512–2048 dim vectors from penultimate layer. Captures high-level semantics.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">CLIP (OpenAI)</p>
+                                        <p className="text-muted-foreground">Joint text-image embeddings. Search images with text queries and vice versa.</p>
+                                    </div>
+                                </div>
+                                <div className="bg-yellow-50 dark:bg-yellow-950 p-4 rounded border border-yellow-400 mt-4">
+                                    <p className="font-semibold text-lg">The Semantic Gap:</p>
+                                    <p className="text-muted-foreground">Low-level features (pixels) vs high-level concepts (happy dog). Deep learning narrows this gap by learning hierarchical representations.</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
 
             {/* Interactive CBIR */}
-            <Card className="border-2 border-primary">
+            <Card className="border-4 border-primary">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">💻</span> Interactive Image Search (Color-Based)
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">💻</span> Interactive Image Search (Color-Based)
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                    <div className="space-y-4">
-                        <p className="text-sm text-muted-foreground">
-                            Adjust RGB values to create a "query image" and find similar images in the database
-                        </p>
-
-                        <div className="space-y-3">
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold">Red: {queryImage[0].toFixed(2)}</label>
-                                <Slider
-                                    value={[queryImage[0]]}
-                                    onValueChange={(v) => setQueryImage([v[0], queryImage[1], queryImage[2]])}
-                                    min={0}
-                                    max={1}
-                                    step={0.05}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold">Green: {queryImage[1].toFixed(2)}</label>
-                                <Slider
-                                    value={[queryImage[1]]}
-                                    onValueChange={(v) => setQueryImage([queryImage[0], v[0], queryImage[2]])}
-                                    min={0}
-                                    max={1}
-                                    step={0.05}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-semibold">Blue: {queryImage[2].toFixed(2)}</label>
-                                <Slider
-                                    value={[queryImage[2]]}
-                                    onValueChange={(v) => setQueryImage([queryImage[0], queryImage[1], v[0]])}
-                                    min={0}
-                                    max={1}
-                                    step={0.05}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="bg-secondary/30 p-4 rounded">
-                            <p className="text-sm font-semibold mb-2">Query Image Color:</p>
-                            <div
-                                className="h-20 rounded border-2 border-border"
-                                style={{
-                                    backgroundColor: `rgb(${queryImage[0] * 255}, ${queryImage[1] * 255}, ${queryImage[2] * 255})`
-                                }}
-                            />
-                            <p className="text-xs text-muted-foreground mt-2">
-                                RGB: [{queryImage[0].toFixed(2)}, {queryImage[1].toFixed(2)}, {queryImage[2].toFixed(2)}]
-                            </p>
-                        </div>
-
-                        <Button onClick={searchSimilar} className="w-full">
-                            <Play className="h-4 w-4 mr-2" /> Search Similar Images
-                        </Button>
-
-                        {distances.length > 0 && (
-                            <div className="space-y-3">
-                                <p className="font-semibold">Results (sorted by similarity):</p>
-                                {imageDatabase.map((img, i) => {
-                                    const dist = distances[i]
-                                    return (
-                                        <div key={img.id} className="border rounded-lg p-4">
-                                            <div className="flex items-center gap-4">
-                                                <div
-                                                    className="w-16 h-16 rounded border-2 border-border flex-shrink-0"
-                                                    style={{
-                                                        backgroundColor: `rgb(${img.features[0] * 255}, ${img.features[1] * 255}, ${img.features[2] * 255})`
-                                                    }}
-                                                />
-                                                <div className="flex-1">
-                                                    <p className="font-semibold">{img.name}</p>
-                                                    <p className="text-sm text-muted-foreground">{img.desc}</p>
-                                                    <p className="text-xs text-muted-foreground mt-1">
-                                                        Features: [{img.features.map(f => f.toFixed(2)).join(', ')}]
-                                                    </p>
-                                                </div>
-                                                <div className="text-right">
-                                                    <p className="text-sm font-bold">Distance: {dist.toFixed(3)}</p>
-                                                    <p className="text-xs text-muted-foreground">
-                                                        Similarity: {((1 - dist) * 100).toFixed(0)}%
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        )}
-                    </div>
-                </CardContent>
-            </Card>
-
-            {/* Feature Extraction Methods */}
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">🎨</span> Feature Extraction Methods
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                    <div className="grid md:grid-cols-2 gap-3">
-                        <div className="border-l-4 border-blue-500 pl-4 bg-secondary/20 p-3 rounded">
-                            <p className="font-semibold mb-2">1. Color Histogram</p>
-                            <p className="text-sm text-muted-foreground">
-                                Distribution of colors in RGB/HSV space
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-1">
-                                Fast, rotation-invariant, ignores spatial layout
-                            </p>
-                        </div>
-                        <div className="border-l-4 border-green-500 pl-4 bg-secondary/20 p-3 rounded">
-                            <p className="font-semibold mb-2">2. Texture Features</p>
-                            <p className="text-sm text-muted-foreground">
-                                Patterns using Gabor filters, LBP
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-1">
-                                Captures roughness, smoothness, regularity
-                            </p>
-                        </div>
-                        <div className="border-l-4 border-purple-500 pl-4 bg-secondary/20 p-3 rounded">
-                            <p className="font-semibold mb-2">3. Shape Descriptors</p>
-                            <p className="text-sm text-muted-foreground">
-                                Edge detection, contours, SIFT/SURF
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-1">
-                                Scale and rotation invariant
-                            </p>
-                        </div>
-                        <div className="border-l-4 border-orange-500 pl-4 bg-secondary/20 p-3 rounded">
-                            <p className="font-semibold mb-2">4. Deep Features (CNN)</p>
-                            <p className="text-sm text-muted-foreground">
-                                ResNet, VGG embeddings (1000+ dims)
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-1">
-                                Bridges semantic gap, state-of-the-art
-                            </p>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-
-            {/* Python Implementation */}
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">🐍</span> Python: CBIR System
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <pre className="bg-secondary/30 p-4 rounded-lg overflow-x-auto text-sm">
-                        <code>{`import numpy as np
-from PIL import Image
-
-class CBIRSystem:
-    def __init__(self):
-        self.database = []
-    
-    def extract_color_histogram(self, image_path, bins=8):
-        """Extract RGB color histogram"""
-        img = Image.open(image_path)
-        img = img.resize((256, 256))  # Normalize size
-        
-        # Convert to numpy array
-        pixels = np.array(img)
-        
-        # Compute histogram for each channel
-        hist_r = np.histogram(pixels[:,:,0], bins=bins, range=(0,256))[0]
-        hist_g = np.histogram(pixels[:,:,1], bins=bins, range=(0,256))[0]
-        hist_b = np.histogram(pixels[:,:,2], bins=bins, range=(0,256))[0]
-        
-        # Concatenate and normalize
-        features = np.concatenate([hist_r, hist_g, hist_b])
-        features = features / features.sum()  # Normalize
-        
-        return features
-    
-    def euclidean_distance(self, feat1, feat2):
-        """Calculate similarity between feature vectors"""
-        return np.sqrt(np.sum((feat1 - feat2) ** 2))
-    
-    def add_image(self, image_path, metadata=None):
-        """Add image to database"""
-        features = self.extract_color_histogram(image_path)
-        self.database.append({
-            'path': image_path,
-            'features': features,
-            'metadata': metadata
-        })
-    
-    def search(self, query_path, top_k=5):
-        """Find similar images"""
-        query_features = self.extract_color_histogram(query_path)
-        
-        # Calculate distances
-        results = []
-        for item in self.database:
-            dist = self.euclidean_distance(query_features, item['features'])
-            results.append({
-                'path': item['path'],
-                'distance': dist,
-                'similarity': 1 / (1 + dist)
-            })
-        
-        # Sort by distance
-        results.sort(key=lambda x: x['distance'])
-        return results[:top_k]
-
-# Example usage
-cbir = CBIRSystem()
-cbir.add_image('sunset.jpg', {'category': 'nature'})
-cbir.add_image('ocean.jpg', {'category': 'nature'})
-cbir.add_image('forest.jpg', {'category': 'nature'})
-
-results = cbir.search('query.jpg', top_k=3)
-for r in results:
-    print(f"{r['path']}: similarity={r['similarity']:.3f}")`}</code>
-                    </pre>
-                </CardContent>
-            </Card>
-
-            {/* Assessment */}
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">🎓</span> Quick Assessment
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+                    <p className="text-lg text-muted-foreground">Adjust RGB values to create a &quot;query image&quot; and find similar images in the database</p>
                     <div className="space-y-3">
-                        <div className="p-4 bg-secondary/20 rounded">
-                            <p className="font-semibold mb-2">Q1: What is the semantic gap?</p>
-                            <p className="text-sm text-green-600">A: The difference between low-level features (pixels, colors) that computers see and high-level concepts (objects, emotions) that humans understand.</p>
+                        <div className="space-y-2">
+                            <label className="text-lg font-semibold">Red: {queryImage[0].toFixed(2)}</label>
+                            <Slider value={[queryImage[0]]} onValueChange={(v) => setQueryImage([v[0], queryImage[1], queryImage[2]])} min={0} max={1} step={0.05} />
                         </div>
-                        <div className="p-4 bg-secondary/20 rounded">
-                            <p className="font-semibold mb-2">Q2: Why use Euclidean distance for image similarity?</p>
-                            <p className="text-sm text-green-600">A: It measures how close two feature vectors are in multi-dimensional space - smaller distance means more similar images.</p>
+                        <div className="space-y-2">
+                            <label className="text-lg font-semibold">Green: {queryImage[1].toFixed(2)}</label>
+                            <Slider value={[queryImage[1]]} onValueChange={(v) => setQueryImage([queryImage[0], v[0], queryImage[2]])} min={0} max={1} step={0.05} />
                         </div>
-                        <div className="p-4 bg-secondary/20 rounded">
-                            <p className="font-semibold mb-2">Q3: What is Query-by-Example (QBE)?</p>
-                            <p className="text-sm text-green-600">A: Providing a sample image as the query instead of keywords - the system finds similar images based on visual features.</p>
+                        <div className="space-y-2">
+                            <label className="text-lg font-semibold">Blue: {queryImage[2].toFixed(2)}</label>
+                            <Slider value={[queryImage[2]]} onValueChange={(v) => setQueryImage([queryImage[0], queryImage[1], v[0]])} min={0} max={1} step={0.05} />
                         </div>
                     </div>
+
+                    <div className="bg-secondary/30 p-4 rounded">
+                        <p className="text-lg font-semibold mb-2">Query Image Color:</p>
+                        <div className="h-20 rounded border-2 border-border" style={{ backgroundColor: `rgb(${queryImage[0] * 255}, ${queryImage[1] * 255}, ${queryImage[2] * 255})` }} />
+                        <p className="text-muted-foreground mt-2">RGB: [{queryImage.map(v => v.toFixed(2)).join(', ')}]</p>
+                    </div>
+
+                    <Button onClick={searchSimilar} className="w-full text-lg" size="lg">
+                        <Play className="h-5 w-5 mr-2" /> Search Similar Images
+                    </Button>
+
+                    {distances.length > 0 && (
+                        <div className="space-y-3">
+                            <p className="font-semibold text-xl">Results (sorted by similarity):</p>
+                            {distances.map((img) => (
+                                <div key={img.id} className="border-2 rounded-lg p-4">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-16 h-16 rounded border-2 border-border flex-shrink-0" style={{ backgroundColor: `rgb(${img.features[0] * 255}, ${img.features[1] * 255}, ${img.features[2] * 255})` }} />
+                                        <div className="flex-1">
+                                            <p className="font-semibold text-lg">{img.name}</p>
+                                            <p className="text-muted-foreground">{img.desc}</p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-lg font-bold">d = {img.distance.toFixed(3)}</p>
+                                            <p className="text-muted-foreground">Sim: {((1 - img.distance) * 100).toFixed(0)}%</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
+
+            {/* Advantages & Limitations */}
+            <div className="grid md:grid-cols-2 gap-4">
+                <Card className="bg-green-100 dark:bg-green-900">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">✅</span> Advantages
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="space-y-3 text-lg">
+                            <li>• No text annotation needed (content-based)</li>
+                            <li>• Works across languages (visual features)</li>
+                            <li>• Deep features bridge semantic gap</li>
+                            <li>• Enables query-by-example (QBE)</li>
+                        </ul>
+                    </CardContent>
+                </Card>
+                <Card className="bg-red-100 dark:bg-red-900">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">⚠️</span> Limitations
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="space-y-3 text-lg">
+                            <li>• Semantic gap (pixels ≠ concepts)</li>
+                            <li>• High-dimensional features are expensive</li>
+                            <li>• Color histograms ignore spatial layout</li>
+                            <li>• Requires large training data for deep models</li>
+                        </ul>
+                    </CardContent>
+                </Card>
+            </div>
+
+            {/* IR Application */}
+            <Card className="bg-secondary/20">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🎯</span> IR Applications
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-lg text-muted-foreground">
+                        Multimedia IR powers Google Lens (visual search), Shazam (audio fingerprinting), Pinterest (visual similarity), medical imaging (find similar X-rays/MRIs), e-commerce product search (find similar items by photo), and copyright detection (reverse image search).
+                    </p>
                 </CardContent>
             </Card>
 
             {/* Navigation */}
             <div className="flex justify-between">
-                <Button variant="outline" asChild>
+                <Button variant="outline" asChild size="lg">
                     <Link href="/lab/unit-4">
-                        <ArrowLeft className="mr-2 h-4 w-4" /> Back to Unit 4 Labs
+                        <ArrowLeft className="mr-2 h-5 w-5" /> Back to Unit 4 Labs
                     </Link>
                 </Button>
-                <Button asChild>
+                <Button asChild size="lg">
                     <Link href="/lab/unit-4/web-crawling">
-                        Next: Web Crawling <ArrowRight className="ml-2 h-4 w-4" />
+                        Next: Web Crawling <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                 </Button>
             </div>

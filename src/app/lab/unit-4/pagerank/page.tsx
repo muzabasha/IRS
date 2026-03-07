@@ -12,27 +12,20 @@ export default function PageRankLab() {
     const [dampingFactor, setDampingFactor] = useState(0.85)
     const [iterations, setIterations] = useState(0)
     const [pageRanks, setPageRanks] = useState<number[]>([0.25, 0.25, 0.25, 0.25])
+    const [activeTab, setActiveTab] = useState<'pagerank' | 'hits' | 'salsa'>('pagerank')
 
-    // Simple 4-page web graph
-    // A -> B, C
-    // B -> C
-    // C -> A
-    // D -> A, B, C
     const linkGraph = [
-        [0, 1, 1, 0],  // A links to B, C
-        [0, 0, 1, 0],  // B links to C
-        [1, 0, 0, 0],  // C links to A
-        [1, 1, 1, 0],  // D links to A, B, C
+        [0, 1, 1, 0],
+        [0, 0, 1, 0],
+        [1, 0, 0, 0],
+        [1, 1, 1, 0],
     ]
 
     const calculatePageRank = () => {
         const n = 4
-        let ranks = [...pageRanks]
+        const ranks = [...pageRanks]
         const d = dampingFactor
-
-        // One iteration of PageRank
         const newRanks = new Array(n).fill(0)
-
         for (let i = 0; i < n; i++) {
             let sum = 0
             for (let j = 0; j < n; j++) {
@@ -43,7 +36,6 @@ export default function PageRankLab() {
             }
             newRanks[i] = (1 - d) / n + d * sum
         }
-
         setPageRanks(newRanks)
         setIterations(iterations + 1)
     }
@@ -54,6 +46,12 @@ export default function PageRankLab() {
     }
 
     const pages = ['Page A', 'Page B', 'Page C', 'Page D']
+
+    const tabs = [
+        { key: 'pagerank' as const, label: 'PageRank', emoji: '📊' },
+        { key: 'hits' as const, label: 'HITS', emoji: '🔗' },
+        { key: 'salsa' as const, label: 'SALSA', emoji: '💃' },
+    ]
 
     return (
         <div className="space-y-8">
@@ -67,8 +65,8 @@ export default function PageRankLab() {
             </div>
 
             <div className="space-y-2">
-                <h1 className="text-4xl font-bold">PageRank Algorithm Lab</h1>
-                <p className="text-lg text-muted-foreground">
+                <h1 className="text-5xl md:text-6xl font-bold">PageRank Algorithm Lab</h1>
+                <p className="text-2xl text-muted-foreground">
                     The algorithm that made Google dominant
                 </p>
             </div>
@@ -76,274 +74,274 @@ export default function PageRankLab() {
             {/* Motivation */}
             <Card className="border-l-4 border-l-blue-500">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">💡</span> Motivation: Ranking the Web
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">💡</span> Motivation
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <p className="text-muted-foreground">
-                        With billions of web pages, how do you decide which are most important? PageRank treats links as votes:
-                        pages linked by many important pages are themselves important.
+                    <p className="text-xl text-muted-foreground">
+                        With billions of web pages, how do you decide which are most important? PageRank treats links as votes: pages linked by many important pages are themselves important.
                     </p>
-                    <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg">
-                        <p className="font-semibold mb-2">Key Insight:</p>
-                        <p className="text-sm">
-                            A link from a high-authority page (like Wikipedia) is worth more than a link from a random blog.
-                            PageRank computes this recursively: importance flows through the link graph.
-                        </p>
+                </CardContent>
+            </Card>
+
+            {/* Equation Interpretation: PageRank */}
+            <Card className="bg-blue-50 dark:bg-blue-950 p-6 rounded border-2 border-blue-400">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🔍</span> Equation Interpretation: PageRank
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="bg-secondary/30 p-8 rounded-lg font-mono text-center">
+                        <div className="text-2xl">PR(A) = (1-d)/N + d × Σ<sub>T∈B<sub>A</sub></sub> PR(T) / C(T)</div>
                     </div>
-                    <div className="bg-green-50 dark:bg-green-950 p-4 rounded-lg">
-                        <p className="font-semibold mb-2">Real-world Impact:</p>
-                        <ul className="space-y-1 text-sm">
-                            <li>• Google's original ranking algorithm (1998)</li>
-                            <li>• Used for academic citation analysis</li>
-                            <li>• Social network influence measurement</li>
-                            <li>• Recommendation systems</li>
-                        </ul>
+                    <div className="flex flex-wrap gap-3">
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">PR(A)</span>: PageRank score of page A
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">d</span>: Damping factor (typically 0.85) — probability of following links
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">N</span>: Total number of pages in the web graph
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">B<sub>A</sub></span>: Set of pages that link to A (backlinks)
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">C(T)</span>: Number of outbound links from page T
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">(1-d)/N</span>: Random jump probability (teleportation)
+                        </div>
+                    </div>
+                    <div className="bg-blue-100 dark:bg-blue-900 p-6 rounded-lg">
+                        <p className="text-lg">
+                            PageRank models a &quot;random surfer&quot; who follows links with probability d and jumps to a random page with probability (1-d). The stationary distribution of this Markov chain gives the PageRank scores. A link from a page with high PR and few outlinks is worth more than one from a low-PR page with many outlinks.
+                        </p>
                     </div>
                 </CardContent>
             </Card>
 
-            {/* PageRank Formula */}
-            <Card>
+            {/* Algorithm Comparison Tabs */}
+            <Card className="border-4 border-primary">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">📐</span> PageRank Formula
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">📚</span> Link Analysis Algorithms
                     </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="bg-secondary/30 p-6 rounded-lg font-mono text-center">
-                        <div className="text-lg">PR(A) = (1-d)/N + d × Σ(PR(T_i) / C(T_i))</div>
+                <CardContent className="space-y-6">
+                    <div className="flex flex-wrap gap-2">
+                        {tabs.map((tab) => (
+                            <Button key={tab.key} variant={activeTab === tab.key ? 'default' : 'outline'} onClick={() => setActiveTab(tab.key)} className="text-lg px-6 py-4">
+                                {tab.emoji} {tab.label}
+                            </Button>
+                        ))}
                     </div>
-                    <div className="space-y-3">
-                        <div className="grid gap-3">
-                            <div className="flex gap-3 p-3 bg-secondary/20 rounded">
-                                <span className="font-mono font-bold">PR(A)</span>
-                                <span className="text-muted-foreground">PageRank of page A</span>
-                            </div>
-                            <div className="flex gap-3 p-3 bg-secondary/20 rounded">
-                                <span className="font-mono font-bold">d</span>
-                                <span className="text-muted-foreground">Damping factor (typically 0.85) - probability of following links</span>
-                            </div>
-                            <div className="flex gap-3 p-3 bg-secondary/20 rounded">
-                                <span className="font-mono font-bold">N</span>
-                                <span className="text-muted-foreground">Total number of pages</span>
-                            </div>
-                            <div className="flex gap-3 p-3 bg-secondary/20 rounded">
-                                <span className="font-mono font-bold">T_i</span>
-                                <span className="text-muted-foreground">Pages that link to A</span>
-                            </div>
-                            <div className="flex gap-3 p-3 bg-secondary/20 rounded">
-                                <span className="font-mono font-bold">C(T_i)</span>
-                                <span className="text-muted-foreground">Number of outbound links from T_i</span>
+
+                    {activeTab === 'pagerank' && (
+                        <div className="bg-secondary/30 p-6 rounded">
+                            <p className="font-semibold text-xl mb-3">📊 PageRank (Brin & Page, 1998)</p>
+                            <p className="text-lg text-muted-foreground mb-4">Query-independent, global authority score. Computed offline for the entire web graph. Used as one of 200+ ranking signals in Google.</p>
+                            <div className="grid md:grid-cols-2 gap-4">
+                                <div className="bg-secondary/20 p-4 rounded">
+                                    <p className="font-semibold text-lg">Convergence</p>
+                                    <p className="text-muted-foreground">Typically converges in 50–100 iterations. Power iteration method. O(N) per iteration.</p>
+                                </div>
+                                <div className="bg-secondary/20 p-4 rounded">
+                                    <p className="font-semibold text-lg">Dangling Nodes</p>
+                                    <p className="text-muted-foreground">Pages with no outlinks distribute their PR equally to all pages (or to a special sink).</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
+
+                    {activeTab === 'hits' && (
+                        <div className="bg-secondary/30 p-6 rounded">
+                            <p className="font-semibold text-xl mb-3">🔗 HITS (Kleinberg, 1999)</p>
+                            <p className="text-lg text-muted-foreground mb-4">Query-dependent. Computes two scores per page: Hub (links to good authorities) and Authority (linked by good hubs). Mutually reinforcing.</p>
+                            <div className="bg-secondary/20 p-4 rounded font-mono text-lg">
+                                <p>auth(p) = Σ hub(q) for all q → p</p>
+                                <p>hub(p) = Σ auth(q) for all p → q</p>
+                            </div>
+                            <div className="bg-yellow-50 dark:bg-yellow-950 p-4 rounded border border-yellow-400 mt-4">
+                                <p className="font-semibold">Topic Drift:</p>
+                                <p className="text-muted-foreground">HITS can drift to popular but off-topic pages because it operates on a query-specific subgraph.</p>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'salsa' && (
+                        <div className="bg-secondary/30 p-6 rounded">
+                            <p className="font-semibold text-xl mb-3">💃 SALSA (Lempel & Moran, 2001)</p>
+                            <p className="text-lg text-muted-foreground mb-4">Combines PageRank&apos;s random walk with HITS&apos; hub/authority distinction. Two interleaved random walks on a bipartite graph.</p>
+                            <div className="grid md:grid-cols-2 gap-4">
+                                <div className="bg-secondary/20 p-4 rounded">
+                                    <p className="font-semibold text-lg">Authority Walk</p>
+                                    <p className="text-muted-foreground">Follow inlinks → random outlink from that hub → arrive at authority.</p>
+                                </div>
+                                <div className="bg-secondary/20 p-4 rounded">
+                                    <p className="font-semibold text-lg">Hub Walk</p>
+                                    <p className="text-muted-foreground">Follow outlinks → random inlink to that authority → arrive at hub.</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
 
             {/* Interactive PageRank Calculator */}
-            <Card className="border-2 border-primary">
+            <Card className="border-4 border-primary">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">💻</span> Interactive PageRank Calculator
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">💻</span> Interactive PageRank Calculator
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <div className="space-y-4">
-                        <div className="bg-secondary/30 p-4 rounded">
-                            <p className="font-semibold mb-3">Link Graph:</p>
-                            <div className="space-y-2 text-sm">
-                                <div className="flex items-center gap-2">
-                                    <Badge>A</Badge>
-                                    <span>→</span>
-                                    <Badge variant="outline">B</Badge>
-                                    <Badge variant="outline">C</Badge>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Badge>B</Badge>
-                                    <span>→</span>
-                                    <Badge variant="outline">C</Badge>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Badge>C</Badge>
-                                    <span>→</span>
-                                    <Badge variant="outline">A</Badge>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Badge>D</Badge>
-                                    <span>→</span>
-                                    <Badge variant="outline">A</Badge>
-                                    <Badge variant="outline">B</Badge>
-                                    <Badge variant="outline">C</Badge>
-                                </div>
+                        <div className="space-y-2">
+                            <label className="text-xl font-semibold">Damping Factor (d): {dampingFactor.toFixed(2)}</label>
+                            <Slider value={[dampingFactor]} onValueChange={(v) => { setDampingFactor(v[0]); resetPageRank() }} min={0} max={1} step={0.05} />
+                        </div>
+
+                        <div className="bg-secondary/30 p-6 rounded-lg">
+                            <p className="text-xl font-semibold mb-3">Link Graph (4 pages):</p>
+                            <div className="grid grid-cols-4 gap-2 font-mono text-center text-lg">
+                                <div className="font-bold">→</div>
+                                {pages.map(p => <div key={p} className="font-bold">{p.split(' ')[1]}</div>)}
+                                {linkGraph.map((row, i) => (
+                                    <>
+                                        <div key={`label-${i}`} className="font-bold">{pages[i].split(' ')[1]}</div>
+                                        {row.map((val, j) => (
+                                            <div key={`${i}-${j}`} className={`p-2 rounded ${val === 1 ? 'bg-blue-200 dark:bg-blue-800 font-bold' : 'bg-secondary/20'}`}>
+                                                {val}
+                                            </div>
+                                        ))}
+                                    </>
+                                ))}
                             </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-semibold">Damping Factor (d): {dampingFactor.toFixed(2)}</label>
-                            <Slider
-                                value={[dampingFactor]}
-                                onValueChange={(v) => setDampingFactor(v[0])}
-                                min={0}
-                                max={1}
-                                step={0.05}
-                            />
-                            <p className="text-xs text-muted-foreground">
-                                Probability of following links vs random jump (typical: 0.85)
-                            </p>
-                        </div>
-
-                        <div className="flex gap-2">
-                            <Button onClick={calculatePageRank} className="flex-1">
-                                <Play className="h-4 w-4 mr-2" /> Run Iteration
+                        <div className="flex gap-3">
+                            <Button onClick={calculatePageRank} size="lg" className="text-lg">
+                                <Play className="h-5 w-5 mr-2" /> Iterate (Step {iterations})
                             </Button>
-                            <Button onClick={resetPageRank} variant="outline">
+                            <Button onClick={resetPageRank} variant="outline" size="lg" className="text-lg">
                                 Reset
                             </Button>
                         </div>
 
-                        <div className="bg-primary/10 p-4 rounded border-2 border-primary">
-                            <p className="text-sm font-semibold mb-3">
-                                PageRank Scores (Iteration {iterations}):
-                            </p>
-                            <div className="space-y-2">
-                                {pages.map((page, i) => (
-                                    <div key={i} className="flex items-center justify-between">
-                                        <span className="font-semibold">{page}</span>
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-32 bg-secondary rounded-full h-4">
-                                                <div
-                                                    className="bg-primary h-4 rounded-full transition-all"
-                                                    style={{ width: `${pageRanks[i] * 100}%` }}
-                                                />
-                                            </div>
-                                            <span className="font-mono text-sm w-16 text-right">
-                                                {pageRanks[i].toFixed(3)}
-                                            </span>
+                        <div className="space-y-3">
+                            <p className="text-xl font-semibold">PageRank Scores (Iteration {iterations}):</p>
+                            {pages.map((page, i) => (
+                                <div key={page} className="flex items-center gap-4">
+                                    <span className="font-semibold text-lg w-24">{page}</span>
+                                    <div className="flex-1 bg-secondary/20 rounded-full h-10 overflow-hidden">
+                                        <div
+                                            className="bg-blue-500 h-full rounded-full transition-all duration-500 flex items-center justify-end pr-3"
+                                            style={{ width: `${Math.max(pageRanks[i] * 200, 10)}%` }}
+                                        >
+                                            <span className="text-white font-mono font-bold text-sm">{pageRanks[i].toFixed(4)}</span>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                            <p className="text-xs text-muted-foreground mt-3">
-                                Sum: {pageRanks.reduce((a, b) => a + b, 0).toFixed(3)} (should converge to 1.0)
-                            </p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </CardContent>
             </Card>
 
-            {/* Python Implementation */}
+            {/* Comparison Table */}
             <Card>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">🐍</span> Python: PageRank Implementation
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">📊</span> Algorithm Comparison
                     </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    <pre className="bg-secondary/30 p-4 rounded-lg overflow-x-auto text-sm">
-                        <code>{`import numpy as np
-
-def pagerank(adjacency_matrix, damping=0.85, max_iter=100, tol=1e-6):
-    """
-    Calculate PageRank for a web graph
-    
-    Args:
-        adjacency_matrix: NxN matrix where [i][j]=1 if i links to j
-        damping: Damping factor (typically 0.85)
-        max_iter: Maximum iterations
-        tol: Convergence tolerance
-    
-    Returns:
-        PageRank scores for each page
-    """
-    n = len(adjacency_matrix)
-    
-    # Initialize PageRank scores
-    pr = np.ones(n) / n
-    
-    # Calculate outbound link counts
-    out_links = np.sum(adjacency_matrix, axis=1)
-    out_links[out_links == 0] = 1  # Avoid division by zero
-    
-    for iteration in range(max_iter):
-        pr_new = np.zeros(n)
-        
-        for i in range(n):
-            # Sum contributions from pages linking to i
-            for j in range(n):
-                if adjacency_matrix[j][i] == 1:
-                    pr_new[i] += pr[j] / out_links[j]
-            
-            # Apply PageRank formula
-            pr_new[i] = (1 - damping) / n + damping * pr_new[i]
-        
-        # Check convergence
-        if np.sum(np.abs(pr_new - pr)) < tol:
-            print(f"Converged in {iteration + 1} iterations")
-            break
-        
-        pr = pr_new
-    
-    return pr
-
-# Example: 4-page web graph
-# A -> B, C
-# B -> C
-# C -> A
-# D -> A, B, C
-graph = np.array([
-    [0, 1, 1, 0],  # A
-    [0, 0, 1, 0],  # B
-    [1, 0, 0, 0],  # C
-    [1, 1, 1, 0],  # D
-])
-
-scores = pagerank(graph)
-pages = ['A', 'B', 'C', 'D']
-
-print("PageRank Scores:")
-for page, score in zip(pages, scores):
-    print(f"Page {page}: {score:.4f}")`}</code>
-                    </pre>
+                <CardContent>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-lg">
+                            <thead>
+                                <tr className="border-b-2">
+                                    <th className="text-left p-4 font-bold">Feature</th>
+                                    <th className="text-left p-4 font-bold">PageRank</th>
+                                    <th className="text-left p-4 font-bold">HITS</th>
+                                    <th className="text-left p-4 font-bold">SALSA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr className="border-b"><td className="p-4 font-semibold">Query Dependent?</td><td className="p-4">No</td><td className="p-4">Yes</td><td className="p-4">Yes</td></tr>
+                                <tr className="border-b"><td className="p-4 font-semibold">Scores per Page</td><td className="p-4">1 (PR)</td><td className="p-4">2 (Hub + Auth)</td><td className="p-4">2 (Hub + Auth)</td></tr>
+                                <tr className="border-b"><td className="p-4 font-semibold">Computation</td><td className="p-4">Offline</td><td className="p-4">Online</td><td className="p-4">Online</td></tr>
+                                <tr className="border-b"><td className="p-4 font-semibold">Topic Drift</td><td className="p-4">N/A</td><td className="p-4">Susceptible</td><td className="p-4">Resistant</td></tr>
+                                <tr className="border-b"><td className="p-4 font-semibold">Convergence</td><td className="p-4">Guaranteed</td><td className="p-4">Guaranteed</td><td className="p-4">Guaranteed</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </CardContent>
             </Card>
 
-            {/* Assessment */}
-            <Card>
+            {/* Advantages & Limitations */}
+            <div className="grid md:grid-cols-2 gap-4">
+                <Card className="bg-green-100 dark:bg-green-900">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">✅</span> Advantages
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="space-y-3 text-lg">
+                            <li>• Query-independent (computed once offline)</li>
+                            <li>• Robust against simple link spam</li>
+                            <li>• Mathematically elegant (Markov chain)</li>
+                            <li>• Scales to billions of pages</li>
+                            <li>• Guaranteed convergence</li>
+                        </ul>
+                    </CardContent>
+                </Card>
+                <Card className="bg-red-100 dark:bg-red-900">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">⚠️</span> Limitations
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="space-y-3 text-lg">
+                            <li>• Ignores query relevance (topic-blind)</li>
+                            <li>• Vulnerable to link farms</li>
+                            <li>• Favors older, well-linked pages</li>
+                            <li>• Expensive to recompute for entire web</li>
+                            <li>• Dangling nodes need special handling</li>
+                        </ul>
+                    </CardContent>
+                </Card>
+            </div>
+
+            {/* IR Application */}
+            <Card className="bg-secondary/20">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">🎓</span> Quick Assessment
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🎯</span> IR Applications
                     </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="space-y-3">
-                        <div className="p-4 bg-secondary/20 rounded">
-                            <p className="font-semibold mb-2">Q1: What does the damping factor represent?</p>
-                            <p className="text-sm text-green-600">A: The probability that a user follows links (0.85) vs randomly jumping to any page (0.15) - models real browsing behavior.</p>
-                        </div>
-                        <div className="p-4 bg-secondary/20 rounded">
-                            <p className="font-semibold mb-2">Q2: Why is PageRank computed iteratively?</p>
-                            <p className="text-sm text-green-600">A: Because importance is recursive - a page's rank depends on the ranks of pages linking to it, which depend on their inlinks, etc.</p>
-                        </div>
-                        <div className="p-4 bg-secondary/20 rounded">
-                            <p className="font-semibold mb-2">Q3: What is the "random surfer" model?</p>
-                            <p className="text-sm text-green-600">A: PageRank models a user randomly clicking links with probability d, or jumping to a random page with probability (1-d).</p>
-                        </div>
-                    </div>
+                <CardContent>
+                    <p className="text-lg text-muted-foreground">
+                        PageRank revolutionized web search as one of Google&apos;s original ranking signals. Today it&apos;s used beyond web search: citation analysis (ranking academic papers by influence), social network analysis (identifying influential users), recommendation systems (ranking items by link structure), and fraud detection (identifying suspicious link patterns in financial networks).
+                    </p>
                 </CardContent>
             </Card>
 
             {/* Navigation */}
             <div className="flex justify-between">
-                <Button variant="outline" asChild>
-                    <Link href="/lab/unit-4">
-                        <ArrowLeft className="mr-2 h-4 w-4" /> Back to Unit 4 Labs
+                <Button variant="outline" asChild size="lg">
+                    <Link href="/lab/unit-4/web-crawling">
+                        <ArrowLeft className="mr-2 h-5 w-5" /> Previous: Web Crawling
                     </Link>
                 </Button>
-                <Button asChild>
-                    <Link href="/lab/unit-4">
-                        Back to Unit 4 Labs <ArrowRight className="ml-2 h-4 w-4" />
+                <Button asChild size="lg">
+                    <Link href="/lab/unit-4/meta-search">
+                        Next: Meta-Search <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                 </Button>
             </div>

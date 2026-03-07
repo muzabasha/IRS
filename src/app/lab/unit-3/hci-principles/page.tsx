@@ -15,11 +15,12 @@ export default function HCIPrinciplesLab() {
     const [fittsTime, setFittsTime] = useState(0)
     const [query, setQuery] = useState('')
     const [suggestions, setSuggestions] = useState<string[]>([])
+    const [activeTab, setActiveTab] = useState<'fitts' | 'hick' | 'gestalt' | 'nielsen'>('fitts')
 
     const dictionary = ['machine learning', 'machine vision', 'machine translation', 'deep learning', 'neural networks']
 
     const calculateFitts = () => {
-        const a = 50, b = 150 // Empirical constants
+        const a = 50, b = 150
         const ID = Math.log2(1 + distance / buttonSize)
         const time = a + b * ID
         setFittsTime(Math.round(time))
@@ -28,14 +29,19 @@ export default function HCIPrinciplesLab() {
     const handleQueryChange = (value: string) => {
         setQuery(value)
         if (value.length > 0) {
-            const matches = dictionary.filter(term =>
-                term.toLowerCase().startsWith(value.toLowerCase())
-            )
+            const matches = dictionary.filter(term => term.toLowerCase().startsWith(value.toLowerCase()))
             setSuggestions(matches.slice(0, 5))
         } else {
             setSuggestions([])
         }
     }
+
+    const tabs = [
+        { key: 'fitts' as const, label: "Fitts's Law", emoji: '🎯' },
+        { key: 'hick' as const, label: "Hick's Law", emoji: '⏱️' },
+        { key: 'gestalt' as const, label: 'Gestalt Principles', emoji: '👁️' },
+        { key: 'nielsen' as const, label: "Nielsen's Heuristics", emoji: '📋' },
+    ]
 
     return (
         <div className="space-y-8">
@@ -49,8 +55,8 @@ export default function HCIPrinciplesLab() {
             </div>
 
             <div className="space-y-2">
-                <h1 className="text-4xl font-bold">HCI Principles for IR</h1>
-                <p className="text-lg text-muted-foreground">
+                <h1 className="text-5xl md:text-6xl font-bold">HCI Principles for IR</h1>
+                <p className="text-2xl text-muted-foreground">
                     Design search interfaces that users love
                 </p>
             </div>
@@ -58,142 +64,255 @@ export default function HCIPrinciplesLab() {
             {/* Motivation */}
             <Card className="border-l-4 border-l-blue-500">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">💡</span> Motivation: Why HCI Matters
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">💡</span> Motivation
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <p className="text-muted-foreground">
-                        The best search algorithm is useless if users can't figure out how to use it. HCI principles ensure
-                        that search interfaces are intuitive, efficient, and satisfying.
+                    <p className="text-xl text-muted-foreground">
+                        The best search algorithm is useless if users can&apos;t figure out how to use it. HCI principles ensure search interfaces are intuitive, efficient, and satisfying.
                     </p>
-                    <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg">
-                        <p className="font-semibold mb-2">Real-world Impact:</p>
-                        <ul className="space-y-1 text-sm">
-                            <li>• Google's minimalist homepage reduces cognitive load - users focus on search</li>
-                            <li>• Amazon's autocomplete increases conversions by 20-30%</li>
-                            <li>• Poor UI causes 70% of users to abandon search within 3 clicks</li>
-                            <li>• Fitts's Law: Larger buttons = 37% faster interaction</li>
-                        </ul>
+                </CardContent>
+            </Card>
+
+            {/* Equation Interpretation: Fitts's Law */}
+            <Card className="bg-blue-50 dark:bg-blue-950 p-6 rounded border-2 border-blue-400">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🔍</span> Equation Interpretation: Fitts&apos;s Law
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="bg-secondary/30 p-8 rounded-lg font-mono text-center">
+                        <div className="text-2xl">T = a + b × log₂(1 + D/W)</div>
+                    </div>
+                    <div className="flex flex-wrap gap-3">
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">T</span>: Time to reach target (milliseconds)
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">a, b</span>: Empirical constants (device-dependent)
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">D</span>: Distance to target (pixels)
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">W</span>: Width of target (pixels)
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">log₂(1+D/W)</span>: Index of Difficulty (ID)
+                        </div>
+                    </div>
+                    <div className="bg-blue-100 dark:bg-blue-900 p-6 rounded-lg">
+                        <p className="text-lg">
+                            Fitts&apos;s Law predicts pointing time: larger targets closer to the cursor are faster to click. For search UIs, this means the search button should be large and near the input field. Screen edges/corners act as &quot;infinite&quot; targets (zero overshoot).
+                        </p>
                     </div>
                 </CardContent>
             </Card>
 
-            {/* Fitts's Law */}
-            <Card>
+            {/* Equation: Hick's Law */}
+            <Card className="bg-blue-50 dark:bg-blue-950 p-6 rounded border-2 border-blue-400">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">📐</span> Fitts's Law: Button Placement
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🔍</span> Equation Interpretation: Hick&apos;s Law
                     </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="bg-secondary/30 p-6 rounded-lg font-mono text-center">
-                        <div className="text-lg">T = a + b × log₂(1 + D/W)</div>
+                <CardContent className="space-y-6">
+                    <div className="bg-secondary/30 p-8 rounded-lg font-mono text-center">
+                        <div className="text-2xl">T = b × log₂(n + 1)</div>
                     </div>
-                    <div className="space-y-3">
-                        <div className="grid gap-3">
-                            <div className="flex gap-3 p-3 bg-secondary/20 rounded">
-                                <span className="font-mono font-bold">T</span>
-                                <span className="text-muted-foreground">Time to reach target (milliseconds)</span>
-                            </div>
-                            <div className="flex gap-3 p-3 bg-secondary/20 rounded">
-                                <span className="font-mono font-bold">D</span>
-                                <span className="text-muted-foreground">Distance to target (pixels)</span>
-                            </div>
-                            <div className="flex gap-3 p-3 bg-secondary/20 rounded">
-                                <span className="font-mono font-bold">W</span>
-                                <span className="text-muted-foreground">Width of target (pixels)</span>
-                            </div>
+                    <div className="flex flex-wrap gap-3">
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">T</span>: Decision time (milliseconds)
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">n</span>: Number of choices presented
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">b</span>: Empirical constant (~150ms per bit)
                         </div>
                     </div>
+                    <div className="bg-blue-100 dark:bg-blue-900 p-6 rounded-lg">
+                        <p className="text-lg">
+                            More choices = slower decisions. Google shows 10 results per page (not 100) because users scan faster with fewer options. Autocomplete limits suggestions to 5–8 items. Faceted search breaks many filters into categorized groups.
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+
+            {/* Technique Tabs */}
+            <Card className="border-4 border-primary">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">📚</span> HCI Principles Exploration
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="flex flex-wrap gap-2">
+                        {tabs.map((tab) => (
+                            <Button key={tab.key} variant={activeTab === tab.key ? 'default' : 'outline'} onClick={() => setActiveTab(tab.key)} className="text-lg px-6 py-4">
+                                {tab.emoji} {tab.label}
+                            </Button>
+                        ))}
+                    </div>
+
+                    {activeTab === 'fitts' && (
+                        <div className="space-y-4">
+                            <div className="bg-secondary/30 p-6 rounded">
+                                <p className="font-semibold text-xl mb-3">🎯 Fitts&apos;s Law in Search UI</p>
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Search Button</p>
+                                        <p className="text-muted-foreground">Large, adjacent to input field. Google&apos;s button is 36px tall, right next to the search box.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Result Links</p>
+                                        <p className="text-muted-foreground">Full-width clickable areas. Title + snippet = larger target than title alone.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Mobile Touch Targets</p>
+                                        <p className="text-muted-foreground">Minimum 44×44px (Apple HIG). Spacing prevents mis-taps.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Edge/Corner Targets</p>
+                                        <p className="text-muted-foreground">Scroll bars, close buttons at edges have &quot;infinite&quot; width — impossible to overshoot.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'hick' && (
+                        <div className="space-y-4">
+                            <div className="bg-secondary/30 p-6 rounded">
+                                <p className="font-semibold text-xl mb-3">⏱️ Hick&apos;s Law in Search UI</p>
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">10 Results Per Page</p>
+                                        <p className="text-muted-foreground">Google shows 10 results — enough to find relevant docs without overwhelming users.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Autocomplete (5–8 items)</p>
+                                        <p className="text-muted-foreground">Limiting suggestions reduces decision time while still being helpful.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Categorized Facets</p>
+                                        <p className="text-muted-foreground">Group filters by type (date, format, source) instead of one flat list.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Progressive Disclosure</p>
+                                        <p className="text-muted-foreground">Show basic options first, &quot;Advanced Search&quot; for power users.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'gestalt' && (
+                        <div className="space-y-4">
+                            <div className="bg-secondary/30 p-6 rounded">
+                                <p className="font-semibold text-xl mb-3">👁️ Gestalt Principles in Search UI</p>
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Proximity</p>
+                                        <p className="text-muted-foreground">Title, URL, snippet grouped together = one result. Whitespace separates results.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Similarity</p>
+                                        <p className="text-muted-foreground">All result titles in blue, all URLs in green — consistent visual language.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Continuity</p>
+                                        <p className="text-muted-foreground">Vertical list layout guides eye from top to bottom through results.</p>
+                                    </div>
+                                    <div className="bg-secondary/20 p-4 rounded">
+                                        <p className="font-semibold text-lg">Figure-Ground</p>
+                                        <p className="text-muted-foreground">Search box stands out against background. Highlighted terms pop from snippet text.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'nielsen' && (
+                        <div className="space-y-4">
+                            <div className="bg-secondary/30 p-6 rounded">
+                                <p className="font-semibold text-xl mb-3">📋 Nielsen&apos;s 10 Usability Heuristics (IR Focus)</p>
+                                <div className="grid gap-3">
+                                    {[
+                                        { h: '1. Visibility of System Status', ex: 'Loading spinner, "About 1,230,000 results (0.42 sec)"' },
+                                        { h: '2. Match Real World', ex: 'Use familiar terms: "Search", not "Execute Query"' },
+                                        { h: '3. User Control & Freedom', ex: 'Back button, clear filters, edit query easily' },
+                                        { h: '4. Consistency & Standards', ex: 'Blue links, search box at top, pagination at bottom' },
+                                        { h: '5. Error Prevention', ex: 'Autocomplete, "Did you mean?", spell-check' },
+                                        { h: '7. Flexibility & Efficiency', ex: 'Keyboard shortcuts, advanced search, search operators' },
+                                        { h: '8. Aesthetic & Minimal Design', ex: 'Google homepage: just a logo and search box' },
+                                    ].map((item, i) => (
+                                        <div key={i} className="bg-secondary/20 p-4 rounded">
+                                            <p className="font-semibold">{item.h}</p>
+                                            <p className="text-muted-foreground text-sm">{item.ex}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
 
             {/* Interactive Fitts Calculator */}
-            <Card className="border-2 border-primary">
+            <Card className="border-4 border-primary">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">💻</span> Interactive Fitts's Law Calculator
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">💻</span> Interactive Fitts&apos;s Law Calculator
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-6">
                         <div className="space-y-4">
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold">Distance (D): {distance}px</label>
-                                <Slider
-                                    value={[distance]}
-                                    onValueChange={(v) => setDistance(v[0])}
-                                    min={100}
-                                    max={1000}
-                                    step={50}
-                                />
+                                <label className="text-lg font-semibold">Distance (D): {distance}px</label>
+                                <Slider value={[distance]} onValueChange={(v) => setDistance(v[0])} min={100} max={1000} step={50} />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-semibold">Button Width (W): {buttonSize}px</label>
-                                <Slider
-                                    value={[buttonSize]}
-                                    onValueChange={(v) => setButtonSize(v[0])}
-                                    min={10}
-                                    max={200}
-                                    step={10}
-                                />
+                                <label className="text-lg font-semibold">Button Width (W): {buttonSize}px</label>
+                                <Slider value={[buttonSize]} onValueChange={(v) => setButtonSize(v[0])} min={10} max={200} step={10} />
                             </div>
-                            <Button onClick={calculateFitts} className="w-full">
-                                <Play className="h-4 w-4 mr-2" /> Calculate Time
+                            <Button onClick={calculateFitts} className="w-full text-lg" size="lg">
+                                <Play className="h-5 w-5 mr-2" /> Calculate Time
                             </Button>
                         </div>
                         <div className="space-y-4">
                             {fittsTime > 0 && (
                                 <div className="bg-primary/10 p-6 rounded border-2 border-primary">
-                                    <p className="text-sm text-muted-foreground mb-2">Predicted Time:</p>
-                                    <p className="text-4xl font-bold">{fittsTime}ms</p>
-                                    <p className="text-sm text-muted-foreground mt-2">
-                                        Index of Difficulty: {Math.log2(1 + distance / buttonSize).toFixed(2)}
+                                    <p className="text-lg text-muted-foreground mb-2">Predicted Time:</p>
+                                    <p className="text-5xl font-bold">{fittsTime}ms</p>
+                                    <p className="text-lg text-muted-foreground mt-2">
+                                        Index of Difficulty: {Math.log2(1 + distance / buttonSize).toFixed(2)} bits
                                     </p>
                                 </div>
                             )}
-                            <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded">
-                                <p className="font-semibold mb-2">Design Insights:</p>
-                                <ul className="space-y-1 text-sm">
-                                    <li>• Larger buttons are easier to click</li>
-                                    <li>• Closer buttons are faster to reach</li>
-                                    <li>• Corners/edges are "infinite" targets</li>
-                                    <li>• Mobile needs 44×44px minimum</li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </CardContent>
             </Card>
 
             {/* Autocomplete Demo */}
-            <Card className="border-2 border-green-500">
+            <Card className="border-4 border-green-500">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">🔍</span> Autocomplete: Reducing Cognitive Load
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🔍</span> Autocomplete Demo
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold">Try typing "machine" or "deep":</label>
-                        <Input
-                            value={query}
-                            onChange={(e) => handleQueryChange(e.target.value)}
-                            placeholder="Start typing..."
-                            className="text-lg"
-                        />
+                        <label className="text-xl font-semibold">Try typing &quot;machine&quot; or &quot;deep&quot;:</label>
+                        <Input value={query} onChange={(e) => handleQueryChange(e.target.value)} placeholder="Start typing..." className="text-2xl p-6 border-2" />
                         {suggestions.length > 0 && (
-                            <div className="bg-background border rounded-lg shadow-lg">
+                            <div className="bg-background border-2 rounded-lg shadow-lg">
                                 {suggestions.map((suggestion, i) => (
-                                    <div
-                                        key={i}
-                                        className="p-3 hover:bg-secondary cursor-pointer border-b last:border-b-0"
-                                        onClick={() => {
-                                            setQuery(suggestion)
-                                            setSuggestions([])
-                                        }}
-                                    >
+                                    <div key={i} className="p-4 hover:bg-secondary cursor-pointer border-b last:border-b-0 text-lg" onClick={() => { setQuery(suggestion); setSuggestions([]) }}>
                                         <span className="font-semibold">{query}</span>
                                         <span className="text-muted-foreground">{suggestion.slice(query.length)}</span>
                                     </div>
@@ -201,149 +320,67 @@ export default function HCIPrinciplesLab() {
                             </div>
                         )}
                     </div>
-                    <div className="bg-green-50 dark:bg-green-950 p-4 rounded">
-                        <p className="font-semibold mb-2">Benefits:</p>
-                        <ul className="space-y-1 text-sm">
-                            <li>• Reduces typing by 30-50%</li>
-                            <li>• Prevents spelling errors</li>
-                            <li>• Suggests vocabulary users don't know</li>
-                            <li>• Increases query success rate by 20%</li>
+                </CardContent>
+            </Card>
+
+            {/* Advantages & Limitations */}
+            <div className="grid md:grid-cols-2 gap-4">
+                <Card className="bg-green-100 dark:bg-green-900">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">✅</span> Advantages
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="space-y-3 text-lg">
+                            <li>• Reduces user errors by 60% (autocomplete)</li>
+                            <li>• Increases task completion rate</li>
+                            <li>• Measurable with Fitts&apos;s/Hick&apos;s laws</li>
+                            <li>• Universal principles across platforms</li>
                         </ul>
-                    </div>
-                </CardContent>
-            </Card>
+                    </CardContent>
+                </Card>
+                <Card className="bg-red-100 dark:bg-red-900">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">⚠️</span> Limitations
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="space-y-3 text-lg">
+                            <li>• Oversimplification of human behavior</li>
+                            <li>• Cultural differences in UI expectations</li>
+                            <li>• Accessibility needs vary widely</li>
+                            <li>• Lab results may not match real-world usage</li>
+                        </ul>
+                    </CardContent>
+                </Card>
+            </div>
 
-            {/* HCI Principles */}
-            <Card>
+            {/* IR Application */}
+            <Card className="bg-secondary/20">
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">📋</span> Core HCI Principles for Search
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🎯</span> IR Applications
                     </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                    <div className="border-l-4 border-blue-500 pl-4 bg-secondary/20 p-3 rounded">
-                        <p className="font-semibold mb-2">1. Visibility of System Status</p>
-                        <p className="text-sm text-muted-foreground">
-                            Show loading indicators, result counts, "Searching..." messages
-                        </p>
-                    </div>
-                    <div className="border-l-4 border-green-500 pl-4 bg-secondary/20 p-3 rounded">
-                        <p className="font-semibold mb-2">2. Error Prevention</p>
-                        <p className="text-sm text-muted-foreground">
-                            Autocomplete, spell-check, "Did you mean?" suggestions
-                        </p>
-                    </div>
-                    <div className="border-l-4 border-purple-500 pl-4 bg-secondary/20 p-3 rounded">
-                        <p className="font-semibold mb-2">3. User Control & Freedom</p>
-                        <p className="text-sm text-muted-foreground">
-                            Easy query editing, back button, clear filters
-                        </p>
-                    </div>
-                    <div className="border-l-4 border-orange-500 pl-4 bg-secondary/20 p-3 rounded">
-                        <p className="font-semibold mb-2">4. Recognition over Recall</p>
-                        <p className="text-sm text-muted-foreground">
-                            Show search history, recent queries, popular searches
-                        </p>
-                    </div>
-                </CardContent>
-            </Card>
-
-            {/* Python Implementation */}
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">🐍</span> Python: Autocomplete with Trie
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <pre className="bg-secondary/30 p-4 rounded-lg overflow-x-auto text-sm">
-                        <code>{`class TrieNode:
-    def __init__(self):
-        self.children = {}
-        self.is_end = False
-        self.frequency = 0
-
-class Autocomplete:
-    def __init__(self):
-        self.root = TrieNode()
-    
-    def insert(self, word, freq=1):
-        """Add word to trie with frequency"""
-        node = self.root
-        for char in word:
-            if char not in node.children:
-                node.children[char] = TrieNode()
-            node = node.children[char]
-        node.is_end = True
-        node.frequency = freq
-    
-    def search_prefix(self, prefix):
-        """Find all words starting with prefix"""
-        node = self.root
-        for char in prefix:
-            if char not in node.children:
-                return []
-            node = node.children[char]
-        
-        # DFS to find all completions
-        results = []
-        self._dfs(node, prefix, results)
-        # Sort by frequency
-        return sorted(results, key=lambda x: x[1], reverse=True)
-    
-    def _dfs(self, node, current, results):
-        if node.is_end:
-            results.append((current, node.frequency))
-        for char, child in node.children.items():
-            self._dfs(child, current + char, results)
-
-# Example usage
-ac = Autocomplete()
-ac.insert("machine learning", 1000)
-ac.insert("machine vision", 500)
-ac.insert("machine translation", 300)
-
-suggestions = ac.search_prefix("mach")
-print(f"Suggestions: {[word for word, freq in suggestions]}")`}</code>
-                    </pre>
-                </CardContent>
-            </Card>
-
-            {/* Assessment */}
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <span className="text-2xl">🎓</span> Quick Assessment
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="space-y-3">
-                        <div className="p-4 bg-secondary/20 rounded">
-                            <p className="font-semibold mb-2">Q1: According to Fitts's Law, how do you make a button easier to click?</p>
-                            <p className="text-sm text-green-600">A: Increase its size (W) or reduce distance to it (D). Larger buttons have lower Index of Difficulty.</p>
-                        </div>
-                        <div className="p-4 bg-secondary/20 rounded">
-                            <p className="font-semibold mb-2">Q2: Why is autocomplete important for search?</p>
-                            <p className="text-sm text-green-600">A: Reduces typing, prevents errors, suggests vocabulary, and increases success rate by helping users formulate better queries.</p>
-                        </div>
-                        <div className="p-4 bg-secondary/20 rounded">
-                            <p className="font-semibold mb-2">Q3: What is "visibility of system status"?</p>
-                            <p className="text-sm text-green-600">A: Keeping users informed about what's happening through feedback like loading indicators, progress bars, and result counts.</p>
-                        </div>
-                    </div>
+                <CardContent>
+                    <p className="text-lg text-muted-foreground">
+                        HCI principles drive every major search interface. Google&apos;s minimalist homepage (aesthetic design), Amazon&apos;s autocomplete (error prevention, 20–30% conversion boost), faceted navigation in e-commerce (Hick&apos;s Law), and mobile search optimization (Fitts&apos;s Law for touch targets) all stem from these foundational principles.
+                    </p>
                 </CardContent>
             </Card>
 
             {/* Navigation */}
             <div className="flex justify-between">
-                <Button variant="outline" asChild>
+                <Button variant="outline" asChild size="lg">
                     <Link href="/lab/unit-3">
-                        <ArrowLeft className="mr-2 h-4 w-4" /> Back to Unit 3 Labs
+                        <ArrowLeft className="mr-2 h-5 w-5" /> Back to Unit 3 Labs
                     </Link>
                 </Button>
-                <Button asChild>
-                    <Link href="/lab/unit-3">
-                        View More Labs <ArrowRight className="ml-2 h-4 w-4" />
+                <Button asChild size="lg">
+                    <Link href="/lab/unit-3/search-process">
+                        Next: Search Process <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                 </Button>
             </div>
