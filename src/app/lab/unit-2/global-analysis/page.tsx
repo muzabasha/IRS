@@ -107,6 +107,51 @@ export default function GlobalAnalysisLab() {
                 </CardContent>
             </Card>
 
+            {/* Equation Interpretation */}
+            <Card className="bg-blue-50 dark:bg-blue-950 p-6 rounded border-2 border-blue-400">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🔍</span> Equation Interpretation
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="space-y-4">
+                        <p className="font-semibold text-xl">a) Thesaurus-based Expansion:</p>
+                        <div className="bg-secondary/30 p-8 rounded-lg font-mono text-center">
+                            <div className="text-2xl">q_expanded = q ∪ &#123;synonyms(t) for t in q&#125;</div>
+                        </div>
+                    </div>
+                    <div className="space-y-4">
+                        <p className="font-semibold text-xl">b) LSI-based Expansion:</p>
+                        <div className="bg-secondary/30 p-8 rounded-lg font-mono text-center">
+                            <div className="text-2xl">sim(tᵢ, tⱼ) = cos(vᵢ, vⱼ) in reduced SVD space</div>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap gap-3">
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">synonyms(t)</span>: Thesaurus lookup for term t
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">LSI</span>: Latent Semantic Indexing
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">SVD</span>: Singular Value Decomposition
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">vᵢ</span>: Term vector in reduced k-dimensional space
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">cos</span>: Cosine similarity
+                        </div>
+                    </div>
+                    <div className="bg-blue-100 dark:bg-blue-900 p-6 rounded-lg">
+                        <p className="text-lg">
+                            Thesaurus expansion uses pre-built synonym lists (manual or automatic). LSI discovers latent semantic relationships by reducing the term-document matrix via SVD. Both are computed once over the entire collection — stable but expensive.
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Comparison */}
             <Card>
                 <CardHeader>
@@ -135,6 +180,54 @@ export default function GlobalAnalysisLab() {
                             </ul>
                         </div>
                     </div>
+                </CardContent>
+            </Card>
+
+            {/* Advantages & Limitations */}
+            <div className="grid md:grid-cols-2 gap-4">
+                <Card className="bg-green-100 dark:bg-green-900">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">✅</span> Advantages
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="space-y-3 text-lg">
+                            <li>• No query drift (pre-computed)</li>
+                            <li>• Handles synonyms reliably</li>
+                            <li>• Stable across queries</li>
+                            <li>• One-time computation cost</li>
+                        </ul>
+                    </CardContent>
+                </Card>
+                <Card className="bg-red-100 dark:bg-red-900">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">⚠️</span> Limitations
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="space-y-3 text-lg">
+                            <li>• Expensive to build (SVD is O(mnk))</li>
+                            <li>• Static (doesn&apos;t adapt to query context)</li>
+                            <li>• Thesaurus maintenance burden</li>
+                            <li>• May add irrelevant synonyms</li>
+                        </ul>
+                    </CardContent>
+                </Card>
+            </div>
+
+            {/* IR Application */}
+            <Card className="bg-secondary/20">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🌐</span> IR Applications
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-lg text-muted-foreground">
+                        Global analysis powers WordNet-based query expansion, LSI/LSA in document similarity (used in plagiarism detection), Google&apos;s Knowledge Graph (entity-based expansion), and domain-specific thesauri (MeSH for medical, INSPEC for engineering).
+                    </p>
                 </CardContent>
             </Card>
 

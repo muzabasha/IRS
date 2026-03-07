@@ -152,6 +152,116 @@ export default function PatternQueriesLab() {
                 </CardContent>
             </Card>
 
+            {/* Equation Interpretation */}
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🧮</span> Equation Interpretation
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="bg-blue-50 dark:bg-blue-950 p-6 rounded border-2 border-blue-400">
+                        <div className="font-mono text-2xl text-center mb-6">
+                            M(P, V) = {'{t ∈ V | t matches P}'}
+                        </div>
+                        <div className="grid gap-4">
+                            <div className="flex gap-4 items-start">
+                                <span className="font-mono font-bold text-xl bg-blue-200 dark:bg-blue-800 px-3 py-1 rounded">M</span>
+                                <span className="text-lg">The match set — all vocabulary terms that satisfy the pattern</span>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <span className="font-mono font-bold text-xl bg-blue-200 dark:bg-blue-800 px-3 py-1 rounded">P</span>
+                                <span className="text-lg">The pattern with wildcards (e.g., comp*, wom?n)</span>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <span className="font-mono font-bold text-xl bg-blue-200 dark:bg-blue-800 px-3 py-1 rounded">V</span>
+                                <span className="text-lg">The vocabulary — the set of all unique terms in the index</span>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <span className="font-mono font-bold text-xl bg-blue-200 dark:bg-blue-800 px-3 py-1 rounded">t</span>
+                                <span className="text-lg">A single term from the vocabulary being tested against the pattern</span>
+                            </div>
+                        </div>
+                        <div className="mt-6 p-4 bg-blue-100 dark:bg-blue-900 rounded">
+                            <p className="font-semibold text-lg mb-2">🔄 Permuterm Index Optimization:</p>
+                            <p className="text-lg text-muted-foreground mb-2">
+                                For &quot;hel*o&quot; → rotate to &quot;*ohel&quot; and lookup in permuterm index. This avoids scanning the entire vocabulary.
+                            </p>
+                            <p className="font-semibold text-lg mb-1">💡 Interpretation:</p>
+                            <p className="text-lg text-muted-foreground">
+                                Wildcards expand to regex patterns that are matched against every term in the vocabulary. The permuterm index pre-rotates terms so that wildcard lookups become efficient prefix searches instead of full vocabulary scans.
+                            </p>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+
+            {/* Advantages & Limitations */}
+            <div className="grid md:grid-cols-2 gap-4">
+                <Card className="bg-green-100 dark:bg-green-900 p-4 rounded border">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">✅</span> Advantages
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                        <div className="p-3 bg-green-50 dark:bg-green-950 rounded">
+                            <p className="font-semibold text-lg">Flexible Matching</p>
+                            <p className="text-muted-foreground">A single pattern can match many related terms at once</p>
+                        </div>
+                        <div className="p-3 bg-green-50 dark:bg-green-950 rounded">
+                            <p className="font-semibold text-lg">Handles Morphological Variants</p>
+                            <p className="text-muted-foreground">"run*" captures run, runs, running, runner without stemming</p>
+                        </div>
+                        <div className="p-3 bg-green-50 dark:bg-green-950 rounded">
+                            <p className="font-semibold text-lg">Supports Exploratory Search</p>
+                            <p className="text-muted-foreground">Discover unknown terms by searching with partial patterns</p>
+                        </div>
+                        <div className="p-3 bg-green-50 dark:bg-green-950 rounded">
+                            <p className="font-semibold text-lg">Regex Power</p>
+                            <p className="text-muted-foreground">Full regular expression support for complex matching needs</p>
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card className="bg-red-100 dark:bg-red-900 p-4 rounded border">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">⚠️</span> Limitations
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                        <div className="p-3 bg-red-50 dark:bg-red-950 rounded">
+                            <p className="font-semibold text-lg">Performance Cost</p>
+                            <p className="text-muted-foreground">Must scan entire vocabulary — much slower than keyword lookups</p>
+                        </div>
+                        <div className="p-3 bg-red-50 dark:bg-red-950 rounded">
+                            <p className="font-semibold text-lg">Complex Syntax for Users</p>
+                            <p className="text-muted-foreground">Regex and wildcards are difficult for average users to learn</p>
+                        </div>
+                        <div className="p-3 bg-red-50 dark:bg-red-950 rounded">
+                            <p className="font-semibold text-lg">Over-matching Risk</p>
+                            <p className="text-muted-foreground">"comp*" matches computer, complete, compare, and complaint</p>
+                        </div>
+                        <div className="p-3 bg-red-50 dark:bg-red-950 rounded">
+                            <p className="font-semibold text-lg">No Semantic Understanding</p>
+                            <p className="text-muted-foreground">Matches are purely syntactic — no understanding of meaning</p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+
+            {/* IR Application */}
+            <Card>
+                <CardContent className="p-6">
+                    <div className="bg-secondary/20 p-4 rounded">
+                        <p className="font-semibold text-xl mb-2">🎯 IR Application</p>
+                        <p className="text-lg text-muted-foreground">
+                            Pattern queries power GitHub code search (finding function names and variables), spell-check suggestion systems (matching misspelled words to dictionary entries), bioinformatics (searching DNA/protein sequences with wildcards), and log analysis with regex (filtering server logs for error patterns like &quot;ERROR.*timeout&quot;).
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Interactive Lab */}
             <Card className="border-4 border-primary">
                 <CardHeader>
@@ -202,37 +312,6 @@ export default function PatternQueriesLab() {
                             </div>
                         </div>
                     )}
-                </CardContent>
-            </Card>
-
-            {/* Limitations */}
-            <Card className="border-l-4 border-l-amber-500">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-3xl">
-                        <span className="text-4xl">⚠️</span> Limitations of Pattern Queries
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="space-y-4">
-                        <div className="bg-amber-50 dark:bg-amber-950 p-6 rounded">
-                            <p className="font-semibold text-xl mb-2">1. Performance Cost</p>
-                            <p className="text-lg text-muted-foreground">
-                                Must scan entire vocabulary and apply regex matching - much slower than keyword queries.
-                            </p>
-                        </div>
-                        <div className="bg-amber-50 dark:bg-amber-950 p-6 rounded">
-                            <p className="font-semibold text-xl mb-2">2. Complex Syntax</p>
-                            <p className="text-lg text-muted-foreground">
-                                Regular expressions are difficult for average users to learn and use correctly.
-                            </p>
-                        </div>
-                        <div className="bg-amber-50 dark:bg-amber-950 p-6 rounded">
-                            <p className="font-semibold text-xl mb-2">3. Over-matching</p>
-                            <p className="text-lg text-muted-foreground">
-                                Patterns may match unwanted terms. "comp*" matches "complete" and "compare" too.
-                            </p>
-                        </div>
-                    </div>
                 </CardContent>
             </Card>
 

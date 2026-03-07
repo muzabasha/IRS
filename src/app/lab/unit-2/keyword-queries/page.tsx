@@ -149,6 +149,112 @@ export default function KeywordQueriesLab() {
                 </CardContent>
             </Card>
 
+            {/* Equation Interpretation */}
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🧮</span> Equation Interpretation
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="bg-blue-50 dark:bg-blue-950 p-6 rounded border-2 border-blue-400">
+                        <div className="font-mono text-2xl text-center mb-6">
+                            R(q_AND) = ⋂ Dist(t) &nbsp;&nbsp;&nbsp; R(q_OR) = ⋃ Dist(t)
+                        </div>
+                        <div className="grid gap-4">
+                            <div className="flex gap-4 items-start">
+                                <span className="font-mono font-bold text-xl bg-blue-200 dark:bg-blue-800 px-3 py-1 rounded">R(q)</span>
+                                <span className="text-lg">The result set — the collection of documents returned for query q</span>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <span className="font-mono font-bold text-xl bg-blue-200 dark:bg-blue-800 px-3 py-1 rounded">Dist(t)</span>
+                                <span className="text-lg">The posting list for term t — all document IDs where term t appears</span>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <span className="font-mono font-bold text-xl bg-blue-200 dark:bg-blue-800 px-3 py-1 rounded">⋂</span>
+                                <span className="text-lg">Intersection (AND) — only documents containing ALL query terms</span>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <span className="font-mono font-bold text-xl bg-blue-200 dark:bg-blue-800 px-3 py-1 rounded">⋃</span>
+                                <span className="text-lg">Union (OR) — documents containing ANY of the query terms</span>
+                            </div>
+                        </div>
+                        <div className="mt-6 p-4 bg-blue-100 dark:bg-blue-900 rounded">
+                            <p className="font-semibold text-lg mb-1">💡 Interpretation:</p>
+                            <p className="text-lg text-muted-foreground">
+                                AND narrows results by requiring all terms (high precision, low recall). OR broadens results by accepting any term (high recall, low precision). The choice between AND/OR fundamentally controls the precision–recall tradeoff.
+                            </p>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+
+            {/* Advantages & Limitations */}
+            <div className="grid md:grid-cols-2 gap-4">
+                <Card className="bg-green-100 dark:bg-green-900 p-4 rounded border">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">✅</span> Advantages
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                        <div className="p-3 bg-green-50 dark:bg-green-950 rounded">
+                            <p className="font-semibold text-lg">Intuitive for Users</p>
+                            <p className="text-muted-foreground">Users naturally think in keywords — no special syntax needed</p>
+                        </div>
+                        <div className="p-3 bg-green-50 dark:bg-green-950 rounded">
+                            <p className="font-semibold text-lg">Fast Processing via Inverted Index</p>
+                            <p className="text-muted-foreground">Posting list lookups are O(1), intersection/union are efficient</p>
+                        </div>
+                        <div className="p-3 bg-green-50 dark:bg-green-950 rounded">
+                            <p className="font-semibold text-lg">Foundation of All Search</p>
+                            <p className="text-muted-foreground">Every modern search engine starts with keyword matching at its core</p>
+                        </div>
+                        <div className="p-3 bg-green-50 dark:bg-green-950 rounded">
+                            <p className="font-semibold text-lg">Supports Boolean Logic</p>
+                            <p className="text-muted-foreground">AND, OR, NOT operators give users control over result sets</p>
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card className="bg-red-100 dark:bg-red-900 p-4 rounded border">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">⚠️</span> Limitations
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                        <div className="p-3 bg-red-50 dark:bg-red-950 rounded">
+                            <p className="font-semibold text-lg">Vocabulary Mismatch</p>
+                            <p className="text-muted-foreground">Query "car" won't find "automobile" — different words, same concept</p>
+                        </div>
+                        <div className="p-3 bg-red-50 dark:bg-red-950 rounded">
+                            <p className="font-semibold text-lg">No Word Order</p>
+                            <p className="text-muted-foreground">"dog bites man" and "man bites dog" are treated identically</p>
+                        </div>
+                        <div className="p-3 bg-red-50 dark:bg-red-950 rounded">
+                            <p className="font-semibold text-lg">Ambiguity</p>
+                            <p className="text-muted-foreground">"apple" could mean the fruit or the company — context is lost</p>
+                        </div>
+                        <div className="p-3 bg-red-50 dark:bg-red-950 rounded">
+                            <p className="font-semibold text-lg">No Ranking (Binary Match)</p>
+                            <p className="text-muted-foreground">Documents either match or don't — no notion of "better" matches</p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+
+            {/* IR Application */}
+            <Card>
+                <CardContent className="p-6">
+                    <div className="bg-secondary/20 p-4 rounded">
+                        <p className="font-semibold text-xl mb-2">🎯 IR Application</p>
+                        <p className="text-lg text-muted-foreground">
+                            Keyword queries power Google (8.5 billion queries/day), Elasticsearch, email search (Gmail, Outlook), and e-commerce product search (Amazon, eBay). In practice, raw keyword matching is combined with TF-IDF or BM25 scoring to rank results by relevance rather than returning unordered binary matches.
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Interactive Lab */}
             <Card className="border-4 border-primary">
                 <CardHeader>
@@ -221,37 +327,6 @@ export default function KeywordQueriesLab() {
                             </div>
                         </div>
                     )}
-                </CardContent>
-            </Card>
-
-            {/* Limitations */}
-            <Card className="border-l-4 border-l-amber-500">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-3xl">
-                        <span className="text-4xl">⚠️</span> Limitations of Keyword Queries
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="space-y-4">
-                        <div className="bg-amber-50 dark:bg-amber-950 p-6 rounded">
-                            <p className="font-semibold text-xl mb-2">1. Vocabulary Mismatch</p>
-                            <p className="text-lg text-muted-foreground">
-                                Users and documents may use different words for the same concept. Query "car" won't find "automobile".
-                            </p>
-                        </div>
-                        <div className="bg-amber-50 dark:bg-amber-950 p-6 rounded">
-                            <p className="font-semibold text-xl mb-2">2. No Word Order</p>
-                            <p className="text-lg text-muted-foreground">
-                                "dog bites man" and "man bites dog" are treated the same way.
-                            </p>
-                        </div>
-                        <div className="bg-amber-50 dark:bg-amber-950 p-6 rounded">
-                            <p className="font-semibold text-xl mb-2">3. Ambiguity</p>
-                            <p className="text-lg text-muted-foreground">
-                                "apple" could mean the fruit or the company. Context is lost.
-                            </p>
-                        </div>
-                    </div>
                 </CardContent>
             </Card>
 

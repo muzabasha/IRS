@@ -144,6 +144,51 @@ export default function RelevanceFeedbackLab() {
                 </CardContent>
             </Card>
 
+            {/* Equation Interpretation */}
+            <Card className="bg-blue-50 dark:bg-blue-950 p-6 rounded border-2 border-blue-400">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🔍</span> Equation Interpretation
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="bg-secondary/30 p-8 rounded-lg font-mono text-center">
+                        <div className="text-2xl">q_new = α·q_old + β·centroid(Dr) - γ·centroid(Dnr)</div>
+                    </div>
+                    <div className="flex flex-wrap gap-3">
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">q_new</span>: Modified query vector after feedback
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">q_old</span>: Original query vector before feedback
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">α (=1.0)</span>: Weight preserving original query intent
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">β (=0.75)</span>: Weight pulling query toward relevant documents
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">γ (=0.15)</span>: Weight pushing query away from non-relevant documents
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">Dr</span>: Set of documents marked relevant by user
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">Dnr</span>: Set of documents marked non-relevant
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">centroid()</span>: Average vector of a document set
+                        </div>
+                    </div>
+                    <div className="bg-blue-100 dark:bg-blue-900 p-6 rounded-lg">
+                        <p className="text-lg">
+                            The Rocchio algorithm moves the query vector in vector space — toward the centroid of relevant documents and away from non-relevant ones. Higher β means stronger attraction to relevant docs. The asymmetry (β &gt;&gt; γ) reflects that positive evidence is more reliable than negative.
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Interactive Lab */}
             <Card className="border-4 border-primary">
                 <CardHeader>
@@ -208,6 +253,54 @@ export default function RelevanceFeedbackLab() {
                             </div>
                         </div>
                     )}
+                </CardContent>
+            </Card>
+
+            {/* Advantages & Limitations */}
+            <div className="grid md:grid-cols-2 gap-4">
+                <Card className="bg-green-100 dark:bg-green-900">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">✅</span> Advantages
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="space-y-3 text-lg">
+                            <li>• Automatic query improvement</li>
+                            <li>• Overcomes vocabulary mismatch</li>
+                            <li>• Theoretically grounded (optimal in VSM)</li>
+                            <li>• Works with any vector space model</li>
+                        </ul>
+                    </CardContent>
+                </Card>
+                <Card className="bg-red-100 dark:bg-red-900">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">⚠️</span> Limitations
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="space-y-3 text-lg">
+                            <li>• Requires user interaction (effort)</li>
+                            <li>• Cold start problem (no feedback initially)</li>
+                            <li>• Assumes user judgments are correct</li>
+                            <li>• Computationally expensive for large collections</li>
+                        </ul>
+                    </CardContent>
+                </Card>
+            </div>
+
+            {/* IR Application */}
+            <Card className="bg-secondary/20">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🌐</span> IR Applications
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-lg text-muted-foreground">
+                        Rocchio feedback is used in SMART system (pioneering IR), medical literature search (PubMed relevance feedback), patent search (refining complex technical queries), and modern recommendation systems (implicit feedback from clicks/dwell time).
+                    </p>
                 </CardContent>
             </Card>
 

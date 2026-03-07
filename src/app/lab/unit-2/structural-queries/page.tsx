@@ -167,6 +167,123 @@ export default function StructuralQueriesLab() {
                 </CardContent>
             </Card>
 
+            {/* Equation Interpretation */}
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🧮</span> Equation Interpretation
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="bg-blue-50 dark:bg-blue-950 p-6 rounded border-2 border-blue-400">
+                        <div className="font-mono text-2xl text-center mb-6">
+                            R(q, s) = {'{e ∈ E | content(e) matches q ∧ structure(e) matches s}'}
+                        </div>
+                        <div className="grid gap-4">
+                            <div className="flex gap-4 items-start">
+                                <span className="font-mono font-bold text-xl bg-blue-200 dark:bg-blue-800 px-3 py-1 rounded">R</span>
+                                <span className="text-lg">The result set — documents/elements satisfying both content and structure</span>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <span className="font-mono font-bold text-xl bg-blue-200 dark:bg-blue-800 px-3 py-1 rounded">q</span>
+                                <span className="text-lg">The content query — the keywords or text being searched for</span>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <span className="font-mono font-bold text-xl bg-blue-200 dark:bg-blue-800 px-3 py-1 rounded">s</span>
+                                <span className="text-lg">The structural constraint — which field/tag to search in (title:, author:, body:)</span>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <span className="font-mono font-bold text-xl bg-blue-200 dark:bg-blue-800 px-3 py-1 rounded">E</span>
+                                <span className="text-lg">All elements — the complete set of document fields/tags in the collection</span>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <span className="font-mono font-bold text-xl bg-blue-200 dark:bg-blue-800 px-3 py-1 rounded">e</span>
+                                <span className="text-lg">A single document element being evaluated against the query</span>
+                            </div>
+                        </div>
+                        <div className="mt-6 p-4 bg-blue-100 dark:bg-blue-900 rounded">
+                            <p className="font-semibold text-lg mb-2">📊 Field-Weighted Scoring:</p>
+                            <div className="font-mono text-lg bg-blue-50 dark:bg-blue-950 p-3 rounded mb-2">
+                                Score(d, q) = Σ w_f × score(q, d.f) &nbsp; where w_f = field weight
+                            </div>
+                            <p className="text-lg text-muted-foreground mb-2">
+                                Each field f has a weight w_f. Title matches are weighted higher than body matches.
+                            </p>
+                            <p className="font-semibold text-lg mb-1">💡 Interpretation:</p>
+                            <p className="text-lg text-muted-foreground">
+                                Title matches are weighted higher than body matches because a term in the title strongly signals relevance. Fields act as filters that narrow the search space and enable field-weighted ranking for more precise results.
+                            </p>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+
+            {/* Advantages & Limitations */}
+            <div className="grid md:grid-cols-2 gap-4">
+                <Card className="bg-green-100 dark:bg-green-900 p-4 rounded border">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">✅</span> Advantages
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                        <div className="p-3 bg-green-50 dark:bg-green-950 rounded">
+                            <p className="font-semibold text-lg">Higher Precision</p>
+                            <p className="text-muted-foreground">Search only relevant fields, reducing false matches significantly</p>
+                        </div>
+                        <div className="p-3 bg-green-50 dark:bg-green-950 rounded">
+                            <p className="font-semibold text-lg">Faster Processing</p>
+                            <p className="text-muted-foreground">Smaller search space (one field vs. entire document) means quicker results</p>
+                        </div>
+                        <div className="p-3 bg-green-50 dark:bg-green-950 rounded">
+                            <p className="font-semibold text-lg">Field-Weighted Ranking</p>
+                            <p className="text-muted-foreground">Weight fields differently — title matches rank higher than body matches</p>
+                        </div>
+                        <div className="p-3 bg-green-50 dark:bg-green-950 rounded">
+                            <p className="font-semibold text-lg">Supports Faceted Search</p>
+                            <p className="text-muted-foreground">Enable drill-down filtering by category, author, date, price, etc.</p>
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card className="bg-red-100 dark:bg-red-900 p-4 rounded border">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">⚠️</span> Limitations
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                        <div className="p-3 bg-red-50 dark:bg-red-950 rounded">
+                            <p className="font-semibold text-lg">Requires Structured Documents</p>
+                            <p className="text-muted-foreground">Plain text documents without fields cannot use structural queries</p>
+                        </div>
+                        <div className="p-3 bg-red-50 dark:bg-red-950 rounded">
+                            <p className="font-semibold text-lg">Schema Dependency</p>
+                            <p className="text-muted-foreground">Users must know the field names and document schema to query effectively</p>
+                        </div>
+                        <div className="p-3 bg-red-50 dark:bg-red-950 rounded">
+                            <p className="font-semibold text-lg">Not All Docs Have Fields</p>
+                            <p className="text-muted-foreground">Web pages, PDFs, and legacy documents often lack structured metadata</p>
+                        </div>
+                        <div className="p-3 bg-red-50 dark:bg-red-950 rounded">
+                            <p className="font-semibold text-lg">Complex Query Syntax</p>
+                            <p className="text-muted-foreground">Field-specific syntax (field:value) adds complexity for casual users</p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+
+            {/* IR Application */}
+            <Card>
+                <CardContent className="p-6">
+                    <div className="bg-secondary/20 p-4 rounded">
+                        <p className="font-semibold text-xl mb-2">🎯 IR Application</p>
+                        <p className="text-lg text-muted-foreground">
+                            Structural queries power email search (from:, subject:, has:attachment in Gmail), Elasticsearch field queries (multi_match with field boosting), academic search engines (author:, title:, year: in Google Scholar), and e-commerce faceted navigation (filtering by brand, price range, ratings on Amazon).
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Interactive Lab */}
             <Card className="border-4 border-primary">
                 <CardHeader>
@@ -257,37 +374,6 @@ export default function StructuralQueriesLab() {
                             </div>
                         </div>
                     )}
-                </CardContent>
-            </Card>
-
-            {/* Advantages */}
-            <Card className="border-l-4 border-l-green-500">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-3xl">
-                        <span className="text-4xl">✅</span> Advantages of Structural Queries
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="space-y-4">
-                        <div className="bg-green-50 dark:bg-green-950 p-6 rounded">
-                            <p className="font-semibold text-xl mb-2">1. Higher Precision</p>
-                            <p className="text-lg text-muted-foreground">
-                                Search only relevant fields, reducing false matches significantly.
-                            </p>
-                        </div>
-                        <div className="bg-green-50 dark:bg-green-950 p-6 rounded">
-                            <p className="font-semibold text-xl mb-2">2. Faster Processing</p>
-                            <p className="text-lg text-muted-foreground">
-                                Smaller search space means quicker results.
-                            </p>
-                        </div>
-                        <div className="bg-green-50 dark:bg-green-950 p-6 rounded">
-                            <p className="font-semibold text-xl mb-2">3. Better Ranking</p>
-                            <p className="text-lg text-muted-foreground">
-                                Weight fields differently - title matches rank higher than body matches.
-                            </p>
-                        </div>
-                    </div>
                 </CardContent>
             </Card>
 

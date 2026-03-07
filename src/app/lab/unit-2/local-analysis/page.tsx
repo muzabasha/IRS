@@ -124,6 +124,46 @@ export default function LocalAnalysisLab() {
                 </CardContent>
             </Card>
 
+            {/* Equation Interpretation */}
+            <Card className="bg-blue-50 dark:bg-blue-950 p-6 rounded border-2 border-blue-400">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🔍</span> Equation Interpretation
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="bg-secondary/30 p-8 rounded-lg font-mono text-center space-y-4">
+                        <div className="text-2xl">q_expanded = q_original ∪ &#123;t₁, t₂, ..., tₘ&#125;</div>
+                        <div className="text-lg text-muted-foreground">where tᵢ = top terms from top-K docs</div>
+                    </div>
+                    <div className="flex flex-wrap gap-3">
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">q_expanded</span>: Query after adding expansion terms
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">q_original</span>: Original user query
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">K</span>: Number of pseudo-relevant docs (typically 10-20)
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">M</span>: Number of expansion terms (typically 5-10)
+                        </div>
+                        <div className="bg-blue-200 dark:bg-blue-800 px-4 py-2 rounded-full">
+                            <span className="font-mono font-bold">tᵢ</span>: Expansion term ranked by TF-IDF in top-K docs
+                        </div>
+                    </div>
+                    <div className="bg-secondary/30 p-8 rounded-lg font-mono text-center">
+                        <div className="text-xl">Score(t) = Σ tf(t,d) × idf(t) &nbsp; for d in top-K</div>
+                    </div>
+                    <div className="bg-blue-100 dark:bg-blue-900 p-6 rounded-lg">
+                        <p className="text-lg">
+                            PRF assumes top-K results are relevant without user input. It extracts frequent/important terms from these docs and adds them to the query. The risk: if initial results are off-topic, expansion amplifies the error (query drift).
+                        </p>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Interactive Lab */}
             <Card className="border-4 border-primary">
                 <CardHeader>
@@ -205,6 +245,54 @@ export default function LocalAnalysisLab() {
                             <p>• New query drifts to technology topic!</p>
                         </div>
                     </div>
+                </CardContent>
+            </Card>
+
+            {/* Advantages & Limitations */}
+            <div className="grid md:grid-cols-2 gap-4">
+                <Card className="bg-green-100 dark:bg-green-900">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">✅</span> Advantages
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="space-y-3 text-lg">
+                            <li>• No user interaction needed</li>
+                            <li>• Automatic and transparent</li>
+                            <li>• Improves recall significantly</li>
+                            <li>• Works well when initial results are good</li>
+                        </ul>
+                    </CardContent>
+                </Card>
+                <Card className="bg-red-100 dark:bg-red-900">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-2xl">
+                            <span className="text-3xl">⚠️</span> Limitations
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <ul className="space-y-3 text-lg">
+                            <li>• Query drift risk (garbage in → garbage out)</li>
+                            <li>• Sensitive to K parameter</li>
+                            <li>• Can hurt precision</li>
+                            <li>• Assumes top results are relevant</li>
+                        </ul>
+                    </CardContent>
+                </Card>
+            </div>
+
+            {/* IR Application */}
+            <Card className="bg-secondary/20">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">🌐</span> IR Applications
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-lg text-muted-foreground">
+                        PRF is used in Terrier and Indri search engines, TREC experiments (standard baseline), web search query suggestion, and academic search engines for automatic query refinement.
+                    </p>
                 </CardContent>
             </Card>
 
