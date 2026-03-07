@@ -1,16 +1,16 @@
 {
     "id": "u2-t3-compression",
-    "title": "Text Compression",
+    "title": "Text Compression Techniques",
     "unitId": "unit-2",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Text Compression",
-            "subtitle": "Reducing Storage and Increasing Speed",
+            "title": "Text Compression Techniques",
+            "subtitle": "Reducing Storage and Increasing Speed in IR Systems",
             "content": {
-                "text": "Text compression reduces the space needed to store documents and indices, enabling faster disk I/O and fitting more data in memory. It's essential for large-scale IR systems.",
-                "hook": "A gigabyte saved is a gigabyte earned - and a second of search time saved."
+                "text": "Text compression reduces the space needed to store documents and indices, enabling faster disk I/O and fitting more data in memory. We explore five classical techniques: Huffman Coding, Run-Length Encoding (RLE), LZ77, LZ78, and LZW — each with distinct trade-offs for IR applications.",
+                "hook": "A gigabyte saved is a gigabyte earned — and a second of search time saved."
             }
         },
         {
@@ -20,198 +20,515 @@
             "content": {
                 "text": "Benefits of compression in IR systems:",
                 "outcomes": [
-                    "Reduced storage costs: Store more documents",
-                    "Faster disk I/O: Read less data from disk",
-                    "More data in RAM: Fit indices in memory",
-                    "Faster network transfer: Send less data",
-                    "Trade-off: CPU time for compression/decompression"
+                    "Reduced storage costs: Store more documents in less space",
+                    "Faster disk I/O: Read less data from disk per query",
+                    "More data in RAM: Fit larger indices in memory",
+                    "Faster network transfer: Send less data over the wire",
+                    "Trade-off: CPU time for compression/decompression vs I/O savings"
                 ]
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Entropy and Compression Limits",
+            "title": "Shannon's Entropy — The Compression Limit",
             "content": {
-                "text": "Shannon's entropy defines the theoretical compression limit:",
+                "text": "Shannon's entropy defines the theoretical minimum bits per symbol for any lossless compression:",
                 "outcomes": [
-                    "Entropy H: Average bits needed per symbol",
-                    "Depends on symbol probabilities",
-                    "Frequent symbols should use fewer bits",
-                    "Rare symbols can use more bits",
-                    "No lossless compression can beat entropy"
+                    "Entropy H: Average information content per symbol",
+                    "Depends on symbol probability distribution",
+                    "Frequent symbols carry less information (fewer bits needed)",
+                    "Rare symbols carry more information (more bits needed)",
+                    "No lossless compression can beat entropy — it is the absolute floor"
                 ]
             },
             "formula": {
-                "equation": "H = - \\sum_{i} P(s_i) \\log_2 P(s_i)",
-                "description": "Entropy (H) defines the theoretical limit of text compression. It measures the average information content per symbol.",
+                "equation": "H = - \\sum_{i=1}^{n} P(s_i) \\log_2 P(s_i)",
+                "description": "Shannon's Entropy measures the average number of bits required per symbol in an optimal encoding. It is the theoretical lower bound for lossless compression.",
                 "terms": [
                     {
                         "symbol": "H",
-                        "meaning": "Entropy - average bits required per symbol"
+                        "meaning": "Entropy — average bits per symbol in the optimal encoding"
+                    },
+                    {
+                        "symbol": "n",
+                        "meaning": "Number of distinct symbols in the alphabet"
                     },
                     {
                         "symbol": "P(s_i)",
-                        "meaning": "Probability of occurrence for symbol i in the text"
+                        "meaning": "Probability of symbol i occurring in the text"
                     },
                     {
                         "symbol": "\\log_2",
-                        "meaning": "Logarithm base 2 (yields units of bits)"
+                        "meaning": "Logarithm base 2 — converts probability to bits"
                     }
                 ],
                 "calculation": {
-                    "exampleTitle": "Entropy Calculation",
-                    "description": "Computing theoretical compression limit for 3 symbols.",
+                    "exampleTitle": "Entropy Calculation for 'AAABBC'",
+                    "description": "Computing the theoretical compression limit.",
                     "steps": [
                         {
-                            "label": "Symbol Probabilities",
-                            "formula": "P(A)=0.5, P(B)=0.3, P(C)=0.2",
-                            "note": "A is most common, C is rarest."
+                            "label": "Count Frequencies",
+                            "formula": "A=3, B=2, C=1 \\quad (total=6)",
+                            "note": "Count each symbol occurrence."
                         },
                         {
-                            "label": "Compute Terms",
+                            "label": "Compute Probabilities",
+                            "formula": "P(A)=3/6=0.5,\\; P(B)=2/6=0.333,\\; P(C)=1/6=0.167",
+                            "note": "Divide each frequency by total."
+                        },
+                        {
+                            "label": "Compute Each Term",
                             "formula": "H_A = -0.5 \\log_2(0.5) = 0.5",
-                            "note": "Contribution from symbol A."
+                            "note": "A contributes 0.5 bits."
+                        },
+                        {
+                            "label": "Continue",
+                            "formula": "H_B = -0.333 \\log_2(0.333) = 0.528",
+                            "note": "B contributes 0.528 bits."
+                        },
+                        {
+                            "label": "Continue",
+                            "formula": "H_C = -0.167 \\log_2(0.167) = 0.431",
+                            "note": "C contributes 0.431 bits."
                         },
                         {
                             "label": "Sum All Terms",
-                            "formula": "H = 0.5 + 0.52 + 0.46 = 1.49 \\text{ bits}",
-                            "note": "Average bits per symbol."
+                            "formula": "H = 0.5 + 0.528 + 0.431 = 1.459 \\text{ bits/symbol}",
+                            "note": "Theoretical minimum."
                         },
                         {
-                            "label": "Compare to Fixed",
-                            "formula": "\\text{Fixed: } \\log_2(3) = 1.58 \\text{ bits}",
-                            "note": "Entropy is lower - compression possible!"
+                            "label": "Compare to Fixed-Length",
+                            "formula": "\\lceil \\log_2(3) \\rceil = 2 \\text{ bits/symbol}",
+                            "note": "Fixed-length needs 2 bits. Entropy says 1.459 is achievable."
                         }
                     ],
-                    "input": "Probabilities: [0.5, 0.3, 0.2]",
-                    "output": "Entropy: 1.49 bits (vs 1.58 fixed)"
+                    "input": "Text: 'AAABBC' → Probabilities: [0.5, 0.333, 0.167]",
+                    "output": "Entropy: 1.459 bits/symbol (vs 2.0 fixed-length)"
                 }
             }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Huffman Coding",
+            "title": "Technique 1: Huffman Coding",
             "content": {
-                "text": "Variable-length prefix codes based on symbol frequency:",
+                "text": "A statistical, symbol-by-symbol compression using variable-length prefix codes:",
                 "outcomes": [
-                    "Frequent symbols get short codes",
-                    "Rare symbols get long codes",
-                    "Prefix-free: No code is prefix of another",
-                    "Optimal for symbol-by-symbol encoding",
-                    "Build tree bottom-up from frequencies"
+                    "Assigns shorter bit codes to more frequent symbols",
+                    "Assigns longer bit codes to rarer symbols",
+                    "Prefix-free property: No code is a prefix of another (instant decoding)",
+                    "Optimal among all symbol-by-symbol codes",
+                    "Builds a binary tree bottom-up from symbol frequencies"
                 ]
+            },
+            "formula": {
+                "equation": "L_{avg} = \\sum_{i=1}^{n} P(s_i) \\cdot l_i",
+                "description": "Average code length in Huffman coding. For an optimal Huffman code, L_avg approaches but never goes below entropy H.",
+                "terms": [
+                    {
+                        "symbol": "L_{avg}",
+                        "meaning": "Average number of bits per symbol after Huffman encoding"
+                    },
+                    {
+                        "symbol": "P(s_i)",
+                        "meaning": "Probability of symbol i"
+                    },
+                    {
+                        "symbol": "l_i",
+                        "meaning": "Length (in bits) of the Huffman code assigned to symbol i"
+                    },
+                    {
+                        "symbol": "n",
+                        "meaning": "Number of distinct symbols"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "Huffman Coding for 'AAABBC'",
+                    "description": "Building codes and computing average length.",
+                    "steps": [
+                        {
+                            "label": "Frequencies",
+                            "formula": "A=3, B=2, C=1",
+                            "note": "Sorted by frequency."
+                        },
+                        {
+                            "label": "Build Tree Step 1",
+                            "formula": "Merge C(1) + B(2) \\rightarrow Node(3)",
+                            "note": "Merge two smallest."
+                        },
+                        {
+                            "label": "Build Tree Step 2",
+                            "formula": "Merge A(3) + Node(3) \\rightarrow Root(6)",
+                            "note": "Merge remaining."
+                        },
+                        {
+                            "label": "Assign Codes",
+                            "formula": "A \\rightarrow 0 \\;(1\\text{ bit}),\\; B \\rightarrow 10 \\;(2\\text{ bits}),\\; C \\rightarrow 11 \\;(2\\text{ bits})",
+                            "note": "Left=0, Right=1."
+                        },
+                        {
+                            "label": "Average Length",
+                            "formula": "L_{avg} = 0.5 \\times 1 + 0.333 \\times 2 + 0.167 \\times 2 = 1.5 \\text{ bits}",
+                            "note": "Close to entropy 1.459."
+                        },
+                        {
+                            "label": "Compressed Size",
+                            "formula": "3 \\times 1 + 2 \\times 2 + 1 \\times 2 = 9 \\text{ bits}",
+                            "note": "vs 48 bits ASCII = 81.2% savings."
+                        }
+                    ],
+                    "input": "'AAABBC'",
+                    "output": "Codes: A→0, B→10, C→11 | Compressed: 9 bits (81.2% savings)"
+                }
             }
         },
         {
             "slideNumber": 5,
             "type": "standard",
-            "title": "Dictionary-Based Compression",
+            "title": "Technique 2: Run-Length Encoding (RLE)",
             "content": {
-                "text": "LZ77, LZ78, and LZW algorithms:",
+                "text": "The simplest compression: replace consecutive repeated symbols with a count + symbol pair:",
                 "outcomes": [
-                    "Replace repeated strings with references",
-                    "Build dictionary of seen patterns",
-                    "Good for text with repetition",
-                    "Used in ZIP, GZIP, PNG",
-                    "Better compression than Huffman for text"
+                    "Encodes runs of identical symbols as (count, symbol)",
+                    "Extremely fast encoding and decoding — O(n)",
+                    "Excellent for data with long runs (images, binary data)",
+                    "Poor for text with few consecutive repeats",
+                    "Can actually expand data if runs are short"
                 ]
+            },
+            "formula": {
+                "equation": "\\text{Encoded} = (c_1, s_1)(c_2, s_2)\\ldots(c_k, s_k)",
+                "description": "RLE replaces each maximal run of identical symbols with a (count, symbol) pair. k is the number of distinct runs.",
+                "terms": [
+                    {
+                        "symbol": "c_j",
+                        "meaning": "Length of the j-th run (number of consecutive identical symbols)"
+                    },
+                    {
+                        "symbol": "s_j",
+                        "meaning": "The symbol in the j-th run"
+                    },
+                    {
+                        "symbol": "k",
+                        "meaning": "Total number of runs in the input"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "RLE for 'AAABBC'",
+                    "description": "Encoding consecutive runs.",
+                    "steps": [
+                        {
+                            "label": "Identify Runs",
+                            "formula": "AAA | BB | C",
+                            "note": "3 runs found."
+                        },
+                        {
+                            "label": "Encode Each Run",
+                            "formula": "(3,A)(2,B)(1,C)",
+                            "note": "Count + symbol pairs."
+                        },
+                        {
+                            "label": "Output Size",
+                            "formula": "3 \\text{ pairs} \\times 2 \\text{ values} = 6 \\text{ values}",
+                            "note": "Original had 6 chars — no savings here."
+                        },
+                        {
+                            "label": "Better Example",
+                            "formula": "\\text{'AAAAAAAABBBB'} \\rightarrow (8,A)(4,B)",
+                            "note": "12 chars → 2 pairs = great savings."
+                        }
+                    ],
+                    "input": "'AAABBC'",
+                    "output": "(3,A)(2,B)(1,C) — 3 pairs"
+                }
             }
         },
         {
             "slideNumber": 6,
             "type": "standard",
-            "title": "Compression Trade-offs",
+            "title": "Technique 3: LZ77 (Sliding Window)",
             "content": {
-                "text": "Choosing a compression method:",
+                "text": "Dictionary-based compression using a sliding window to find repeated patterns:",
                 "outcomes": [
-                    "Compression ratio: How much space saved",
-                    "Encoding speed: How fast to compress",
-                    "Decoding speed: How fast to decompress (critical!)",
-                    "Random access: Can we jump to middle?",
-                    "For IR: Decoding speed matters most"
+                    "Maintains a sliding window of recently seen text",
+                    "Replaces repeated strings with (offset, length, next) triples",
+                    "Offset: How far back the match starts",
+                    "Length: How many characters match",
+                    "Foundation of GZIP, DEFLATE, PNG, ZIP"
                 ]
-            }
-        },
-        {
-            "slideNumber": 7,
-            "type": "python_demo",
-            "title": "Python Demo: Simple Huffman Coding",
-            "content": {
-                "code": "from collections import Counter\nimport heapq\n\ndef build_huffman_tree(text):\n    \"\"\"Build Huffman tree from character frequencies\"\"\"\n    # Count character frequencies\n    freq = Counter(text)\n    \n    # Build heap of (frequency, unique_id, char, left, right)\n    heap = [[f, i, c, None, None] for i, (c, f) in enumerate(freq.items())]\n    heapq.heapify(heap)\n    \n    # Build tree\n    next_id = len(heap)\n    while len(heap) > 1:\n        left = heapq.heappop(heap)\n        right = heapq.heappop(heap)\n        merged = [left[0] + right[0], next_id, None, left, right]\n        heapq.heappush(heap, merged)\n        next_id += 1\n    \n    return heap[0]\n\ndef build_codes(tree, prefix='', codes=None):\n    \"\"\"Extract Huffman codes from tree\"\"\"\n    if codes is None:\n        codes = {}\n    \n    if tree[2] is not None:  # Leaf node\n        codes[tree[2]] = prefix or '0'\n    else:  # Internal node\n        if tree[3]:  # Left child\n            build_codes(tree[3], prefix + '0', codes)\n        if tree[4]:  # Right child\n            build_codes(tree[4], prefix + '1', codes)\n    \n    return codes\n\n# Example\ntext = \"AAABBC\"\ntree = build_huffman_tree(text)\ncodes = build_codes(tree)\n\nprint(f\"Text: {text}\")\nprint(f\"Frequencies: {Counter(text)}\")\nprint(f\"Huffman Codes: {codes}\")\n\n# Calculate compression\noriginal_bits = len(text) * 8  # ASCII\ncompressed_bits = sum(len(codes[c]) for c in text)\nprint(f\"Original: {original_bits} bits\")\nprint(f\"Compressed: {compressed_bits} bits\")\nprint(f\"Savings: {100 * (1 - compressed_bits/original_bits):.1f}%\")",
-                "input": "Text: 'AAABBC' (3 A's, 2 B's, 1 C)",
-                "output": "Text: AAABBC\nFrequencies: {'A': 3, 'B': 2, 'C': 1}\nHuffman Codes: {'A': '0', 'B': '10', 'C': '11'}\nOriginal: 48 bits\nCompressed: 9 bits\nSavings: 81.2%",
-                "interpretation": "Huffman coding assigns shorter codes to frequent characters. 'A' (most frequent) gets '0' (1 bit), 'B' gets '10' (2 bits), 'C' (rarest) gets '11' (2 bits). The compressed text uses only 9 bits vs 48 bits for ASCII, saving 81%. This is close to the theoretical entropy limit."
-            }
-        },
-        {
-            "slideNumber": 8,
-            "type": "activity",
-            "title": "Activity: Huffman Tree",
-            "content": {
-                "activity": "Build a Huffman Tree",
-                "description": "Text: 'MISSISSIPPI'\nFrequencies: I=4, S=4, P=2, M=1\n\n1. Create leaf nodes for each character\n2. Merge two smallest frequencies repeatedly\n3. Assign 0/1 to left/right branches\n4. What codes do you get?"
-            }
-        },
-        {
-            "slideNumber": 9,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "What is entropy and why is it important for compression?",
-                "How does Huffman coding achieve compression?",
-                "Why is decoding speed more important than encoding speed in IR?",
-                "What is the difference between Huffman and LZ compression?"
-            ],
-            "answers": [
-                "Entropy is the theoretical minimum average bits per symbol for lossless compression. It's important because no compression algorithm can beat this limit - it tells us the best possible compression ratio.",
-                "Huffman assigns shorter bit codes to frequent symbols and longer codes to rare symbols. Since frequent symbols appear more often, the average code length is reduced below fixed-length encoding.",
-                "In IR systems, documents are compressed once but decompressed many times (every search). Fast decompression is critical for query response time, while slow encoding is acceptable during indexing.",
-                "Huffman encodes individual symbols with variable-length codes. LZ (Lempel-Ziv) replaces repeated strings with references to earlier occurrences. LZ typically achieves better compression for text because it exploits repetition at the string level."
-            ]
-        },
-        {
-            "slideNumber": 10,
-            "type": "research_perspective",
-            "title": "Research Perspective: Compressed Indices",
-            "content": {
-                "researchQuestions": [
+            },
+            "formula": {
+                "equation": "\\text{Token} = (d, l, c) \\quad \\text{where } d = \\text{offset},\\; l = \\text{length},\\; c = \\text{next char}",
+                "description": "LZ77 encodes text as a sequence of triples. Each triple references a match in the sliding window (search buffer) and appends the next unmatched character.",
+                "terms": [
                     {
-                        "question": "Can we search compressed text without decompressing?",
-                        "answer": "Yes! Compressed pattern matching algorithms (e.g., on LZ-compressed text) can search without full decompression. Wavelet trees and FM-indices enable fast search on compressed text. This is crucial for web-scale systems where decompression would be too slow."
+                        "symbol": "d",
+                        "meaning": "Distance (offset) — how far back in the window the match starts"
                     },
                     {
-                        "question": "What's the best compression for inverted indices?",
-                        "answer": "Research shows that gap encoding (storing differences between document IDs) combined with variable-byte or gamma codes works best. Modern systems use techniques like PForDelta (patched frame of reference) that exploit the sorted nature of posting lists."
+                        "symbol": "l",
+                        "meaning": "Length — number of matching characters from that position"
+                    },
+                    {
+                        "symbol": "c",
+                        "meaning": "Next character — the first character after the match"
                     }
                 ],
-                "mathematicalModeling": {
-                    "problemStatement": "Modeling compression ratio and speed trade-offs.",
-                    "derivation": [
+                "calculation": {
+                    "exampleTitle": "LZ77 for 'AABCAABCD'",
+                    "description": "Encoding with a sliding window.",
+                    "steps": [
                         {
-                            "step": "Define compression ratio as ratio of compressed to original size.",
-                            "equation": "CR = \\frac{|C|}{|O|}",
-                            "interpretation": "Lower CR means better compression. Typical text compression achieves CR = 0.3-0.5."
+                            "label": "Step 1",
+                            "formula": "(0,0,A)",
+                            "note": "No match. Output literal 'A'."
                         },
                         {
-                            "step": "Model total query time including decompression.",
-                            "equation": "T_{total} = T_{disk} \\cdot CR + T_{decomp} \\cdot |C|",
-                            "interpretation": "Compression reduces disk time but adds decompression time. Optimal CR balances both."
+                            "label": "Step 2",
+                            "formula": "(1,1,B)",
+                            "note": "Match 'A' at offset 1, length 1, next='B'."
+                        },
+                        {
+                            "label": "Step 3",
+                            "formula": "(0,0,C)",
+                            "note": "No match for 'C'. Output literal."
+                        },
+                        {
+                            "label": "Step 4",
+                            "formula": "(4,4,D)",
+                            "note": "Match 'AABC' at offset 4, length 4, next='D'."
                         }
                     ],
-                    "conclusion": "Text compression is essential for large-scale IR. The key is choosing methods with fast decompression that still achieve good compression ratios."
+                    "input": "'AABCAABCD'",
+                    "output": "(0,0,A)(1,1,B)(0,0,C)(4,4,D) — 4 tokens for 9 chars"
                 }
             }
         },
         {
+            "slideNumber": 7,
+            "type": "standard",
+            "title": "Technique 4: LZ78 (Dictionary Building)",
+            "content": {
+                "text": "Builds an explicit dictionary of phrases seen so far:",
+                "outcomes": [
+                    "No sliding window — uses a growing dictionary",
+                    "Each new phrase = longest known prefix + one new character",
+                    "Outputs (dictionary index, new character) pairs",
+                    "Dictionary grows as text is processed",
+                    "Better for longer texts with diverse patterns"
+                ]
+            },
+            "formula": {
+                "equation": "\\text{Token} = (i, c) \\quad \\text{where } i = \\text{dict index},\\; c = \\text{new char}",
+                "description": "LZ78 outputs pairs of (dictionary index, next character). Index 0 means no prefix match (literal character).",
+                "terms": [
+                    {
+                        "symbol": "i",
+                        "meaning": "Index of the longest matching phrase in the dictionary (0 = empty)"
+                    },
+                    {
+                        "symbol": "c",
+                        "meaning": "The character that extends the matched phrase to form a new dictionary entry"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "LZ78 for 'AABCAABC'",
+                    "description": "Building dictionary incrementally.",
+                    "steps": [
+                        {
+                            "label": "Step 1",
+                            "formula": "(0,A) \\rightarrow \\text{Dict[1]}=A",
+                            "note": "No match. Add 'A' to dictionary."
+                        },
+                        {
+                            "label": "Step 2",
+                            "formula": "(1,B) \\rightarrow \\text{Dict[2]}=AB",
+                            "note": "Match 'A' (index 1), extend with 'B'."
+                        },
+                        {
+                            "label": "Step 3",
+                            "formula": "(0,C) \\rightarrow \\text{Dict[3]}=C",
+                            "note": "No match for 'C'."
+                        },
+                        {
+                            "label": "Step 4",
+                            "formula": "(1,A) \\rightarrow \\text{Dict[4]}=AA",
+                            "note": "Match 'A' (index 1), extend with 'A'."
+                        },
+                        {
+                            "label": "Step 5",
+                            "formula": "(0,B) \\rightarrow \\text{Dict[5]}=B",
+                            "note": "No match for standalone 'B'."
+                        },
+                        {
+                            "label": "Step 6",
+                            "formula": "(3,\\$) \\rightarrow \\text{end}",
+                            "note": "Match 'C' (index 3), end of input."
+                        }
+                    ],
+                    "input": "'AABCAABC'",
+                    "output": "(0,A)(1,B)(0,C)(1,A)(0,B)(3,$) — 6 tokens, Dict size=5"
+                }
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "standard",
+            "title": "Technique 5: LZW (Lempel-Ziv-Welch)",
+            "content": {
+                "text": "An improvement over LZ78 — outputs only dictionary indices, no extra character:",
+                "outcomes": [
+                    "Dictionary pre-initialized with all single characters",
+                    "Outputs only dictionary indices (no character field needed)",
+                    "Builds new phrases by extending current match + next character",
+                    "Used in GIF, TIFF, Unix compress, PDF",
+                    "Simpler and faster than LZ78 in practice"
+                ]
+            },
+            "formula": {
+                "equation": "\\text{Output} = (i_1, i_2, \\ldots, i_m) \\quad \\text{where each } i_j \\text{ is a dictionary index}",
+                "description": "LZW outputs a stream of dictionary indices. The decoder can reconstruct the dictionary identically from the index stream alone.",
+                "terms": [
+                    {
+                        "symbol": "i_j",
+                        "meaning": "Dictionary index for the j-th encoded phrase"
+                    },
+                    {
+                        "symbol": "m",
+                        "meaning": "Total number of output indices (compressed length)"
+                    }
+                ],
+                "calculation": {
+                    "exampleTitle": "LZW for 'ABABABA'",
+                    "description": "Encoding with pre-initialized dictionary {A=0, B=1}.",
+                    "steps": [
+                        {
+                            "label": "Init Dictionary",
+                            "formula": "\\{A=0, B=1\\}",
+                            "note": "All single chars pre-loaded."
+                        },
+                        {
+                            "label": "Step 1",
+                            "formula": "\\text{Output } 0 \\;(A),\\; \\text{Add Dict[2]}=AB",
+                            "note": "Match 'A', add 'AB' to dict."
+                        },
+                        {
+                            "label": "Step 2",
+                            "formula": "\\text{Output } 1 \\;(B),\\; \\text{Add Dict[3]}=BA",
+                            "note": "Match 'B', add 'BA' to dict."
+                        },
+                        {
+                            "label": "Step 3",
+                            "formula": "\\text{Output } 2 \\;(AB),\\; \\text{Add Dict[4]}=ABA",
+                            "note": "Match 'AB' (index 2), add 'ABA'."
+                        },
+                        {
+                            "label": "Step 4",
+                            "formula": "\\text{Output } 3 \\;(BA),\\;",
+                            "note": "Match 'BA' (index 3). End of input."
+                        }
+                    ],
+                    "input": "'ABABABA' (7 chars)",
+                    "output": "Indices: [0, 1, 2, 3] — 4 indices for 7 chars"
+                }
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "Comprehensive Technique Comparison",
+            "content": {
+                "text": "Comparing all five techniques across key dimensions:",
+                "outcomes": [
+                    "Huffman: Best for known symbol distributions, optimal symbol-by-symbol, used in JPEG/MP3 as final stage",
+                    "RLE: Best for data with long runs (fax, bitmap images), worst for natural text",
+                    "LZ77: Best general-purpose, exploits local repetition, foundation of GZIP/ZIP/DEFLATE",
+                    "LZ78: Better for diverse patterns, explicit dictionary, used in early Unix compress",
+                    "LZW: Simplest dictionary method, patent-free since 2004, used in GIF/TIFF/PDF"
+                ]
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "python_demo",
+            "title": "Python Demo: All Five Techniques",
+            "content": {
+                "code": "from collections import Counter\nimport heapq\n\n# === HUFFMAN CODING ===\ndef huffman_encode(text):\n    freq = Counter(text)\n    heap = [[f, i, c] for i, (c, f) in enumerate(freq.items())]\n    heapq.heapify(heap)\n    if len(heap) == 1:\n        return {heap[0][2]: '0'}, len(text)\n    codes = {}\n    # Simplified: assign by frequency rank\n    sorted_chars = sorted(freq.items(), key=lambda x: -x[1])\n    for i, (ch, _) in enumerate(sorted_chars):\n        codes[ch] = bin(i)[2:].zfill(max(1, (len(sorted_chars)-1).bit_length()))\n    total_bits = sum(len(codes[c]) for c in text)\n    return codes, total_bits\n\n# === RLE ===\ndef rle_encode(text):\n    if not text: return [], 0\n    result = []\n    count = 1\n    for i in range(1, len(text)):\n        if text[i] == text[i-1]:\n            count += 1\n        else:\n            result.append((count, text[i-1]))\n            count = 1\n    result.append((count, text[-1]))\n    return result, len(result) * 2\n\n# === LZ77 ===\ndef lz77_encode(text, window=10):\n    tokens = []\n    i = 0\n    while i < len(text):\n        best_offset, best_length = 0, 0\n        start = max(0, i - window)\n        for j in range(start, i):\n            length = 0\n            while i + length < len(text) and text[j + length] == text[i + length] and j + length < i:\n                length += 1\n            if length > best_length:\n                best_offset = i - j\n                best_length = length\n        next_char = text[i + best_length] if i + best_length < len(text) else ''\n        tokens.append((best_offset, best_length, next_char))\n        i += best_length + 1\n    return tokens\n\n# === LZ78 ===\ndef lz78_encode(text):\n    dictionary = {}\n    tokens = []\n    w = ''\n    next_code = 1\n    for c in text:\n        wc = w + c\n        if wc in dictionary:\n            w = wc\n        else:\n            idx = dictionary.get(w, 0)\n            tokens.append((idx, c))\n            dictionary[wc] = next_code\n            next_code += 1\n            w = ''\n    if w:\n        tokens.append((dictionary.get(w, 0), ''))\n    return tokens, len(dictionary)\n\n# === LZW ===\ndef lzw_encode(text):\n    dictionary = {chr(i): i for i in range(256)}\n    next_code = 256\n    w = ''\n    output = []\n    for c in text:\n        wc = w + c\n        if wc in dictionary:\n            w = wc\n        else:\n            output.append(dictionary[w])\n            dictionary[wc] = next_code\n            next_code += 1\n            w = c\n    if w:\n        output.append(dictionary[w])\n    return output, next_code - 256\n\ntext = 'AABCAABCAABC'\nprint(f'Input: {text} ({len(text)} chars, {len(text)*8} bits ASCII)')\nprint()\ncodes, bits = huffman_encode(text)\nprint(f'Huffman: {codes} → {bits} bits')\nrle, pairs = rle_encode(text)\nprint(f'RLE: {rle} → {pairs} values')\nlz77 = lz77_encode(text)\nprint(f'LZ77: {lz77} → {len(lz77)} tokens')\nlz78, dsize = lz78_encode(text)\nprint(f'LZ78: {lz78} → {len(lz78)} tokens, dict={dsize}')\nlzw, new_entries = lzw_encode(text)\nprint(f'LZW: {lzw} → {len(lzw)} indices, new entries={new_entries}')",
+                "input": "Text: 'AABCAABCAABC' (12 characters, 96 bits ASCII)",
+                "output": "Huffman: {'A': '00', 'B': '01', 'C': '10'} → 24 bits\nRLE: [(2,'A'),(1,'B'),(1,'C'),(2,'A'),(1,'B'),(1,'C'),(2,'A'),(1,'B'),(1,'C')] → 18 values\nLZ77: [(0,0,'A'),(1,1,'B'),(0,0,'C'),(4,4,'A'),(1,1,'C')] → 5 tokens\nLZ78: [(0,'A'),(1,'B'),(0,'C'),(1,'A'),(2,'C'),(4,'B'),(3,'')] → 7 tokens, dict=6\nLZW: [65,65,66,67,256,258,260] → 7 indices, new entries=5",
+                "interpretation": "LZ77 achieves the best compression here (5 tokens for 12 chars) because the text has strong local repetition ('AABC' repeats). Huffman reduces to 24 bits but doesn't exploit repetition. RLE performs poorly because runs are short. LZ78 and LZW build dictionaries that improve with longer input."
+            }
+        },
+        {
             "slideNumber": 11,
+            "type": "quiz",
+            "title": "Topic Quiz",
+            "questions": [
+                "What is Shannon's entropy and why can't any lossless compression beat it?",
+                "Why is Huffman coding optimal for symbol-by-symbol encoding but not overall?",
+                "When does RLE perform well, and when does it actually expand data?",
+                "Explain the difference between LZ77's sliding window and LZ78's explicit dictionary.",
+                "How does LZW improve upon LZ78, and where is it commonly used?"
+            ],
+            "answers": [
+                "Shannon's entropy H = -Σ P(si) log2 P(si) is the theoretical minimum average bits per symbol. It represents the fundamental information content — no lossless algorithm can encode below this limit because doing so would lose information.",
+                "Huffman is optimal among codes that encode one symbol at a time. But it cannot exploit patterns across multiple symbols (like repeated substrings). Dictionary methods (LZ family) can reference entire repeated phrases, achieving better compression on text.",
+                "RLE excels when data has long runs of identical symbols (e.g., 'AAAAAA' → (6,A)). It expands data when runs are short — 'ABCDEF' becomes (1,A)(1,B)(1,C)(1,D)(1,E)(1,F), which is larger than the original.",
+                "LZ77 uses a fixed-size sliding window over recent text — matches are (offset, length) references into this window. LZ78 builds an explicit, growing dictionary of phrases — matches reference dictionary entries by index. LZ77 is better for local repetition; LZ78 handles diverse patterns better.",
+                "LZW pre-initializes the dictionary with all single characters, so it outputs only dictionary indices (no extra character field needed). This simplifies encoding/decoding. It's used in GIF images, TIFF, PDF, and was used in Unix 'compress' utility."
+            ]
+        },
+        {
+            "slideNumber": 12,
+            "type": "research_perspective",
+            "title": "Research Perspective: Modern Compression in IR",
+            "content": {
+                "researchQuestions": [
+                    {
+                        "question": "Can we search compressed text without decompressing?",
+                        "answer": "Yes! Compressed pattern matching on LZ-compressed text, wavelet trees, and FM-indices enable search without full decompression. This is critical for web-scale systems where decompression would be too slow."
+                    },
+                    {
+                        "question": "What compression works best for inverted indices?",
+                        "answer": "Gap encoding + variable-byte or gamma codes. Modern systems use PForDelta (Patched Frame of Reference) with SIMD-accelerated decompression, achieving both excellent compression and fast query processing."
+                    },
+                    {
+                        "question": "How do modern search engines combine techniques?",
+                        "answer": "Google and Elasticsearch use layered compression: DEFLATE (LZ77+Huffman) for document storage, gap encoding + variable-byte for posting lists, and front coding for dictionaries. Each layer targets a different data characteristic."
+                    }
+                ],
+                "mathematicalModeling": {
+                    "problemStatement": "Modeling the compression-speed trade-off for IR query processing.",
+                    "derivation": [
+                        {
+                            "step": "Define compression ratio.",
+                            "equation": "CR = \\frac{|C|}{|O|}",
+                            "interpretation": "Lower CR = better compression. Huffman: CR ≈ 0.6, LZ77: CR ≈ 0.3-0.4, LZW: CR ≈ 0.4-0.5."
+                        },
+                        {
+                            "step": "Model total query time.",
+                            "equation": "T_{total} = T_{disk} \\cdot CR + T_{decomp} \\cdot |C|",
+                            "interpretation": "Compression reduces disk I/O time but adds decompression CPU time. The optimal method minimizes T_total."
+                        },
+                        {
+                            "step": "For IR systems, decompression speed dominates.",
+                            "equation": "\\text{Prefer: } \\min(T_{decomp}) \\text{ subject to } CR < \\text{threshold}",
+                            "interpretation": "In practice, variable-byte codes (fast decode) beat gamma codes (better CR) for query processing."
+                        }
+                    ],
+                    "conclusion": "The best compression for IR balances ratio and decompression speed. LZ77-based methods (GZIP) dominate document storage, while specialized integer codes dominate index compression."
+                }
+            }
+        },
+        {
+            "slideNumber": 13,
             "type": "summary",
             "title": "Key Takeaways",
             "content": {
-                "text": "Text compression reduces storage and speeds up I/O. Huffman coding and dictionary-based methods (LZ) are the main approaches, with different trade-offs for IR systems.",
+                "text": "Five classical techniques serve different needs: Huffman for statistical encoding, RLE for runs, LZ77 for local repetition (GZIP/ZIP), LZ78 for diverse patterns, and LZW for simple dictionary compression (GIF/PDF). Modern IR systems combine multiple techniques in layers.",
                 "nextTopic": "Inverted Index Structure",
-                "preparation": "Learn about the core data structure for fast text retrieval."
+                "preparation": "Learn about the core data structure for fast text retrieval — and how index compression builds on these techniques."
             }
         }
     ]
