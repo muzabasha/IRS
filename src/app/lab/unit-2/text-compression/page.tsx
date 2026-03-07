@@ -675,6 +675,33 @@ export default function TextCompressionLab() {
                 </CardContent>
             </Card>
 
+            {/* External Resources */}
+            <Card className="border-2 border-purple-400 bg-purple-50 dark:bg-purple-950">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-3xl">
+                        <span className="text-4xl">📚</span> External Resources
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="grid md:grid-cols-2 gap-4">
+                        <a href="https://notebooklm.google.com/notebook/55d2ddef-2246-4210-b30b-dfc93b87225d?artifactId=ed1c2483-4293-4d16-bb48-639d3c8e49dd" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-6 rounded-lg border-2 border-purple-300 bg-white dark:bg-secondary/30 hover:shadow-lg transition-shadow">
+                            <span className="text-4xl">🧠</span>
+                            <div>
+                                <p className="font-semibold text-xl">Text Compression Quiz</p>
+                                <p className="text-lg text-muted-foreground">Test your knowledge on NotebookLM</p>
+                            </div>
+                        </a>
+                        <a href="https://notebooklm.google.com/notebook/55d2ddef-2246-4210-b30b-dfc93b87225d?artifactId=8bb1670d-70cb-4b48-bd25-21cd97ee1753" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-6 rounded-lg border-2 border-purple-300 bg-white dark:bg-secondary/30 hover:shadow-lg transition-shadow">
+                            <span className="text-4xl">🎬</span>
+                            <div>
+                                <p className="font-semibold text-xl">Text Compression Video</p>
+                                <p className="text-lg text-muted-foreground">Watch the explanation on NotebookLM</p>
+                            </div>
+                        </a>
+                    </div>
+                </CardContent>
+            </Card>
+
             <div className="flex justify-between">
                 <Button variant="outline" asChild size="lg">
                     <Link href="/lab/unit-2/document-clustering">
