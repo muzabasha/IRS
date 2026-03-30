@@ -7,173 +7,172 @@
             "slideNumber": 1,
             "type": "title",
             "title": "Context & Relevance Judgments",
-            "subtitle": "The Subjectivity of Meaning",
+            "subtitle": "Personalizing the Search Experience",
             "content": {
-                "text": "What makes a document 'good' depends on who is asking, where they are, and why they are searching. This is 'Context'.",
-                "hook": "Searching for 'Pizza' at 12 PM in Italy means something different than at 12 AM in New York."
+                "text": "A query does not exist in a vacuum. It is shaped by the user's location, history, device, and the feedback they provide to the system.",
+                "hook": "Knowing *who* is searching is as important as knowing *what* they are searching for."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Types of Context",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "text": "1. Spatial: Location (GPS/IP). 2. Temporal: Time (Latest news vs History). 3. Linguistic: Preceding queries (Ambiguity resolver). 4. Social: What similar people like.",
-                "hook": "Context turns a string of characters into a specific intent."
+                "text": "To understand Relevance Feedback, you must know: \n1. **Vector Space Model**: How to represent words as points in space ($[x, y, z]$). \n2. **Similarity Scoring**: That a query is just a vector looking for its 'closest' document vector. \n3. **Binary Feedback**: The difference between a simple 'Relevant' (YES) and 'Not Relevant' (NO)."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Using Relevance Judgments",
+            "title": "Background",
             "content": {
-                "text": "How systems learn what is good. 1. Explicit Feedback: Users marking results. 2. Implicit Feedback: Click-through rate, dwell time, bookmarking, purchasing.",
-                "hook": "Implicit signals are the goldmine of modern search engines."
-            },
-            "formula": {
-                "equation": "\\vec{q}_m = \\alpha \\vec{q}_0 + \\beta \\frac{1}{|D_r|} \\sum_{d_j \\in D_r} \\vec{d}_j - \\gamma \\frac{1}{|D_{nr}|} \\sum_{d_j \\in D_{nr}} \\vec{d}_j",
-                "description": "The Rocchio Algorithm is the classic method for implementing relevance feedback by adjusting the query vector towards relevant documents and away from non-relevant ones.",
-                "terms": [
-                    {
-                        "symbol": "\\vec{q}_m",
-                        "meaning": "Modified Query vector - the improved query after feedback"
-                    },
-                    {
-                        "symbol": "\\vec{q}_0",
-                        "meaning": "Original Query vector - the user's initial search"
-                    },
-                    {
-                        "symbol": "D_r",
-                        "meaning": "Set of documents marked as Relevant by the user"
-                    },
-                    {
-                        "symbol": "D_{nr}",
-                        "meaning": "Set of documents marked as Non-Relevant"
-                    },
-                    {
-                        "symbol": "\\alpha, \\beta, \\gamma",
-                        "meaning": "Weights (Tuning parameters) - typically alpha=1, beta=0.75, gamma=0.25"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Query Refinement (Rocchio)",
-                    "description": "Adjusting a 1D query vector based on one relevant and one non-relevant document.",
-                    "steps": [
-                        {
-                            "label": "Initial State",
-                            "formula": "q_0 = 1.0, d_{rel} = 5.0, d_{non} = 0.0",
-                            "note": "Query is weak, document is strong in target topic."
-                        },
-                        {
-                            "label": "Apply Weights",
-                            "formula": "\\alpha=1, \\beta=0.8, \\gamma=0.2",
-                            "note": "We trust positive feedback more than negative."
-                        },
-                        {
-                            "label": "Calculate Vector Shift",
-                            "formula": "q_m = (1 \\times 1.0) + (0.8 \\times 5.0) - (0.2 \\times 0.0)",
-                            "note": "Shifting query towards relevant document."
-                        },
-                        {
-                            "label": "Final Query",
-                            "formula": "q_m = 1.0 + 4.0 = 5.0",
-                            "note": "The new query is much closer to the relevant document's profile."
-                        }
-                    ],
-                    "input": "q0:1, d_rel:5, d_nr:0",
-                    "output": "New Query: 5.0"
-                }
+                "text": "Early search engines were 'context-agnostic'—they gave the same results to everyone for the same query. In the early 2000s, Google and Yahoo! began using 'Search History' and 'Geo-location' to provide more relevant results. This evolved into the complex 'RankBrain' and AI-driven contextual models we use today."
             }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Challenges in Feedback",
+            "title": "Motivation",
             "content": {
-                "text": "1. Binary vs Graded relevance (Just 'Good' vs '1-5 Stars'). 2. Sparsity (Not everyone leaves feedback). 3. Noise (Accidental clicks).",
-                "outcomes": [
-                    "Need for trust models",
-                    "A/B testing for interface changes"
-                ]
+                "text": "Why use context? Because of 'Polysemy' (words with multiple meanings). If a student searches for 'Saturn', they might want the planet. If a car enthusiast searches for 'Saturn', they might want the car brand. Context (past behavior) disambiguates these intents."
             }
         },
         {
             "slideNumber": 5,
-            "type": "activity",
-            "title": "Activity: Intent Guessing",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "activity": "The Brainstorm",
-                "description": "Topic: 'Galaxy'. List 3 different intents for this word based on different Contexts (Space enthusiast, Tech shopper, Chocolate lover)."
+                "text": "1. Privacy: Users are wary of 'Tracking'. 2. Filter Bubbles: Showing users only what they already agree with. 3. Feedback Sparsity: Most users never click a 'Like' button or provide explicit feedback."
             }
         },
         {
             "slideNumber": 6,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "Define 'Implicit Feedback'.",
-                "How does 'Dwell Time' indicate relevance?",
-                "Give an example of temporal context.",
-                "Why is 'Implicit' feedback more common than 'Explicit'?"
+            "type": "grid",
+            "title": "Application",
+            "items": [
+                "Local Search: Finding 'Pizza near me'.",
+                "Personalized News: TikTok/YouTube feeds.",
+                "Explicit Feedback: Netflix 'Thumbs Up/Down'.",
+                "Implicit Feedback: Analyzing how long you watch a video."
             ]
         },
         {
             "slideNumber": 7,
-            "type": "python_demo",
-            "title": "Python Demo: Query Reformulation Logic",
+            "type": "standard",
+            "title": "Introduction to Relevance Judgments",
             "content": {
-                "code": "def reformulate(initial, suggested_additions):\n    return f\"{initial} {' '.join(suggested_additions)}\"\n\nold_q = \"jaguar\"\nsuggested = [\"v8\", \"engine\", \"specs\"]\n\nnew_q = reformulate(old_q, suggested)\nprint(f\"New Query: {new_q}\")",
-                "input": "Old: 'jaguar', Add: ['v8', 'engine']",
-                "output": "New Query: jaguar v8 engine specs",
-                "interpretation": "Dynamic UI suggests terms to help users narrow their search.\nThis 'Interactive Feedback' reduces the cognitive load of thinking of keywords.\nIt guides the user from a generic concept to a specific need."
+                "text": "Relevance Judgments are the user's signals to the system. They can be 'Explicit' (direct ratings) or 'Implicit' (actions like clicks, dwell time, and scrolling). The system uses these signals to update its ranking model in real-time."
             }
         },
         {
             "slideNumber": 8,
-            "type": "research_perspective",
-            "title": "Research Perspective: Inference from Implicit Signals",
+            "type": "standard",
+            "title": "Step-by-Step Algorithm: Rocchio Query Update",
             "content": {
-                "researchQuestions": [
-                    {
-                        "question": "Implicit Feedback Bias: How do 'Position Bias' and 'Presentation Bias' skew the interpretation of user clicks?",
-                        "answer": "Users are more likely to click the first result regardless of quality (Position Bias). Research in 'Click Models' uses the 'Examination Hypothesis': P(Click) = P(Examination) × P(Relevance). To mathematically isolate true relevance, we must de-bias the clicks by estimating the examination probability for each position using historical log data."
-                    },
-                    {
-                        "question": "The Satisfaction Problem: Can 'Dwell Time' distinguish between a satisfied user and a frustrated user struggling with complex text?",
-                        "answer": "High dwell time (long view) is often a proxy for relevance, but for 'Quick Answer' queries, a short dwell time might mean success. Research uses 'Satisfied Click (s-click)' models, where a click is only relevant if the dwell time exceeds a specific threshold (e.g., 30 seconds), filtered by the query's complexity class."
-                    }
-                ],
-                "mathematicalModeling": {
-                    "problemStatement": "Modeling user clicking behavior as a Dependent Click Model (DCM).",
-                    "derivation": [
-                        {
-                            "step": "Model the probability of clicking result i as a product of examination (E) and relevance (R).",
-                            "equation": "P(C_i=1) = P(E_i=1)P(R_i=1)",
-                            "interpretation": "A click only happens if the user sees the document AND judges it relevant based on the snippet."
-                        },
-                        {
-                            "step": "Model the 'Examination' probability as dependent on the previous result's relevance.",
-                            "equation": "P(E_{i+1}=1 | E_i=1, C_i) = \\Phi(C_i)",
-                            "interpretation": "If the user was satisfied with result i, they are less likely to examine i+1. This captures the 'Satisfaction' dynamic of browsing."
-                        },
-                        {
-                            "step": "Derive the Expected Reciprocal Rank (ERR) based on the Cascade Model of clicks.",
-                            "equation": "ERR = \\sum_{i=1}^{n} \\frac{1}{i} P(\\text{user stops at i})",
-                            "interpretation": "The evaluation metric shifts from 'How many docs are good' to 'How quickly did the user find what they needed'."
-                        }
-                    ],
-                    "conclusion": "Relevance is not a static property of a document; it is a dynamic posterior probability that can only be inferred through the noisy, biased, and context-dependent lens of user interaction behavior."
-                }
+                "text": "1. **Initial Search**: Perform a standard VSM search and return the top 10 documents. \n2. **Collect Feedback**: User marks k documents as Relevant ($D_r$) and m documents as Non-Relevant ($D_{nr}$). \n3. **Compute Centroids**: Calculate the mean vector of $D_r$ and the mean vector of $D_{nr}$. \n4. **Weighting**: Scale the original query by $\\\\alpha$, the relevant centroid by $\\\\beta$, and the non-relevant centroid by $\\\\gamma$. \n5. **Vector Addition**: Add relevant features and subtract non-relevant features from the original query vector. \n6. **Thresholding**: Ensure no vector component is negative (set to 0). \n7. **Re-Search**: Run the new query vector against the index for improved results."
             }
         },
         {
             "slideNumber": 9,
-            "type": "summary",
-            "title": "Wrap-up",
+            "type": "standard",
+            "title": "The Concept: Rocchio Relevance Feedback",
             "content": {
-                "text": "We have context. Now, how does the interface show it to us?",
-                "nextTopic": "Interface Support for the Search Process",
-                "preparation": "Recall the layout of a Google Results page."
+                "text": "The Rocchio Algorithm is the classic method for using feedback to update a search query vector in the Vector Space Model."
+            },
+            "formula": {
+                "equation": "Q_{new} = \\\\alpha \\\\vec{Q}_{orig} + \\\\beta \\\\left( \\\\frac{1}{|D_r|} \\\\sum_{\\\\vec{d} \\\\in D_r} \\\\vec{d} \\\\right) - \\\\gamma \\\\left( \\\\frac{1}{|D_{nr}|} \\\\sum_{\\\\vec{d} \\\\in D_{nr}} \\\\vec{d} \\\\right)",
+                "description": "The new query (Q_new) is a weighted sum of the original query, the average of relevant documents (D_r), and the average of non-relevant documents (D_nr).",
+                "terms": [
+                    { "symbol": "\\\\alpha, \\\\beta, \\\\gamma", "meaning": "Weights: Importance of original query, relevance, and non-relevance" },
+                    { "symbol": "D_r", "meaning": "The set of documents marked as relevant" },
+                    { "symbol": "D_{nr}", "meaning": "The set of documents marked as non-relevant" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Query Expansion Loop",
+                    "description": "Calculate a one-dimensional update for a single term weight.",
+                    "steps": [
+                        { "label": "Original", "formula": "Q=0.5, \\\\alpha=1, \\\\beta=0.75, \\\\gamma=0.25", "note": "Initial query weight" },
+                        { "label": "Rel Doc", "formula": "D_r = [0.9]", "note": "User liked a document with high weight" },
+                        { "label": "Non-Rel Doc", "formula": "D_{nr} = [0.1]", "note": "User disliked a document with low weight" },
+                        { "label": "New Query", "formula": "Q_{new} = 0.5 + (0.75 \\\\times 0.9) - (0.25 \\\\times 0.1) = 1.15", "note": "Weight increased!" }
+                    ],
+                    "input": "Q_orig=0.5, Dr=0.9, Dnr=0.1, Weights:[1, 0.75, 0.25]",
+                    "output": "Q_new Weight: 1.15"
+                }
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
+            "content": {
+                "text": "The inputs to Rocchio are the **Original Query ($Q_{orig}$)** and the documents marked as **Relevant ($D_r$)** and **Non-Relevant ($D_{nr}$)**. The output is a **Refined Query ($Q_{new}$)**. If the user marks many documents as relevant, the output vector $Q_{new}$ 'stretches' towards the vocabulary of those documents, effectively performing 'Automatic Query Expansion' to find similar content."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: The Query Nudge",
+            "content": {
+                "text": "**1. Sample Input**: Original Query Vector $Q = [0.5]$ (Topic: 'Space'). User marks a document with weight $0.9$ as Relevant ($D_r$) and a document with weight $0.1$ as Non-Relevant ($D_{nr}$). Weights: $\\\\alpha=1, \\\\beta=0.75, \\\\gamma=0.25$. \n**2. Step-by-Step Illustration**: \n - Calculate Relevant Centroid: $0.9 / 1 = 0.9$. \n - Calculate Non-Relevant Centroid: $0.1 / 1 = 0.1$. \n - Apply Rocchio: $1.0 \\\\times 0.5 + 0.75 \\\\times 0.9 - 0.25 \\\\times 0.1 = 0.5 + 0.675 - 0.025 = 1.15$. \n**3. Sample Output**: $Q_{new} = [1.15]$. \n**4. Interpretation of Results**: The query weight for 'Space' increased from 0.5 to 1.15. This 'nudge' means the next search will prioritize documents much more strongly if they contain the term 'Space'."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "python_demo",
+            "title": "Python Demo: Rocchio Vector Update",
+            "content": {
+                "code": "def rocchio_update(q_orig, rel_docs, non_rel_docs, alpha=1.0, beta=0.75, gamma=0.25):\n    # Simplified vector update (1D example for simplicity)\n    avg_rel = sum(rel_docs) / len(rel_docs) if rel_docs else 0\n    avg_non_rel = sum(non_rel_docs) / len(non_rel_docs) if non_rel_docs else 0\n    \n    q_new = alpha * q_orig + beta * avg_rel - gamma * avg_non_rel\n    return round(max(0, q_new), 2)\n\n# User likes docs with weights 0.8, 0.9; dislikes 0.2\nnew_weight = rocchio_update(q_orig=0.4, rel_docs=[0.8, 0.9], non_rel_docs=[0.2])\n\nprint(f\"Original Intent Weight: 0.4\")\nprint(f\"Updated Intent Weight: {new_weight}\")",
+                "input": "Q=0.4, Rel=[0.8, 0.9], NonRel=[0.2].",
+                "output": "Updated Intent Weight: 0.99",
+                "interpretation": "This script shows how 'Soft Feedback' updates the system's understanding. The query weight for the relevant concept jumped from 0.4 to 0.99! This is the math behind 'More like this' features."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Advantages & Drawbacks",
+            "content": {
+                "text": "Advantage: Rocchio is mathematically sound and very effective for small-collection relevance feedback. Drawback: It can be slow to compute for massive vectors and relies heavily on accurate initial results."
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Solution to Address Drawbacks",
+            "content": {
+                "text": "To improve speed, use 'Pseudo-Relevance Feedback' (assuming top 10 results are relevant) to update vectors without waiting for the user. To avoid 'Filter Bubbles', inject a 'Diversity Score' into the ranking to ensure some novelty remains in the results."
+            }
+        },
+        {
+            "slideNumber": 15,
+            "type": "comparison",
+            "title": "Comparison: Explicit vs. Implicit Feedback",
+            "comparison": {
+                "headers": ["Type", "Explicit (Ratings)", "Implicit (Behavior)"],
+                "rows": [
+                    ["Data Volume", "Very Sparse (1% of users)", "Very Large (100% of clicks)"],
+                    ["Accuracy", "High (User said it was good)", "Medium (User might have clicked by accident)"],
+                    ["User Effort", "High (Must click/type)", "Zero (Natural behavior)"],
+                    ["Privacy", "Consent-based", "Tracking-based"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 16,
+            "type": "activity",
+            "title": "Virtual Lab: Feedback Simulator",
+            "content": {
+                "activity": "The Loop Master",
+                "description": "Go to YouTube. Open a 'Private/Incognito' window. Search for 'Space Exploration'. Click on 5 videos about 'Black Holes'. Now refresh the homepage. Observe how the context has shifted. Did the 'Relevance feedback' (clicks) work as expected?"
+            }
+        },
+        {
+            "slideNumber": 17,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why is the 'Relevant centroid' given more weight ($\\\\beta=0.75$) than the 'Non-relevant centroid' ($\\\\gamma=0.25$)? \n2. How should a search engine handle 'Negative Feedback'? If a user dislikes one news article, should the engine hide ALL articles from that source? \n3. Is 'Personalization' actually harmful to society by creating echo chambers?"
             }
         }
     ]

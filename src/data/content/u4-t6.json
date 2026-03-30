@@ -1,126 +1,178 @@
 {
     "id": "u4-t6",
-    "title": "Question Answering",
+    "title": "Natural Language & Question Answering",
     "unitId": "unit-4",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Question Answering Systems",
-            "subtitle": "Beyond Document Lists",
+            "title": "Natural Language & QA",
+            "subtitle": "From Search Engines to Answer Engines",
             "content": {
-                "text": "QA (Question Answering) systems extract specific facts or generate responses from a corpus.",
-                "hook": "Search: 'Where is Tokyo?' -> [Link 1, Link 2]. QA (Question Answering): 'Where is Tokyo?' -> 'Tokyo is in Japan.'"
+                "text": "The ultimate goal of IR is to provide an 'Answer', not just a 'List of Links'. Natural Language Processing (NLP) bridge the gap between human language and machine data.",
+                "hook": "We don't want a web page about weather; we want to know 'Should I bring an umbrella?'"
             }
         },
         {
             "slideNumber": 2,
-            "type": "grid",
-            "title": "Types of Questions",
-            "items": [
-                "Factoid: 'Who is the president?' (Named Entity).",
-                "List: 'List the countries in Africa.'",
-                "Definition: 'What is a search engine?'",
-                "Opinion/Why: 'Why is AI dangerous?' (Complex synthesis)."
-            ]
+            "type": "standard",
+            "title": "Prerequisite Knowledge",
+            "content": {
+                "text": "Before studying QA systems, you should understand: \n1. **Query Specification**: How users formulate questions starting with 'Who', 'What', 'Where'. \n2. **Basic NLP**: Concepts like 'Nouns' (Entities) and 'Verbs' (Actions). \n3. **Mean Reciprocal Rank (MRR)**: A metric that reward the system more for putting the correct answer at #1."
+            }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "QA (Question Answering) Architecture",
+            "title": "Background",
             "content": {
-                "text": "The traditional pipeline for QA (Question Answering).",
-                "steps": [
-                    "Question Processing: Determine 'Answer Type' (Person, Date, etc).",
-                    "Document Retrieval: Find relevant passages.",
-                    "Answer Extraction: Pinpoint the exact string in the text.",
-                    "Ranking: Choose the most confident answer."
-                ]
-            },
-            "formula": {
-                "equation": "\\text{MRR} = \\frac{1}{|Q|} \\sum_{i=1}^{|Q|} \\frac{1}{rank_i}",
-                "description": "Mean Reciprocal Rank (MRR) is the standard metric for evaluating QA (Question Answering) systems, where we care only about the position (rank) of the first correct answer.",
-                "terms": [
-                    {
-                        "symbol": "Q",
-                        "meaning": "The set of sample questions"
-                    },
-                    {
-                        "symbol": "rank_i",
-                        "meaning": "The position of the first correct answer for question 'i'"
-                    },
-                    {
-                        "symbol": "1/rank",
-                        "meaning": "Reciprocal rank (1st place = 1.0, 2nd = 0.5, 3rd = 0.33)"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "QA (Question Answering) System Benchmark",
-                    "description": "Evaluating 3 queries against a QA (Question Answering) system.",
-                    "steps": [
-                        {
-                            "label": "Query 1",
-                            "formula": "rank_1 = 1",
-                            "note": "Correct answer found at top spot (Score: 1.0)."
-                        },
-                        {
-                            "label": "Query 2",
-                            "formula": "rank_2 = 2",
-                            "note": "Correct answer was the second suggestion (Score: 0.5)."
-                        },
-                        {
-                            "label": "Query 3",
-                            "formula": "rank_3 = 10",
-                            "note": "Answer found deep in the list (Score: 0.1)."
-                        },
-                        {
-                            "label": "Calculate MRR",
-                            "formula": "MRR = (1 + 0.5 + 0.1) / 3 = 0.533",
-                            "note": "Final system score is 0.533."
-                        }
-                    ],
-                    "input": "Ranks:[1, 2, 10]",
-                    "output": "MRR: 0.53"
-                }
+                "text": "In the 1960s, systems like BASEBALL answered questions from small, fixed databases. In the early 2010s, IBM's Watson defeated humans at Jeopardy! Today, LLMs (Large Language Models) have turned every search into a potential QA session. The shift is from 'Information Retrieval' to 'Information Generation'."
             }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "The Role of NLP (Natural Language Processing)",
+            "title": "Motivation",
             "content": {
-                "text": "QA (Question Answering) relies heavily on Natural Language Processing (NLP) techniques like Named Entity Recognition (NER), Part-of-Speech (POS) tagging, and Semantic Parsing.",
-                "hook": "Modern QA (Question Answering) systems (like LLMs - Large Language Models) generate answers by predicting next tokens, but traditional systems 'highlight' existing facts."
+                "text": "Why study QA? Because on mobile and voice devices, users don't have a screen to browse 10 links. They need a single, concise answer. QA (Question Answering) is the most efficient interface for 'Factoid' information needs."
             }
         },
         {
             "slideNumber": 5,
-            "type": "activity",
-            "title": "Activity: Extract the Fact",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "activity": "The QA (Question Answering) Challenge",
-                "description": "Text: 'Dr. Muzamil founded the IR (Information Retrieval) lab in 2024.' Question: 'Who founded the lab?' What part of speech is the answer? What entity type?"
+                "text": "1. Ambiguity: 'Is the president in?' (Which president? In where?). 2. Temporality: 'Who is the CEO of Twitter?' (The answer changes over time). 3. Reasoning: 'Can a cat fit in a shoebox?' requires spatial reasoning, not just keyword matching."
             }
         },
         {
             "slideNumber": 6,
-            "type": "python_demo",
-            "title": "Python Demo: Question Answering Logic",
-            "content": {
-                "code": "def answer_question(query, candidates):\n    # Simple keyword overlap for QA\n    q_words = set(query.lower().split())\n    scores = []\n    for c in candidates:\n        overlap = len(q_words & set(c.lower().split()))\n        scores.append((overlap, c))\n    return sorted(scores, reverse=True)[0][1]\n\nquestion = \"Who founded Google?\"\nkb = [\"Google was founded by Larry Page.\", \"IR (Information Retrieval) is a field.\"]\nprint(f\"Answer: {answer_question(question, kb)}\")",
-                "input": "Q: 'Who founded Google?', KB (Knowledge Base): [..., ...]",
-                "output": "Answer: Google was founded by Larry Page.",
-                "interpretation": "QA (Question Answering) systems try to find the specific fact, not just documents.\nBy matching question words against a knowledge base, it extracts the most likely candidate.\nThis is the technology behind Alexa and Siri (AI - Artificial Intelligence assistants)."
-            }
+            "type": "grid",
+            "title": "Application",
+            "items": [
+                "Digital Assistants (Siri, Alexa, Google Assistant).",
+                "Customer Support Bots: 'How do I reset my password?'.",
+                "Code Completion: 'How do I sort a list in Python?'.",
+                "Factoid Search: 'Capital of France' -> 'Paris'."
+            ]
         },
         {
             "slideNumber": 7,
-            "type": "summary",
-            "title": "Course Wrap-up",
+            "type": "standard",
+            "title": "Introduction to QA Pipelines",
             "content": {
-                "linkage": "You have completed the full course on B22EQ0601 Information Retrieval. From basic models to advanced recommendation and QA (Question Answering) systems.",
-                "nextTopic": "Final Assessment",
-                "preparation": "Review all units for the final course project."
+                "text": "A standard Factoid QA pipeline involves: 1. Question Transformation (into a query), 2. Document/Passage Retrieval, and 3. Answer Extraction (finding the exact phrase)."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "standard",
+            "title": "Step-by-Step Algorithm: Factoid QA Pipeline",
+            "content": {
+                "text": "1. **Question Analysis**: Tokenize the input ('Who founded Apple?'). Identify the 'Answer Type' (In this case, a 'Person'). \n2. **Query Formulation**: Turn the question into a search query ('founded Apple'). \n3. **Passage Retrieval**: Find the top 5 documents and extract the 'best' windows of text sentences from them. \n4. **Entity Tagging**: Run a Named Entity Recognizer (NER) over the passages to identity all 'Person' entities. \n5. **Scoring**: Rank the candidate entities based on their distance to the query words ('founded' and 'Apple'). \n6. **Final Selection**: Return the highest-scoring entity as the final answer ('Steve Jobs'). \n7. **Evaluation**: Use MRR to measure if the correct answer was placed at the top of the output candidates."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "The Concept: Mean Reciprocal Rank (MRR)",
+            "content": {
+                "text": "MRR is the gold-standard metric for evaluating QA and Navigational search."
+            },
+            "formula": {
+                "equation": "MRR = \\\\frac{1}{|Q|} \\\\sum_{i=1}^{|Q|} \\\\frac{1}{\\\\text{rank}_i}",
+                "description": "MRR is the average of reciprocal ranks of the first correct answer for each query in a test set.",
+                "terms": [
+                    { "symbol": "|Q|", "meaning": "Total number of test questions" },
+                    { "symbol": "rank_i", "meaning": "Rank at which the first correct answer was found for query i" },
+                    { "symbol": "1/rank", "meaning": "Reciprocal rank (1 for #1, 0.5 for #2, 0.25 for #4...)" }
+                ],
+                "calculation": {
+                    "exampleTitle": "QA Performance Test",
+                    "description": "Calculate MRR for a 3-question session.",
+                    "steps": [
+                        { "label": "Q1: Rank #1", "formula": "1 / 1 = 1.0", "note": "Perfect match" },
+                        { "label": "Q2: Rank #2", "formula": "1 / 2 = 0.5", "note": "Found in second result" },
+                        { "label": "Q3: Fail", "formula": "1 / \\\\infty = 0", "note": "Answer not found" },
+                        { "label": "Mean", "formula": "(1.0 + 0.5 + 0) / 3 = 0.5", "note": "Good but not great" }
+                    ],
+                    "input": "Ranks: [1, 2, None].",
+                    "output": "MRR: 0.5"
+                }
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
+            "content": {
+                "text": "The input is the **Rank (r)** of the first correct answer. The output is the **Mean Reciprocal Rank (MRR)**. If the input rank is 1 (Perfect), the output is 1.0. If the input rank is 0 (Missed), the output is 0. A high MRR output across many questions indicates that the input 'extraction' and 'ranking' layers are performing correctly even for complex queries."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: First Answer Wins",
+            "content": {
+                "text": "**1. Sample Input**: Suppose we test 2 questions. For Q1, correct answer is at #1. For Q2, correct answer is at #2. \n**2. Step-by-Step Illustration**: \n - Calculate Reciprocal Rank for Q1: $1 / 1 = 1.0$. \n - Calculate Reciprocal Rank for Q2: $1 / 2 = 0.5$. \n - Sum of Reciprocals: $1.0 + 0.5 = 1.5$. \n - Find Average: $1.5 / 2 = 0.75$. \n**3. Sample Output**: $MRR = 0.75$. \n**4. Interpretation of Results**: The output score of 0.75 is good. However, if Q1 had slipped to #3, the MRR would drop to 0.41, indicating a significant loss in user trust since we failed to find the fact 'immediately' for either question."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "python_demo",
+            "title": "Python Demo: The Answer Scorer (MRR)",
+            "content": {
+                "code": "def calculate_mrr(rankings):\n    # rankings: list of ranks of the first correct answer\n    total_rr = 0\n    for rank in rankings:\n        if rank > 0:\n            total_rr += 1.0 / rank\n    return round(total_rr / len(rankings), 3)\n\n# Test session: Q1 found at #1, Q2 found at #3, Q3 not found\ntest_ranks = [1, 3, 0]\nprint(f\"System MRR: {calculate_mrr(test_ranks)}\")",
+                "input": "Ranks: [1, 3, 0].",
+                "output": "MRR: 0.444",
+                "interpretation": "The script demonstrates that a single 'Miss' (rank 0) or a low-ranked result (#3) pulls the average down significantly. QA systems strive for MRR > 0.8 to be considered 'Human-usable' for voice interactions."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Advantages & Drawbacks",
+            "content": {
+                "text": "Advantage: Factoid QA saves tremendous user time and is the foundation for almost all modern AI assistants. Drawback: 'Over-Confidence'—a QA system might state a false fact very confidently, leading the user to believe it even when it is wrong."
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Solution to Address Drawbacks",
+            "content": {
+                "text": "To address 'Hallucinations', use RAG (Retrieval-Augmented Generation) where the answer is strictly extracted from a verified source document. Always include a link back to the source so the user can 'Fact-check' the AI's output."
+            }
+        },
+        {
+            "slideNumber": 15,
+            "type": "comparison",
+            "title": "Comparison: IR vs. QA vs. Chat",
+            "comparison": {
+                "headers": ["Feature", "Traditional Search (IR)", "Question Answering (QA)", "Conversational AI (Chat)"],
+                "rows": [
+                    ["Input", "Keywords", "Specific Question", "Multi-turn Dialogue"],
+                    ["Output", "List of Links", "Specific Fact/Phrase", "Narrative Paragraph"],
+                    ["Evaluation", "Precision/MAP", "MRR", "Human Satisfaction"],
+                    ["Reasoning", "None (Matching)", "Low (Extraction)", "High (Generation)"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 16,
+            "type": "activity",
+            "title": "Virtual Lab: Factoid Audit",
+            "content": {
+                "activity": "The Answer Engine Test",
+                "description": "Go to Google and ask 3 questions: 1. 'What is the boiling point of milk?'. 2. 'How many stars are in the Milky Way?'. 3. 'Who is the best IR professor?'. Notice which ones got an 'Instant Answer Box' (Factoid QA) and which ones gave you 'Links only'. Why did question #3 not get an instant answer?"
+            }
+        },
+        {
+            "slideNumber": 17,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why is Mean Reciprocal Rank (MRR) the best metric for QA, rather than standard Precision? \n2. Is a QA system 'smarter' if it can answer 'I don't know' rather than guessing? \n3. How would you design a QA system for a child compared to one for a medical doctor?"
             }
         }
     ]

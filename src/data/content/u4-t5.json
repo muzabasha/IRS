@@ -1,279 +1,177 @@
 {
     "id": "u4-t5",
-    "title": "Searching using Hyperlinks",
+    "title": "Hyperlink Analysis (PageRank & HITS)",
     "unitId": "unit-4",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Searching using Hyperlinks",
-            "subtitle": "The Authority of the Network",
+            "title": "Hyperlink Analysis",
+            "subtitle": "Measuring Authority in the Web Graph",
             "content": {
-                "text": "The web is more than just text; it is a connectivity graph. Hyperlinks are the 'votes' that tell us which pages are authoritative and which are not.",
-                "hook": "It's not just what you say; it's who cites you."
+                "text": "The Web is a giant set of votes. Every link from Page-A to Page-B is a vote of confidence. Hyperlink analysis is the math of counting those votes intelligently.",
+                "hook": "A link from the New York Times is worth more than a million links from unknown blogs."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "PageRank (Google)",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "definition": "A global ranking algorithm that measures the 'importance' of a page based on the number and quality of links pointing to it.",
-                "text": "Logic: A page has high PageRank if it's linked to by many other high-PageRank pages. It models a 'Random Surfer' who eventually jumps to a new page.",
-                "hook": "The mathematical foundation of Google's success."
-            },
-            "formula": {
-                "equation": "PR(A) = (1-d) + d \\sum_{T_i \\in B_A} \\frac{PR(T_i)}{C(T_i)}",
-                "description": "PageRank algorithm models a random surfer who follows links with probability d, or jumps to a random page with probability (1-d).",
-                "terms": [
-                    {
-                        "symbol": "PR(A)",
-                        "meaning": "PageRank score of page A - higher means more authority/importance"
-                    },
-                    {
-                        "symbol": "d",
-                        "meaning": "Damping factor (typically 0.85) - probability of following a link vs random jump"
-                    },
-                    {
-                        "symbol": "(1-d)",
-                        "meaning": "Random jump probability - ensures all pages have minimum PageRank"
-                    },
-                    {
-                        "symbol": "T_i",
-                        "meaning": "The i-th page that links to page A (backlinking page)"
-                    },
-                    {
-                        "symbol": "B_A",
-                        "meaning": "Set of all pages that have a link pointing to page A"
-                    },
-                    {
-                        "symbol": "PR(T_i)",
-                        "meaning": "PageRank of page T_i - votes are weighted by the voter's own importance"
-                    },
-                    {
-                        "symbol": "C(T_i)",
-                        "meaning": "Total number of outgoing links from page T_i - dilutes the vote"
-                    },
-                    {
-                        "symbol": "\\frac{PR(T_i)}{C(T_i)}",
-                        "meaning": "Amount of PageRank passed from T_i to A - distributed among all outlinks"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "PageRank Iteration Example",
-                    "description": "Calculating the PageRank for Page A receiving links from Page B and Page C.",
-                    "steps": [
-                        {
-                            "label": "Gather Voter Data",
-                            "formula": "PR(B)=0.5, C(B)=2; PR(C)=0.8, C(C)=1",
-                            "note": "B has 2 out-links, C has only 1."
-                        },
-                        {
-                            "label": "Apply Damping Factor",
-                            "formula": "(1 - 0.85) = 0.15",
-                            "note": "The probability of a random jump to any page."
-                        },
-                        {
-                            "label": "Sum Backlink Authority",
-                            "formula": "0.85 \\times (\\frac{0.5}{2} + \\frac{0.8}{1}) = 0.85 \\times 1.05 = 0.8925"
-                        },
-                        {
-                            "label": "Final PageRank for A",
-                            "formula": "PR(A) = 0.15 + 0.8925 = 1.0425"
-                        }
-                    ],
-                    "input": "PR(B):0.5, PR(C):0.8, d:0.85",
-                    "output": "PR(A): 1.0425"
-                }
-            },
-            "subTopics": [
-                {
-                    "title": "Deep Dive: The Random Surfer Model",
-                    "content": "Why is the damping factor (d) 0.85? It represents the average person's patience before they get bored and type a new URL (Uniform Resource Locator).",
-                    "subSubTopics": [
-                        {
-                            "title": "Dangling Links",
-                            "content": "What happens when a page has no out-links? It becomes a 'rank sink'. PageRank handles this by assuming the surfer jumps to a random page.",
-                            "keyPoints": [
-                                "Prevents loss of rank from the system.",
-                                "Ensures the transition matrix is stochastic."
-                            ]
-                        }
-                    ]
-                }
-            ]
+                "text": "Before studying PageRank, you should understand: \n1. **Adjacency Matrices**: How a graph of links $[1 \to 2, 2 \to 3]$ is represented as a grid of 0s and 1s. \n2. **Iterative Algorithms**: The idea that a calculation can be repeated (Cycle 1, Cycle 2...) until the numbers stop changing. \n3. **Basic Probability**: The 'Random Surfer' model starts with a user clicking a random link with probability P."
+            }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "HITS (Hubs and Authorities)",
+            "title": "Background",
             "content": {
-                "definition": "A query-dependent link analysis algorithm by Jon Kleinberg.",
-                "text": "1. Authorities: High-quality sources on a topic. 2. Hubs: Pages that point to many good authorities (e.g. curated lists).",
-                "hook": "A good hub points to good authorities, and a good authority is pointed to by many good hubs."
-            },
-            "formula": {
-                "equation": "\\begin{aligned} a(p) &= \\sum_{q \\in B_p} h(q) \\\\ h(p) &= \\sum_{q \\in F_p} a(q) \\end{aligned}",
-                "description": "HITS (Hyperlink-Induced Topic Search) computes two mutually reinforcing scores - authority and hub values - that converge through iterative updates.",
-                "terms": [
-                    {
-                        "symbol": "a(p)",
-                        "meaning": "Authority score of page p - measures quality as a content source"
-                    },
-                    {
-                        "symbol": "h(p)",
-                        "meaning": "Hub score of page p - measures quality as a link aggregator/curator"
-                    },
-                    {
-                        "symbol": "B_p",
-                        "meaning": "Backlink set - all pages that link TO page p (incoming links)"
-                    },
-                    {
-                        "symbol": "F_p",
-                        "meaning": "Forward link set - all pages that p links TO (outgoing links)"
-                    },
-                    {
-                        "symbol": "\\sum_{q \\in B_p} h(q)",
-                        "meaning": "Authority = sum of hub scores of pages linking to p (good hubs increase authority)"
-                    },
-                    {
-                        "symbol": "\\sum_{q \\in F_p} a(q)",
-                        "meaning": "Hub = sum of authority scores of pages p links to (pointing to authorities makes you a hub)"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "HITS Update Cycle",
-                    "description": "A single update step for a page P in the Base Set.",
-                    "steps": [
-                        {
-                            "label": "Authority Score Update",
-                            "formula": "a(p) = \\sum h(q) = 0.9 + 0.6 = 1.5",
-                            "note": "Summing hub scores of pages linking TO p."
-                        },
-                        {
-                            "label": "Hub Score Update",
-                            "formula": "h(p) = \\sum a(q) = 0.8 + 0.7 = 1.5",
-                            "note": "Summing authority scores of pages p links TO."
-                        },
-                        {
-                            "label": "Normalization",
-                            "formula": "\\text{New Scores} = \\frac{\\text{Score}}{\\sqrt{\\sum \\text{Score}^2}}",
-                            "note": "Scores are scaled back to [0, 1] range."
-                        }
-                    ],
-                    "input": "H1:0.9, H2:0.6 (linking to), A1:0.8, A2:0.7 (linked by)",
-                    "output": "Authority: 1.5, Hub: 1.5 (unnormalized)"
-                }
-            },
-            "subTopics": [
-                {
-                    "title": "Iterative Convergence",
-                    "content": "HITS is an iterative algorithm. In each step, authority and hub scores are updated and normalized until they stabilize.",
-                    "subSubTopics": [
-                        {
-                            "title": "The Root Set and Base Set",
-                            "content": "Unlike PageRank which is global, HITS starts with a 'Root Set' of pages matching the query, then expands to a 'Base Set' by adding linked pages.",
-                            "examples": [
-                                "Search 'Jaguar' -> Get 200 docs (Root Set).",
-                                "Include pages they link to and pages linking to them -> 5000 docs (Base Set)."
-                            ]
-                        }
-                    ]
-                }
-            ]
+                "text": "Before 1998, search engines only looked at the text on a page. This led to 'Keyword Stuffing' spam. Larry Page and Sergey Brin at Stanford developed 'PageRank' to solve this by looking at 'Global Authority'. Simultaneously, Jon Kleinberg developed 'HITS' (Hubs and Authorities) to find specialized communities."
+            }
         },
         {
             "slideNumber": 4,
-            "type": "diagram",
-            "title": "Link Analysis & PageRank Flow",
+            "type": "standard",
+            "title": "Motivation",
             "content": {
-                "description": "How graph weights propagate through links.",
-                "steps": [
-                    "Fetch Content Matches",
-                    "Expand to Link Neighbors",
-                    "Score Hubs & Authorities",
-                    "Iterate PageRank Weights",
-                    "Produce Authoritative Rank"
-                ]
+                "text": "Why use links? Because text can lie, but links are harder to manipulate. A reputable site is unlikely to link to a low-quality or scammy site. By following the 'Trust Flow' of links, we can identify the most reliable information on any topic."
             }
         },
         {
             "slideNumber": 5,
-            "type": "activity",
-            "title": "Activity: Influence Sketch",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "activity": "The Power of Links",
-                "description": "Draw 4 websites (A, B, C, D). A links to B and C. B links to C. D links to A. Using the PageRank logic, which site is likely to be the most 'important'? What happens if C links back to D?"
+                "text": "1. Dead Ends: What happens if a page has no outgoing links? (The 'Sink' problem). 2. Spider Traps: Groups of pages that link only to each other, trapping the algorithm. 3. Topic Drift: A page about 'Horses' might link to 'Amazon', causing Amazon to rank high for 'Horses'."
             }
         },
         {
             "slideNumber": 6,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "What is the difference between an 'Authority' and a 'Hub'?",
-                "How does the 'Random Surfer' model relate to PageRank?",
-                "Is PageRank query-dependent or global?",
-                "What is a 'damping factor' in PageRank?"
+            "type": "grid",
+            "title": "Application",
+            "items": [
+                "PageRank: The core of Google's original ranking.",
+                "HITS: Identifying 'Hubs' (Review sites) and 'Authorities' (Official products).",
+                "TrustRank: Filtering out spam by starting from a set of 'Human-verified' seeds.",
+                "Social Ranking: Measuring the 'Influence' of a Twitter/X user based on retweets."
             ]
         },
         {
             "slideNumber": 7,
-            "type": "python_demo",
-            "title": "Python Demo: XML Structural Query",
+            "type": "standard",
+            "title": "Introduction to PageRank",
             "content": {
-                "code": "def search_xml(node, tag, content):\n    results = []\n    if node['tag'] == tag and content in node['text']:\n        results.append(node['id'])\n    for child in node.get('children', []):\n        results.extend(search_xml(child, tag, content))\n    return results\n\nroot = {\"tag\": \"book\", \"text\": \"\", \"id\": 0, \"children\": [\n    {\"tag\": \"title\", \"text\": \"Intro to IR\", \"id\": 1},\n    {\"tag\": \"content\", \"text\": \"vectors...\", \"id\": 2}\n]}\n\nprint(f\"Title Match: {search_xml(root, 'title', 'IR')}\")",
-                "input": "Tag: 'title', Content: 'IR'",
-                "output": "Title Match: [1]",
-                "interpretation": "XML (eXtensible Markup Language) retrieval allows 'Fielded' searching.\nInstead of searching the whole document, we specify tags like <title>.\nThis structural information provides higher precision than flat-text search."
+                "text": "PageRank simulates a 'Random Surfer'. The surfer clicks random links with probability $d$ (damping) or jumps to a random page entirely with probability $1-d$. Authority flows through the graph over multiple iterations."
             }
         },
         {
             "slideNumber": 8,
-            "type": "research_perspective",
-            "title": "Research Perspective: Eigenvectors & Markov Chains",
+            "type": "standard",
+            "title": "Step-by-Step Algorithm: PageRank Power Iteration",
             "content": {
-                "researchQuestions": [
-                    {
-                        "question": "The Markovian Assumption: Do real users actually behave like random surfers with no memory?",
-                        "answer": "PageRank assumes a memoryless (Markovian) process where the next page depends only on the current one. Research in 'Higher-Order Markov Chains' suggests that browsing is path-dependent (e.g., a user's previous 3 pages determine their next click). However, the standard PageRank transition matrix remains the benchmark due to its unique convergence property to a stationary distribution."
-                    },
-                    {
-                        "question": "Topic-Sensitive PageRank: Can we bias the global rank to favor a specific user's expertise?",
-                        "answer": "Global PageRank is query-independent. Research in 'Personalized PageRank' (PPR) modifies the teleportation vector (1-d) such that the surfer doesn't jump to a random page, but to a set of pages preferred by the user. Mathematically, this shifts the steady-state probability distribution to favor the local neighborhood of the user's interest."
-                    }
-                ],
-                "mathematicalModeling": {
-                    "problemStatement": "Modeling the Web Graph as a Transition Matrix and solving for its Stationary Distribution.",
-                    "derivation": [
-                        {
-                            "step": "Define the Google Matrix M as a combination of the link transition matrix T and the teleportation matrix E.",
-                            "equation": "M = d T + (1-d) E",
-                            "interpretation": "M ensures the graph is 'Irreducible' and 'Aperiodic', which are necessary conditions for a unique solution."
-                        },
-                        {
-                            "step": "Identify the PageRank vector π as the principal eigenvector of matrix M.",
-                            "equation": "\\pi = \\pi M",
-                            "interpretation": "The 'Steady State' is reached when further browsing doesn't change the probability of being on any given page. This is the Page Rank."
-                        },
-                        {
-                            "step": "Solve using the Power Iteration method.",
-                            "equation": "\\vec{x}_{k+1} = M^T \\vec{x}_k",
-                            "interpretation": "Repeatedly multiplying the probability vector by the transition matrix converges to the dominant eigenvector at a rate determined by the second eigenvalue λ₂."
-                        }
-                    ],
-                    "conclusion": "Link analysis proves that the 'Utility' of a node in a network is a global property determined by its structural centrality, transforming IR from a local word-counting task into a global graph-theory problem."
-                }
+                "text": "1. **Initialization**: Assign an equal initial rank to all $N$ pages $(PR = 1/N)$. \n2. **Distribution**: For each page $A$, find all pages $T$ that link TO it. \n3. **Contribution calculation**: Each page $T$ contributes $PR(T) / C(T)$ to $A$, where $C(T)$ is its outgoing link count. \n4. **Summation**: Add up all incoming contributions. \n5. **Apply Damping ($d$)**: Calculate $PR(A) = (1-d) + d \\\\times \\\\text{Sum\_Contributions}$. \n6. **Iteration**: Repeat the process for all pages until the ranks 'converge' (change by less than a small $\\\\epsilon$). \n7. **Normalization**: Ensure the total sum of all PageRanks remains constant (e.g. equal to $N$ or $1$)."
             }
         },
         {
             "slideNumber": 9,
-            "type": "summary",
-            "title": "Course Wrap-up",
+            "type": "standard",
+            "title": "The Concept: The PageRank Formula",
             "content": {
-                "text": "Congratulations! You have completed the full course on B22EQ0601: Information Retrieval Systems.",
-                "nextTopic": "Final Assessment",
-                "preparation": "Review all 4 units for the comprehensive exam."
+                "text": "PageRank determines the importance of a page based on its neighbors' importance and their 'Generosity' in sharing links."
+            },
+            "formula": {
+                "equation": "PR(A) = (1-d) + d \\\\left( \\\\sum_{i=1}^{n} \\\\frac{PR(T_i)}{C(T_i)} \\\\right)",
+                "description": "PageRank of A is the sum of (Ranks of pages T that link to A) divided by their outgoing link counts (C), scaled by a damping factor d.",
+                "terms": [
+                    { "symbol": "PR(A)", "meaning": "PageRank of the target page A" },
+                    { "symbol": "d", "meaning": "Damping factor (usually 0.85)" },
+                    { "symbol": "C(T)", "meaning": "Number of outgoing links from page T" }
+                ],
+                "calculation": {
+                    "exampleTitle": "A simple Link-Vote",
+                    "description": "Calculate rank of A if B links to it.",
+                    "steps": [
+                        { "label": "Setup", "formula": "PR(B)=1.0, C(B)=2, d=0.85", "note": "B links to 2 pages" },
+                        { "label": "B's share", "formula": "1.0 / 2 = 0.5", "note": "B gives half its power" },
+                        { "label": "Final PR(A)", "formula": "(1-0.85) + 0.85 \\\\times (0.5) = 0.575", "note": "Updated authority" }
+                    ],
+                    "input": "B->A, PR(B):1.0, C(B):2.",
+                    "output": "PR(A): 0.575"
+                }
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
+            "content": {
+                "text": "The inputs are the **Existing Ranks (PR)** of neighboring pages and their **Outgoing Link Counts (C)**. The output is a **New Rank (PR(A))**. If the incoming neighbor has a very high rank (high input quality), the output rank for page A increases significantly. A link from a trusted input (like Wikipedia) creates a much higher quality output than a link from an unknown one."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: The Trust Flow",
+            "content": {
+                "text": "**1. Sample Input**: Page-B links TO Page-A. Page-B has rank $1.0$ and links to 2 pages in total ($C=2$). Damping $d=0.85$. \n**2. Step-by-Step Illustration**: \n - Calculate rank share from Page-B: $1.0 / 2 = 0.5$. \n - Apply damping: $0.85 \\\\times (0.5) = 0.425$. \n - Add teleportation factor: $(1 - 0.85) + 0.425 = 0.575$. \n**3. Sample Output**: $PR(A) = 0.575$. \n**4. Interpretation of Results**: The resulting output (0.575) shows that Page-A has received 'authority' from Page-B. If Page-B had 10 outgoing links instead of 2, the output for A would drop to $0.235$, because B's trust is diluted across more targets."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "python_demo",
+            "title": "Python Demo: PageRank Iteration",
+            "content": {
+                "code": "def pagerank_cycle(ranks, links, d=0.85):\n    new_ranks = {}\n    # Teleportation\n    for node in ranks: new_ranks[node] = (1 - d)\n    \n    # Power Flow\n    for source, targets in links.items():\n        share = d * ranks[source] / len(targets)\n        for t in targets:\n            new_ranks[t] += share\n    return new_ranks\n\n# B links to A and C\nlinks = {'B': ['A', 'C'], 'A': ['C'], 'C': ['A']}\nr = {'A': 1, 'B': 1, 'C': 1}\nprint(f\"Iteration 1: {pagerank_cycle(r, links)}\")",
+                "input": "3-page graph [B->A,C; A->C; C->A].",
+                "output": "A: 0.725, B: 0.15, C: 0.575.",
+                "interpretation": "The script shows one cycle of PageRank. Node A gains authority because both B and C link to it. Node B loses authority because no one links to it (it starts at a high rank but its value isn't 'refreshed' by neighbors). This iteration repeatably identifies the 'Trust Center'."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Advantages & Drawbacks",
+            "content": {
+                "text": "Advantage: PageRank is a 'Global' metric (one score per page) that is independent of any specific query. Drawback: It is slow to compute for the entire web and doesn't handle 'Topic Specialization' (a general hub might not be an expert in rocket science)."
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Solution to Address Drawbacks",
+            "content": {
+                "text": "To handle specialized topics, use 'Topic-Sensitive PageRank', where the 'Random Jumps' are biased towards pages in a specific category (e.g. Sports or Tech). To handle spam, use 'Anti-TrustRank' to propagate 'Distrust' from known spam sites."
+            }
+        },
+        {
+            "slideNumber": 15,
+            "type": "comparison",
+            "title": "Comparison: PageRank vs. HITS",
+            "comparison": {
+                "headers": ["Aspect", "PageRank (Google)", "HITS (Kleinberg)"],
+                "rows": [
+                    ["Scope", "Global (All pages)", "Local (Query-dependent)"],
+                    ["Nature", "Single Rank", "Dual Rank (Hub + Authority)"],
+                    ["Stability", "Very Stable over time", "Volatile (changes with query)"],
+                    ["Goal", "Find 'Most Trusted' pages", "Find 'Topic Experts'"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 16,
+            "type": "activity",
+            "title": "Virtual Lab: The PageRank Simulator",
+            "content": {
+                "activity": "The Trust Game",
+                "description": "Draw 4 circles (Nodes A, B, C, D) on a paper. Draw arrows: A -> B, B -> C, C -> A, and D -> A. If you are a 'Random Surfer', which node will you end up at most often? Why does D have the lowest score even though it points to the winner? Hint: Think about who points TO D."
+            }
+        },
+        {
+            "slideNumber": 17,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why does PageRank use a damping factor (d=0.85) instead of 1.0? What would happen if a user never 'jumped' to a random page? \n2. In a social network like LinkedIn, does the PageRank of a person's profile tell you their actual skills or just how well-connected they are? \n3. How can 'Link Farming' (creating 1,000 fake sites that link to you) be detected by an algorithm?"
             }
         }
     ]

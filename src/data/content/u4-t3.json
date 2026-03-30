@@ -1,138 +1,177 @@
 {
     "id": "u4-t3",
-    "title": "Searching the Web: Challenges & Characterization",
+    "title": "Web Search (Characteristics & Algorithms)",
     "unitId": "unit-4",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Searching the Web",
-            "subtitle": "The Billion-Page Challenge",
+            "title": "Web Search Characteristics",
+            "subtitle": "Navigating the Chaos of the Internet",
             "content": {
-                "text": "The Web is the largest human-made information space. Searching it requires overcoming massive challenges of scale, diversity, and deception.",
-                "hook": "The web is not a library; it's a jungle."
+                "text": "The Web is not a document collection. It is a 'Super-Graph'—a living, breathing, and often adversarial ecosystem of trillions of interconnected nodes.",
+                "hook": "The Web is the largest human-made structure ever built, and we have to find a needle in its haystacks."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Challenges of Web Search",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "text": "1. Scale: Billions of pages. 2. Dynamism: Content changes daily. 3. Diversity: Languages, formats, and quality. 4. Spam: Adversarial IR (keyword stuffing, link farms).",
-                "outcomes": [
-                    "Freshness vs Resources",
-                    "Spam detection algorithms"
-                ]
+                "text": "Before studying Web Search, you should know: \n1. **Inverted Indices**: How to find which documents contain a word. \n2. **Basic Graph Theory**: What Nodes (Pages) and Edges (Hyperlinks) are. \n3. **HTML**: Basic structure of a web page ($<a>$ tags)."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Characterizing the Web",
+            "title": "Background",
             "content": {
-                "text": "The web structure is a 'Directed Graph'. It follows a Power Law distribution (a few sites have millions of links; most have almost none).",
-                "hook": "The Bow-tie Structure of the Web: Strong Connected Component (SCC), IN, OUT, and Tendrils."
-            },
-            "formula": {
-                "equation": "P(k) \\propto k^{-\\gamma}",
-                "description": "Web growth follows a Power Law distribution, where the probability of a page having 'k' incoming links is proportional to k raised to a negative exponent (typically gamma is between 2 and 3).",
-                "terms": [
-                    {
-                        "symbol": "P(k)",
-                        "meaning": "Probability that a random page has exactly 'k' links"
-                    },
-                    {
-                        "symbol": "k",
-                        "meaning": "Number of links (degree of the node in the graph)"
-                    },
-                    {
-                        "symbol": "\\gamma",
-                        "meaning": "Power law exponent (indicates how fast the tail drops off)"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Link Distribution Estimation",
-                    "description": "Estimating relative frequency of high-link vs low-link pages.",
-                    "steps": [
-                        {
-                            "label": "Assume Exponent",
-                            "formula": "\\gamma = 2.0",
-                            "note": "Simplifying the model for calculation."
-                        },
-                        {
-                            "label": "Calculate P(10)",
-                            "formula": "10^{-2} = 0.01",
-                            "note": "A page with 10 links has a 1% probability."
-                        },
-                        {
-                            "label": "Calculate P(100)",
-                            "formula": "100^{-2} = 0.0001",
-                            "note": "A page with 100 links is 100x rarer than a page with 10."
-                        },
-                        {
-                            "label": "Ratio Analysis",
-                            "formula": "0.01 / 0.0001 = 100",
-                            "note": "The 'Long Tail' means most pages have extremely few links."
-                        }
-                    ],
-                    "input": "k:10 vs k:100, gamma:2",
-                    "output": "100x frequency difference"
-                }
+                "text": "In the early 1990s, the Web was a static collection of academic pages. In 1994, WebCrawler launched the first 'Full-Text' engine. In 1998, Google changed everything by using 'Hyperlinks' (PageRank) to determine authority. Today, the Web is the 'Front Door' to all human knowledge."
             }
         },
         {
             "slideNumber": 4,
-            "type": "illustration",
-            "title": "The Bow-Tie Model Topology",
+            "type": "standard",
+            "title": "Motivation",
             "content": {
-                "description": "The logic of the large-scale web graph structure.",
-                "steps": [
-                    "IN (Pointing to Core)",
-                    "SCC (Strongly Connected Core)",
-                    "OUT (Pointing from Core)",
-                    "Tendrils (Disconnected Branches)"
-                ]
+                "text": "Why study the Web's structure? Because unlike a library, the Web is 'Adversarial'. People try to 'Spam' the index to get their product at #1. Understanding the 'Power Law' of links helps us identify 'Hubs' and 'Authorities' while ignoring the junk."
             }
         },
         {
             "slideNumber": 5,
-            "type": "activity",
-            "title": "Activity: Site Analysis",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "activity": "The Crawler's View",
-                "description": "Visit a random personal blog and Wikipedia. Compare: 1. Outgoing links, 2. Page depth, 3. Frequency of updates. Which one is harder for Google to crawl?"
+                "text": "1. Scale: Billions of new pages added daily. 2. Content Quality: Handling spam, duplicates, and dead links (404s). 3. The 'Invisible Web': Content hidden inside databases or PDFs that crawlers can't easily reach."
             }
         },
         {
             "slideNumber": 6,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "What is 'Adversarial IR'?",
-                "Explain the 'Bow-tie' structure of the web.",
-                "Why is the scale of the web a challenge for indexing?",
-                "What are 'Tendrils' in web topology?"
+            "type": "grid",
+            "title": "Application",
+            "items": [
+                "General Web Search (Google, Bing, Baidu).",
+                "Deep Web Explorers: Finding info in academic or government databases.",
+                "E-commerce aggregators (Google Shopping, PriceGrabber).",
+                "Archive Search: Searching through historical snapshots (Wayback Machine)."
             ]
         },
         {
             "slideNumber": 7,
-            "type": "python_demo",
-            "title": "Python Demo: Distributed Index Mapping",
+            "type": "standard",
+            "title": "Introduction to Web Graph Topology",
             "content": {
-                "code": "def get_shard(term, total_shards=3):\n    # Deterministic mapping of terms to servers\n    return hash(term) % total_shards\n\nterms = [\"apple\", \"zebra\", \"ir\"]\nshards = {t: get_shard(t) for t in terms}\nprint(f\"Shard Map: {shards}\")",
-                "input": "Terms: ['apple', 'zebra', 'ir']",
-                "output": "Shard Map: {'apple': 0, 'zebra': 2, 'ir': 1}",
-                "interpretation": "The Web is too big for one server.\nWe split (shard) the inverted index based on term hashes.\nA query for 'apple' is routed only to Shard 0, ensuring scalability."
+                "text": "The web graph follows a 'Power Law' distribution. A tiny number of sites (Google, Wikipedia, Amazon) have billions of incoming links, while the 'Long Tail' of the web has almost none."
             }
         },
         {
             "slideNumber": 8,
-            "type": "summary",
-            "title": "Wrap-up",
+            "type": "standard",
+            "title": "Step-by-Step Algorithm: Priority Web Crawling",
             "content": {
-                "text": "Web characterized. Next: The tools we use to navigate it.",
-                "nextTopic": "Search Engines, Browsing & Meta Searchers",
-                "preparation": "Recall your favorite search features."
+                "text": "1. **Seed List**: Start with a set of known 'High-Authority' URLs (e.g. news sites, government portals). \n2. **Frontier Management**: Maintain a queue of links to visit. \n3. **Fetching**: Download the page content and extract all outgoing links ($<a>$ tags). \n4. **Duplication Check**: Hash the content and compare it to existing pages in the index to avoid duplicates. \n5. **Priority Scoring**: Use 'Pagerank' or 'In-degree' to decide which new links to visit first. \n6. **Indexing**: Tokenize the text and update the Inverted Index. \n7. **Scheduling**: Periodically revisit pages that change frequently (like news sites) while ignoring static ones."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "The Concept: The Power Law of Connectivity",
+            "content": {
+                "text": "The number of links to a web page follows a Power Law, which is why a few sites dominate the search ecosystem."
+            },
+            "formula": {
+                "equation": "P(k) \\\\propto k^{-\\\\gamma}",
+                "description": "The probability (P) of a page having (k) incoming links is proportional to k raised to a negative exponent (usually 2.1).",
+                "terms": [
+                    { "symbol": "k", "meaning": "Number of incoming links (In-degree)" },
+                    { "symbol": "P(k)", "meaning": "Number of pages with exactly k links" },
+                    { "symbol": "\\\\gamma", "meaning": "The Power-law exponent (determines the 'steepness' of the inequality)" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Hub Identification",
+                    "description": "Calculate how many 10-link pages exist vs. 100-link pages.",
+                    "steps": [
+                        { "label": "n=10", "formula": "10^{-2} = 0.01", "note": "1 in 100 pages" },
+                        { "label": "n=100", "formula": "100^{-2} = 0.0001", "note": "1 in 10,000 pages" },
+                        { "label": "Ratio", "formula": "0.01 / 0.0001 = 100", "note": "Hubs are 100x rarer than small sites" }
+                    ],
+                    "input": "k:10 vs. k:100, \\gamma=2.",
+                    "output": "Hubs are 100 folds fewer"
+                }
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
+            "content": {
+                "text": "The input is the **Connectivity (k)** of a page. The output is its **Prevalence (P(k))**. This power law output tells the search engine that only a tiny fraction of inputs (sites) will be 'Hubs' with high authority. Most inputs will yield a very low probability of being 'authoritative', justifying a ranking that ignores most of the 'Leaf' web."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: The Power of Links",
+            "content": {
+                "text": "**1. Sample Input**: Suppose we test 1 million web sites. Exponent $\\\\gamma = 2.0$. \n**2. Step-by-Step Illustration**: \n - Calculate frequency of sites with $k=10$ links: $1 / 10^2 = 0.01$ (1% of sites). \n - Calculate frequency of sites with $k=100$ links: $1 / 100^2 = 0.0001$ (0.01% of sites). \n**3. Sample Output**: Result: For 1M sites, 10,000 have 10 links; only 100 have 100 links. \n**4. Interpretation of Results**: The output shows the 'Inequality' of the web. This is why Google's PageRank works: the ranking is 'Hub-centric' because there are 100x fewer hubs than medium sites."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "python_demo",
+            "title": "Python Demo: The Web Graph Visualizer",
+            "content": {
+                "code": "def calculate_prevalence(k, gamma=2.1):\n    # Simulate the Power Law of the Web\n    return round(1 / (k ** gamma), 6)\n\nprint(f\"Common site (10 links): {calculate_prevalence(10)}\")\nprint(f\"Rare hub (1000 links): {calculate_prevalence(1000)}\")",
+                "input": "k=10 vs. k=1000.",
+                "output": "10-links: 0.007, 1000-links: 0.000001",
+                "interpretation": "The script demonstrates that a 'Hub' (site with 1000 links) is 7,000 times rarer than a small site. This 'Inequality' is the secret weapon search engines use to find authority. Instead of indexing everything equally, we focus on the rare, highly-connected hubs."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Advantages & Drawbacks",
+            "content": {
+                "text": "Advantage: Graph-based search handles spam much better than text-only search. Drawback: 'Static' web search is losing ground to the 'Social Graph' (TikTok/Instagram) where info is locked inside apps."
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Solution to Address Drawbacks",
+            "content": {
+                "text": "To index the 'Invisible Web', search engines use 'Sitemap.xml' files where webmasters explicitly list their hidden pages. For mobile-first content, engines use 'Deep Linking' to launch apps from a search result."
+            }
+        },
+        {
+            "slideNumber": 15,
+            "type": "comparison",
+            "title": "Comparison: Early Web vs. Modern Web",
+            "comparison": {
+                "headers": ["Aspect", "Early Web (1995)", "Modern Web (2025)"],
+                "rows": [
+                    ["Content", "Static Text (HTML)", "Dynamic Feed (JS/AJAX)"],
+                    ["Search Method", "Boolean / TF-IDF", "Vector / Pagerank / Transformers"],
+                    ["Scale", "Millions of pages", "Trillions of pages"],
+                    ["Nature", "Informational", "Adversarial (SEO Spam)"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 16,
+            "type": "activity",
+            "title": "Virtual Lab: The Invisible Web Trace",
+            "content": {
+                "activity": "The Crawler Test",
+                "description": "Choice a specific academic paper or legal document. Try to find its full content on Google. If you can't, use 'Google Scholar' or 'Semantic Scholar'. Why could the general crawler not find it, but the specialized one could? Look for 'Login' buttons or 'Paywalls' on the page."
+            }
+        },
+        {
+            "slideNumber": 17,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why is the 'Invisible Web' (Deep Web) estimated to be 500x larger than the surface web? \n2. If a page has 1,000,000 links but they are all from the *same* person, is it a 'Hub'? Why or why not? \n3. Should a search engine follow a 'paywall' link? Does it help the user or frustrate them?"
             }
         }
     ]

@@ -6,136 +6,172 @@
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Navigating the Web",
-            "subtitle": "Spiders, Browsers, and Meta-Search",
+            "title": "The Search Ecosystem",
+            "subtitle": "Engines, Browsers, and Meta-Searchers",
             "content": {
-                "text": "How do we find what we need among trillions of documents? We use a combination of directed search (Engines), exploration (Browsing), and aggregation (Meta Searchers).",
-                "hook": "Finding a needle in a haystack becomes easy if you have a thousand people looking for you."
+                "text": "Searching the web is not a monolithic activity. It involves a diverse ecosystem of tools that crawl, index, and federate information from multiple sources.",
+                "hook": "Why settle for one engine when you can have the knowledge of all of them?"
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Search Engine Architecture",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "text": "1. Crawler (Spider): Traversing links and downloading pages. 2. Indexer: Building the massive Inverted Index. 3. Query Processor: Ranking results in milliseconds.",
-                "hook": "Engine = Crawling + Indexing + Ranking."
+                "text": "Before studying Meta-searchers, you should know: \n1. **Query Dispatching**: How a search request is sent from a user to a server. \n2. **Ranked Lists**: The list $[d_1, d_2, ..., d_n]$ of items returned by a single search engine. \n3. **Result Presentation**: How snippets and titles are rendered for the user."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Meta Searchers",
+            "title": "Background",
             "content": {
-                "definition": "A search tool that sends your query to multiple other search engines and aggregates their results.",
-                "text": "Meta searchers provide: 1. Broader coverage, 2. Combined ranking, 3. No local index of their own (they are 'leeches' of the search web).",
-                "examples": [
-                    "Dogpile",
-                    "MetaCrawler"
-                ]
-            },
-            "formula": {
-                "equation": "S_{total}(d) = \\sum_{e \\in E} w_e \\cdot Score(d, e)",
-                "description": "Meta-search engines aggregate rankings using consensus methods like the Borda Count or weighted summation of scores from multiple underlying engines.",
-                "terms": [
-                    {
-                        "symbol": "S_{total}(d)",
-                        "meaning": "Final aggregate score for document 'd'"
-                    },
-                    {
-                        "symbol": "e",
-                        "meaning": "One of the component search engines (e.g., Google, Bing)"
-                    },
-                    {
-                        "symbol": "w_e",
-                        "meaning": "Weight (trust) assigned to engine 'e'"
-                    },
-                    {
-                        "symbol": "Score(d, e)",
-                        "meaning": "Normalized score assigned to document 'd' by engine 'e'"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Aggregation Case Study",
-                    "description": "Merging results for a document from 2 engines with different weights.",
-                    "steps": [
-                        {
-                            "label": "Engine Scores",
-                            "formula": "Score_{G} = 0.9, Score_{B} = 0.4",
-                            "note": "Document ranked high in Google, moderate in Bing."
-                        },
-                        {
-                            "label": "Define weights",
-                            "formula": "w_{G} = 0.7, w_{B} = 0.3",
-                            "note": "We trust Google's ranking more."
-                        },
-                        {
-                            "label": "Calculate Aggregate",
-                            "formula": "S = (0.7 \\times 0.9) + (0.3 \\times 0.4)",
-                            "note": "Weighted average calculation."
-                        },
-                        {
-                            "label": "Final Score",
-                            "formula": "S = 0.63 + 0.12 = 0.75",
-                            "note": "Combined score represents a consensus of sources."
-                        }
-                    ],
-                    "input": "Scores:[0.9, 0.4], Weights:[0.7, 0.3]",
-                    "output": "Meta-Score: 0.75"
-                }
+                "text": "The web search landscape started with single-source indices (AltaVista). In the late 90s, 'Meta-searchers' (like Dogpile) emerged to query multiple engines at once and merge their results. Today, 'Federated Search' is used in shopping and travel (e.g., Kayak), where a single query is sent to hundreds of airline/hotel databases simultaneously."
             }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Finding the Needle in the Haystack",
+            "title": "Motivation",
             "content": {
-                "text": "This refers to Search Effectiveness (Precision/Recall) on a web scale. 1. High Precision is critical (users only look at page 1). 2. Diversification: Ensuring the top results are diverse (e.g. searching 'Apple' shows the fruit AND the company).",
-                "outcomes": [
-                    "Ranking by Authority",
-                    "User click-through signals"
-                ]
+                "text": "Why meta-search? Because no single search engine indexes the entire web (Google indexes < 50%). Meta-searchers provide higher 'Coverage' and 'Recall' by combining the expertise of multiple specialized engines. They also provide a 'Consensus' view: if three engines agree a page is #1, it probably is truly #1."
             }
         },
         {
             "slideNumber": 5,
-            "type": "activity",
-            "title": "Activity: Meta-Search Test",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "activity": "The Aggregator",
-                "description": "Go to Dogpile.com. Search for 'Quantum Computing'. Compare the results at the top with a standard Google search. Are the 'Meta' results more diverse or just noisier?"
+                "text": "1. Rank Fusion: How do you merge 'Score 0.9' from Engine A with 'Rank #2' from Engine B? 2. Efficiency: Meta-searchers are only as fast as the slowest engine they call. 3. De-duplication: Removing identical results appearing in multiple source sets."
             }
         },
         {
             "slideNumber": 6,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "What is a 'Meta Searcher'?",
-                "List the three main components of a Search Engine.",
-                "Why is 'Precision' more important than 'Recall' for web search users?",
-                "What does 'Finding the Needle' refer to in IR?"
+            "type": "grid",
+            "title": "Application",
+            "items": [
+                "Kayak/Skyscanner: Meta-search for flights.",
+                "Google Shopping: Federated search for products.",
+                "Dogpile/MetaCrawler: Meta-search for general web.",
+                "Enterprise Search: Searching across Email + Slack + Google Drive."
             ]
         },
         {
             "slideNumber": 7,
-            "type": "python_demo",
-            "title": "Python Demo: Simple PageRank",
+            "type": "standard",
+            "title": "Introduction to Meta-Search",
             "content": {
-                "code": "def pagerank_iteration(ranks, adj_matrix, d=0.85):\n    N = len(ranks)\n    new_ranks = [(1-d)/N] * N\n    for i in range(N):\n        for j in range(N):\n            if adj_matrix[j][i]: # If j links to i\n                new_ranks[i] += d * (ranks[j] / sum(adj_matrix[j]))\n    return [round(r, 3) for r in new_ranks]\n\n# Node 0 links to 1, Node 1 links to 0\nr = [0.5, 0.5]\nm = [[0, 1], [1, 0]]\nprint(f\"Next Rank: {pagerank_iteration(r, m)}\")",
-                "input": "Ranks: [0.5, 0.5], Matrix: bidirectional",
-                "output": "Next Rank: [0.5, 0.5]",
-                "interpretation": "PageRank simulates a 'Random Surfer' on the web graph.\nA page's score depends on the number and quality of incoming links.\nLinks from authoritative sites carry more weight than links from unknown ones."
+                "text": "Meta-search engines consist of three parts: 1. Query Dispatcher (sends query to sources), 2. Response Parser (extracts results/ranks), and 3. Rank Merger (combines results using a fusion algorithm)."
             }
         },
         {
             "slideNumber": 8,
-            "type": "summary",
-            "title": "Wrap-up",
+            "type": "standard",
+            "title": "Step-by-Step Algorithm: Reciprocal Rank Fusion (RRF)",
             "content": {
-                "text": "Tools mastered. Finally, we look at the 'secret sauce' of web ranking.",
-                "nextTopic": "Searching using Hyperlinks",
-                "preparation": "Visualize a network of friends recommending each other."
+                "text": "1. **Initialize Source Lists**: Obtain result sets (ordered document lists) from multiple search engines ($R_1, R_2, ..., R_n$). \n2. **Set Parameter k**: Choose a damping constant (usually $k=60$) to prevent extreme weight for top-ranked documents. \n3. **Map Reciprocal Ranks**: For each unique document $(d)$ found in ANY list: \n4. **Update Score**: Iterate through each list $(R_i)$ and add $1 / (k + rank\\\\_in\\\\_R\\\\_i)$ to doc $(d)$'s total score. \n5. **Aggregate Results**: Store all unique documents with their summed RRF scores. \n6. **Final Sort**: Sort the document collection in descending order of their total RRF scores. \n7. **Truncate & Return**: Return the top K merged results as the final consensus answer."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "The Concept: Reciprocal Rank Fusion (RRF)",
+            "content": {
+                "text": "RRF is the standard method for merging results from different search engines without needing to know their internal scores (only their ranks)."
+            },
+            "formula": {
+                "equation": "RRFScore(d) = \\\\sum_{r \\\\in R} \\\\frac{1}{k + r(d)}",
+                "description": "The final score of document (d) is the sum of reciprocal ranks (r) from all engine result sets (R). k is a constant (usually 60) used to dampen the impact of low ranks.",
+                "terms": [
+                    { "symbol": "r(d)", "meaning": "Rank of document d in a specific engine (1, 2, ...)" },
+                    { "symbol": "k", "meaning": "Constant (prevents extreme weighting of top results)" },
+                    { "symbol": "R", "meaning": "The set of all engine result lists" }
+                ],
+                "calculation": {
+                    "exampleTitle": "The Consensus Winner",
+                    "description": "Calculate RRF score for Doc-X appearing in 2 lists.",
+                    "steps": [
+                        { "label": "Engine 1 Rank", "formula": "Doc-X = #1, Score1 = 1 / (60 + 1) = 0.0163", "note": "High rank" },
+                        { "label": "Engine 2 Rank", "formula": "Doc-X = #3, Score2 = 1 / (60 + 3) = 0.0158", "note": "Medium rank" },
+                        { "label": "Final Score", "formula": "RRF = 0.0163 + 0.0158 = 0.0321", "note": "Combined result" }
+                    ],
+                    "input": "R1:1, R2:3, k:60.",
+                    "output": "RRF Score: 0.0321"
+                }
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
+            "content": {
+                "text": "The inputs to RRF are the **Rank Orderings (r)** from multiple independent engines. The output is a single **Consensus Score (RRFScore)**. If an input document r appears in multiple engine lists at a high position, the output RRF value grows, signaling a 'Consensus Winner' that overrides the noise of single-engine bias."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Merging Ranks",
+            "content": {
+                "text": "**1. Sample Input**: Doc-A is #1 in Engine-1 ($r_1=1$) and #3 in Engine-2 ($r_2=3$). Baseline $k=60$. \n**2. Step-by-Step Illustration**: \n - Calculate score from Engine-1: $1 / (60 + 1) \\\\approx 0.0163$. \n - Calculate score from Engine-2: $1 / (60 + 3) \\\\approx 0.0158$. \n - Add both: $0.0163 + 0.0158$. \n**3. Sample Output**: $RRFScore = 0.0321$. \n**4. Interpretation of Results**: The document output score (0.0321) is higher than any document ranked #1 by only one engine (which would be 0.0163). This proves RRF values documents 'trusted' by multiple independent inputs."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "python_demo",
+            "title": "Python Demo: RRF Rank Merger",
+            "content": {
+                "code": "def rrf_merge(engine_results, k=60):\n    # engine_results: list of lists (rank ordered)\n    scores = {}\n    for results in engine_results:\n        for rank, doc_id in enumerate(results, 1):\n            scores[doc_id] = scores.get(doc_id, 0) + (1.0 / (k + rank))\n    \n    # Sort final results by RRF score\n    return sorted(scores.items(), key=lambda x: x[1], reverse=True)\n\n# Mock results from 2 engines\ne1 = ['doc_a', 'doc_b', 'doc_c']\ne2 = ['doc_b', 'doc_c', 'doc_d']\n\nmerged = rrf_merge([e1, e2])\nprint(f\"Merged Ranking (ID, RRF Score): {merged[:3]}\")",
+                "input": "Engine1: [a, b, c], Engine2: [b, c, d].",
+                "output": "Result: doc_b is #1 winner.",
+                "interpretation": "The script merges two engine results. Doc_b becomes the winner because it appeared in BOTH engines at high ranks. Doc_a, despite being #1 in Engine 1, has a lower RRF score because Engine 2 didn't mention it. This proves meta-search consensus works!"
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Advantages & Drawbacks",
+            "content": {
+                "text": "Advantage: Meta-searchers provide 'Unified Access' and 'Search Insurance' (if one engine goes down, you have others). Drawback: They are bandwidth-heavy and might violate the 'Terms of Service' of source engines (which prefer users visit their own sites)."
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Solution to Address Drawbacks",
+            "content": {
+                "text": "To address performance, use 'Federated Caching' where common queries are saved so the engines don't need to be hit every time. To respect Terms of Service, modern meta-searchers use 'Affiliate APIs' which provide structured data for a fee (e.g. Amazon PA-API)."
+            }
+        },
+        {
+            "slideNumber": 15,
+            "type": "comparison",
+            "title": "Comparison: Single vs. Meta Search",
+            "comparison": {
+                "headers": ["Aspect", "Single Search Engine", "Meta Search Engine"],
+                "rows": [
+                    ["Data Type", "Indexed and Local", "Remote and Federater"],
+                    ["Speed", "O(ms) - very fast", "O(sec) - slower (waits for remote)"],
+                    ["Recall", "Lower (System-specific)", "Higher (Sum of all sources)"],
+                    ["Maintenance", "High (Full Crawler required)", "Low (API-only required)"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 16,
+            "type": "activity",
+            "title": "Virtual Lab: Meta Search Audit",
+            "content": {
+                "activity": "The Rank Fusion Lab",
+                "description": "Choose a rare topic (e.g., '1950s Bulgarian car models'). Search for it on Google, then DuckDuckGo, then on a meta-searcher like 'Dogpile'. Which tool gave you more unique results? Check the top result of Dogpile—did it exist on the first page of Google?"
+            }
+        },
+        {
+            "slideNumber": 17,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why is the 'Consensus Winner' (RRF score) more reliable than the top #1 result of a single engine? \n2. Can a meta-searcher be 'biased' if it only queries engines from one country? \n3. How would you handle a source engine that is deliberately providing fake ranks to manipulate the RRF score?"
             }
         }
     ]

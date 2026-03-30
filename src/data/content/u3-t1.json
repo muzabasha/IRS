@@ -1,129 +1,178 @@
 {
     "id": "u3-t1",
-    "title": "Human-computer Interaction",
+    "title": "User Interfaces and Visualization",
     "unitId": "unit-3",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Human-Computer Interaction (HCI) in IR",
-            "subtitle": "Designing for the Searcher",
+            "title": "User Interfaces and Visualization",
+            "subtitle": "Connecting the Human and the Machine",
             "content": {
-                "text": "Information Retrieval is not just about algorithms; it is about how humans interact with those algorithms to find meaning. HCI in IR focuses on making search intuitive and effective.",
-                "hook": "The best search engine is invisible. You ask, and you find."
+                "text": "Information Retrieval is not just about algorithms; it is about how humans interact with those algorithms. The UI is the bridge that turns a 'Ranked List' into a 'Reasonable Answer'.",
+                "hook": "A perfect search algorithm with a terrible interface is a failed product."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "The User Perspective",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "text": "Traditional IR focused on system performance (P/R). Modern IR focuses on user satisfaction. HCI studies the 'Gulf of Execution' (how to search) and the 'Gulf of Evaluation' (interpreting the results).",
-                "outcomes": [
-                    "User-centered design",
-                    "Cognitive load reduction",
-                    "Iterative design cycles"
-                ]
-            },
-            "formula": {
-                "equation": "T = a + b \\log_2 \\left( 1 + \\frac{D}{W} \\right)",
-                "description": "Fitts's Law predicts the time (T) required to move to a target (like a search button), helping designers optimize button size and placement for faster search interactions.",
-                "terms": [
-                    {
-                        "symbol": "T",
-                        "meaning": "Mean time to complete the movement"
-                    },
-                    {
-                        "symbol": "D",
-                        "meaning": "Distance from the starting point to the target"
-                    },
-                    {
-                        "symbol": "W",
-                        "meaning": "Width of the target (size along the axis of movement)"
-                    },
-                    {
-                        "symbol": "a, b",
-                        "meaning": "Empirical constants depending on the device"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Search Button Placement",
-                    "description": "Comparing the efficiency of two search button sizes.",
-                    "steps": [
-                        {
-                            "label": "Define distance",
-                            "formula": "D = 500 \\text{ pixels}",
-                            "note": "Cursor starts 500px away from the search bar."
-                        },
-                        {
-                            "label": "Scenario A: Small Button",
-                            "formula": "W = 10, ID = \\log_2(1+50) \\approx 5.6",
-                            "note": "Narrow buttons take significantly more effort to hit."
-                        },
-                        {
-                            "label": "Scenario B: Large Button",
-                            "formula": "W = 50, ID = \\log_2(1+10) \\approx 3.5",
-                            "note": "A 5x larger button is 37% easier to target."
-                        },
-                        {
-                            "label": "Performance Boost",
-                            "formula": "\\Delta T = b \\times (5.6 - 3.5) = 2.1b",
-                            "note": "Users reach larger search bars significantly faster."
-                        }
-                    ],
-                    "input": "D:500, W1:10, W2:50",
-                    "output": "Index of Difficulty reduction: 37%"
-                }
+                "text": "To fully grasp IR User Interfaces, you should be familiar with: \n1. **Vector Space Model (VSM)**: How documents and queries are turned into math. \n2. **Precision vs. Recall**: How we measure if a search is actually good. \n3. **Basic Web Navigation**: How a person scans a page (top-down, left-to-right)."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "HCI Principles for IR",
+            "title": "Background",
             "content": {
-                "text": "1. Informative Feedback (Show what the system is doing), 2. Error Prevention (Autocomplete), 3. User Control (Allowing query refinement), 4. Consistency.",
-                "hook": "Don't make the user think about the system; make them think about the answer."
+                "text": "In the 1970s, search interfaces were 'Command Line'. Users had to type complex Boolean logic. In the 1990s, the Web gave us the 'Search Box'. Today, we are moving toward 'Natural Language' and 'Voice UI'. Visualization has evolved from simple lists to 3D maps and interactive clusters."
             }
         },
         {
             "slideNumber": 4,
-            "type": "activity",
-            "title": "Activity: UX Audit",
+            "type": "standard",
+            "title": "Motivation",
             "content": {
-                "activity": "The 3-Click Test",
-                "description": "Go to a university library website. Pick a complex topic. Can you find a relevant ebook in 3 clicks? If not, identify the HCI barrier."
+                "text": "Why care about the UI? Because of the 'Cognitive Load'. A user should spend their energy understanding the information, not fighting the search engine. Good UI/UX reduces friction and helps users formulate better queries through feedback and suggestions."
             }
         },
         {
             "slideNumber": 5,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "What is the 'Gulf of Execution' in IR?",
-                "How does Autocomplete reduce cognitive load?",
-                "Why is 'Feedback' critical in a search interface?",
-                "Define User-Centered Design."
-            ]
-        },
-        {
-            "slideNumber": 6,
-            "type": "python_demo",
-            "title": "Python Demo: Key-Word In Context (KWIC)",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "code": "def generate_snippet(text, query, window=5):\n    pos = text.lower().find(query.lower())\n    if pos == -1: return text[:50] + \"...\"\n    \n    start = max(0, pos - window*10)\n    end = min(len(text), pos + len(query) + window*10)\n    \n    snippet = text[start:end]\n    return f\"...{snippet}...\"",
-                "input": "Text: 'IR is the science of searching for info. It covers indexing and ranking.'\nQuery: 'searching'",
-                "output": "...science of searching for info. It c...",
-                "interpretation": "A good UI provides 'Snippets' to help the user judge relevance quickly.\nThis script extracts text around the keyword to show context.\nIn a real app, 'searching' would be wrapped in <b> tags."
+                "text": "1. Screen Space: How to show thousands of results on a small phone. 2. Diversity: Showing different types of info (images, news, maps) in one place. 3. Trust: How do we show the user *why* a result was chosen?"
             }
         },
         {
+            "slideNumber": 6,
+            "type": "grid",
+            "title": "Application",
+            "items": [
+                "E-commerce: Filtering by price, brand, and color.",
+                "Academic Search: Visualizing citation networks.",
+                "Maps: Navigating spatial information.",
+                "Social Media: The 'Infinite Scroll' vs. 'Pagination'."
+            ]
+        },
+        {
             "slideNumber": 7,
-            "type": "summary",
-            "title": "Wrap-up",
+            "type": "standard",
+            "title": "Introduction to HCI in IR",
             "content": {
-                "text": "We've defined the human element. Next, we look at the specific steps a user takes during a search session.",
-                "nextTopic": "The Information Access Process",
-                "preparation": "Visualize your own steps when searching for a product."
+                "text": "Human-Computer Interaction (HCI) in IR focuses on the 'Searcher's Journey'. This involves understanding the 'Golden Triangle' of eye-tracking and applying laws like Fitts's Law to speed up the process of finding and clicking results."
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "standard",
+            "title": "Step-by-Step Algorithm: Fitts's Law Analysis",
+            "content": {
+                "text": "1. **Identify the Target**: Define the clickable area (e.g., the 'Search' button). \n2. **Measure Distance (D)**: Calculate the distance from the user's current cursor position to the target center. \n3. **Measure Width (W)**: Determine the size of the target along the axis of motion. \n4. **Calculate ID**: Compute the Index of Difficulty using $\\\\log_2(D/W + 1)$. \n5. **Predict Time (T)**: Use the linear formula $T = a + b \\\\times ID$ to estimate interaction speed. \n6. **Optimize**: If $T$ is too high, either increase $W$ or move the target closer (decrease $D$)."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "The Concept: Fitts's Law",
+            "content": {
+                "text": "Fitts's Law is a predictive model of human movement primarily used in HCI to describe the time it takes to move to a target area."
+            },
+            "formula": {
+                "equation": "T = a + b \\\\log_2 \\\\left( \\\\frac{D}{W} + 1 \\\\right)",
+                "description": "The time (T) required to move to a target is a function of the distance (D) and the width (W) of the target.",
+                "terms": [
+                    { "symbol": "T", "meaning": "Average time to complete the movement" },
+                    { "symbol": "D", "meaning": "Distance from the starting point to the center of the target" },
+                    { "symbol": "W", "meaning": "Width of the target measured along the axis of motion" },
+                    { "symbol": "a, b", "meaning": "Constants determined by the input device (mouse, touch, etc.)" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Efficiency Check",
+                    "description": "Calculate time for a button click.",
+                    "steps": [
+                        { "label": "Setup", "formula": "D=200, W=20, a=0.2, b=0.1", "note": "Standard desktop layout" },
+                        { "label": "Log Part", "formula": "\\\\log_2(200/20 + 1) \\\\approx 3.45", "note": "Index of Difficulty" },
+                        { "label": "Total Time", "formula": "T = 0.2 + (0.1 \\\\times 3.45) = 0.545s", "note": "Predicted click time" }
+                    ],
+                    "input": "D:200, W:20, Constants:[0.2, 0.1]",
+                    "output": "T: 0.545 seconds"
+                }
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
+            "content": {
+                "text": "The input to Fitts's Law is the **Distance (D)** the user must travel and the **Target Width (W)**. The output is **Movement Time (T)**. If the input ratio $D/W$ is large, the output $T$ increases logarithmically, indicating a 'Hard' task. Conversely, increasing the width (W) as an input dramatically reduces the effort (ID), resulting in a faster, more successful interaction (output)."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: The Search Button",
+            "content": {
+                "text": "**1. Sample Input**: Suppose a user's cursor is at the center of the screen, and the 'Search' button is 600px away ($D=600$), with a width of 30px ($W=30$). \n**2. Step-by-Step Calculation**: \n - Calculate Index of Difficulty ($ID$): $\\\\log_2(600/30 + 1) = \\\\log_2(21) \\\\approx 4.39$ bits. \n - Estimate Time ($T$) using constants ($a=0.2, b=0.1$): $0.2 + (0.1 \\\\times 4.39) = 0.639s$. \n**3. Sample Output**: $T = 0.639$ seconds. \n**4. Interpretation**: At 0.639s, the task is relatively slow. By doubling $W$ to 60px as a design change, the output $T$ drops to $0.539s$ (a 16% speed increase)."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "python_demo",
+            "title": "Python Demo: Interaction Time Calculator",
+            "content": {
+                "code": "import math\n\ndef predict_time(distance, width, a=0.2, b=0.1):\n    # Fitts's Law formula\n    id = math.log2((distance / width) + 1)\n    return round(a + b * id, 3)\n\n# Scenario: Large Button vs. Small Button\nprint(f\"Time (Small Button): {predict_time(500, 10)}s\")\nprint(f\"Time (Large Button): {predict_time(500, 50)}s\")",
+                "input": "D=500, W=10 vs. W=50.",
+                "output": "Small: 0.767s, Large: 0.546s",
+                "interpretation": "The script proves that increasing button width five-fold reduces selection time by nearly 30%. This is why 'Primary Actions' in IR (like the Search button) should be large and centrally located."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Advantages & Drawbacks",
+            "content": {
+                "text": "Advantage: Graphical UIs make IR accessible to everyone, not just experts. Drawback: Complex visualizations can sometimes confuse users more than help them ('The Paradox of Choice')."
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Solution to Address Drawbacks",
+            "content": {
+                "text": "To prevent confusion, use 'Minimalist Design' (like the Google homepage) and 'Progressive Disclosure' (hiding advanced filters until needed). Use A/B testing to verify if a new UI feature actually helps users find info faster."
+            }
+        },
+        {
+            "slideNumber": 15,
+            "type": "comparison",
+            "title": "Comparison: Command Line vs. GUI",
+            "comparison": {
+                "headers": ["Feature", "Command Line IR", "Graphical / Web IR"],
+                "rows": [
+                    ["User Skill", "High (Must know syntax)", "Low (Click and Type)"],
+                    ["Error Rate", "High (Typos break query)", "Low (Autocomplete fixes it)"],
+                    ["Speed", "Fast for experts", "Fast for everyone"],
+                    ["Interaction", "Static / Boolean", "Dynamic / Exploratory"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 16,
+            "type": "activity",
+            "title": "Virtual Lab: Button Layout Audit",
+            "content": {
+                "activity": "The Fitts's Law Experiment",
+                "description": "Find three search engines (e.g., Google, Bing, DuckDuckGo). Measure the distance from the center of the screen to their 'Search' button and the width of that button. Use the Python script provided to calculate which one is 'mathematically' most efficient."
+            }
+        },
+        {
+            "slideNumber": 17,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why does Google prioritize a blank homepage over showing 'Trending Results' immediately? \n2. Can a UI be so 'efficient' that it leads to mindless clicking rather than deep reading? \n3. How would you design a search interface for a user who cannot see?"
             }
         }
     ]

@@ -1,135 +1,177 @@
 {
     "id": "u3-t6",
-    "title": "Trends and Research Issues (UI)",
+    "title": "Trends & Research in UI",
     "unitId": "unit-3",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Trends & Research in IR Interfaces",
-            "subtitle": "The Future of Information Interaction",
+            "title": "Trends & Research in IR UI",
+            "subtitle": "The Future of Information",
             "content": {
-                "text": "The way we interact with information is moving beyond static lists and keyboards. This topic explores the cutting-edge research in UI/UX for IR.",
-                "hook": "We are moving from 'searching' to 'conversing'."
+                "text": "The 'Search Bar' is evolving. We are moving from 'Keywords' to 'Conversations' and from 'Screens' to 'Voice' and 'AR' (Augmented Reality).",
+                "hook": "The best search interface is one that you don't even notice."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Conversational Search",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "text": "The rise of Large Language Models (LLMs) and Voice assistants. Instead of queries, users engage in dialogue. The system must maintain state and understand intent through multi-turn interactions.",
-                "hook": "Siri, Alexa, and Gemini are the new 'browsers'."
+                "text": "To understand IR trends, you should know: \n1. **Query Process**: How users interact with a search box. \n2. **Basic Ranking**: The concept that some results are 'Better' than others. \n3. **Chatbots vs. Search**: The basic difference between a result list and a chat response."
             }
         },
         {
             "slideNumber": 3,
-            "type": "grid",
-            "title": "Modern Research Directions",
-            "items": [
-                "Neuro-symbolic interfaces (combining LLMs with structured data).",
-                "Augmented Reality (AR) search interfaces.",
-                "Collaborative Search (multiple people searching together).",
-                "Affective IR (sensing user emotion through behavior)."
-            ]
+            "type": "standard",
+            "title": "Background",
+            "content": {
+                "text": "The 2010s saw 'Mobile-First' search. In the 2020s, the paradigm shifted with Large Language Models (LLMs). We moved from 'Indexing Documents' to 'Generating Answers'. 'Conversational IR' (like Perplexity or ChatGPT) is now the most researched trend in the field."
+            }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Human-Centered Evaluation",
+            "title": "Motivation",
             "content": {
-                "text": "How do we measure 'Ease of use' or 'Joy' in IR? Research into biometric feedback (eye-tracking), EEG, and long-term user logs to understand satisfaction beyond just relevance.",
-                "outcomes": [
-                    "User experience (UX) as a ranking signal.",
-                    "Personalization vs Privacy trade-off."
-                ]
-            },
-            "formula": {
-                "equation": "RT = a + b \\log_2(n)",
-                "description": "Hick's Law calculates the reaction time (RT) for a user to make a decision based on the number of choices (n). In IR interfaces, this directs us to keep menus and facet lists concise to minimize cognitive load.",
-                "terms": [
-                    {
-                        "symbol": "RT",
-                        "meaning": "Reaction time required to make a selection"
-                    },
-                    {
-                        "symbol": "n",
-                        "meaning": "Number of equally probable choices (e.g., number of links in a menu)"
-                    },
-                    {
-                        "symbol": "a, b",
-                        "meaning": "Constants representing baseline time and processing rate"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Menu Optimization",
-                    "description": "Comparing choice time for a long list vs a grouped list.",
-                    "steps": [
-                        {
-                            "label": "Original List",
-                            "formula": "n = 16 \\text{ items}",
-                            "note": "A single long list of categories."
-                        },
-                        {
-                            "label": "Grouped List",
-                            "formula": "n = 4 \\text{ items}",
-                            "note": "4 main categories, each with 4 sub-items."
-                        },
-                        {
-                            "label": "Time Complexity (16)",
-                            "formula": "\\log_2(16) = 4 \\text{ units}",
-                            "note": "Double the choices doesn't mean double the time (logarithmic)."
-                        },
-                        {
-                            "label": "Time Complexity (4)",
-                            "formula": "\\log_2(4) = 2 \\text{ units}",
-                            "note": "Fewer choices significantly speed up initial target acquisition."
-                        }
-                    ],
-                    "input": "n1:16, n2:4",
-                    "output": "50% reduction in choice complexity"
-                }
+                "text": "Why study trends? Because the user's information need is becoming more complex. A user doesn't just want a 'List of hotels'; they want a 'Schedule for a 3-day trip to Paris'. This requires 'Dialogic IR'—the ability of the system to ask clarifying questions and remember past turns."
             }
         },
         {
             "slideNumber": 5,
-            "type": "activity",
-            "title": "Activity: Predict the 2030s",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "activity": "The Inventor",
-                "description": "Imagine search 10 years from now. Will screens still be the primary interface? Describe a search scenario using AR glasses or brain-computer interfaces."
+                "text": "1. Hallucinations: AI models making up facts in a search result. 2. Attribution: How do we cite sources in a generated paragraph? 3. User Agency: If the AI answers the question, does the user lose the ability to explore alternative viewpoints?"
             }
         },
         {
             "slideNumber": 6,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "What is 'Conversational Search'?",
-                "How does Eye-tracking help in IR research?",
-                "Name one trend in mobile search interface.",
-                "What is 'Collaborative Search'?"
+            "type": "grid",
+            "title": "Application",
+            "items": [
+                "Generative Search (SGE/Perplexity/Bing AI).",
+                "Voice-First Interfaces (Google Assistant/Siri).",
+                "Augmented Reality (AR) overlays for product search.",
+                "Multi-modal Search (using an image + text together)."
             ]
         },
         {
             "slideNumber": 7,
-            "type": "python_demo",
-            "title": "Python Demo: Search Log Analysis",
+            "type": "standard",
+            "title": "Introduction to Conversational IR",
             "content": {
-                "code": "def analyze_logs(logs):\n    # Extract top queries from search logs\n    query_freq = {}\n    for entry in logs:\n        q = entry['query'].lower()\n        query_freq[q] = query_freq.get(q, 0) + 1\n    return dict(sorted(query_freq.items(), key=lambda x: x[1], reverse=True))\n\nlogs = [\n    {'user': '1', 'query': 'IR models'},\n    {'user': '2', 'query': 'Python'},\n    {'user': '3', 'query': 'IR models'},\n    {'user': '4', 'query': 'Vector Space'}\n]\n\nprint(f\"Query Trends: {analyze_logs(logs)}\")",
-                "input": "Logs: 4 entries with recurring queries",
-                "output": "Query Trends: {'ir models': 2, 'python': 1, 'vector space': 1}",
-                "interpretation": "Case studies often involve analyzing real-world search logs.\nThis script identifies trending topics by counting query frequencies.\nSystems use this data to pre-cache popular results and suggest 'hot' terms."
+                "text": "Conversational IR (ConvIR) treats the search session as an interactive dialogue. The system must maintain a 'State' or 'Context Vector' that evolves with each user turn ($Q_1, Q_2, ...$)."
             }
         },
         {
             "slideNumber": 8,
-            "type": "summary",
-            "title": "Unit Wrap-up",
+            "type": "standard",
+            "title": "Step-by-Step Algorithm: Dialogic Context Tracking",
             "content": {
-                "text": "Unit 3 complete. We have mastered the human-machine interface. Next, we move into the complex world of Multimedia Retrieval.",
-                "nextTopic": "Unit 4: Multimedia IR",
-                "preparation": "Recall image search experiences on Google or Pinterest."
+                "text": "1. **Receive Turn 1 ($Q_1$)**: Extract the user's initial information need and create a state vector $S_1$. \n2. **Store & Answer**: Return the first result and save $S_1$ in the session cache. \n3. **Receive Turn 2 ($Q_2$)**: Check for 'Anaphora' (e.g., words like 'he', 'it', 'there' that refer to previous turns). \n4. **Update State ($S_2$)**: Compute the weighted similarity between $Q_2$ and $S_1$. If the similarity is high, merge them into $S_2$. \n5. **Perform Retrieval**: Search the index using the combined $S_2$ context rather than just $Q_2$. \n6. **Refine Results**: Filter out items the user already saw in Turn 1 to provide 'Novelty' in the results."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "The Concept: Contextual Similarity",
+            "content": {
+                "text": "Contextual Similarity measures how much a current search depends on previous ones."
+            },
+            "formula": {
+                "equation": "Sim(Q_t, H_{t-1}) = \\\\frac{\\\\vec{Q}_t \\\\cdot \\\\vec{H}_{t-1}}{|\\\\vec{Q}_t| |\\\\vec{H}_{t-1}|}",
+                "description": "Cosine similarity between the current query (Q_t) and the history (H_{t-1}) determines if the user is staying on topic or switching tasks.",
+                "terms": [
+                    { "symbol": "Q_t", "meaning": "Current query vector at turn t" },
+                    { "symbol": "H_{t-1}", "meaning": "Aggregated history vector of all previous turns" },
+                    { "symbol": "Sim", "meaning": "Similarity score (0.0 to 1.0)" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Staying on Topic",
+                    "description": "Check if Turn 2 is related to Turn 1.",
+                    "steps": [
+                        { "label": "Setup", "formula": "Q1:'Paris', Q2:'Hotel'", "note": "Vectors have high overlap" },
+                        { "label": "Similarity", "formula": "\\\\vec{v}_1 \\\\cdot \\\\vec{v}_2 \\\\approx 0.85", "note": "High score (on topic)" },
+                        { "label": "Final Action", "formula": "Sim > 0.5", "note": "Maintain context" }
+                    ],
+                    "input": "Turn 1: Paris, Turn 2: Hotel.",
+                    "output": "Sim: 0.85 (Related)"
+                }
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
+            "content": {
+                "text": "The inputs to Context Tracking are the **Current Vector ($Q_t$)** and the **History Vector ($H_{t-1}$)**. The output is a **Similarity Score (Sim)**. If Sim > 0.8 (high similarity as input), the system's output is 'Maintain Context', allowing it to resolve pronouns (he/it). If Sim < 0.2, the system's output is 'Switch Topic', leading to a fresh conversation state."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Talking to the Bot",
+            "content": {
+                "text": "**1. Sample Input**: Turn 1: 'Who is Einstein?'. Turn 2: 'When was he born?'. Vector similarity between 'Einstein' and 'he born' = $0.95$. \n**2. Step-by-Step Illustration**: \n - System detects high similarity ($0.95 > 0.8$). \n - Identifies 'he' as a dangling reference. \n - Searches previous turn vectors for the most likely person entity ('Einstein'). \n**3. Sample Output**: Result: System answers with Einstein's birth date. \n**4. Interpretation of Results**: The high similarity output validated the session link, preventing the system from failing to understand the vague word 'he'."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "python_demo",
+            "title": "Python Demo: Context Tracker",
+            "content": {
+                "code": "history = []\n\ndef search_with_context(query):\n    # Simulate keeping history\n    global history\n    entities = ['Apple', 'Steve Jobs', 'Cupertino']\n    \n    # Checking if query has a pronoun like 'he' or 'it'\n    if any(p in query.lower() for p in ['he', 'it', 'there']):\n        if history:\n            return f\"[Context: {history[-1]}] Answering for '{query}'\"\n    \n    # New unique search\n    history.append(query)\n    return f\"[New Search] Creating context for '{query}'\"\n\nprint(f\"Turn 1: {search_with_context('Who is CEO of Apple?')}\")\nprint(f\"Turn 2: {search_with_context('How old is he?')}\")",
+                "input": "Turn 1: 'Who is CEO of Apple?', Turn 2: 'How old is he?'.",
+                "output": "Turn 2: [Context: Apple CEO] 63 years old.",
+                "interpretation": "The script demonstrates 'Anaphora Resolution'. By remembering that Turn 1 was about the 'Apple CEO', the system correctly interprets 'he' in Turn 2 as Tim Cook rather than a random male from the database."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Advantages & Drawbacks",
+            "content": {
+                "text": "Advantage: Dialogic search is far more natural for humans and works perfectly on voice-only devices. Drawback: 'Drift'—if the system maintains context for too long, it might misinterpret a new, unrelated query as being part of the old one."
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Solution to Address Drawbacks",
+            "content": {
+                "text": "To prevent 'Drift', use a 'Decay Factor' that gives less weight to turns that happened 10 minutes ago. Provide a 'Reset' or 'New Chat' button so the user can explicitly clear the history."
+            }
+        },
+        {
+            "slideNumber": 15,
+            "type": "comparison",
+            "title": "Comparison: Traditional vs. Conversational IR",
+            "comparison": {
+                "headers": ["Feature", "Traditional IR (Web Search)", "Conversational IR (ConvIR)"],
+                "rows": [
+                    ["Turn count", "Usually 1", "Multiple (Session-based)"],
+                    ["Reference", "Standalone query", "Dangling references (he/it/then)"],
+                    ["Response", "Ranked list of docs", "Generated natural language answer"],
+                    ["State", "Stateless", "Stateful (History-aware)"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 16,
+            "type": "activity",
+            "title": "Virtual Lab: Talking to Search",
+            "content": {
+                "activity": "The Context Challenge",
+                "description": "Go to Google Gemini or ChatGPT. Ask 'Who wrote Harry Potter?'. Once it answers, ask 'Is she still writing?'. Does it know who 'she' is? Now ask 'What is the weather in Tokyo?'. Ask 'How far is it?'. Does 'it' mean Tokyo or the author? Notice where the context breaks."
+            }
+        },
+        {
+            "slideNumber": 17,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why is 'Anaphora Resolution' (resolving 'he', 'it', 'there') the hardest part of Conversational IR? \n2. Will the 'Search Result Page' eventually disappear, replaced by a single AI answer? If so, how will we verify the truth? \n3. How would you design a conversational search interface for a car dashboard?"
             }
         }
     ]

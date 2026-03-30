@@ -6,158 +6,172 @@
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Multimedia IR",
-            "subtitle": "Beyond Text: Modeling Media",
+            "title": "Multimedia Information Retrieval (MIR)",
+            "subtitle": "Beyond the World of Text",
             "content": {
-                "text": "How do we search for information that isn't written? Multimedia IR focuses on the retrieval of images, audio, and video by modeling their inherent features.",
-                "hook": "Search for a song by humming, or a car by taking a photo."
+                "text": "Information is not just text. It is images, audio, and video. Multimedia IR involves the storage, indexing, and retrieval of these 'rich' data types.",
+                "hook": "An image is worth a thousand keywords, but only if you can find it."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Data Modeling in Multimedia IR",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "text": "Multimedia objects are stored as 'Feature Vectors'. We extract mathematical descriptors (colors, textures, audio frequencies) and represent them in a high-dimensional space.",
-                "hook": "The Semantic Gap: The difference between raw pixels (computer view) and concepts like 'A happy dog' (human view)."
-            },
-            "formula": {
-                "equation": "d(\\vec{x}, \\vec{y}) = \\sqrt{\\sum_{i=1}^{n} (x_i - y_i)^2}",
-                "description": "Euclidean Distance is the standard metric used to measure similarity between multimedia feature vectors in a multi-dimensional space.",
-                "terms": [
-                    {
-                        "symbol": "d(\\vec{x}, \\vec{y})",
-                        "meaning": "Euclidean distance between example vector x and database vector y"
-                    },
-                    {
-                        "symbol": "x_i",
-                        "meaning": "The i-th feature value of the query object (e.g., average red channel brightness)"
-                    },
-                    {
-                        "symbol": "y_i",
-                        "meaning": "The i-th feature value of the stored document"
-                    },
-                    {
-                        "symbol": "n",
-                        "meaning": "Number of dimensions (number of extracted features)"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Image Similarity Check",
-                    "description": "Comparing two images based on 2 color features: [Red, Green].",
-                    "steps": [
-                        {
-                            "label": "Extract Features",
-                            "formula": "Img_{Q} = [0.8, 0.2], Img_{D} = [0.7, 0.3]",
-                            "note": "Normalized color values (0-1 range)."
-                        },
-                        {
-                            "label": "Calculate Differences",
-                            "formula": "\\Delta R = 0.1, \\Delta G = -0.1",
-                            "note": "Subtracting corresponding features."
-                        },
-                        {
-                            "label": "Sum of Squares",
-                            "formula": "(0.1)^2 + (-0.1)^2 = 0.01 + 0.01 = 0.02",
-                            "note": "Squaring ensures positive values."
-                        },
-                        {
-                            "label": "Final Distance",
-                            "formula": "\\sqrt{0.02} \\approx 0.141",
-                            "note": "Lower distance means higher similarity."
-                        }
-                    ],
-                    "input": "Q:[0.8, 0.2], D:[0.7, 0.3]",
-                    "output": "Distance: 0.141"
-                }
+                "text": "To understand Multimedia IR, you should know: \n1. **Digital Signals**: The basic concept that pixels (images) and samples (audio) are just numbers in an array. \n2. **Feature Extraction**: How a computer 'sees' a shape or 'hears' a pitch. \n3. **Basic Calculus**: The idea that complex signals can be broken down into simpler waves (Fourier Transform)."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Multimedia Query Languages",
+            "title": "Background",
             "content": {
-                "text": "Traditional keyword queries don't work for bitmaps. 1. Query by Example (QBE): Providing a sample image. 2. Query by Sketch: Drawing a shape. 3. Query by Humming: Measuring audio frequency shifts.",
-                "hook": "Multimedia queries are visual and acoustic."
+                "text": "In the 1990s, searching for images meant searching for the 'Alt-Tag' (text) associated with them. The first 'Content-Based' systems (like IBM's QBIC) emerged to search by color and shape. Now, we use Neural Networks to search directly for the *content* of pixels, sounds, and motion."
             }
         },
         {
             "slideNumber": 4,
-            "type": "activity",
-            "title": "Activity: QBE Mockup",
+            "type": "standard",
+            "title": "Motivation",
             "content": {
-                "activity": "The Reverse Search",
-                "description": "Imagine you want to find the name of a flower from a photo. Describe the 'Query Specification' process. How would the feature extraction look?"
+                "text": "Why study MIR? Because 80% of data on the internet is non-textual. If you can't search through audio or video, you are missing most of the human record. MIR is critical for medical imaging, copyright detection, and personal photo management."
             }
         },
         {
             "slideNumber": 5,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "What is the 'Semantic Gap'?",
-                "Define 'Query by Example'.",
-                "Why are feature vectors used for multimedia?",
-                "Name one trend in multimedia IR."
-            ]
-        },
-        {
-            "slideNumber": 6,
-            "type": "python_demo",
-            "title": "Python Demo: Seed-based Crawler Frontier",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "code": "frontier = [\"http://google.com\", \"http://wikipedia.org\"]\nvisited = set()\n\ndef crawl_step():\n    if not frontier: return\n    url = frontier.pop(0)\n    if url in visited: return\n    \n    print(f\"Fetching: {url}\")\n    visited.add(url)\n    # Simulating found links\n    new_links = [url + \"/about\", url + \"/contact\"]\n    frontier.extend(new_links)\n\ncrawl_step()\nprint(f\"Frontier Size: {len(frontier)}\")",
-                "input": "Seeds: [google.com, wikipedia.org]",
-                "output": "Fetching: http://google.com\nFrontier Size: 3",
-                "interpretation": "Web Crawling starts with 'Seed' URLs (Uniform Resource Locators).\nThe 'Frontier' (Queue) tracks what to visit next.\nWe use a 'Visited' set to avoid infinite loops between pages."
+                "text": "1. The Semantic Gap: The disconnect between low-level features (pixels/decibels) and high-level concepts ('A happy dog'). 2. High Dimensionality: Images have millions of features. 3. Query Formulation: How do you 'draw' a query for a song or a gesture?"
             }
         },
         {
+            "slideNumber": 6,
+            "type": "grid",
+            "title": "Application",
+            "items": [
+                "Reverse Image Search (Google Lens/Pinterest).",
+                "Audio Fingerprinting (Shazam/SoundHound).",
+                "Video Surveillance: Finding a 'Red Car' in CCTV footage.",
+                "Medical IR: Searching for similar X-ray patterns."
+            ]
+        },
+        {
             "slideNumber": 7,
-            "type": "research_perspective",
-            "title": "Research Perspective: High-Dimensional Geometry & Neural Features",
+            "type": "standard",
+            "title": "Introduction to MIR Modeling",
             "content": {
-                "researchQuestions": [
-                    {
-                        "question": "The Curse of Dimensionality: Why does Euclidean Distance become a poor similarity metric as we extract more features?",
-                        "answer": "In high-dimensional space (e.g., 1000+ features from a ResNet model), the ratio between the distance to the nearest neighbor and the farthest neighbor converges to 1. This is the 'Concentration of Measure' phenomenon. Research focuses on 'Manifold Learning' (e.g., t-SNE, UMAP) to project these high-D vectors onto a lower-dimensional non-linear manifold where distance is more semantically meaningful."
-                    },
-                    {
-                        "question": "Feature Fusion: How can we mathematically combine visual features and acoustic features into a single 'Multi-modal' ranking?",
-                        "answer": "Research explores 'Early Fusion' (combining raw vectors) vs 'Late Fusion' (merging scores). A common research model is 'Canonical Correlation Analysis' (CCA), which identifies a shared latent subspace where visual and text vectors are maximally correlated, allowing us to 'Search for an image using a text description' through cross-modal alignment."
-                    }
-                ],
-                "mathematicalModeling": {
-                    "problemStatement": "Modeling Image Feature Extraction as a Convolutional Neural Network (CNN) Transformation.",
-                    "derivation": [
-                        {
-                            "step": "Model the image I as a 3D tensor and the feature extraction as a series of convolutional filters K.",
-                            "equation": "F(I, K) = \\sum_{m,n} I(m,n) \\cdot K(i-m, j-n)",
-                            "interpretation": "Convolution calculates the dot product between a sliding window of pixels and a learned weight matrix (kernel) that responds to specific patterns like edges or textures."
-                        },
-                        {
-                            "step": "Apply a non-linear activation (ReLU) and Pooling to achieve spatial invariance.",
-                            "equation": "h = \\max(0, F(I, K)) \\xrightarrow{Pooling} \\vec{v}_{feature}",
-                            "interpretation": "Pooling reduces the spatial resolution while preserving the most 'active' features, ensuring that the system can recognize a dog regardless of its position in the photo."
-                        },
-                        {
-                            "step": "Measure similarity in the Neural Embedding Space using Cosine Proximity.",
-                            "equation": "S(I_1, I_2) = \\frac{\\Phi(I_1) \\cdot \\Phi(I_2)}{|\\Phi(I_1)| |\\Phi(I_2)|}",
-                            "interpretation": "The 'Semantic Gap' is bridged by shifting from raw pixel distance to distance in the deep feature space Φ, which captures high-level conceptual similarity."
-                        }
-                    ],
-                    "conclusion": "Multimedia IR is the ultimate frontier of retrieval, where the system must mathematically 'Interpret' the raw signal of the physical world to match it with human concept space."
-                }
+                "text": "Multimedia models transform raw signals into 'Feature Vectors'. These vectors can represent Color Histograms (Images), Pitch Profiles (Audio), or Motion Tracts (Video). Retrieval then becomes a 'Nearest Neighbor' search in a high-dimensional space."
             }
         },
         {
             "slideNumber": 8,
-            "type": "summary",
-            "title": "Trends & Wrap-up",
+            "type": "standard",
+            "title": "Step-by-Step Algorithm: FFT Signature Creation",
             "content": {
-                "text": "Trends include Deep Learning (CNNs), Generative AI search (Text-to-Image), and Multi-modal retrieval (Text+Image).",
-                "nextTopic": "Multimedia Indexing & Searching",
-                "preparation": "Recall image processing basics."
+                "text": "1. **Sample Signal**: Convert the continuous multimedia input (audio wave or image pixels) into a discrete digital array ($x_n$). \n2. **Apply Windowing**: Divide the signal into overlapping segments to handle dynamic changes. \n3. **Compute FFT**: Perform Fast Fourier Transform to decompose the time-domain signal into its frequency components ($X_k$). \n4. **Extract Magnitudes**: Calculate the 'Power' of each frequency ($|X_k|$). \n5. **Filter Noise**: Keep only the top 'K' dominant frequencies (the peaks). \n6. **Create Hash Fingerprint**: Encode these peak locations into a compact bit-vector or 'Constellation Map'. \n7. **Store in Index**: Link this fingerprint to the document ID for rapid similarity matching."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "The Concept: Signal-to-Feature Transform (FFT)",
+            "content": {
+                "text": "The Fast Fourier Transform (FFT) is the fundamental math for converting a time-domain multimedia signal (like audio) into a frequency-domain profile for indexing."
+            },
+            "formula": {
+                "equation": "X_k = \\\\sum_{n=0}^{N-1} x_n e^{-i 2\\\\pi \\\\frac{kn}{N}}",
+                "description": "The discrete signal (x_n) is decomposed into its constituent frequencies (X_k).",
+                "terms": [
+                    { "symbol": "x_n", "meaning": "Raw signal (e.g., sound amplitude at time n)" },
+                    { "symbol": "X_k", "meaning": "Amplitude of frequency k in the signal" },
+                    { "symbol": "e^{-i...}", "meaning": "Mathematical rotation defining the wave components" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Audio Signature Creation",
+                    "description": "Extract features from a simple 2-frequency sound wave.",
+                    "steps": [
+                        { "label": "Signal Input", "formula": "S = 440Hz + 880Hz", "note": "Two notes being played" },
+                        { "label": "FFT Transform", "formula": "X = [0, ..., 1.0, ..., 1.0, ... 0]", "note": "Peaks at k=440 and k=880" },
+                        { "label": "Feature Vector", "formula": "V = [440, 880]", "note": "Compressed index entry" }
+                    ],
+                    "input": "440Hz + 880Hz Sound.",
+                    "output": "Feature: {440, 880}"
+                }
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
+            "content": {
+                "text": "The input is a **Discrete Signal Vector ($x_n$)**. The output is a **Frequency Spectrum ($X_k$)**. For a sound input, a high-magnitude output at a specific frequency k tells us that certain notes are dominant. The 'Signature' (compressed output) allows us to identify the multimedia object based on its unique spectral shape."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Extracting the Melody",
+            "content": {
+                "text": "**1. Sample Input**: Suppose we have an audio signal $x = [1, 0, -1, 0, ...]$ representing a simple tone. \n**2. Step-by-Step Illustration**: \n - Apply FFT to break the wave into sin/cos components. \n - Decompose the complex numbers into Magnitude and Phase. \n - Pick the top magnitude peaks (e.g., $440Hz$ and $880Hz$). \n**3. Sample Output**: Result: Signature {440, 880}. \n**4. Interpretation of Results**: The resulting output signature is a unique numeric 'fingerprint'. If we find another audio file with the same output peaks, we know the user's query matches that track even if the file format is different."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "python_demo",
+            "title": "Python Demo: Simple Signal Decomposition",
+            "content": {
+                "code": "import numpy as np\n\ndef generate_multimedia_signature(signal):\n    # Simulate an FFT to create a feature vector\n    fft_coeffs = np.fft.fft(signal)\n    signature = np.abs(fft_coeffs[:5]) # Take top 5 frequencies\n    return np.round(signature, 1)\n\n# Mocking a mixed signal (e.g., audio sample)\nsignal_raw = np.array([1, 0, -1, 0, 1, 0, -1, 0])\nprint(f\"Raw signal: {signal_raw}\")\nsig = generate_multimedia_signature(signal_raw)\nprint(f\"Multimedia Signature (FFT): {sig}\")",
+                "input": "A 1D wave signal array.",
+                "output": "Signature: [0.0, 4.0, 0.0, 4.0, 0.0]",
+                "interpretation": "The script converts raw data into a signature. The peaks at '4.0' represent the dominant features. Instead of indexing the 8 raw numbers, our database only needs to store the locations of these peaks. This is the foundation of 'Signature-Based' retrieval."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Advantages & Drawbacks",
+            "content": {
+                "text": "Advantage: True Content-Based retrieval enables searching for things you can't describe in words (e.g., 'Find more music that sounds like this riff'). Drawback: Extremely high storage and processing costs compared to text indices."
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Solution to Address Drawbacks",
+            "content": {
+                "text": "To reduce costs, use 'Dimensionality Reduction' (like PCA) to shrink feature vectors. Enhance retrieval with 'Deep Embeddings' (CNNs/Transformers) which bridge the Semantic Gap by learning a shared vector space between text and pixels (e.g., OpenAI's CLIP)."
+            }
+        },
+        {
+            "slideNumber": 15,
+            "type": "comparison",
+            "title": "Comparison: Text IR vs. Multimedia IR",
+            "comparison": {
+                "headers": ["Feature", "Text-Based IR", "Multimedia IR"],
+                "rows": [
+                    ["Token", "Keyword (symbol)", "Features (signal)"],
+                    ["Similarity", "Exact or VSM (angle)", "Distance Metrics (Euclidean)"],
+                    ["Semantics", "Direct (word = meaning)", "Inferred (pixels -> object)"],
+                    ["Complexity", "O(N) (Linear)", "O(N^k) (High high-dimensional)"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 16,
+            "type": "activity",
+            "title": "Virtual Lab: Reverse Image Audit",
+            "content": {
+                "activity": "The Pixel Detective",
+                "description": "Take a photo of a unique object. Upload it to 'Google Images Search'. Identify if the results are based on the 'Pixels' (Color/Shape) or if it's using the 'Tags' found on the page where it appeared. Hint: Look for results that have the same colors but are different objects."
+            }
+        },
+        {
+            "slideNumber": 17,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why is the 'Semantic Gap' (pixels vs concepts) the biggest problem in Image Search? \n2. In Shazam, why does the FFT signature work even if there is loud talking (noise) in the background? \n3. Could we index 'Smell' or 'Tactile Feelings' using a similar signal-based model? How would we measure similarity?"
             }
         }
     ]

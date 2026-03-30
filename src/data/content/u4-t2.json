@@ -1,139 +1,177 @@
 {
     "id": "u4-t2",
-    "title": "Multimedia Indexing & Searching",
+    "title": "Multimedia Indexing & Retrieval",
     "unitId": "unit-4",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Multimedia Indexing & Searching",
-            "subtitle": "Navigating High-Dimensional Space",
+            "title": "Multimedia Indexing & Retrieval",
+            "subtitle": "Searching in the Multi-Dimensional Void",
             "content": {
-                "text": "Traditional indexes are 1D. Multimedia data is multi-dimensional. This topic covers the spatial data structures needed to find similar media quickly.",
-                "hook": "When text search fails, geometry takes over."
+                "text": "Indexing text is hard. Indexing images and video is much harder because there are no clear 'words'. We must use geometry and distance to find what the user wants.",
+                "hook": "In a 1000-dimensional space, everything is far away from everything else."
             }
         },
         {
             "slideNumber": 2,
-            "type": "diagram",
-            "title": "GEMINI Indexing Framework",
+            "type": "standard",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "description": "The logic of indexing high-dimensional multimedia objects while ensuring no false dismissals.",
-                "steps": [
-                    "Feature Extraction (Mapping)",
-                    "Distance Lowerbounding",
-                    "Dimensionality Reduction (DFT)",
-                    "Index in 1D/Spatial Structure",
-                    "Filter & Refine Results"
-                ]
-            },
-            "formula": {
-                "equation": "d_{reduced}(\\text{F}(x), \\text{F}(y)) \\leq d_{original}(x, y)",
-                "description": "The Lower Bounding Lemma: To guarantee no false dismissals during dimensionality reduction, the distance in the reduced feature space must be less than or equal to the distance in the original high-dimensional space.",
-                "terms": [
-                    {
-                        "symbol": "d_{original}",
-                        "meaning": "True distance between high-dimensional objects (expensive to compute)"
-                    },
-                    {
-                        "symbol": "d_{reduced}",
-                        "meaning": "Estimated distance in the lower-dimensional index space (cheap)"
-                    },
-                    {
-                        "symbol": "\\text{F}",
-                        "meaning": "Transformation function (e.g., taking the first few Fourier coefficients)"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Gemini Distance Filter",
-                    "description": "Using lower bounding to skip expensive distance checks.",
-                    "steps": [
-                        {
-                            "label": "Query Threshold",
-                            "formula": "\\epsilon = 10.0",
-                            "note": "We want everything within distance 10."
-                        },
-                        {
-                            "label": "Reduced Check",
-                            "formula": "d_{red} = 15.0",
-                            "note": "Calculated quickly in 2D space."
-                        },
-                        {
-                            "label": "Apply Lemma",
-                            "formula": "15 > 10 \\Rightarrow d_{orig} \\geq 15 > 10",
-                            "note": "Since reduced distance is already over 10, the real distance must also be over 10."
-                        },
-                        {
-                            "label": "Decision",
-                            "formula": "\\text{Reject Document}",
-                            "note": "We can safely ignore this document without ever computing the full distance."
-                        }
-                    ],
-                    "input": "eps:10, d_red:15",
-                    "output": "Pruned (Safe)"
-                }
+                "text": "Before studying how to index multimedia, you should understand: \n1. **Feature Vectors**: That an image is represented as a point $[v_1, v_2, ..., v_n]$ in space. \n2. **Similarity Metrics**: Basic geometry like 'Distance between two points' (Pythagoras). \n3. **Postings Lists**: How a standard text index works (for comparison)."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Index Structures for Multimedia",
+            "title": "Background",
             "content": {
-                "text": "1. 1D Time Series: Using DFT (Discrete Fourier Transform) and R-trees. 2. 2D Color Images: Using Color Histograms and spatial trees (R-Trees, M-Trees).",
-                "outcomes": [
-                    "R-Trees: Handling multi-dimensional bounding boxes.",
-                    "The Curse of Dimensionality: Performance drops as dimensions increase."
-                ]
+                "text": "While text uses 'Inverted Indices', multimedia uses 'Spatial Indices' (like R-trees) and 'Nearest Neighbor' search. In the early 2000s, 'Locality Sensitive Hashing' (LSH) was developed to make this search fast. Today, we use 'Vector Databases' (like Pinecone/Milvus) which are built specifically for high-dimensional multimedia features."
             }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Automatic Feature Extraction",
+            "title": "Motivation",
             "content": {
-                "text": "The computer automatically finds key indicators. 1. Vision: Edges, Blobs, Corners (SIFT, SURF). 2. Audio: Beats, MFCC. 3. Modern: Deep Embeddings from CNNs.",
-                "hook": "Pixels become mathematics automatically."
+                "text": "Why unique indexing? Because you can't alpha-sort an image. If you have 1 billion photos, checking each one for 'Similarity' would take days. We need data structures that can prune the search space and find 'Close Enough' matches in milliseconds."
             }
         },
         {
             "slideNumber": 5,
-            "type": "activity",
-            "title": "Activity: Histogram Match",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "activity": "The Red/Blue Challenge",
-                "description": "Image A is all red pixels. Image B is 50/50 red and blue in a checkerboard. Image C is 50/50 red and blue split horizontally. Which two are 'similar' to a color histogram? Which are 'different'?"
+                "text": "1. The Curse of Dimensionality: As dimensions increase, data becomes 'sparse' and distance metrics lose meaning. 2. Computational Cost: Calculating Euclidean distance over millions of 1024-length vectors is expensive. 3. Precision: How do you handle 'False Positives' where an image has the same colors but different content?"
             }
         },
         {
             "slideNumber": 6,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "What is the 'GEMINI' indexing approach?",
-                "How are R-Trees used in multimedia storage?",
-                "What is a 'Color Histogram'?",
-                "Why is 'Automatic' feature extraction necessary?"
+            "type": "grid",
+            "title": "Application",
+            "items": [
+                "Face Recognition (matching a face vector to a 1Bn person DB).",
+                "Copyright Matching: Finding a 10-second clip in millions of hours of YouTube video.",
+                "Symptom Search: Finding similar MRI scans in medical history.",
+                "Music Identification: Matching a hummed melody to a song index."
             ]
         },
         {
             "slideNumber": 7,
-            "type": "python_demo",
-            "title": "Python Demo: Robots.txt Politeness",
+            "type": "standard",
+            "title": "Introduction to Vector Retrieval",
             "content": {
-                "code": "import time\n\ndef polite_fetch(url, last_hit_time, delay=1.0):\n    now = time.time()\n    elapsed = now - last_hit_time\n    if elapsed < delay:\n        wait = delay - elapsed\n        print(f\"Politeness active. Waiting {round(wait, 2)}s\")\n        time.sleep(wait)\n    return f\"Retrieved {url}\"\n\npolite_fetch(\"mysite.com\", time.time() - 0.5)",
-                "input": "Last hit: 0.5s ago, ReqDelay: 1s",
-                "output": "Politeness active. Waiting 0.5s\nRetrieved mysite.com",
-                "interpretation": "Crawlers must be 'Polite' to web servers.\nMaking too many requests too fast (DDOS) can get your IP banned.\nRespecting robots.txt and adding delays is the hallmark of a good bot."
+                "text": "Multimedia retrieval is often formulated as 'k-Nearest Neighbor' (k-NN) search. Given a query vector $Q$, find the top $k$ vectors in the database that have the smallest distance $d(Q, D)$."
             }
         },
         {
             "slideNumber": 8,
-            "type": "summary",
-            "title": "Wrap-up",
+            "type": "standard",
+            "title": "Step-by-Step Algorithm: k-NN Retrieval",
             "content": {
-                "text": "Multimedia systems conquered. Now, we expand to the world's largest information collection.",
-                "nextTopic": "Searching the Web: Challenges & Characterization",
-                "preparation": "Read about the scale of the World Wide Web."
+                "text": "1. **Feature Extraction**: Transform the multimedia query (e.g. uploaded photo) into a feature vector $Q$. \n2. **Preprocessing (Optional)**: Normalize the vector or apply PCA to reduce dimensions. \n3. **Exhaustive/Approximate Search**: Calculate the distance between $Q$ and all entries in the index. \n4. **Apply Distance Metric**: Use Euclidean Distance ($L_2$) or Cosine Similarity to get a numeric mismatch score. \n5. **Ranking**: Sort the documents by score (ascending for distance, descending for similarity). \n6. **Return k-Results**: Provide the $k$ documents with the smallest scores to the user."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "The Concept: Distance Metrics",
+            "content": {
+                "text": "Euclidean Distance is the most common way to measure the gap between two multimedia feature vectors."
+            },
+            "formula": {
+                "equation": "d = \\\\sqrt{\\\\sum_{i=1}^{n} (v_{1i} - v_{2i})^2}",
+                "description": "The distance (d) between two vectors is the square root of the sum of squared differences of their components.",
+                "terms": [
+                    { "symbol": "v_{1i}", "meaning": "Value of component i in Vector 1 (Query)" },
+                    { "symbol": "v_{2i}", "meaning": "Value of component i in Vector 2 (Document)" },
+                    { "symbol": "n", "meaning": "Total number of features (dimensions)" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Visual Gap Calculation",
+                    "description": "Calculate distance between a Query and a Result (2D).",
+                    "steps": [
+                        { "label": "Setup", "formula": "Q=[0.1, 0.8], D=[0.2, 0.7]", "note": "Similar feature values" },
+                        { "label": "Squared Diffs", "formula": "(0.1-0.2)^2 + (0.8-0.7)^2 = 0.01 + 0.01 = 0.02", "note": "Geometric variance" },
+                        { "label": "Root", "formula": "\\\\sqrt{0.02} \\\\approx 0.141", "note": "Low distance (Very similar)" }
+                    ],
+                    "input": "Q:[0.1, 0.8], D:[0.2, 0.7]",
+                    "output": "Distance: 0.141"
+                }
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
+            "content": {
+                "text": "The input is a pair of **Feature Vectors ($V_1, V_2$)**. The output is a **Distance Value (d)**. If the output d is close to 0, it indicates that the two multimedia items are almost identical in colors/textures. A large d signals a mismatch, and the system's output will exclude the document from the top ranking."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Visual Similarity",
+            "content": {
+                "text": "**1. Sample Input**: Query $V_q = [0.8, 0.1]$ (Warm color). Database $V_d = [0.1, 0.9]$ (Cool color). \n**2. Step-by-Step Illustration**: \n - Calculate Diffs: $(0.8-0.1)=0.7$ and $(0.1-0.9)=-0.8$. \n - Square them: $0.49$ and $0.64$. \n - Sum: $1.13$. \n - Root: $\\\\sqrt{1.13} \\\\approx 1.06$. \n**3. Sample Output**: $d = 1.06$. \n**4. Interpretation of Results**: The distance (1.06) is much larger than our match threshold (typically 0.2). This proves the output is a 'Mismatch', and the cooler image will not be shown to the user."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "python_demo",
+            "title": "Python Demo: Image Matcher",
+            "content": {
+                "code": "import numpy as np\n\ndef euclidean_dist(v1, v2):\n    return np.linalg.norm(v1 - v2)\n\n# Mocking image features (e.g., [Redness, Graininess])\nquery_img = np.array([0.9, 0.1])\ndoc_1 = np.array([0.85, 0.15])\ndoc_2 = np.array([0.2, 0.9])\n\nprint(f\"Dist to Near Match: {round(euclidean_dist(query_img, doc_1), 3)}\")\nprint(f\"Dist to Far Match: {round(euclidean_dist(query_img, doc_2), 3)}\")",
+                "input": "Three 2D image vectors.",
+                "output": "Near: 0.071, Far: 1.063",
+                "interpretation": "The script calculates distances in feature space. In a real MIR system, we would set a 'Match Threshold' (e.g. 0.1). Doc 1 would pass the filter, but Doc 2 results in such a high distance that it is ignored. This is how 'Reverse Image Search' works."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Advantages & Drawbacks",
+            "content": {
+                "text": "Advantage: Multidimensional indexing allows for 'Nearest Neighbor' retrieval which supports non-exact 'Fuzzy' matches. Drawback: 'Exact' lookup is impossible; you always get 'Close Enough' which might be wrong in medical or legal contexts."
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Solution to Address Drawbacks",
+            "content": {
+                "text": "To address the 'Curse of Dimensionality', use 'Locality Sensitive Hashing' (LSH)—a method where similar vectors are hashed into the same 'Bucket' with high probability. This reduces a geometric problem into a fast lookup problem."
+            }
+        },
+        {
+            "slideNumber": 15,
+            "type": "comparison",
+            "title": "Comparison: B-Tree vs. R-Tree",
+            "comparison": {
+                "headers": ["Index Type", "B-Tree (Text/IDs)", "R-Tree (Spatial/Multimedia)"],
+                "rows": [
+                    ["Dimensions", "1 (Linear sort)", "N (Multidimensional)"],
+                    ["Structure", "Points on a line", "Overlapping rectangles/spheres"],
+                    ["Lookup", "Exact or Range match", "Nearest Neighbor search"],
+                    ["Primary Use", "Database records", "Geometry, Images, Video"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 16,
+            "type": "activity",
+            "title": "Virtual Lab: Mapping the Space",
+            "content": {
+                "activity": "The Geometric Search",
+                "description": "Imagine 5 images with (Red, Green) values: A(10,0), B(9,1), C(0,10), D(1,9), E(5,5). If you want an image that is 'Very Red', which ones will you retrieve first? If you use Euclidean distance, which image is the 'average' of all others? Draw this on a piece of graph paper."
+            }
+        },
+        {
+            "slideNumber": 17,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why is 'Distance' the opposite of 'Similarity'? (i.e. When distance goes up, similarity goes down). \n2. In a 1000-dimensional space, everything is 'far away' from everything else. How does this affect search quality? \n3. How would you index 'Time' as a dimension in a video search engine?"
             }
         }
     ]

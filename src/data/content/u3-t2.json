@@ -1,139 +1,178 @@
 {
     "id": "u3-t2",
-    "title": "The Information Access Process",
+    "title": "The Search Process & Information Seek",
     "unitId": "unit-3",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "The Information Access Process",
-            "subtitle": "Iterative Learning and Discovery",
+            "title": "The Search Process & Information Seek",
+            "subtitle": "How Users Really Search",
             "content": {
-                "text": "Accessing information is rarely a single event. It is a process of learning, where each result informs the next query.",
-                "hook": "Search is a journey, not a destination."
+                "text": "Searching is not a one-step action. It is a 'Process'—a dynamic journey of discovery where the user's need evolves as they encounter new information.",
+                "hook": "Searching is like berry picking: you don't find all the berries on one bush."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "The Classic vs Dynamic Model",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "text": "Standard Model: User need -> Query -> Results -> Satisfaction.\nDynamic Model (Berry-Picking): User need evolves. Each document reveals new concepts, leading to new queries. The final 'answer' is a synthesis of many clicks.",
-                "outcomes": [
-                    "Need for persistent search history",
-                    "Importance of 'pivoting' on new keywords"
-                ]
-            },
-            "formula": {
-                "equation": "U_{total} = \\sum_{i=1}^{n} Gain(d_i) \\cdot P(r_i)",
-                "description": "The total utility of an information access process is the sum of relevant information (Gain) extracted from each document 'd' encountered on the search path.",
-                "terms": [
-                    {
-                        "symbol": "U_{total}",
-                        "meaning": "Cumulative utility/knowledge gained by the user"
-                    },
-                    {
-                        "symbol": "Gain(d_i)",
-                        "meaning": "New, non-redundant information found in document i"
-                    },
-                    {
-                        "symbol": "P(r_i)",
-                        "meaning": "Probability that the user actually reads/reaches document i"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Berry-Picking Utility",
-                    "description": "Calculating total knowledge gain from 3 partially relevant docs.",
-                    "steps": [
-                        {
-                            "label": "Document 1",
-                            "formula": "Gain=10, P=1.0",
-                            "note": "First doc seen, all info is new."
-                        },
-                        {
-                            "label": "Document 2",
-                            "formula": "Gain=5, P=0.8",
-                            "note": "Some info overlaps with Doc 1; 80% chance of reading."
-                        },
-                        {
-                            "label": "Document 3",
-                            "formula": "Gain=2, P=0.5",
-                            "note": "Mostly redundant; 50% chance user stopped before here."
-                        },
-                        {
-                            "label": "Total Utility",
-                            "formula": "U = (10 \\times 1) + (5 \\times 0.8) + (2 \\times 0.5) = 15",
-                            "note": "Synthesis of information across multiple encounters."
-                        }
-                    ],
-                    "input": "Gains:[10, 5, 2], Probs:[1.0, 0.8, 0.5]",
-                    "output": "Total Info Value: 15"
-                }
+                "text": "To understand the search process, you should know: \n1. **Query Basics**: What terms and keywords are. \n2. **Information Needs**: The difference between a simple question (e.g., 'What is 2+2?') and a complex need (e.g., 'What was the impact of the Industrial Revolution?'). \n3. **Basic Navigation**: How users click links and evaluate snippets."
             }
         },
         {
             "slideNumber": 3,
-            "type": "diagram",
-            "title": "Integrated Search Cycle",
+            "type": "standard",
+            "title": "Background",
             "content": {
-                "description": "Steps in the access process.",
-                "steps": [
-                    "Recognizing Need",
-                    "Selecting Source",
-                    "Formulating Query",
-                    "Inspecting Results",
-                    "Extracting Information",
-                    "Reformulating"
-                ]
+                "text": "Early IR models assumed a 'One-Shot' search: Query -> Ranked List -> Satisfaction. In 1989, Marcia Bates introduced the 'Berry Picking' model, recognizing that users gather information in bits and pieces, often changing their query along the way. This shifted the focus from 'Systems' to 'Users'."
             }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Cognitive Models",
+            "title": "Motivation",
             "content": {
-                "text": "Explores how users think during search. 1. Anomalous State of Knowledge (ASK): Searchers have a gap in knowledge and don't know the words to fill it yet. 2. Sensemaking: Building a mental map of a topic through multiple searches."
+                "text": "Why study the search process? Because if we only optimize for a single query, we ignore the 90% of the journey. Understanding 'Berry Picking' helps us build features like 'Related Searches', 'People also asked', and 'Search History' to support long-term goals."
             }
         },
         {
             "slideNumber": 5,
-            "type": "activity",
-            "title": "Activity: Trace Your Clicks",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "activity": "The Paper Trail",
-                "description": "Research 'Why do cats purr?'. List every search term you used from start to final answer. Did your first query give you the answer, or did it just give you the vocabulary for the second?"
+                "text": "1. Multi-Dimensionality: Users search for different reasons (Fact-finding, Exploratory, Navigation). 2. Cognitive Switching: Users often get distracted or change topics mid-search. 3. Evaluation: How do we measure the success of a session, not just a single query?"
             }
         },
         {
             "slideNumber": 6,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "What is the Berry-Picking model?",
-                "Explain the 'Anomalous State of Knowledge' (ASK).",
-                "How does the dynamic model differ from the boolean model of access?",
-                "Define 'Sensemaking'."
+            "type": "grid",
+            "title": "Application",
+            "items": [
+                "E-commerce: Browsing through categories vs. searching for a SKU.",
+                "Academic Research: Starting with a broad term and narrowing down as you read.",
+                "Health Search: Symptom-checking that leads to specialized medical terms.",
+                "Product Comparison: Looking at multiple reviews before a final decision."
             ]
         },
         {
             "slideNumber": 7,
-            "type": "python_demo",
-            "title": "Python Demo: K-Means Clustering",
+            "type": "standard",
+            "title": "Introduction to 'Information Scent'",
             "content": {
-                "code": "import random\n\ndef mock_cluster(docs, k=2):\n    # Simplified: Random assignment for demo\n    clusters = {i: [] for i in range(k)}\n    for d in docs:\n        clusters[random.randint(0, k-1)].append(d)\n    return clusters\n\ndoc_list = [\"Python basics\", \"Java guide\", \"Snake care\", \"C++ manual\"]\nprint(f\"Clusters: {mock_cluster(doc_list)}\")",
-                "input": "['Python basics', 'Java guide', 'Snake care', 'C++ manual']",
-                "output": "Clusters: {0: ['Python basics', 'C++ manual'], 1: ['Java guide', 'Snake care']}",
-                "interpretation": "Clustering groups results into folders (e.g., Programming vs Biology).\nEven with simple logic, it helps organize overwhelming result sets.\nModern IR uses K-Means or Hierarchical clustering for 'Result-Set Organization'."
+                "text": "The search process is driven by 'Information Foraging Theory'. Users act like animals looking for food. They follow the 'Scent' (cues like snippets and titles) to decide whether to 'forage' a link or move to another 'patch' (result page)."
             }
         },
         {
             "slideNumber": 8,
-            "type": "summary",
-            "title": "Wrap-up",
+            "type": "standard",
+            "title": "Step-by-Step Algorithm: Information Scent Estimation",
             "content": {
-                "text": "Process defined. Next: Where does it all begin on the screen?",
-                "nextTopic": "Starting Points & Query Specification",
-                "preparation": "Look at the homepage of Google vs. a news site."
+                "text": "1. **Identify the Cue**: Scan a result snippet (Title, Snippet text, URL). \n2. **Calculate Probability (P)**: Estimate the probability that clicking this link will provide the relevant 'food' (item). \n3. **Assess Value (V)**: Determine the potential utility of the item if found. \n4. **Estimate Cost (C)**: Calculate the time and cognitive effort to click and read the page. \n5. **Compute Expected Utility**: Use $E[U] = (P \\\\times V) - C$. \n6. **Decision**: If $E[U]$ is the highest among all visible cues, Click. Else, keep scanning."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "The Concept: Information Scent (Bates & Pirolli)",
+            "content": {
+                "text": "The Information Scent equation helps us predict when a user will stop browsing and start clicking."
+            },
+            "formula": {
+                "equation": "E[U] = (P \\\\times V) - C",
+                "description": "Expected Utility (E[U]) is the perceived probability (P) of success multiplied by the value (V), minus the cost (C) of the interaction.",
+                "terms": [
+                    { "symbol": "P", "meaning": "Probability of relevance (Scent strength)" },
+                    { "symbol": "V", "meaning": "Value / Benefit of the information if found" },
+                    { "symbol": "C", "meaning": "Cost in time/effort to forage the link" },
+                    { "symbol": "E[U]", "meaning": "Expected Net Utility (Gain)" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Should I click?",
+                    "description": "Evaluate if a result snippet is 'clickable'.",
+                    "steps": [
+                        { "label": "Setup", "formula": "P=0.9, V=100, C=10", "note": "Strong title match" },
+                        { "label": "Calculation", "formula": "(0.9 \\\\times 100) - 10 = 80", "note": "Strong positive utility" },
+                        { "label": "Alternative", "formula": "P=0.2, V=100, C=10", "note": "For vague titles: 20-10 = 10 (weak)" }
+                    ],
+                    "input": "P:0.9, V:100, C:10",
+                    "output": "Utility: +80"
+                }
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
+            "content": {
+                "text": "The inputs to Information Scent are the **Probability of Relevance (P)** of a link and its **Value/Utility (U)**. The output is **Expected Utility (E[U])**. If the scent (P) is high, the output (E[U]) is positive, signaling 'Go' to the user. If the cost (input C) exceeds the potential value (P x U), the output becomes negative, and the user 'forages elsewhere'."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Click or Skip?",
+            "content": {
+                "text": "**1. Sample Input**: Suppose a result snippet has a probability of Being Useful ($P=0.9$), a Utility Value ($U=20$ points), and a reading Cost ($C=4$ points). \n**2. Step-by-Step Illustration**: \n - The user scans the snippet and perceives a strong scent ($P=0.9$). \n - Calculate Net Flow: $0.9 \\\\times 20 - 4 = 14$ points of positive utility. \n**3. Sample Output**: $E[U] = +14$. \n**4. Interpretation**: Since the output is positive (+14), the user will most likely click the link. If the snippet were vague ($P=0.1$), the output would be $-2$, causing the user to skip that 'berry' of information."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "python_demo",
+            "title": "Python Demo: The Foraging Simulator",
+            "content": {
+                "code": "def evaluate_scent(p_relevance, value, cost=5):\n    # Calculate if the user will 'Forage' this link\n    utility = (p_relevance * value) - cost\n    if utility > 5:\n        return f\"[Click] Utility={utility}\"\n    elif utility > 0:\n        return f\"[Maybe] Utility={utility}\"\n    else:\n        return f\"[Skip] Negative Utility={utility}\"\n\nprint(f\"Snippet 1 (Strong): {evaluate_scent(0.9, 50)}\")\nprint(f\"Snippet 2 (Vague): {evaluate_scent(0.1, 50)}\")",
+                "input": "Two snippets with P=0.9 and P=0.1.",
+                "output": "Snippet 1: [Click] 40, Snippet 2: [Skip] 0",
+                "interpretation": "The script demonstrates 'Optimal Foraging'. IR systems must provide high P (keywords in bold) and low C (short, relevant snippets) to maximize the user's expected utility and prevent them from leaving the search page."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Advantages & Drawbacks",
+            "content": {
+                "text": "Advantage: Understanding 'Berry Picking' results in more helpful interfaces (e.g. 'Search History'). Drawback: Foraging theory assumes users are 'Rational Actors', but real people are often emotional or impatient."
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Solution to Address Drawbacks",
+            "content": {
+                "text": "To address impatience, use 'Instant Search' (results as you type). To support irrational behavior, use 'Diversity Ranking'—providing one result for each possible intent so the user finds *something* useful quickly."
+            }
+        },
+        {
+            "slideNumber": 15,
+            "type": "comparison",
+            "title": "Comparison: One-Shot vs. Iterative Search",
+            "comparison": {
+                "headers": ["Feature", "One-Shot (System-Centric)", "Iterative (User-Centric)"],
+                "rows": [
+                    ["User Role", "Passive (Waits for list)", "Active (Evolves need)"],
+                    ["Success Metric", "High Precision at #1", "Total Session Satisfaction"],
+                    ["Result Value", "Standalone", "Additive (Bits & Pieces)"],
+                    ["User Action", "Input Query", "Berry Picking (Foraging)"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 16,
+            "type": "activity",
+            "title": "Virtual Lab: Berry Picking Log",
+            "content": {
+                "activity": "The Research Journey",
+                "description": "Search for 'How to start a hobby farm'. Spend 10 minutes researching. Log every query you typed and every link you 'scanned but didn't click'. At the end, look at your first query vs. your last. Did your information need evolve? Which 'berries' were most useful?"
+            }
+        },
+        {
+            "slideNumber": 17,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why do users feel a 'strong scent' when they see bold keywords in a search snippet? \n2. In a 'Infinite Scroll' world like TikTok, does the foraging cost (C) effectively drop to near-zero? \n3. How can a search engine predict when a user is about to give up (the 'Abandonment' point)?"
             }
         }
     ]

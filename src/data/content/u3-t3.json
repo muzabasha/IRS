@@ -7,126 +7,169 @@
             "slideNumber": 1,
             "type": "title",
             "title": "Starting Points & Query Specification",
-            "subtitle": "Initiating the Search",
+            "subtitle": "How Search Begins",
             "content": {
-                "text": "How do we get from a blank screen to a search result? This involves the 'Home' experience and the methods for entering queries.",
-                "hook": "The search box is a window to the world. Let's design it right."
+                "text": "Every information journey begins with a starting point—whether it's a blank search box, a list of categories, or a recommendation feed.",
+                "hook": "The first step is often the hardest for a user."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Starting Points",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "text": "Where search begins. 1. Search Box (Empty state): High intent, requires knowledge of terms. 2. Browsing/Directory: Low intent, exploring categories. 3. Recommendations: Passive start.",
-                "hook": "Starting points set the tone for the information journey."
+                "text": "Before studying how queries are specified, you should understand: \n1. **Stopwords**: Words like 'the', 'is', 'a' that carry very little information. \n2. **Document Frequency (DF)**: How many documents in a collection contain a specific word. \n3. **Basic Probability**: The concept that rare events carry more 'surprise' or information."
             }
         },
         {
             "slideNumber": 3,
-            "type": "grid",
-            "title": "Query Specification Methods",
-            "items": [
-                "Text Input: The classic search bar.",
-                "Visual Querying: Drag-and-drop images (Google Lens).",
-                "Voice Input: Natural language via speech recognition.",
-                "Form-based: Structured input (e.g., Flight Search)."
-            ]
+            "type": "standard",
+            "title": "Background",
+            "content": {
+                "text": "In the early web, 'Browsing' (e.g., Yahoo!'s directory) was the primary starting point. Users would click through categories like /Arts/Movies/Actors. As the web exploded, 'Keyword Searching' became dominant. Modern systems now incorporate 'Query Suggestions' and 'Zero-Result' strategies to help users start."
+            }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Assisting Specification",
+            "title": "Motivation",
             "content": {
-                "text": "How systems help you ask. 1. Autocorrect/Suggest: Predictive typing. 2. Query expansion suggestions. 3. Filters during input (e.g. searching 'Movies' vs 'Actors').",
-                "hook": "A good specifier reduces the 'Gulf of Execution'."
-            },
-            "formula": {
-                "equation": "lev_{a,b}(i,j) = \\min \\begin{cases} lev_{a,b}(i-1,j) + 1 \\\\ lev_{a,b}(i,j-1) + 1 \\\\ lev_{a,b}(i-1,j-1) + [a_i \\neq b_j] \\end{cases}",
-                "description": "Levenshtein Distance (Edit Distance) calculates the number of insertions, deletions, or substitutions required to transform one string into another, enabling 'Did you mean?' suggestions.",
-                "terms": [
-                    {
-                        "symbol": "lev_{a,b}(i,j)",
-                        "meaning": "Edit distance between prefix of string 'a' and 'b'"
-                    },
-                    {
-                        "symbol": "i-1, j-1",
-                        "meaning": "Recursive subproblems (smaller prefixes)"
-                    },
-                    {
-                        "symbol": "a_i \\neq b_j",
-                        "meaning": "Cost of 1 if characters differ (substitution), 0 if they match"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Autocorrect Case Study",
-                    "description": "Calculating distance between 'Kitten' and 'Sitting'.",
-                    "steps": [
-                        {
-                            "label": "Substitute K with S",
-                            "formula": "k \\to s",
-                            "note": "Cost = 1."
-                        },
-                        {
-                            "label": "Substitute e with i",
-                            "formula": "e \\to i",
-                            "note": "Cost = 1+1 = 2."
-                        },
-                        {
-                            "label": "Add g at end",
-                            "formula": "\\dots n \\to \\dots ng",
-                            "note": "Cost = 2+1 = 3."
-                        },
-                        {
-                            "label": "Final Distance",
-                            "formula": "Dist = 3",
-                            "note": "System suggests 'Sitting' if distance is below threshold."
-                        }
-                    ],
-                    "input": "a:'kitten', b:'sitting'",
-                    "output": "Edit Distance: 3"
-                }
+                "text": "Why study how queries are specified? Because users arrive with varying levels of knowledge. An expert might know exactly which terms to use, while a novice needs 'scaffolding' like category lists or autocomplete to define their need."
             }
         },
         {
             "slideNumber": 5,
-            "type": "activity",
-            "title": "Activity: Design a Start",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "activity": "The Sketch",
-                "description": "Sketch a starting page for a Medical Search Engine for Doctors. Would you prioritize a search bar or a list of body parts for browsing? Why?"
+                "text": "1. Keyword Ambiguity: 'Java' (coffee, island, or code?). 2. Short Queries: Users average only 2.4 words per query, making it hard to guess their intent. 3. Query Failure: When a user specifies terms that don't exist in the index."
             }
         },
         {
             "slideNumber": 6,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "When is a directory start better than a search box?",
-                "Give an example of a visual query.",
-                "How does form-based input help precision?",
-                "What is a 'zero-query' search?"
+            "type": "grid",
+            "title": "Application",
+            "items": [
+                "Autocomplete/Auto-suggest in Google Search.",
+                "Faceted Search in Amazon (Filter by Brand, Price).",
+                "Voice-command query specification (Siri/Alexa).",
+                "Advanced Search Forms (limiting by date, filetype)."
             ]
         },
         {
             "slideNumber": 7,
-            "type": "python_demo",
-            "title": "Python Demo: Precision at K (P@K)",
+            "type": "standard",
+            "title": "Introduction to Query Specification",
             "content": {
-                "code": "def precision_at_k(results, k):\n    # 1 is relevant, 0 is not\n    top_k = results[:k]\n    return sum(top_k) / k\n\nresults = [1, 0, 1, 1, 0, 0, 0]\nprint(f\"P@3: {precision_at_k(results, 3)}\")\nprint(f\"P@5: {precision_at_k(results, 5)}\")",
-                "input": "[1, 0, 1, 1, 0, 0, 0]",
-                "output": "P@3: 0.66\nP@5: 0.6",
-                "interpretation": "Interactive IR evaluation often focuses on the first few results.\nUsers rarely scroll past the first page (top 10).\nHigh P@3 is more valuable for UX than high Recall across 1000 items."
+                "text": "Query specification is the act of turning a mental information need into a machine-readable query. It can be 'explicit' (typing words) or 'implicit' (browsing categories or clicking recommendations)."
             }
         },
         {
             "slideNumber": 8,
-            "type": "summary",
-            "title": "Wrap-up",
+            "type": "standard",
+            "title": "Step-by-Step Algorithm: Query Specificity Scoring",
             "content": {
-                "text": "Starting points established. Next, how do we judge if what we found is any good?",
-                "nextTopic": "Context & Using Relevance Judgments",
-                "preparation": "Recall the definition of Relevance from Unit 1."
+                "text": "1. **Preprocessing**: Tokenize the user query and remove standard stopwords. \n2. **Frequency Lookup**: For each term, retrieve its Document Frequency (DF) from the collection index. \n3. **Probability Calculation**: Determine $P(w) = DF / N$, where N is the total document count. \n4. **Log-Surprise Calculation**: Compute the information content for each term as $-\\\\log_2(P(w))$. \n5. **Summation**: Add the information scores of all query terms to get the total Query Specificity. \n6. **Feedback**: If the score is below a threshold, suggest more descriptive terms to the user."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "The Concept: Query Entropy",
+            "content": {
+                "text": "Query Entropy measures the uncertainty or informative value of a query. A query with many specific terms has higher entropy (is more informative) but might retrieve fewer documents."
+            },
+            "formula": {
+                "equation": "H(Q) = -\\\\sum_{i=1}^{n} P(w_i) \\\\log_2 P(w_i)",
+                "description": "Entropy (H) is the sum of probabilities (P) of each word (w) in the query multiplied by their log probability. More rare or descriptive words increase query information.",
+                "terms": [
+                    { "symbol": "P(w)", "meaning": "Probability of word w appearing in the collection (rarity)" },
+                    { "symbol": "H(Q)", "meaning": "Information content or 'Specificity' of the query" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Specificity Score",
+                    "description": "Compare 'The' vs 'Graphene' specificity.",
+                    "steps": [
+                        { "label": "Query: 'the'", "formula": "P=0.1, H=3.32", "note": "Low specificity (very common word)" },
+                        { "label": "Query: 'graphene'", "formula": "P=0.0001, H=13.28", "note": "High specificity (rare, descriptive word)" }
+                    ],
+                    "input": "P(the):0.1, P(graphene):0.0001",
+                    "output": "Result: 'Graphene' is 4x more informative (bits)"
+                }
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
+            "content": {
+                "text": "The inputs are query terms and their **Collection Frequencies (P)**. The output is a **Specificity Score (H)**. If the input terms are rare (small P), the output H is large, meaning the query is highly focused. If the inputs are common words, the output H is low, signaling a 'Vague' informational state that might yield too many results."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Rarity = Informativeness",
+            "content": {
+                "text": "**1. Sample Input**: Query is 'The Solar Nebula'. Probabilities: $P('The')=0.1, P('Solar')=0.01, P('Nebula')=0.0001$. \n**2. Step-by-Step Illustration**: \n - Calculate Information of 'The': $-\\\\log_2(0.1) \\\\approx 3.3$ bits. \n - Calculate Information of 'Solar': $-\\\\log_2(0.01) \\\\approx 6.6$ bits. \n - Calculate Information of 'Nebula': $-\\\\log_2(0.0001) \\\\approx 13.3$ bits. \n**3. Sample Output**: Total Specificity $H = 3.3 + 6.6 + 13.3 = 23.2$ bits. \n**4. Interpretation of Results**: The term 'Nebula' carries 4x more 'information' than 'The'. This tells the IR system to prioritize results containing 'Nebula' because it is the most discriminative input."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "python_demo",
+            "title": "Python Demo: Query Specificity Tester",
+            "content": {
+                "code": "import math\n\n# Mock document frequency dictionary\ndoc_freq = {'the': 0.8, 'a': 0.7, 'python': 0.05, 'information': 0.1, 'retrieval': 0.02}\n\ndef calculate_query_info(query):\n    # Calculate entropy/information for a given query\n    words = query.lower().split()\n    total_info = 0\n    for word in words:\n        freq = doc_freq.get(word, 0.001)\n        info = -math.log2(freq)\n        total_info += info\n    return round(total_info, 2)\n\nprint(f\"Info for 'the python': {calculate_query_info('the python')}\")\nprint(f\"Info for 'information retrieval': {calculate_query_info('information retrieval')}\")",
+                "input": "Query: 'the python', 'information retrieval'.",
+                "output": "The Python: 4.64, Info Retrieval: 8.97",
+                "interpretation": "The script calculates the 'Information Gain' of a query. 'Information retrieval' is more specific and has a higher score because 'retrieval' is a rare term. Good IR interfaces encourage higher scores via suggestions."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Advantages & Drawbacks",
+            "content": {
+                "text": "Advantage: Browsing reduces the 'Zero-result' risk as users select from existing items. Drawback: Searching is faster but prone to 'Vocabulary Mismatch' if the user doesn't know the exact terms used in the index."
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Solution to Address Drawbacks",
+            "content": {
+                "text": "To fix 'Vocabulary Mismatch', use 'Query Expansion' (adding synonyms automatically) or 'Spelling Correction' during the entry phase. To help browsers, use 'Facet counts' (showing how many results exist in each category) to guide them away from empty branches."
+            }
+        },
+        {
+            "slideNumber": 15,
+            "type": "comparison",
+            "title": "Comparison: Browsing vs. Searching",
+            "comparison": {
+                "headers": ["Aspect", "Browsing (Recognition)", "Searching (Recall)"],
+                "rows": [
+                    ["User Effort", "Low (Choose from list)", "High (Think of terms)"],
+                    ["Specificity", "Broad/General", "Specific/Deep"],
+                    ["Scale", "Poor (Deep trees are hard)", "Excellent (Keywords are infinite)"],
+                    ["Mental Load", "Low recall required", "High recall of terminology required"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 16,
+            "type": "activity",
+            "title": "Virtual Lab: Starting Point Audit",
+            "content": {
+                "activity": "The Blank Page Challenge",
+                "description": "Go to Google and Amazon. On both, try to find a 'Blue Ceramic Mug' using ONLY browsing (categories) and then ONLY searching. Time yourself. Which site has a better browsing experience? Why?"
+            }
+        },
+        {
+            "slideNumber": 17,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why is 'Browsing' easier on the memory (recognition) while 'Searching' is harder (recall)? \n2. In a 'Generative AI' search world, does 'Query Specification' become easier because the AI can guess our intent from vague words? \n3. How would you design a 'Zero-Result' page to ensure the user doesn't just leave the site?"
             }
         }
     ]
