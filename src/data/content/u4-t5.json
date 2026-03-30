@@ -69,7 +69,7 @@
             "type": "standard",
             "title": "Step-by-Step Algorithm: PageRank Power Iteration",
             "content": {
-                "text": "1. **Initialization**: Assign an equal initial rank to all $N$ pages $(PR = 1/N)$. \n2. **Distribution**: For each page $A$, find all pages $T$ that link TO it. \n3. **Contribution calculation**: Each page $T$ contributes $PR(T) / C(T)$ to $A$, where $C(T)$ is its outgoing link count. \n4. **Summation**: Add up all incoming contributions. \n5. **Apply Damping ($d$)**: Calculate $PR(A) = (1-d) + d \\\\times \\\\text{Sum\_Contributions}$. \n6. **Iteration**: Repeat the process for all pages until the ranks 'converge' (change by less than a small $\\\\epsilon$). \n7. **Normalization**: Ensure the total sum of all PageRanks remains constant (e.g. equal to $N$ or $1$)."
+                "text": "1. **Initialization**: Assign an equal initial rank to all $N$ pages $(PR = 1/N)$. \n2. **Distribution**: For each page $A$, find all pages $T$ that link TO it. \n3. **Contribution calculation**: Each page $T$ contributes $PR(T) / C(T)$ to $A$, where $C(T)$ is its outgoing link count. \n4. **Summation**: Add up all incoming contributions. \n5. **Apply Damping ($d$)**: Calculate $PR(A) = (1-d) + d \\\\times \\\\text{Sum\\\\_Contributions}$. \n6. **Iteration**: Repeat the process for all pages until the ranks 'converge' (change by less than a small $\\\\epsilon$). \n7. **Normalization**: Ensure the total sum of all PageRanks remains constant (e.g. equal to $N$ or $1$)."
             }
         },
         {
