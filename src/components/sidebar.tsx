@@ -55,6 +55,17 @@ export function Sidebar({ className }: { className?: string }) {
                 className="w-full justify-start font-normal text-sm h-auto py-2 text-muted-foreground hover:text-foreground"
                 asChild
               >
+                <Link href="/?tab=question-bank">
+                  <span className="text-lg leading-none mr-2">📚</span>
+                  <span>HOT Question Bank</span>
+                </Link>
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-full justify-start font-normal text-sm h-auto py-2 text-muted-foreground hover:text-foreground"
+                asChild
+              >
                 <a href="https://scholar-sparkle-web.lovable.app/" target="_blank" rel="noopener noreferrer">
                   <span className="text-lg leading-none mr-2">👨‍🏫</span>
                   <span>Instructor</span>
