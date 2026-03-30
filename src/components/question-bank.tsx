@@ -10,6 +10,20 @@ import questionBankData from "@/data/question-bank.json"
 import 'katex/dist/katex.min.css'
 import katex from 'katex'
 
+interface Question {
+  id: string
+  question: string
+  marks: number
+  scheme: string[]
+  solution: string
+}
+
+interface QuestionBankData {
+  [key: string]: Question[]
+}
+
+const typedQuestionBankData = questionBankData as QuestionBankData
+
 export function QuestionBank() {
   const renderTextWithMath = (text: string) => {
     if (!text) return null;
@@ -29,7 +43,7 @@ export function QuestionBank() {
               }} 
             />
           );
-        } catch (e) {
+        } catch (_e) {
           return <span key={i}>{part}</span>;
         }
       }
@@ -85,7 +99,7 @@ export function QuestionBank() {
             </CardHeader>
             <CardContent className="p-0">
               <Accordion type="single" collapsible className="w-full">
-                {(questionBankData as any)[unit.id].map((q: any, index: number) => (
+                {typedQuestionBankData[unit.id].map((q: Question, index: number) => (
                   <AccordionItem key={q.id} value={q.id} className="border-b last:border-0 px-6 hover:bg-muted/30 transition-colors">
                     <AccordionTrigger className="hover:no-underline py-6">
                       <div className="flex items-start gap-4 text-left w-full">

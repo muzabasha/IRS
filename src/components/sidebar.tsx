@@ -11,7 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { CheckCircle2, Circle, BookOpen, GraduationCap } from "lucide-react"
+import { CheckCircle2, Circle, GraduationCap } from "lucide-react"
 
 import syllabus from "@/data/syllabus.json"
 
