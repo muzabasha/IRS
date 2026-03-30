@@ -1,490 +1,496 @@
 {
-  "unit1": [
+  "unit-1": [
     {
       "id": "u1-q1",
-      "question": "Analyze the classic Boolean model in Information Retrieval. Discuss its advantages for expert searchers and its significant limitations for casual users. Propose a hybrid approach to overcome these drawbacks.",
+      "question": "Explain the logical components of an Information Retrieval system. How does the 'process of retrieval' differ from the 'modeling' of documents?",
       "marks": 10,
+      "topicId": "u1-t2",
       "scheme": [
-        "Description of Boolean Model: 2 Marks",
-        "Advantages for Expert Searchers (Efficiency, Control): 2 Marks",
-        "Limitations for Casual Users (Lack of Ranking, Binary logic): 3 Marks",
-        "Proposition of Hybrid Approach (e.g., Extended Boolean): 3 Marks"
+        "Logical components diagram (2 Marks)",
+        "Explanation of components (3 Marks)",
+        "Retrieval process vs Modeling (5 Marks)"
       ],
-      "solution": "The Boolean model is based on set theory and Boolean algebra. Users specify queries using AND, OR, and NOT operators. **Advantages for Experts:** It provides predictable results and total control over the retrieval set, which is crucial for legal or medical patent searches. **Limitations for Casual Users:** It doesn't support 'near matches', lead to either too few or too many results, and lacks document ranking based on relevance. **Hybrid Approach:** The Extended Boolean model (p-norm) allows for soft matching and ranking of results while keeping the logical structure."
+      "solution": "An IR system consists of: 1. User Interface, 2. Text Operations, 3. Query Operations, 4. Indexing, 5. Searching, 6. Ranking. The 'process of retrieval' refers to the workflow from query to ranked results, while 'modeling' is the mathematical framework used to represent documents and queries (e.g., Vector Space Model, Boolean Model)."
     },
     {
       "id": "u1-q2",
-      "question": "Evaluate the Vector Space Model (VSM) using TF-IDF weighting. Explain how the cosine similarity measure captures the semantic relatedness between a query and a document better than simple term overlap.",
+      "question": "Compare and contrast the Boolean model and the Vector Space Model. Which one offers better ranking and why?",
       "marks": 10,
+      "topicId": "u1-t3",
       "scheme": [
-        "VSM Definition & TF-IDF Explanation: 3 Marks",
-        "Cosine Similarity Formula & Geometry: 3 Marks",
-        "Comparison with Term Overlap: 2 Marks",
-        "Impact on Ranking Accuracy: 2 Marks"
+        "Boolean model overview (2 Marks)",
+        "Vector Space Model overview (2 Marks)",
+        "Comparison table/points (3 Marks)",
+        "Ranking effectiveness analysis (3 Marks)"
       ],
-      "solution": "VSM represents documents and queries as vectors in a multi-dimensional space. TF-IDF balances term frequency with rarity. **Cosine Similarity:** measures the angle between vectors, normalizing for document length. Unlike simple term overlap (which might favor longer documents with more repeated words), Cosine Similarity focuses on the 'direction' of the concept in the vector space, effectively capturing semantic focus."
+      "solution": "The Boolean model is based on set theory and binary matching ($0$ or $1$). The Vector Space Model uses non-binary weights (like TF-IDF) and cosine similarity for partial matching. VSM offers better ranking because it provides a continuous degree of similarity, allowing for ordered result lists."
     },
     {
       "id": "u1-q3",
-      "question": "Critically analyze the Probabilistic model in IR. Discuss the Probability Ranking Principle (PRP) and explain why the Binary Independence Model (BIM) is considered a simplification of real-world language.",
+      "question": "Discuss the 'Probabilistic Model' of retrieval. Explain how the Binary Independence Assumption is utilized in this model.",
       "marks": 10,
+      "topicId": "u1-t6",
       "scheme": [
-        "Probabilistic Model Overview: 2 Marks",
-        "Probability Ranking Principle (PRP): 3 Marks",
-        "BIM Assumptions and Mechanics: 3 Marks",
-        "Limitations regarding Term Independence: 2 Marks"
+        "Probabilistic principle (3 Marks)",
+        "Binary Independence Assumption (4 Marks)",
+        "Weighting function derivation (3 Marks)"
       ],
-      "solution": "The Probabilistic model estimates the probability that a document is relevant to a query. **PRP:** States that the best performance is achieved by ranking documents in decreasing order of their probability of relevance. **BIM:** It assumes that terms occur independently in relevant and non-relevant documents. This is a simplification because real language has dependencies (e.g., 'San' and 'Francisco' are highly dependent), making the model computationally feasible but theoretically imperfect."
+      "solution": "The model estimates the probability that a document is relevant to a query. The Binary Independence Assumption assumes that terms appear independently in relevant/non-relevant documents, simplifying the probability calculations into a sum of weights."
     },
     {
       "id": "u1-q4",
-      "question": "Design a comprehensive Information Retrieval evaluation framework. Explain the trade-offs between Precision and Recall using the F-measure and R-Precision metrics.",
+      "question": "Analyze the 'Generalized Vector Space Model' (GVSM). How does it address the limitations of the classic VSM?",
       "marks": 10,
+      "topicId": "u1-t5",
       "scheme": [
-        "Precision and Recall Definitions: 2 Marks",
-        "The Precision-Recall Trade-off: 3 Marks",
-        "F-measure (Harmonic Mean) Significance: 3 Marks",
-        "R-Precision explanation: 2 Marks"
+        "Classic VSM limitations (3 Marks)",
+        "GVSM concept & term correlation (4 Marks)",
+        "Mathematical advantages (3 Marks)"
       ],
-      "solution": "Evaluation ensures system effectiveness. **Precision** measures accuracy, while **Recall** measures completeness. They are usually inversely related. **F-measure:** The harmonic mean of P and R, providing a single metric that penalizes extreme values in either. **R-Precision:** The precision after R documents are retrieved, where R is the total number of relevant documents. It provides a stable measure for top-heavy ranking systems."
+      "solution": "GVSM drops the assumption that index terms are orthogonal. It represents term correlations using a similarity matrix, allowing the model to capture relationship between synonyms or related concepts."
     },
     {
       "id": "u1-q5",
-      "question": "Compare the Structured Text Retrieval Model with Classic IR models. How does incorporating structural information (like HTML tags or document sections) enhance retrieval accuracy in modern web search?",
+      "question": "Explain the concept of 'Structured Text Retrieval'. How is it different from flat text retrieval models?",
       "marks": 10,
+      "topicId": "u1-t7",
       "scheme": [
-        "Classic vs. Structured Model comparison: 3 Marks",
-        "Mechanisms for handling structure: 3 Marks",
-        "Impact on Search Accuracy (Contextual relevance): 2 Marks",
-        "Case Example (e.g., searching in Title vs. Body): 2 Marks"
+        "Definition of structured text (3 Marks)",
+        "Comparison with flat text (3 Marks)",
+        "Examples (XML/SGML) (4 Marks)"
       ],
-      "solution": "Classic models treat documents as 'bags of words' or flat text. **Structured models:** utilize the document's hierarchy (XML/HTML). By weighting matches in the <title> or <h1> tags higher than the <footer>, systems can better understand the core intent of a document. It allows for queries like 'Find X within the Introduction section', which significantly improves precision for complex information needs."
+      "solution": "Structured text retrieval considers the hierarchical organization of documents (e.g., sections, paragraphs). Unlike flat models that treat documents as 'bags of words', structured models allow queries on specific fields and structural relations."
     },
     {
       "id": "u1-q6",
-      "question": "Analyze the 'Models for Browsing' approach. Contrast it with the traditional search paradigm. In what scenarios is a browsing/hierarchical model superior to a query-based search?",
+      "question": "Describe the 'Latent Semantic Indexing' (LSI) technique. How does SVD help in reducing the noise in the term-document matrix?",
       "marks": 10,
+      "topicId": "u1-t5",
       "scheme": [
-        "Definition of Browsing Models: 2 Marks",
-        "Search vs. Browsing Comparison: 3 Marks",
-        "Superiority Scenarios (Categorical exploration): 3 Marks",
-        "Role of User Interaction: 2 Marks"
+        "LSI concept (3 Marks)",
+        "SVD process (4 Marks)",
+        "Noise reduction analysis (3 Marks)"
       ],
-      "solution": "Browsing models involve navigating through a structure (like a directory or graph). **Comparison:** Search is 'active' (user knows terms), while browsing is 'passive/exploratory' (user discovers terms). **Superiority Scenarios:** When the user has a vague information need, wants to explore a new domain, or when the dataset is highly categorized (e.g., Yahoo! Directory style or e-commerce categories). It reduces the cognitive load of formulating the perfect query."
+      "solution": "LSI uses Singular Value Decomposition (SVD) to project the term-document matrix into a lower-dimensional 'latent' space. By keeping only the top-$k$ singular values, it captures the primary semantic structure and filters out minor fluctuations (noise)."
     },
     {
       "id": "u1-q7",
-      "question": "Evaluate the Latent Semantic Indexing (LSI) technique. How does Singular Value Decomposition (SVD) help in solving the problems of synonymy and polysemy in IR?",
+      "question": "Discuss 'Fuzzy Set Theoretic Model'. How are degree of membership values calculated for terms in a document?",
       "marks": 10,
+      "topicId": "u1-t4",
       "scheme": [
-        "Inadequacy of Keyword matching (Synonymy/Polysemy): 2 Marks",
-        "LSI/SVD Concept and Dimensionality Reduction: 4 Marks",
-        "Solving Synonymy (Mapping to concepts): 2 Marks",
-        "Solving Polysemy (Contextual vectors): 2 Marks"
+        "Fuzzy logic in IR (3 Marks)",
+        "Membership function definition (4 Marks)",
+        "Query evaluation (3 Marks)"
       ],
-      "solution": "Traditional IR fails when different words mean the same thing (synonymy) or one word has multiple meanings (polysemy). **LSI using SVD:** transforms the high-dimensional term-document matrix into a lower-dimensional 'concept space'. It captures latent relationships between terms. Terms that co-occur frequently are mapped close together, even if they don't appear in the same document, effectively handling synonyms by grouping them into a unified concept."
+      "solution": "Fuzzy models represent documents as fuzzy sets of terms. The degree of membership $\\mu$ measures how strongly a term represents a document concept, typically based on term frequency and co-occurrence patterns."
     },
     {
       "id": "u1-q8",
-      "question": "Discuss the 'Inverted File' structure. Analyze its construction process and explain why it is the backbone of most efficient IR systems. What are the challenges in updating an inverted index in a real-time environment?",
+      "question": "Explain 'Models for Browsing'. How do Hypertext and Guiding mechanisms enhance the user search experience?",
       "marks": 10,
+      "topicId": "u1-t8",
       "scheme": [
-        "Inverted File Structure (Vocabulary + Postings): 3 Marks",
-        "Construction Steps (Parsing, Sorting, Merging): 3 Marks",
-        "Efficiency analysis for Querying: 2 Marks",
-        "Real-time update challenges: 2 Marks"
+        "Browsing model overview (3 Marks)",
+        "Hypertext links (3 Marks)",
+        "User experience benefits (4 Marks)"
       ],
-      "solution": "An inverted index maps terms to the list of documents containing them. **Construction:** Involves tokenization, removing stop-words, stemming, sorting terms alphabetically, and creating postings lists. **Efficiency:** It allows the system to find documents for a 3-word query by only checking 3 lists rather than scanning millions of documents. **Update Challenges:** Inserting new documents requires re-merging or utilizing auxiliary indexes, which can be computationally expensive and impact search performance."
+      "solution": "Browsing models allow non-linear document traversal. Hypertext provides explicit links between related nodes, while guiding mechanisms (like trails or maps) help users avoid getting 'lost in hyperspace'."
     },
     {
       "id": "u1-q9",
-      "question": "Analyze the impact of 'Stemming' and 'Lemmatization' on IR system performance. Under what conditions could aggressive stemming actually decrease retrieval precision?",
+      "question": "Analyze the trends and research issues in Information Retrieval Modeling. Focus on the impact of Large Language Models (LLMs).",
       "marks": 10,
+      "topicId": "u1-t9",
       "scheme": [
-        "Definitions of Stemming & Lemmatization: 3 Marks",
-        "Impact on Recall (Performance boost): 2 Marks",
-        "Risks of Over-stemming (Precision drop): 3 Marks",
-        "Comparison of Algorithms (Porter vs. Snowball): 2 Marks"
+        "Modern IR trends (3 Marks)",
+        "LLM impact (4 Marks)",
+        "Future research directions (3 Marks)"
       ],
-      "solution": "Stemming reduces words to their roots (e.g., 'computation' -> 'comput'), while Lemmatization uses linguistic analysis for the base dictionary form. **Impact:** Increases recall by matching different forms of the same word. **Risks:** Aggressive stemming can cause 'over-stemming' where semantically different words are collapsed into the same root (e.g., 'organization' and 'organ' might both go to 'organ' in some poor algorithms), leading to irrelevant documents being retrieved and lowering precision."
+      "solution": "Current trends include neural IR and dense retrieval. LLMs have shifted IR from 'finding documents' to 'finding answers', introducing challenges in truthfulness, bias, and computational efficiency."
     },
     {
       "id": "u1-q10",
-      "question": "Propose a set of IR system improvements based on 'User Modeling'. How can tracking user history and preferences change the ranking of retrieved documents in a personalized search engine?",
+      "question": "Derive the 'Cosine Similarity' formula for the Vector Space Model. Why is normalization important in this context?",
       "marks": 10,
+      "topicId": "u1-t3",
       "scheme": [
-        "Concept of Personalization in IR: 2 Marks",
-        "Data points for User Modeling (History, Clicks, Location): 3 Marks",
-        "Ranking adjustment mechanisms: 3 Marks",
-        "Privacy and 'Filter Bubble' concerns: 2 Marks"
+        "Dot product explanation (3 Marks)",
+        "Magnitude calculation (3 Marks)",
+        "Final formula derivation (2 Marks)",
+        "Importance of normalization (2 Marks)"
       ],
-      "solution": "User modeling tailors results to individuals. **Mechanisms:** Using search history (if a programmer searches for 'Java', they likely mean the language, not the island), click-through data (documents favorited by the user), and location data. **Ranking:** The system can re-rank results by boosting documents that align with the user's previously expressed interests. **Privacy:** Must be balanced with data protection laws and the risk of 'filter bubbles' where users are only exposed to information they already agree with."
+      "solution": "Cosine similarity is defined as $sim(d,q) = \\frac{d \\cdot q}{|d||q|}$. Normalization is crucial because it makes the similarity score independent of document length, preventing long documents from being ranked higher simply because they contain more words."
     }
   ],
-  "unit2": [
+  "unit-2": [
     {
       "id": "u2-q1",
-      "question": "Analyze the use of 'Keyword Queries' in IR. How can 'Pattern Matching' queries be implemented using Suffix Trees? Discuss the complexity of this approach.",
+      "question": "Explain the 'Rocchio Algorithm' for relevance feedback. How are $Q_{new}$ vectors calculated?",
       "marks": 10,
+      "topicId": "u2-t2-relevance-feedback",
       "scheme": [
-        "Keyword Query limitations: 2 Marks",
-        "Suffix Tree structure & Pattern Matching: 4 Marks",
-        "Implementation steps: 2 Marks",
-        "Time/Space Complexity analysis: 2 Marks"
+        "Rocchio concept (3 Marks)",
+        "Formula derivation (4 Marks)",
+        "Parameter meaning ($\\alpha, \\beta, \\gamma$) (3 Marks)"
       ],
-      "solution": "Keyword queries are simple but rigid. **Suffix Trees:** Allow for efficient sub-string searches and pattern matching. A suffix tree for a text S contains all suffixes of S as paths from the root. **Matching:** Locating a pattern P takes O(|P|) time, which is independent of the text size. **Complexity:** While search is fast, space complexity is O(N) where N is text length, but with a high constant factor. It is ideal for genomic IR or specialized text mining."
+      "solution": "The Rocchio algorithm updates a query vector based on relevant and non-relevant items: $Q_{new} = \\alpha Q_{old} + \\beta (\\frac{1}{|D_r|} \\sum D_r) - \\gamma (\\frac{1}{|D_n|} \\sum D_n)$. Here $\\alpha, \\beta, \\gamma$ weight the original query, positive feedback, and negative feedback respectively."
     },
     {
       "id": "u2-q2",
-      "question": "Evaluate the Rocchio Algorithm for Relevance Feedback. Explain the formula and discuss how it shifts the query vector towards relevant documents and away from non-relevant ones.",
+      "question": "What is 'Inverted Index'? Illustrate the construction of an inverted index for a sample set of three documents.",
       "marks": 10,
+      "topicId": "u2-t4-inverted-index",
       "scheme": [
-        "Rocchio Algorithm Principle: 2 Marks",
-        "Detailed Formula explanation (Alpha, Beta, Gamma): 4 Marks",
-        "Geometric interpretation of Query-Drift: 2 Marks",
-        "Limitations (Convergence and User effort): 2 Marks"
+        "Inverted Index definition (2 Marks)",
+        "Structure (Vocabulary + Postings) (3 Marks)",
+        "Step-by-step illustration (5 Marks)"
       ],
-      "solution": "Rocchio's algorithm is a classic method for implementing relevance feedback in VSM. **Formula:** $Q_{new} = \\alpha Q_{old} + \\beta (1/|R|) \\sum D_r - \\gamma (1/|NR|) \\sum D_{nr}$. **Shifting:** Alpha maintains original intent, Beta pulls the query towards the average vector of relevant documents, and Gamma pushes it away from non-relevant ones. **Drift:** This iteratively refines the search, but relies on users accurately tagging documents, which can be burdensome."
+      "solution": "An inverted index maps terms to the list of documents containing them. Construction: 1. Tokenize docs, 2. Sort terms alphabetically, 3. Create postings lists with document IDs and frequencies."
     },
     {
       "id": "u2-q3",
-      "question": "Design a 'Local Analysis' (Pseudo-Relevance Feedback) system. Compare it with 'Global Analysis' (Thesaurus-based). Which one is more computationally intensive and why?",
+      "question": "Discuss 'Query Operations'. Explain the difference between 'Query Expansion' and 'Term Rewriting'.",
       "marks": 10,
+      "topicId": "u2-t1-keyword",
       "scheme": [
-        "Local Analysis Mechanism (Top-k assumption): 3 Marks",
-        "Global Analysis Mechanism (Preprocessing, LSI): 2 Marks",
-        "Direct Comparison of Accuracy/Efficiency: 3 Marks",
-        "Computational intensity justification: 2 Marks"
+        "Query operations overview (3 Marks)",
+        "Query Expansion explanation (3 Marks)",
+        "Term Rewriting explanation (3 Marks)",
+        "Key differences (1 Mark)"
       ],
-      "solution": "**Local Analysis:** Assumes the top K documents in initial results are relevant and uses them to expand the query. It is query-specific and fast. **Global Analysis:** Analyzes the entire collection to find term relationships (thesaurus). **Comparison:** Global analysis is more computationally intensive because it requires offline processing of the total corpus (e.g., building a complete term-term co-occurrence matrix), whereas local analysis only looks at a small subset of documents per query."
+      "solution": "Query expansion adds related terms (synonyms) to increase recall. Term rewriting replaces original terms with normalized or more effective substitutes. Expansion grows the query; rewriting modifies it."
     },
     {
       "id": "u2-q4",
-      "question": "Analyze 'Structural Queries' in the context of XML/HTML documents. Discuss how 'Proximal Nodes' and 'Tree Patterns' can be used to retrieve specific document fragments.",
+      "question": "Explain 'Document Clustering' in IR. How does the 'Single-Pass' clustering algorithm work?",
       "marks": 10,
+      "topicId": "u2-t3-clustering",
       "scheme": [
-        "Need for Structural Queries: 2 Marks",
-        "Proximal Nodes concept: 3 Marks",
-        "Tree Pattern matching in XML: 3 Marks",
-        "Applications (e.g., Digital Libraries): 2 Marks"
+        "Clustering definition (2 Marks)",
+        "Algorithm steps (5 Marks)",
+        "Advantages/Drawbacks (3 Marks)"
       ],
-      "solution": "Structural queries focus on the document's hierarchy. **Proximal Nodes:** Finding the smallest common ancestor in a DOM tree that contains all query terms. **Tree Patterns:** Using XPath or XQuery to find specific structures like 'A chapter containing term X and a table'. This is vital for digital libraries and academic archives where the relationship between components (abstract vs. conclusion) is as important as the text content."
+      "solution": "Single-pass clustering builds clusters dynamically. For each document: 1. Compare it to existing clusters, 2. If similarity > threshold, add to best cluster, 3. Else, create new cluster. It is efficient ($O(n)$) but order-dependent."
     },
     {
       "id": "u2-q5",
-      "question": "Evaluate various 'Text Compression' techniques in IR. Explain why 'Huffman Coding' and 'Ziv-Lempel' are used differently for index vs. document storage.",
+      "question": "Analyze the importance of 'Stemming' and 'Stopword Removal' in text preprocessing.",
       "marks": 10,
+      "topicId": "u2-t3-preprocessing",
       "scheme": [
-        "Importance of Compression in IR: 2 Marks",
-        "Huffman Coding mechanics (Frequency based): 3 Marks",
-        "Ziv-Lempel mechanics (Pattern based): 3 Marks",
-        "Application differences: 2 Marks"
+        "Stemming concept (4 Marks)",
+        "Stopword removal benefits (3 Marks)",
+        "Impact on index size & precision (3 Marks)"
       ],
-      "solution": "Compression reduces disk I/O and fits more data in RAM. **Huffman:** Assigns shorter codes to frequent symbols. Good for compressing the vocabulary in an index. **Ziv-Lempel (LZ77/LZ78):** Replaces recurring sequences with pointers. Excellent for full-text document storage because documents have lots of repeated patterns. Huffman is 'character-level' efficiency, while LZ is 'string-level' efficiency."
+      "solution": "Stemming reduces variant word forms to a common root (e.g., 'fishing' $\\to$ 'fish'), improving recall. Stopword removal filters out frequent, non-discriminative words ('the', 'is'), significantly reducing index size and improving efficiency."
     },
     {
       "id": "u2-q6",
-      "question": "Analyze 'Document Clustering' in IR. Describe the K-Means algorithm and discuss how clustering can improve the efficiency of search in large-scale systems.",
+      "question": "Describe 'Local Analysis' vs 'Global Analysis' for query expansion. Which one is more computationally expensive?",
       "marks": 10,
+      "topicId": "u2-t2-local-analysis",
       "scheme": [
-        "Clustering vs. Classification: 2 Marks",
-        "K-Means Algorithm steps: 3 Marks",
-        "Efficiency gains (Cluster-based retrieval): 3 Marks",
-        "Impact on Recall and Precision: 2 Marks"
+        "Local analysis/PRF (4 Marks)",
+        "Global analysis/Thesaurus (4 Marks)",
+        "Computational tradeoff (2 Marks)"
       ],
-      "solution": "**Clustering:** Unsupervised grouping of similar documents. **K-Means:** 1. Choose K centroids, 2. Assign docs to nearest centroid, 3. Recompute centroids, 4. Repeat until convergence. **Efficiency:** Instead of comparing a query to 1 million documents, compare it to 100 cluster centroids. Only search within the most similar clusters. This 'Cluster Hypothesis' states that relevant documents tend to cluster together, potentially improving precision by excluding irrelevant clusters."
+      "solution": "Local analysis uses the top-ranked results for a specific query (Pseudo-Relevance Feedback). Global analysis uses the whole collection or external thesauri. Global analysis is more expensive as it requires pre-calculating relationships for all terms."
     },
     {
       "id": "u2-q7",
-      "question": "Discuss 'Inverted Index Compression'. Explain 'Delta Encoding' and 'Gamma/Delta Codes' for compressing document IDs in postings lists.",
+      "question": "Explain 'Index Compression' techniques. How do 'Variable Byte Encoding' and 'Gamma Encoding' help in reducing index size?",
       "marks": 10,
+      "topicId": "u2-t4-index-compression",
       "scheme": [
-        "Postings List structure: 2 Marks",
-        "Delta Encoding logic (Storage of gaps): 3 Marks",
-        "Gamma/Delta Code bit-level efficiency: 3 Marks",
-        "Overall Compression Ratio impact: 2 Marks"
+        "Variable Byte Encoding (4 Marks)",
+        "Gamma Encoding (4 Marks)",
+        "Total space savings (2 Marks)"
       ],
-      "solution": "Postings lists are huge. **Delta Encoding:** Stores the gap between document IDs (e.g., instead of 100, 105, 110, store 100, 5, 5). These smaller numbers require fewer bits. **Gamma Codes:** Represent a number $x$ using $log_2(x)$ as a unary prefix and the value in binary. This is very efficient for small gaps. This compression allows the index to resident in memory, drastically speeding up union and intersection operations in Boolean search."
+      "solution": "Index compression stores document gaps instead of full IDs. Variable byte uses 7 bits for data and 1 'continuation' bit. Gamma encoding represents a number $x$ using $length(\\lfloor \\log_2 x \\rfloor)$ in unary followed by the binary offset."
     },
     {
       "id": "u2-q8",
-      "question": "Evaluate the 'Signature Files' approach for text retrieval. Compare its performance and storage requirements with Inverted Files. Why has it largely been superseded?",
+      "question": "Discuss 'Keyword Queries' vs 'Structural Queries'. How are Boolean operators integrated into structural queries?",
       "marks": 10,
+      "topicId": "u2-t1-structural",
       "scheme": [
-        "Signature File mechanism (Hashing/Bit slices): 3 Marks",
-        "Performance comparison with Inverted Files: 3 Marks",
-        "Storage efficiency analysis: 2 Marks",
-        "Reasons for decline (False drops): 2 Marks"
+        "Keyword queries (3 Marks)",
+        "Structural queries (3 Marks)",
+        "Boolean integration (4 Marks)"
       ],
-      "solution": "**Signature Files:** Map doc words to bit signatures using hash functions. **Comparison:** They are simpler to update than inverted files. **Supersession:** Signature files suffer from 'false drops' (the hash says a word is there, but it isn't), necessitating a verify-step on disk. As corpus sizes grew, the false drop rate and the need for disk access made them significantly slower than modern, compressed inverted indexes."
+      "solution": "Keyword queries find terms anywhere. Structural queries find terms in specific elements (e.g., 'author'). Boolean operators (AND, OR, NOT) allow combining terms with structural constraints (e.g., term $A$ in title AND term $B$ in body)."
     },
     {
       "id": "u2-q9",
-      "question": "Analyze 'Thesaurus-based Expansion' in Global Analysis. Explain how automatically generated thesauruses differ from manually curated ones like WordNet. Discuss the risk of 'Query Drift'.",
+      "question": "Explain 'Pattern Queries'. Describe the use of Regular Expressions in Information Retrieval.",
       "marks": 10,
+      "topicId": "u2-t1-pattern",
       "scheme": [
-        "Thesaurus expansion mechanism: 2 Marks",
-        "Manual vs. Automatic Thesaurus: 3 Marks",
-        "Algorithm for automatic generation: 3 Marks",
-        "Query Drift explanation: 2 Marks"
+        "Pattern matching concept (3 Marks)",
+        "Regex syntax/examples (4 Marks)",
+        "Use cases in IR (3 Marks)"
       ],
-      "solution": "Query expansion adds synonyms to the query. **Manual (WordNet):** High quality but expensive to maintain. **Automatic:** Built using co-occurrence statistics from the corpus (if 'Apple' and 'iPhone' appear together, they are related). **Risk:** Automatic thesauruses may include words related to the 'context' but not the 'meaning', causing **Query Drift** where the search moves away from the user's specific intent due to irrelevant expansion terms."
+      "solution": "Pattern queries allow matching strings with variations (prefixes, suffixes, wildcards). Regular expressions provide a formal syntax for these patterns, useful for finding email addresses, dates, or morphological variations."
     },
     {
       "id": "u2-q10",
-      "question": "Design a 'Hierarchical Clustering' approach for a digital library. Compare 'Single-Link' and 'Complete-Link' clustering strategies in terms of the 'Chaining' effect and cluster density.",
+      "question": "Analyze 'Thesaurus-based' Query Expansion. How does it handle Lexical Ambiguity?",
       "marks": 10,
+      "topicId": "u2-t2-global-analysis",
       "scheme": [
-        "Hierarchical Clustering overview: 2 Marks",
-        "Single-Link (Nearest neighbor) vs. Complete-Link: 4 Marks",
-        "Chaining Effect explanation: 2 Marks",
-        "Suitability for IR systems: 2 Marks"
+        "Thesaurus structure (3 Marks)",
+        "Lexical ambiguity problem (3 Marks)",
+        "Contextual expansion solutions (4 Marks)"
       ],
-      "solution": "**Hierarchical:** Creates a tree of clusters (Dendrogram). **Single-Link:** Distance between clusters is the minimum distance between any two points. This leads to **Chaining**, where clusters become long and straggly. **Complete-Link:** Distance is the maximum distance between points, creating tight, spherical clusters. Complete-link is usually better for IR as it ensures all documents in a cluster are very similar to each other, improving the cohesive relevance of results."
+      "solution": "Thesauri link words via relations (synonymy, hyponymy). Lexical ambiguity occurs when a word has multiple meanings. Advanced techniques use co-occurrence context to select the correct sense before adding synonyms."
     }
   ],
-  "unit3": [
+  "unit-3": [
     {
       "id": "u3-q1",
-      "question": "Analyze the 'Human-Computer Interaction' (HCI) challenges in IR system design. Discuss the 'Cognitive Load' when formulating complex Boolean queries and propose UI solutions to simplify this process.",
+      "question": "Analyze the 'Human-Computer Interaction' (HCI) principles in the design of search interfaces. Focus on efficiency and satisfaction.",
       "marks": 10,
+      "topicId": "u3-t1",
       "scheme": [
-        "HCI fundamental principles in IR: 2 Marks",
-        "Cognitive Load analysis: 3 Marks",
-        "Boolean query complexity issues: 2 Marks",
-        "Proposed UI solutions (Venn diagrams, Natural Language): 3 Marks"
+        "HCI Core Principles (3 Marks)",
+        "Search efficiency factors (3 Marks)",
+        "User satisfaction metrics (4 Marks)"
       ],
-      "solution": "HCI in IR focus on how users interact with search interfaces. **Cognitive Load:** Users struggle with the logic of AND/OR/NOT and operator precedence. **Solutions:** 1. Query-by-Example, 2. Visual query builders using drag-and-drop 'blocks', 3. Transforming Natural Language queries into Boolean logic automatically, 4. Interactive faceted search that allows users to 'filter' rather than 'code' their search."
+      "solution": "HCI in IR focuses on reducing cognitive load. Principles include visibility, feedback, and consistency. Efficiency is measured by 'time to task completion', while satisfaction involves qualitative user feedback and 'perceived ease of use'."
     },
     {
       "id": "u3-q2",
-      "question": "Evaluate the 'Information Access Process' as a cycle. Describe the steps from 'Information Need' to 'Result Evaluation' and explain the importance of the 'Feedback Loop' in UI design.",
+      "question": "Explain the 'Information Access Process' as a cyclical model. What are the key stages?",
       "marks": 10,
+      "topicId": "u3-t2",
       "scheme": [
-        "Cycle Stages (Need -> Formulate -> Search -> Evaluate): 4 Marks",
-        "Psychology of the searcher (Belkin's ASK): 2 Marks",
-        "Importance of the Feedback Loop: 2 Marks",
-        "UI elements supporting feedback (e.g., 'Did you mean'): 2 Marks"
+        "Cyclical model diagram (3 Marks)",
+        "Detailed stage explanation (5 Marks)",
+        "Impact of feedback loops (2 Marks)"
       ],
-      "solution": "The process is iterative. **Stages:** 1. Anomalous State of Knowledge (user realizes they need info), 2. Query formulation, 3. Reviewing results. **Feedback Loop:** Crucial because users often shift their information need after seeing initial results. UI design must support easy 'reformulation' and 'save-search' features to help users refine their exploration based on what the system reveals."
+      "solution": "The process is iterative: 1. Need identification, 2. Query formulation, 3. Result examination, 4. Query refinement. Unlike linear models, it acknowledges that users learn about their information need as they see results."
     },
     {
       "id": "u3-q3",
-      "question": "Analyze various 'Visualization' techniques for IR results. Discuss how 'Document Clustering Visualization' and 'Heatmaps' help users navigate large result sets more effectively than a ranked list.",
+      "question": "Discuss 'Starting Points' for search. Compare keyword search boxes with category-based browsing.",
       "marks": 10,
+      "topicId": "u3-t3",
       "scheme": [
-        "Limitations of Ranked Lists: 2 Marks",
-        "Clustering Visualization (Nodes/Edges): 3 Marks",
-        "Heatmaps for query term distribution: 3 Marks",
-        "User experience benefits: 2 Marks"
+        "Keyword search pros/cons (3 Marks)",
+        "Browsing/Categories pros/cons (3 Marks)",
+        "Comparison & use-case analysis (4 Marks)"
       ],
-      "solution": "Ranked lists are 'one-dimensional'. **Visualization:** 1. **Clustering:** Groups similar docs into bubbles, allowing a user to see 'different topics' in the results at once. 2. **Heatmaps (TileBars):** Show where query terms appear in a document. If a term is only in the bibliography, the user can skip it without opening. These tools reduce the 'time-to-decision' by providing a multi-dimensional view of library data."
+      "solution": "Keyword boxes offer precision for specific needs but require vocabulary knowledge. Category browsing is better for exploration and 'undirected' needs. Modern systems often combine both (facets)."
     },
     {
       "id": "u3-q4",
-      "question": "Evaluate 'Search Interface' support for the 'Query Specification' process. Discuss the impact of 'Autosuggest', 'Query Expansion UI', and 'Faceted Navigation' on user satisfaction.",
+      "question": "Describe 'Context' in IR. How can search interfaces utilize task-specific context to improve ranking?",
       "marks": 10,
+      "topicId": "u3-t4",
       "scheme": [
-        "Autosuggest mechanics and benefits: 3 Marks",
-        "Query Expansion UI (Showing related terms): 3 Marks",
-        "Faceted Navigation (E-commerce style): 2 Marks",
-        "Overall Impact on User Error reduction: 2 Marks"
+        "Definition of context (3 Marks)",
+        "Context categories (History, Task) (4 Marks)",
+        "Implementation strategies (3 Marks)"
       ],
-      "solution": "Search interfaces must assist the user. **Autosuggest:** Reduces typing and guides users toward 'discoverable' terms. **Expansion UI:** Suggests related topics (e.g., 'See also: Information Extraction'). **Faceted Navigation:** Allows users to drill down by Category, Date, or Author systematically. These reduce the 'Recall' problem where users forget specific terms, making search a recognition task rather than a recall task."
+      "solution": "Context includes user location, history, and current task. Interfaces use this to disambiguate queries (e.g., 'jaguar' in 'auto' context $\\to$ car). Explicit context via 'search roles' or implicit context via history help personalize ranking."
     },
     {
       "id": "u3-q5",
-      "question": "Discuss the 'Trends and Research Issues' in IR User Interfaces. How is the shift from desktop to 'Mobile and Voice Search' changing the fundamental design of IR interfaces?",
+      "question": "Explain the importance of 'Relevance Judgments' in UI. How should interfaces present results to facilitate quick judgments?",
       "marks": 10,
+      "topicId": "u3-t4",
       "scheme": [
-        "Desktop vs. Mobile constraints: 2 Marks",
-        "Mobile UI Design patterns: 3 Marks",
-        "Voice Search Challenges (No visual results): 3 Marks",
-        "Conversational AI in IR: 2 Marks"
+        "Relevance judgment concept (3 Marks)",
+        "Snippet/Title design (4 Marks)",
+        "Visual feedback mechanisms (3 Marks)"
       ],
-      "solution": "The paradigm is shifting. **Mobile:** Requires 'minimalist' design, larger touch targets, and 'snippet-first' results due to small screens. **Voice:** Removes the visual feedback entirely. The system must become a 'Search Agent' that provides a single, high-confidence consolidated answer rather than a list of blue links. This introduces a research focus on summarization and natural language generation (NLG)."
+      "solution": "Users make split-second decisions on relevance. Effective UIs provide highlighted titles, informative snippets, and meta-data (date, source). Visual aids like thumbnail previews or 'relevance bars' assist in rapid assessment."
     },
     {
       "id": "u3-q6",
-      "question": "Analyze 'Local and Global Analysis' from a User Experience perspective. How can an interface effectively present these refinement options to the user without overwhelming them?",
+      "question": "Analyze 'Visualization' in IR results. Discuss how 'Document Summaries' and 'Result Mapping' help the user.",
       "marks": 10,
+      "topicId": "u3-t5",
       "scheme": [
-        "Local vs. Global Analysis summary: 2 Marks",
-        "Interface design for 'Refinement': 4 Marks",
-        "Progressive Disclosure principle: 2 Marks",
-        "Avoiding Information Overload: 2 Marks"
+        "Visualization goals (3 Marks)",
+        "Summarization types (2 Marks)",
+        "Mapping techniques (4 Marks)",
+        "Comparison (1 Mark)"
       ],
-      "solution": "Refinement should be intuitive. **Interface Design:** Instead of technical terms, use 'Find documents like this' (Local) or 'Refine your query using these related terms' (Global). **Progressive Disclosure:** Initially show the results; only show refinement options if the user pauses or clicks 'Refine'. This keeps the interface clean while offering powerful 'power-user' features to those who need them."
+      "solution": "Summaries (static or query-biased) reduce the need to read full documents. Result mapping (e.g., clusters, heatmaps) shows relationship between results, allowing users to spot patterns and outliers quickly."
     },
     {
       "id": "u3-q7",
-      "question": "Evaluate the role of 'Context' in modern IR interfaces. How can 'Location-aware' and 'Task-aware' interfaces improve the relevance of results in a mobile environment?",
+      "question": "Discuss 'Interface Support' for query specification. Explain the role of Autocomplete and Query Suggestions.",
       "marks": 10,
+      "topicId": "u3-t5",
       "scheme": [
-        "Definition of Context in IR: 2 Marks",
-        "Location-aware IR (Mobile use cases): 3 Marks",
-        "Task-aware IR (Historical patterns): 3 Marks",
-        "Trade-off with Privacy: 2 Marks"
+        "Query specification challenges (3 Marks)",
+        "Autocomplete benefits (3 Marks)",
+        "Query suggestions/History (4 Marks)"
       ],
-      "solution": "**Context:** Information about the user's environment. **Location-aware:** If a user searches for 'Coffee' at a train station, they want a shop nearby, not the history of coffee beans. **Task-aware:** If a user has been searching for 'flights', then searches for 'hotels', the system should prioritize hotels in the destination city. This 'short-term history' creates a personalized wrapper around the search experience."
+      "solution": "These tools prevent spelling errors and reduce cognitive effort. Autocomplete helps with 'recognition over recall' by showing potential matches, while suggestions offer related queries that other users found successful."
     },
     {
       "id": "u3-q8",
-      "question": "Analyze the 'Visualization of Rankings'. Compare 'Vibe' and 'LyberWorld' as early experimental IR visualization tools. What lessons were learned for modern UI design?",
+      "question": "Compare 'List View' and 'Grid View' for different types of Information Retrieval (e.g., Web vs Graphics search).",
       "marks": 10,
+      "topicId": "u3-t5",
       "scheme": [
-        "Description of Vibe (Spatial mapping): 3 Marks",
-        "Description of LyberWorld (3D cones): 3 Marks",
-        "Limitations of 3D in IR Visualization: 2 Marks",
-        "Lasting lessons for current interfaces: 2 Marks"
+        "List View characteristics (3 Marks)",
+        "Grid View characteristics (3 Marks)",
+        "Type-specific suitability (4 Marks)"
       ],
-      "solution": "**Vibe:** Mapped terms to 'poles' on a 2D screen; documents were icons pulled towards the terms they contained. **LyberWorld:** Used 3D cones to show document clusters. **Lessons:** We learned that 3D is often too complex and disorienting for users. Modern UIs favor 'Faceted filtering' and 'Clean 2D hierarchies' because they are easier to scan. Simple, high-contrast symbols are more effective than elaborate spatial metaphors."
+      "solution": "List view is optimal for text-heavy results (web pages) as it allows scanning titles and snippets. Grid view is better for visual data (images, videos) where broad visual comparison is prioritized over text metadata."
     },
     {
       "id": "u3-q9",
-      "question": "Discuss 'User Feedback' mechanisms. Compare 'Explicit Feedback' (stars/ratings) vs. 'Implicit Feedback' (dwell time/click-throughs). Which is more reliable for long-term IR system improvement?",
+      "question": "Analyze the trends in IR User Interfaces. Discuss the impact of 'Voice Search' and 'Conversational Interfaces'.",
       "marks": 10,
+      "topicId": "u3-t6",
       "scheme": [
-        "Explicit vs. Implicit comparison: 3 Marks",
-        "Reliability analysis: 2 Marks",
-        "Implicit feedback 'noise' (Clickbait): 3 Marks",
-        "Hybrid approach benefits: 2 Marks"
+        "Current UI trends (3 Marks)",
+        "Voice search challenges (4 Marks)",
+        "Impact of conversational agents (3 Marks)"
       ],
-      "solution": "**Explicit:** Accurate but rare (users don't like rating). **Implicit:** Abundant but noisy. **Reliability:** Dwell time (how long a user stays on a page) is often more reliable than a click-through, as it indicates the content was actually read. Long-term improvement usually relies on implicit signals aggregated over millions of sessions, as it captures the natural behavior of the user without interrupting their task."
+      "solution": "Trends include multimodal input and zero-query search. Voice search requires handling natural language and auditory ambiguity. Conversational interfaces (Chatbots) transform IR from list-based to dialogue-based interaction."
     },
     {
       "id": "u3-q10",
-      "question": "Design an IR interface for a 'Collaborative Search' task. Explain how features like 'History sharing', 'Messaging', and 'Shared Folders' can support a team of researchers working on the same project.",
+      "question": "Explain 'Faceted Search'. How does it combine category-based browsing with interactive query modification?",
       "marks": 10,
+      "topicId": "u3-t3",
       "scheme": [
-        "Collaborative IR concept: 2 Marks",
-        "History Sharing and its benefits: 3 Marks",
-        "Shared Folders/Tagging mechanism: 3 Marks",
-        "Real-time coordination challenges: 2 Marks"
+        "Faceted search concept (3 Marks)",
+        "Mechanism of 'Breadcrumbs' (3 Marks)",
+        "Advantages for complex search (4 Marks)"
       ],
-      "solution": "Collaborative IR allows teams to search together. **Design:** 1. **Integrated History:** See what your teammates have already searched to avoid duplication. 2. **Shared Folders:** Drag relevant documents into a common pool. 3. **Contextual Chat:** Discuss results as they appear. This transforms IR from a solitary activity into a social learning process, particularly valuable in legal discovery, medical diagnosis, or academic research."
+      "solution": "Faceted search allows users to filter results by multiple dimensions (e.g., price, color, brand). Each selection updates the count and query, providing a 'safe' exploration path that avoids zero-result states."
     }
   ],
-  "unit4": [
+  "unit-4": [
     {
       "id": "u4-q1",
-      "question": "Analyze the 'Multimedia Information Retrieval' framework. Discuss the challenges of 'Content-Based Image Retrieval' (CBIR) compared to text-based retrieval. Explain the 'Semantic Gap' problem.",
+      "question": "Analyze the challenges of 'Multimedia IR'. Why is the 'Semantic Gap' a major hurdle in image/video retrieval?",
       "marks": 10,
+      "topicId": "u4-t1",
       "scheme": [
-        "Multimedia IR overview: 2 Marks",
-        "CBIR vs. Tex-based IR: 3 Marks",
-        "The Semantic Gap (Pixels vs. Meaning): 3 Marks",
-        "Approaches to bridge the gap (Manual tagging, AI): 2 Marks"
+        "Multimedia IR overview (3 Marks)",
+        "Semantic Gap definition (4 Marks)",
+        "Impact on retrieval accuracy (3 Marks)"
       ],
-      "solution": "Multimedia IR involves retrieving images, audio, and video. **CBIR:** Uses visual features like Color, Texture, and Shape. **Semantic Gap:** Computers see 'pixels' (red-45, green-20), but users want 'a happy sunrise'. Bridging this is the core challenge. AI helps by mapping low-level pixel patterns to high-level labels using Deep Learning, but the 'meaning' of context (e.g., 'irony' in an image) remains difficult for machines to grasp."
+      "solution": "The Semantic Gap is the discrepancy between low-level features (pixels, edges) and high-level human concepts (e.g., 'happiness'). Closing this gap require deep learning or manual annotation to translate visual data into semantic tokens."
     },
     {
       "id": "u4-q2",
-      "question": "Evaluate 'Video Indexing & Searching'. Explain how 'Shot Detection' and 'Keyframe Extraction' are used to build a searchable index for long video files.",
+      "question": "Explain the 'PageRank Algorithm' for web ranking. How is the 'Random Surfer' model related to it?",
       "marks": 10,
+      "topicId": "u4-t5",
       "scheme": [
-        "Video Indexing challenges (Temporal data): 2 Marks",
-        "Shot Detection techniques: 3 Marks",
-        "Keyframe Extraction logic: 3 Marks",
-        "Metadata and Speech-to-Text integration: 2 Marks"
+        "PageRank concept (3 Marks)",
+        "Formula & Probability (4 Marks)",
+        "Damping factor explanation (3 Marks)"
       ],
-      "solution": "Videos are sequences of frames. **Shot Detection:** Automatically detecting 'scene changes' (cuts/fades). **Keyframes:** Selecting the most representative frame for each shot to represent the content. Indexing these keyframes allows the user to 'browse' a video visually. Additionally, integrating Speech-to-Text allows users to search for 'where in the video someone says a specific word', creating a multi-modal search experience."
+      "solution": "PageRank simulates a 'Random Surfer' who follows links. A page's rank depends on the number and quality of links to it. The damping factor ($d \\approx 0.85$) represents the probability that the surfer follows a link versus jumping to a random page."
     },
     {
       "id": "u4-q3",
-      "question": "Analyze the 'Web Search' environment. Discuss the challenges of 'Scale', 'Dynamic Content', and 'Adversarial IR' (Spam) that traditional IR systems don't typically face.",
+      "question": "Discuss 'Multimedia Indexing'. Explain how 'Precision and Recall' are measured for image retrieval systems.",
       "marks": 10,
+      "topicId": "u4-t2",
       "scheme": [
-        "Scale and Rate of indexing: 3 Marks",
-        "Dynamic Content (Deep Web): 2 Marks",
-        "Adversarial IR/Spam tactics: 3 Marks",
-        "Robustness requirements for Web Crawlers: 2 Marks"
+        "Multimedia indexing process (3 Marks)",
+        "Precision measurement (3 Marks)",
+        "Recall measurement (3 Marks)",
+        "Special cases (1 Mark)"
       ],
-      "solution": "Web IR is fundamentally different. **Scale:** Billions of pages vs. a few thousand. **Dynamic Content:** Pages that change every minute (news/social). **Adversarial IR:** Users actively try to 'game' the engine using Keyword Stuffing or Link Farms to get higher rankings. Engines must use sophisticated algorithms (like PageRank or spam detection) to ensure quality results amidst the chaos of the open internet."
+      "solution": "Indexing uses descriptors (SIFT, Color Histograms). Precision = Relevant Retrieved / Total Retrieved. Recall = Relevant Retrieved / Total Relevant in collection. In image IR, 'Precision at k' is often used since users only look at the first few images."
     },
     {
       "id": "u4-q4",
-      "question": "Evaluate 'Searching using Hyperlinks'. Describe the 'PageRank' algorithm and explain how it uses the 'Random Surfer Model' to determine document authority.",
+      "question": "Describe the architecture of a 'Web Search Engine'. Focus on the Crawler, Indexer, and Query Processor.",
       "marks": 10,
+      "topicId": "u4-t4",
       "scheme": [
-        "PageRank concept: 2 Marks",
-        "Random Surfer Model explanation: 3 Marks",
-        "Damping Factor significance: 2 Marks",
-        "Formula and Iterative calculation: 3 Marks"
+        "Architecture diagram overview (2 Marks)",
+        "Crawler component (3 Marks)",
+        "Indexer component (2 Marks)",
+        "Query Processor component (3 Marks)"
       ],
-      "solution": "PageRank treats links as 'votes'. **Random Surfer:** Assumes a user clicks links randomly. The probability of being on a page determines its importance. **Damping Factor (usually 0.85):** Accounts for the user getting bored and jumping to a new random page. This model ensures that pages linked by other important pages gain more 'authority', effectively using the collective intelligence of the web's structure to rank relevance."
+      "solution": "1. Crawler follows links to discover pages, 2. Indexer tokenizes and stores pages in an inverted index, 3. Query Processor takes user input, retrieves matching doc-IDs, and ranks them using page/content signals."
     },
     {
       "id": "u4-q5",
-      "question": "Analyze the impact of 'Retrieval Augmented Generation' (RAG) on IR. How does RAG combine traditional Information Retrieval with Generative AI models like GPT-4?",
+      "question": "Explain 'Searching using Hyperlinks'. Discuss the 'HITS' algorithm and its concept of Hubs and Authorities.",
       "marks": 10,
+      "topicId": "u4-t5",
       "scheme": [
-        "RAG concept and architecture: 3 Marks",
-        "Benefits over pure LLMs (Reduced hallucination): 3 Marks",
-        "Role of Vector Databases: 2 Marks",
-        "Retrieval vs. Generation balance: 2 Marks"
+        "Link analysis concept (3 Marks)",
+        "Hubs vs Authorities (4 Marks)",
+        "Iterative update process (3 Marks)"
       ],
-      "solution": "**RAG:** 1. Retrieve relevant documents for a query (using IR), 2. Pass those documents to an LLM as context, 3. The LLM generates an answer based on those documents. **Benefits:** It reduces 'hallucinations' because the AI is grounded in real facts from the retrieved text. It also allows AI to access 'private' or 'up-to-date' data that wasn't in its training set, making IR the 'memory' for the 'brain' (Generative AI)."
+      "solution": "HITS (Hyperlink-Induced Topic Search) identifies 'Authorities' (good content) and 'Hubs' (good links to authorities). Each node's authority score is the sum of hub scores pointing to it, and vice versa, updated iteratively."
     },
     {
       "id": "u4-q6",
-      "question": "Discuss 'Meta Searchers'. Analyze their architecture and explain the 'Rank Aggregation' problem. Why are Meta Searchers less popular today than in the late 90s?",
+      "question": "Analyze 'Multimedia Query Languages'. How can users specify queries for audio or time-based media?",
       "marks": 10,
+      "topicId": "u4-t1",
       "scheme": [
-        "Meta Searcher architecture: 3 Marks",
-        "Rank Aggregation (Borda count): 3 Marks",
-        "Benefits (Coverage): 2 Marks",
-        "Reasons for decline (Dominance of single-engines): 2 Marks"
+        "Query by Example (3 Marks)",
+        "Temporal query constraints (4 Marks)",
+        "Multimodal query combinations (3 Marks)"
       ],
-      "solution": "Meta-searchers (like Dogpile) send a query to multiple engines and combine results. **Rank Aggregation:** Deciding how to merge results when Engine A ranks a page 1st and Engine B ranks it 10th. **Decline:** Modern search engines (like Google) have such massive coverage and high-quality ranking that the incremental value of 'aggregating' multiple smaller engines has diminished. Furthermore, specialized API costs and latency issues made them less competitive."
+      "solution": "Users query audio via 'Query-by-Humming' or text labels. For video, temporal constraints (e.g., 'find A followed by B') are used. Query languages like SQL-extensions or visual builders support these features."
     },
     {
       "id": "u4-q7",
-      "question": "Evaluate 'Multimedia Indexing' techniques. Explain 'Precision-Recall Graphs' for image retrieval. How does 'Relevance Feedback' work differently for images vs. text?",
+      "question": "Explain the concept of 'Meta Searchers'. Why are they useful despite having higher latency?",
       "marks": 10,
+      "topicId": "u4-t4",
       "scheme": [
-        "Image indexing features: 2 Marks",
-        "Evaluation using P-R Graphs: 3 Marks",
-        "Image Relevance Feedback (Visual similarity): 3 Marks",
-        "Metric Learning concepts: 2 Marks"
+        "Meta searcher definition (3 Marks)",
+        "Aggregation logic (4 Marks)",
+        "Benefits vs Latency tradeoff (3 Marks)"
       ],
-      "solution": "**Indexing:** Focuses on histograms and edge orientations. **Relevance Feedback:** In text, we add 'words'; in images, we adjust 'weights'. If a user clicks 'relevant' on a car image, the system increases the weight of 'shape' and 'texture' features common to that image. This is a form of 'metric learning' where the distance function in the feature space is adjusted to better match the user's visual perception."
+      "solution": "Meta searchers query multiple underlying search engines simultaneously. They provide broader coverage and combine results using fusion algorithms. They are useful for deep research where a single engine's index might be incomplete."
     },
     {
       "id": "u4-q8",
-      "question": "Analyze the 'Deep Web' and its impact on IR. Discuss why traditional crawlers cannot index the Deep Web and propose methods to surface this 'hidden' information.",
+      "question": "Discuss the 'Characterization of the Web'. How do 'Static' and 'Dynamic' web pages affect the indexing process?",
       "marks": 10,
+      "topicId": "u4-t3",
       "scheme": [
-        "Surface Web vs. Deep Web definitions: 3 Marks",
-        "Reasons for crawling failure (Forms, Login): 3 Marks",
-        "Methods to surface (Query-based crawling): 2 Marks",
-        "Importance (Structured data/Databases): 2 Marks"
+        "Static vs Dynamic web (3 Marks)",
+        "Indexing challenges (4 Marks)",
+        "Deep Web vs Surface Web (3 Marks)"
       ],
-      "solution": "**Deep Web:** Content not indexed by standard engines (databases, protected content). **Failure:** Crawlers follow 'links'; they can't 'fill in forms' or 'log in'. **Surfacing:** Using 'directed' crawlers that can intelligently probe forms or utilize APIs provided by the database owners. Surfacing this is crucial because the Deep Web is estimated to be 500x larger than the surface web and contains high-quality, structured academic and financial data."
+      "solution": "Static pages are easy to crawl. Dynamic pages (generated via databases) lead to the 'Deep Web' which is hard to crawl. Constant updates in dynamic content require sophisticated 'refresh' strategies for the index."
     },
     {
       "id": "u4-q9",
-      "question": "Discuss 'Digital Libraries' in the context of IR. Contrast the requirements of a Digital Library with a general-purpose Web Search engine.",
+      "question": "Analyze 'Trends and Research Issues' in Multimedia IR. Discuss the role of Generative AI in image generation and retrieval.",
       "marks": 10,
+      "topicId": "u4-t1",
       "scheme": [
-        "Digital Library characteristics: 3 Marks",
-        "Contrast with Web Search (Metadata, Quality): 4 Marks",
-        "Preservation vs. Retrieval: 2 Marks",
-        "Standardized protocols (OAI-PMH): 1 Mark"
+        "Modern Multimedia trends (3 Marks)",
+        "GenAI impact (4 Marks)",
+        "Creative retrieval concepts (3 Marks)"
       ],
-      "solution": "**Digital Libraries:** Are curated, high-quality, and often highly structured (e.g., IEEE Xplore). **Contrast:** 1. **Focus:** Accuracy and completeness (Recall) over speed. 2. **Metadata:** Intensive use of Dublin Core or MARC records. 3. **Sustainability:** Must preserve digital formats for decades. Unlike the web, where 'authority' is link-based, Digital Libraries rely on 'institutional trust' and peer-review status as primary ranking signals."
+      "solution": "Trends include cross-modal retrieval (text $\\to$ image). GenAI (Stable Diffusion) allows users to generate missing content. Research focuses on 'Creative IR' where the system assists in synthesizing new multimedia based on information needs."
     },
     {
       "id": "u4-q10",
-      "question": "Propose a 'Multimedia IR' system for a medical application. Explain how it would integrate MRI scans (images), patient records (text), and doctor's dictation (audio).",
+      "question": "Explain 'Web Crawling' strategies. Compare 'Breadth First' crawling with 'Best First' crawling.",
       "marks": 10,
+      "topicId": "u4-t4",
       "scheme": [
-        "Proposed architecture for medical IR: 3 Marks",
-        "Cross-modal retrieval logic: 4 Marks",
-        "Privacy and Safety constraints: 2 Marks",
-        "Clinical decision support benefits: 1 Mark"
+        "Crawling goals (3 Marks)",
+        "Breadth First explanation (3 Marks)",
+        "Best First/Focused crawling (4 Marks)"
       ],
-      "solution": "A medical IR system must be cross-modal. **Design:** 1. Convert audio dictations to text using ASR. 2. Index MRI scans using specialized anatomical feature detectors. 3. Use a 'Unified Embedding Space' (like CLIP for medical data) where text and images are mapped together. This allows a doctor to search for 'MRI scans with tumors similar to this patient's records', providing a multi-perspective view for diagnosis while adhering to HIPAA privacy standards."
+      "solution": "Breadth-first visits all neighbors before moving deeper, ensuring broad coverage. Best-first uses heuristics (e.g., keyword match) to visit high-quality pages first, optimizing crawl budget for specific topics."
     }
   ]
 }

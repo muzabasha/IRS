@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
@@ -14,6 +15,7 @@ interface Question {
   id: string
   question: string
   marks: number
+  topicId: string
   scheme: string[]
   solution: string
 }
@@ -161,8 +163,10 @@ export function QuestionBank() {
                             </div>
                             <div className="pt-4 flex flex-wrap gap-3 items-center justify-between relative z-10">
                                <p className="text-[10px] text-muted-foreground font-mono">Solution verified by Academic Board • B22EQ0601</p>
-                               <Button variant="secondary" size="sm" className="rounded-xl h-9 px-5 bg-emerald-500 text-white hover:bg-emerald-600 border-none shadow-md shadow-emerald-500/20">
-                                 View Step-by-Step Algorithm <ChevronRight className="ml-2 h-4 w-4" />
+                               <Button variant="secondary" size="sm" className="rounded-xl h-9 px-5 bg-emerald-500 text-white hover:bg-emerald-600 border-none shadow-md shadow-emerald-500/20" asChild>
+                                 <Link href={`/unit/${unit.id}/topic/${q.topicId}`}>
+                                   View Step-by-Step Algorithm <ChevronRight className="ml-2 h-4 w-4" />
+                                 </Link>
                                </Button>
                             </div>
                           </div>
