@@ -282,7 +282,7 @@ function SlideContent({ slide }: { slide: Slide }) {
 
         case "python_demo":
             return (
-                <Card className="overflow-hidden border-blue-500/20 bg-slate-950 text-slate-50 shadow-2xl transition-all hover:shadow-blue-500/5 group/card">
+                <Card id="algorithm" className="overflow-hidden border-blue-500/20 bg-slate-950 text-slate-50 shadow-2xl transition-all hover:shadow-blue-500/5 group/card">
                     <div className="p-4 border-b border-white/10 flex items-center justify-between bg-white/5">
                         <div className="flex items-center gap-2">
                             <div className="flex gap-1.5 mr-2">
@@ -680,10 +680,10 @@ function SlideContent({ slide }: { slide: Slide }) {
 
                             {/* Calculation Illustration */}
                             {slide.formula && slide.formula.calculation && (
-                                <div className="mt-8 p-6 bg-white/40 dark:bg-gray-900/40 rounded-xl border border-blue-200/50 dark:border-blue-900/30">
+                                <div id="algorithm" className="mt-8 p-6 bg-white/40 dark:bg-gray-900/40 rounded-xl border border-blue-200/50 dark:border-blue-900/30">
                                     <h5 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-4 flex items-center gap-2">
                                         <Activity className="h-4 w-4" />
-                                        {slide.formula.calculation.exampleTitle || "Step-by-Step Calculation"}
+                                        {slide.formula.calculation.exampleTitle || "Step-by-Step Algorithm & Calculation"}
                                     </h5>
 
                                     {slide.formula.calculation.description && (
