@@ -121,6 +121,18 @@
         "Importance of normalization (2 Marks)"
       ],
       "solution": "Cosine similarity is defined as $sim(d,q) = \\frac{d \\cdot q}{|d||q|}$. Normalization is crucial because it makes the similarity score independent of document length, preventing long documents from being ranked higher simply because they contain more words."
+    },
+    {
+      "id": "u1-q11",
+      "question": "Analyze the difference between \"Data Retrieval\" and \"Information Retrieval\". Explain why Information Retrieval systems must handle fuzziness and semantic ambiguity.",
+      "marks": 10,
+      "topicId": "u1-t1",
+      "scheme": [
+        "Data vs Information Retrieval definitions (3 Marks)",
+        "Handling fuzziness explanation (3 Marks)",
+        "Semantic ambiguity and user intent (4 Marks)"
+      ],
+      "solution": "Data retrieval (e.g., SQL queries) deals with structured data and exact matching, returning deterministic results. Information retrieval deals with unstructured text where the user's intent is often vaguely stated. IR systems must handle fuzziness (synonyms, typos) and semantic ambiguity because a single query word can have multiple meanings depending on context, requiring ranking models rather than binary true/false retrieval."
     }
   ],
   "unit-2": [
@@ -244,6 +256,30 @@
         "Contextual expansion solutions (4 Marks)"
       ],
       "solution": "Thesauri link words via relations (synonymy, hyponymy). Lexical ambiguity occurs when a word has multiple meanings. Advanced techniques use co-occurrence context to select the correct sense before adding synonyms."
+    },
+    {
+      "id": "u2-q11",
+      "question": "Evaluate the effectiveness of \"Huffman Coding\" versus \"Ziv-Lempel\" for text compression in Information Retrieval systems. How does Zipf's Law influence compression strategies?",
+      "marks": 10,
+      "topicId": "u2-t3-compression",
+      "scheme": [
+        "Huffman Coding overview (3 Marks)",
+        "Ziv-Lempel overview (3 Marks)",
+        "Zipf's Law impact on dictionary size (4 Marks)"
+      ],
+      "solution": "Huffman coding assigns shorter bit sequences to more frequent characters or words, requiring a pre-calculated frequency table. Ziv-Lempel (LZ) builds a dictionary dynamically by replacing repeated sequences with pointers. Zipf's Law, which states that a few words occur very frequently while most occur rarely, heavily influences text compression, making word-based Huffman very effective but maintaining a large vocabulary table computationally expensive."
+    },
+    {
+      "id": "u2-q12",
+      "question": "Analyze the process of executing a Boolean search query using an Inverted Index. Demonstrate how the \"Merge Algorithm\" efficiently processes an \"AND\" query between two postings lists.",
+      "marks": 10,
+      "topicId": "u2-t4-boolean-search",
+      "scheme": [
+        "Boolean search execution concepts (3 Marks)",
+        "Merge Algorithm steps (4 Marks)",
+        "Time complexity analysis (3 Marks)"
+      ],
+      "solution": "Executing a Boolean \"AND\" requires finding the intersection of two postings lists from the inverted index. The Merge algorithm efficiently processes this by utilizing two pointers starting at the beginning of each sorted list. If the document IDs match, the ID is added to the result and both pointers advance. If they differ, the pointer with the smaller ID advances. This linear sweep completes the intersection in $O(m + n)$ time, where $m$ and $n$ are the lists' lengths."
     }
   ],
   "unit-3": [

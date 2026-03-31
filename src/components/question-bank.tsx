@@ -85,13 +85,13 @@ export function QuestionBank() {
                     <CardTitle className="text-xl font-bold">{unit.title}</CardTitle>
                     <CardDescription className="flex items-center gap-2 mt-1">
                       <span className="flex h-1.5 w-1.5 rounded-full bg-primary" />
-                      10 Higher Order Thinking Questions • 100 Marks Total
+                      {typedQuestionBankData[unit.id].length} Higher Order Thinking Questions • {typedQuestionBankData[unit.id].length * 10} Marks Total
                     </CardDescription>
                   </div>
                 </div>
                 <div className="flex gap-2">
                   <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 font-semibold px-3 py-1">
-                    100 Marks
+                    {typedQuestionBankData[unit.id].length * 10} Marks
                   </Badge>
                   <Button variant="outline" size="sm" className="hidden sm:flex h-9 rounded-xl border-primary/20 text-primary hover:bg-primary/5">
                     Download PDF
