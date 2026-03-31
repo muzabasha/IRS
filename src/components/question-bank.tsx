@@ -45,7 +45,7 @@ export function QuestionBank() {
               }} 
             />
           );
-        } catch (_e) {
+        } catch {
           return <span key={i}>{part}</span>;
         }
       }

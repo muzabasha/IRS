@@ -42,7 +42,7 @@ export default function RelevanceFeedbackLab() {
         const alpha = 1.0, beta = 0.75, gamma = 0.15
 
         // Start with original query
-        let newQuery = originalQuery.map(x => alpha * x)
+        const newQuery = originalQuery.map(x => alpha * x)
 
         // Add relevant documents centroid
         if (selectedRelevant.length > 0) {
