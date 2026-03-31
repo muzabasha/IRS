@@ -69,10 +69,10 @@ export function QuestionBank() {
 
       <div className="grid gap-6">
         {[
-          { id: "unit1", title: "Unit 1: Introduction to Information Retrieval & Modeling" },
-          { id: "unit2", title: "Unit 2: Query Languages and Query Operations" },
-          { id: "unit3", title: "Unit 3: User Interfaces and Visualization" },
-          { id: "unit4", title: "Unit 4: Multimedia IR & Web Search" },
+          { id: "unit-1", title: "Unit 1: Introduction to Information Retrieval & Modeling" },
+          { id: "unit-2", title: "Unit 2: Query Languages and Query Operations" },
+          { id: "unit-3", title: "Unit 3: User Interfaces and Visualization" },
+          { id: "unit-4", title: "Unit 4: Multimedia IR & Web Search" },
         ].map((unit) => (
           <Card key={unit.id} className="border-none shadow-lg bg-card/60 backdrop-blur-md overflow-hidden group transition-all hover:shadow-xl hover:translate-y-[-2px]">
             <CardHeader className="border-b bg-linear-to-r from-primary/5 via-transparent to-transparent">
