@@ -1,217 +1,147 @@
 {
     "id": "u2-t2",
-    "title": "Query Operations (Relevance Feedback, Local/Global Analysis)",
+    "title": "Query Operations: Feedback & Analysis",
     "unitId": "unit-2",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
             "title": "Query Operations",
-            "subtitle": "Iterative Query Refinement",
+            "subtitle": "Closing the Loop on Intent",
             "content": {
-                "text": "The objective of query operations is to transform the user's initial query into a more effective search request through expansion or re-weighting.",
-                "hook": "Search is not a one-step process; it's a conversation."
+                "text": "A query is often just a 'guess' at what the user wants. Query operations like Relevance Feedback and Expansion help the system 'learn' from the user to find the perfect results.",
+                "hook": "Search is not a monolith; it is a conversation between human and machine."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Introduction to Query Operations",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "text": "Users often provide short, ambiguous queries. Query operations help reduce this ambiguity by adding more terms (expansion) or changing term weights based on what the user likes (feedback)."
+                "text": "Before studying query operations, you should know: \n1. **Vector Space Model**: How documents are points in a multi-dimensional space. \n2. **Centroids**: The 'average' position of a cluster of points. \n3. **Query Expansion**: Adding synonyms (like 'car' for 'automobile') to improve search coverage."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "User Relevance Feedback",
+            "title": "Background: The Evolution of Feedback",
             "content": {
-                "definition": "A cycle where the user marks results as Relevant or Non-Relevant, and the system uses this info to run a better query.",
-                "text": "The classic approach is the Rocchio Algorithm which modifies query vectors based on user feedback.",
-                "hook": "Teaching the system by example."
-            },
-            "formula": {
-                "equation": "\\vec{q}_m = \\alpha \\vec{q}_0 + \\beta \\frac{1}{|D_r|} \\sum_{\\vec{d}_j \\in D_r} \\vec{d}_j - \\gamma \\frac{1}{|D_{nr}|} \\sum_{\\vec{d}_k \\in D_{nr}} \\vec{d}_k",
-                "description": "Rocchio Algorithm modifies the original query vector by moving it toward relevant documents and away from non-relevant ones.",
-                "terms": [
-                    {
-                        "symbol": "\\vec{q}_m",
-                        "meaning": "Modified (new) query vector after relevance feedback"
-                    },
-                    {
-                        "symbol": "\\vec{q}_0",
-                        "meaning": "Original query vector before feedback"
-                    },
-                    {
-                        "symbol": "\\alpha",
-                        "meaning": "Weight for original query (typical: 1.0) - controls trust in initial query"
-                    },
-                    {
-                        "symbol": "\\beta",
-                        "meaning": "Weight for relevant documents (typical: 0.75) - how much to move toward relevant docs"
-                    },
-                    {
-                        "symbol": "\\gamma",
-                        "meaning": "Weight for non-relevant documents (typical: 0.15) - how much to move away from irrelevant docs"
-                    },
-                    {
-                        "symbol": "D_r",
-                        "meaning": "Set of documents marked as relevant by the user"
-                    },
-                    {
-                        "symbol": "|D_r|",
-                        "meaning": "Number of relevant documents"
-                    },
-                    {
-                        "symbol": "D_{nr}",
-                        "meaning": "Set of documents marked as non-relevant"
-                    },
-                    {
-                        "symbol": "\\vec{d}_j",
-                        "meaning": "Document vector for the j-th relevant document"
-                    },
-                    {
-                        "symbol": "\\sum \\vec{d}_j / |D_r|",
-                        "meaning": "Centroid (average vector) of relevant documents"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Query Vector Update",
-                    "description": "Adjusting a 1D query weight based on one relevant result.",
-                    "steps": [
-                        {
-                            "label": "Input Vectors",
-                            "formula": "q_0 = 0.5, d_{rel} = 1.0, d_{non} = 0.0",
-                            "note": "Initial query is weak (0.5), relevant doc is strong (1.0)."
-                        },
-                        {
-                            "label": "Apply Rocchio",
-                            "formula": "q_m = (1.0 \\times 0.5) + (0.75 \\times 1.0) - (0.15 \\times 0.0)",
-                            "note": "Adding 75% of relevant doc's profile."
-                        },
-                        {
-                            "label": "Final Weight",
-                            "formula": "q_m = 0.5 + 0.75 = 1.25",
-                            "note": "New query puts more trust in the topic."
-                        }
-                    ],
-                    "input": "q0:0.5, d_rel:1.0, alpha:1, beta:0.75",
-                    "output": "New Weight: 1.25"
-                }
+                "text": "In the 1970s, researchers realized that if a user liked Result #3 and #5, they could use the 'vocabulary' of those results to find similar pages. This led to J. J. Rocchio's famous algorithm. Today, search engines use 'Implicit' feedback (clicks and scrolls) to perform these operations automatically without you even knowing."
             }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Automatic Local Analysis",
+            "title": "Motivation",
             "content": {
-                "text": "Also known as Indirect Feedback or Pseudo-Relevance Feedback. The system 'assumes' the top K retrieved documents are relevant without asking the user.",
-                "outcomes": [
-                    "Identifies common terms in the top results.",
-                    "Expands the query with those terms.",
-                    "Fast and automated, but risky if the first results are bad."
-                ]
+                "text": "Why unique operations? Because users are bad at writing queries. Most queries are 1 or 2 words long. Query Operations 'Auto-Complete' the user's intent by adding context. This bridges the 'Vocabulary Mismatch'—finding the word 'Physics' when a user only typed 'Science'."
             }
         },
         {
             "slideNumber": 5,
             "type": "standard",
-            "title": "Automatic Global Analysis",
+            "title": "Challenges",
             "content": {
-                "text": "Expansion based on the entire document collection, not just the local results of a single query.",
-                "outcomes": [
-                    "Thesaurus-based expansion: Using WordNet or a statistical thesaurus.",
-                    "Latent Semantic Indexing: Finding hidden relationships between words globally.",
-                    "Computationally expensive but more stable than local analysis."
-                ]
+                "text": "1. Query Drift: Adding too many related words can shift the search away from the original topic. 2. Computational Overhead: Re-running a query 5 times in a loop is expensive. 3. Feedback Noise: What if the user clicked a link by accident? Using 'Bad' data destroys the search quality."
             }
         },
         {
             "slideNumber": 6,
             "type": "grid",
-            "title": "Comparison: Local vs Global",
+            "title": "Types of Analysis",
             "items": [
-                "Local: Quick, context-specific, can cause 'Query Drift'.",
-                "Global: Robust, costly to compute, handles synonyms well."
+                "Relevance Feedback: Manual marking of Good/Bad documents.",
+                "Pseudo-Relevance Feedback: Assuming the top 10 results are good to expand the query automatically.",
+                "Local Analysis: Expanding based on terms within the current search results.",
+                "Global Analysis: Expanding based on a universal thesaurus or collection-wide word co-occurrence."
             ]
         },
         {
             "slideNumber": 7,
-            "type": "activity",
-            "title": "Activity: Manual Expansion",
+            "type": "standard",
+            "title": "The Concept: Rocchio Relevance Feedback",
             "content": {
-                "activity": "The Brainstorm",
-                "description": "Original Query: 'Smart Watch'. List 5 terms using Local Analysis (words common in watch ads) and 5 terms using Global Analysis (synonyms from a dictionary)."
-            }
-        },
-        {
-            "slideNumber": 8,
-            "type": "quiz",
-            "title": "Concept Quiz",
-            "questions": [
-                "What is the main goal of the Rocchio algorithm?",
-                "Explain how Pseudo-Relevance feedback works.",
-                "When would you use Global Analysis instead of Local Analysis?",
-                "What is 'Query Drift'?"
-            ]
-        },
-        {
-            "slideNumber": 9,
-            "type": "python_demo",
-            "title": "Python Demo: Zipf's Law Verification",
-            "content": {
-                "code": "import matplotlib.pyplot as plt\n\ndef verify_zipf(frequencies):\n    # Frequency * Rank approx Constant\n    total = sum(frequencies)\n    probs = [f/total for f in frequencies]\n    ranks = range(1, len(frequencies) + 1)\n    constants = [p * r for p, r in zip(probs, ranks)]\n    return [round(c, 4) for c in constants[:5]]\n\n# Mock top 5 frequencies\n# 1. 'the' 2. 'of' 3. 'and'...\nfreqs = [1000, 500, 333, 250, 200]\nstats = verify_zipf(freqs)\nprint(f\"P * R Constants: {stats}\")",
-                "input": "Top 5 Freqs: [1000, 500, 333, 250, 200]",
-                "output": "P * R Constants: [0.437, 0.437, 0.437, 0.437, 0.437]",
-                "interpretation": "Zipf's Law states that a word's frequency is inversely proportional to its rank.\nThis demo shows that Probability * Rank stays relatively constant.\nIn IR, this explains why a few 'stop-words' dominate the collection size."
-            }
-        },
-        {
-            "slideNumber": 10,
-            "type": "research_perspective",
-            "title": "Research Perspective: Iterative Convergence & Query Drift",
-            "content": {
-                "researchQuestions": [
-                    {
-                        "question": "Stability of Feedback: Does the Rocchio algorithm always converge to the 'Ideal' query vector?",
-                        "answer": "Mathematically, Rocchio is a greedy optimization. Research shows that while it usually improves precision by moving the query closer to the relevant document centroid, it can become trapped in 'Local Optima' if the initial query is too far from any relevant cluster. Advanced research uses 'Constraint-based feedback' to prevent the query vector from moving beyond the semantic bounds of the original intent."
-                    },
-                    {
-                        "question": "The Pseudo-Relevance Feedback (PRF) Risk: How can we mathematically detect if the top-k results are 'Polluted' before expanding the query?",
-                        "answer": "Query Drift occurs when the top-k results are non-relevant. Research uses 'Clarity Scores' (relative entropy between the query language model and the collection model) to predict PRF success. If the Clarity Score is low, the system aborts automatic expansion to avoid introducing noise terms that would degrade performance."
-                    }
+                "text": "The Rocchio formula shifts the query vector toward the center of Relevant documents and away from the center of Non-Relevant ones."
+            },
+            "formula": {
+                "equation": "\\vec{q}_m = \\alpha \\vec{q}_0 + \\beta \\frac{\\sum_{d \\in D_r} \\vec{d}}{|D_r|} - \\gamma \\frac{\\sum_{d \\in D_{nr}} \\vec{d}}{|D_{nr}|}",
+                "description": "The new query (q_m) is a weighted sum of the original initial query (q_0), the centroid of relevant docs (Br), and the centroid of non-relevant docs (Nr).",
+                "terms": [
+                    { "symbol": "\\alpha", "meaning": "Weight of the original query (Trust in the user's first words)" },
+                    { "symbol": "\\beta", "meaning": "Weight of relevant documents (Importance of 'likes')" },
+                    { "symbol": "\\gamma", "meaning": "Weight of non-relevant documents (Importance of 'dislikes')" },
+                    { "symbol": "D_r, D_{nr}", "meaning": "Sets of documents marked as relevant or non-relevant" }
                 ],
-                "mathematicalModeling": {
-                    "problemStatement": "Modeling Query Modification as a vector translation in a Hilbert Space.",
-                    "derivation": [
-                        {
-                            "step": "Define the 'Optimal Query' q* as the vector that maximizes the separation between relevant and non-relevant docs.",
-                            "equation": "\\vec{q}^* = \\arg \\max_{\\vec{q}} [ \\text{sim}(\\vec{q}, C_r) - \\text{sim}(\\vec{q}, C_{nr}) ]",
-                            "interpretation": "The theoretical goal is to find a query vector that is at the exact center of the relevant cluster and maximal distance from the non-relevant ones."
-                        },
-                        {
-                            "step": "Model the 'Information Gain' from expanding the query with term t using Mutual Information.",
-                            "equation": "I(T; R) = \\sum_{t,r} P(t,r) \\log \\frac{P(t,r)}{P(t)P(r)}",
-                            "interpretation": "We only add term t to the query if it provides significant information about the relevance class R."
-                        },
-                        {
-                            "step": "Derive the 'Drift Factor' - the probability that a new term t changes the query's centroid excessively.",
-                            "equation": "Drift(t) = 1 - \\cos(\\theta_{\\vec{q}_0, \\vec{q}_{expanded}})",
-                            "interpretation": "If the angle between the original and expanded query is too large, the expansion is rejected as it likely changes the search intent."
-                        }
+                "calculation": {
+                    "exampleTitle": "The Topic Shift",
+                    "description": "Adjust weight for 'Physics'. Initial: 0.5. Relevant doc weight: 1.0. Non-relevant: 0.2.",
+                    "steps": [
+                        { "label": "Original", "formula": "1.0 \\times 0.5 = 0.5", "note": "Alpha=1.0" },
+                        { "label": "Add Good", "formula": "0.75 \\times 1.0 = 0.75", "note": "Beta=0.75" },
+                        { "label": "Sub Bad", "formula": "0.15 \\times 0.2 = 0.03", "note": "Gamma=0.15" },
+                        { "label": "Result", "formula": "0.5 + 0.75 - 0.03 = 1.22", "note": "New weight for 'Physics'" }
                     ],
-                    "conclusion": "Query Operations move IR from a static 'One-Shot' process to a dynamic 'Optimization Pass', where the system mathematically refines its understanding of user intent through successive approximations."
+                    "input": "Q:0.5, Rel:1.0, NonRel:0.2.",
+                    "output": "New Query weight: 1.22"
                 }
             }
         },
         {
-            "slideNumber": 11,
-            "type": "summary",
-            "title": "Trends and Research Issues",
+            "slideNumber": 8,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "text": "Modern trends include Neural Query Expansion (using embeddings) and Intent Mining from user click-logs.",
-                "nextTopic": "Text Operations",
-                "preparation": "Learn about Stemming and Lemmatization."
+                "text": "The inputs to Rocchio are **User Judgments (binary clicks)** and **Document Vectors**. The output is a **Modified Query Vector**. If a user inputs positive feedback for a document, the output query 'expands' its vocabulary. This 'Automatic Knowledge Discovery' (output) helps find documents (inputs) that don't even share words with the original query but occupy the same 'Topic Cluster' in the vector space."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Pseudo-Relevance Loop",
+            "content": {
+                "text": "**1. Sample Input**: Query: 'Planets'. Top 3 results mention 'Mars', 'Jupiter', 'Orbit'. \n**2. Step-by-Step Illustration**: \n - System assumes Top-3 are Relevant. \n - **Extract Terms**: 'Mars', 'Jupiter', 'Orbit'. \n - **Expand Query**: New Query = 'Planets Mars Jupiter Orbit'. \n - **Re-run Search**: Search everything with the new 4-word query. \n**3. Sample Output**: Find results about the Solar System that don't mention 'Planets'. \n**4. Interpretation of Results**: By automatically expanding the query (the 'Pseudo' part), the system found more relevant documents. However, if the first result was about 'Planet Hollywood' (a restaurant), the output would 'drift' away from space—the risk of local analysis."
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "python_demo",
+            "title": "Python Demo: The Relevance Optimizer",
+            "content": {
+                "code": "def optimize_query(q_orig, rel_centroid, alpha=1.0, beta=0.75):\n    # Simple Rocchio: Move Q toward Relevant Cluster\n    q_new = []\n    for q_val, rel_val in zip(q_orig, rel_centroid):\n        val = alpha * q_val + beta * rel_val\n        q_new.append(round(val, 2))\n    return q_new\n\n# Terms: [Space, Movies, Science]\ninitial_query = [0.8, 0.0, 0.2] # Mostly Space\nuser_liked_doc = [0.9, 0.1, 0.9] # Space and Science\n\n# Centroid of 1 doc is just the doc itself\nnew_query = optimize_query(initial_query, user_liked_doc)\nprint(f\"Initial Intent: {initial_query}\")\nprint(f\"Optimized Intent: {new_query}\")",
+                "input": "Vector [0.8, 0.0, 0.2] updated by [0.9, 0.1, 0.9].",
+                "output": "[1.48, 0.08, 0.88]",
+                "interpretation": "The script shows vector translation. Note how the 'Science' dimension jumped from 0.2 to 0.88 because the user liked a scientific doc. The query has 'learned' that the user isn't just looking for random space facts, but for *scientific* space information."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "comparison",
+            "title": "Comparison: Local vs. Global Analysis",
+            "comparison": {
+                "headers": ["Feature", "Local Analysis (Pseudo-Feedback)", "Global Analysis (Thesaurus)"],
+                "rows": [
+                    ["Expansion Scope", "Results of the current query", "The entire language/collection"],
+                    ["Speed", "Fast (Real-time)", "Slower (Pre-computed)"],
+                    ["Stability", "Low (Topic drift risk)", "High (Statistically robust)"],
+                    ["Best for", "Specific, clear queries", "Short, vague queries"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "activity",
+            "title": "Virtual Lab: Explicit Feedback Audit",
+            "content": {
+                "activity": "The Rating Game",
+                "description": "Go to Amazon. Search for 'Vacuum cleaner'. Mark 3 as 'Add to Cart' and 3 as 'I'm not interested' (using the 'hide' or filter features if available). How do the 'Recommended for you' results on the homepage change in 5 minutes? You just witnessed Rocchio's algorithm in a production environment."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why is the original query usually given the highest weight (alpha=1)? \n2. In a search for 'Jaguar', how could 'Local Analysis' go wrong if the top 5 results are about the car but the user wanted the animal? \n3. Is 'Pseudo-Relevance' feedback really feedback if the user didn't actually do anything?"
             }
         }
     ]

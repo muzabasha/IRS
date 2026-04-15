@@ -1,229 +1,146 @@
 {
     "id": "u1-t4",
-    "title": "Set-Theoretic Models",
+    "title": "Topic 4: Fuzzy Set IR Models",
     "unitId": "unit-1",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Set-Theoretic Information Retrieval",
-            "subtitle": "Fuzzy Sets and Extended Boolean Models",
+            "title": "Fuzzy Set IR Models",
+            "subtitle": "Handling the Shades of Gray in Language",
             "content": {
-                "text": "Extending the rigid logic of the Boolean model to handle the ambiguity of natural language using Fuzzy Logic.",
-                "hook": "Is a tomato a fruit? In Boolean logic, yes/no. In Fuzzy logic, it's 0.8 Fruit, 0.4 Vegetable."
+                "text": "Language is not black and white. A document isn't just 'Relevant' or 'Not Relevant'. Fuzzy Set models allow us to represent the 'Degree' of membership, accounting for the inherent vagueness of human words.",
+                "hook": "In the real world, 'Almost Relevant' is more useful than 'Exactly Irrelevant'."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Limitations of Standard Boolean",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "problem": "Binary decisions are too harsh.",
-                "text": "Standard Boolean (AND/OR) has no notion of 'partial match'. If a document has 4 out of 5 query terms, Boolean AND rejects it completely. We need a way to 'soften' these operators."
+                "text": "Before studying Fuzzy IR, you should know: \n1. **Boolean Logic**: The strict TRUE (1) or FALSE (0) world. \n2. **Membership Function**: A curve that defines how much an item belongs to a category (0.0 to 1.0). \n3. **Set Algebra**: The concept of 'Intersection' and 'Union' of fuzzy sets."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Fuzzy Set Model",
+            "title": "Background: Lotfi Zadeh's Logic",
             "content": {
-                "definition": "Fuzzy Set Theory: An element belongs to a set with a degree of membership between 0 and 1, rather than just 0 or 1.",
-                "text": "In IR, a term characterizes a document with a certain degree (e.g., correlation factor). We use fuzzy operations (Min/Max) instead of logical AND/OR."
+                "text": "In 1965, Lotfi Zadeh introduced **Fuzzy Logic** to solve problems where binary logic failed. IR researchers realized that a word like 'Tall' doesn't have a strict cutoff. By the 1980s, Fuzzy IR models were developed to extend Boolean search, allowing terms to have 'fuzziness' in their matching."
             }
         },
         {
             "slideNumber": 4,
-            "type": "grid",
-            "title": "Fuzzy Operations",
-            "items": [
-                "Fuzzy AND (Intersection): min(degree_A, degree_B)",
-                "Fuzzy OR (Union): max(degree_A, degree_B)",
-                "Fuzzy NOT (Complement): 1 - degree_A"
-            ],
-            "formula": {
-                "equation": "\\begin{aligned} \\mu_{A \\cap B}(x) &= \\min(\\mu_A(x), \\mu_B(x)) \\\\ \\mu_{A \\cup B}(x) &= \\max(\\mu_A(x), \\mu_B(x)) \\\\ \\mu_{\\overline{A}}(x) &= 1 - \\mu_A(x) \\end{aligned}",
-                "description": "Fuzzy set operations extend classical Boolean logic to handle partial membership with degrees between 0 and 1.",
-                "terms": [
-                    {
-                        "symbol": "\\mu_A(x)",
-                        "meaning": "Membership degree of element x in fuzzy set A - value between 0 and 1"
-                    },
-                    {
-                        "symbol": "\\mu_{A \\cap B}(x)",
-                        "meaning": "Fuzzy AND (Intersection) - minimum of the two membership degrees"
-                    },
-                    {
-                        "symbol": "\\min(\\mu_A(x), \\mu_B(x))",
-                        "meaning": "Takes the smaller membership value - implements strict AND logic"
-                    },
-                    {
-                        "symbol": "\\mu_{A \\cup B}(x)",
-                        "meaning": "Fuzzy OR (Union) - maximum of the two membership degrees"
-                    },
-                    {
-                        "symbol": "\\max(\\mu_A(x), \\mu_B(x))",
-                        "meaning": "Takes the larger membership value - implements generous OR logic"
-                    },
-                    {
-                        "symbol": "\\mu_{\\overline{A}}(x)",
-                        "meaning": "Fuzzy NOT (Complement) - inverts the membership degree"
-                    },
-                    {
-                        "symbol": "1 - \\mu_A(x)",
-                        "meaning": "Subtracts from 1 - if highly member (0.9), becomes low non-member (0.1)"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Fuzzy Search: 'Fast AND Red'",
-                    "description": "Determining the relevance of a car (Ferrari) to a vague query using fuzzy intersection.",
-                    "steps": [
-                        {
-                            "label": "Assign Membership Degrees",
-                            "formula": "\\mu_{Fast}(\\text{Ferrari}) = 0.9, \\mu_{Red}(\\text{Ferrari}) = 0.8",
-                            "note": "A Ferrari is very fast and very red."
-                        },
-                        {
-                            "label": "Apply Fuzzy AND (Intersection)",
-                            "formula": "\\mu_{Fast \\cap Red} = \\min(0.9, 0.8)",
-                            "note": "Fuzzy intersection uses the minimum of all degrees."
-                        },
-                        {
-                            "label": "Final Relevance Score",
-                            "formula": "0.8",
-                            "note": "Relevance is high at 80%."
-                        }
-                    ],
-                    "input": "Fast: 0.9, Red: 0.8",
-                    "output": "Relevance Score: 0.8"
-                }
+            "type": "standard",
+            "title": "Motivation",
+            "content": {
+                "text": "Why use Fuzzy models? Because keywords are ambiguous. Most users find boolean logic (AND/OR) too restrictive. If you search for 'Hot weather', a doc with $30^\\circ C$ might be excluded by a strict boolean filter but included by a Fuzzy model which recognizes it as 'partially hot'."
             }
         },
         {
             "slideNumber": 5,
-            "type": "illustration",
-            "title": "Fuzzy Logic Workflow",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "description": "How a vague concept becomes a numeric relevance score.",
-                "steps": [
-                    "Input (Vague Need)",
-                    "Select Membership Func (Triangular/Gaussian)",
-                    "Map Input to 0-1 Range",
-                    "Apply Min/Max Operators",
-                    "Final Ranked Score"
-                ]
+                "text": "1. Defining Membership: Who decides if a 50% match is 'Good'? 2. Computational Complexity: Fuzzy operations are much slower than binary bitwise operations. 3. Lack of Hierarchy: Hard to prove one fuzzy set is 'better' than another without external rules."
             }
         },
         {
             "slideNumber": 6,
-            "type": "standard",
-            "title": "Extended Boolean Model",
-            "content": {
-                "text": "Proposed by Salton et al. to bridge Boolean and Vector Space models. It introduces the 'p-norm' concept to control the strictness of AND/OR.",
-                "hook": "It allows a query like 'A AND B' to act like 'Vector A + Vector B' (soft) or 'A intersect B' (strict) depending on parameter P."
-            }
+            "type": "grid",
+            "title": "Fuzzy Operations",
+            "items": [
+                "Membership ($\\\\mu$): The degree of truth (e.g. 0.8 relevant).",
+                "Fuzzy AND (Intersection): Calculated as the **Minimum** of the two values.",
+                "Fuzzy OR (Union): Calculated as the **Maximum** of the two values.",
+                "Fuzzy NOT (Complement): Calculated as $1 - \\\\mu$."
+            ]
         },
         {
             "slideNumber": 7,
             "type": "standard",
-            "title": "P-Norm Math",
+            "title": "The Concept: Fuzzy Membership Degree",
             "content": {
-                "text": "P = 1: Behaves like Vector Space (Sum).\nP = Infinity: Behaves like Standard Boolean (Min/Max).\nThis allows tuning the system for precision vs recall."
-            }
-        },
-        {
-            "slideNumber": 8,
-            "type": "activity",
-            "title": "Activity: Fuzzy Logic",
-            "content": {
-                "activity": "Degree of Relevance",
-                "description": "Consider the term 'Fast Car'. Assign a score (0-1) for how well these cars fit the set 'Fast': Ferrari (1.0), Honda Civic (0.4), Bicycle (0.0). Now query 'Fast AND Red'. Calculate scores."
-            }
-        },
-        {
-            "slideNumber": 9,
-            "type": "quiz",
-            "title": "Concept Check",
-            "questions": [
-                "What is the range of a fuzzy membership function?",
-                "If A=0.7 and B=0.3, what is Fuzzy AND(A, B)?",
-                "How does the Extended Boolean model solve the 'all-or-nothing' problem?",
-                "What is a Thesaurus in the context of Fuzzy IR used for?"
-            ],
-            "answers": [
-                "The range is [0, 1], where 0 means non-membership and 1 means full membership.",
-                "Fuzzy AND uses the MIN function, so min(0.7, 0.3) = 0.3.",
-                "It uses the P-norm concept to soften operators, allowing a query like 'A AND B' to behave partially like a vector sum, controlling strictness via parameter P.",
-                "It is used to define associative relationships (synonyms) with degrees of similarity (e.g., 'auto' is 0.9 similar to 'car'), expanding queries fuzzily."
-            ]
-        },
-        {
-            "slideNumber": 10,
-            "type": "project",
-            "title": "Mini-Project",
-            "content": {
-                "idea": "Fuzzy Searcher",
-                "input": "List of items with attributes (e.g., Hotel: Cheap=0.8, NearBeach=0.4).",
-                "process": "Implement P-Norm ranking for query 'Cheap AND NearBeach'.",
-                "output": "Ranked list of hotels."
-            }
-        },
-        {
-            "slideNumber": 11,
-            "type": "python_demo",
-            "title": "Python Demo: Boolean Logic Engine",
-            "content": {
-                "code": "def process_boolean(p1, p2, op='AND'):\n    if op == 'AND':\n        return sorted(list(set(p1) & set(p2)))\n    elif op == 'OR':\n        return sorted(list(set(p1) | set(p2)))\n    elif op == 'NOT':\n        return sorted(list(set(p1) - set(p2)))\n\npostings_apple = [1, 3, 5, 8]\npostings_pie = [2, 3, 5, 7]\n\nresult = process_boolean(postings_apple, postings_pie, 'AND')\nprint(f\"APPLE AND PIE: {result}\")",
-                "input": "Postings A: [1, 3, 5, 8]\nPostings B: [2, 3, 5, 7]",
-                "output": "APPLE AND PIE: [3, 5]",
-                "interpretation": "The Boolean engine processes sets of Document IDs (postings).\nAn 'AND' operation finds the intersection of sets.\nDocuments 3 and 5 are the only ones containing both terms."
-            }
-        },
-        {
-            "slideNumber": 12,
-            "type": "research_perspective",
-            "title": "Research Perspective: Cognitive Subjectivity & Fuzzy IR",
-            "content": {
-                "researchQuestions": [
-                    {
-                        "question": "Subjectivity of Relevance: Can membership functions effectively model the ambiguity of 'Relevance' better than binary set theory?",
-                        "answer": "Binary relevance (0 or 1) fails to capture how a user perceives information. Research in 'Vague IR' uses fuzzy membership functions where relevance is a continuous variable. The challenge lies in 'Fuzzification'—systematically defining the membership curves (Triangular, Gaussian) based on user behavior data to minimize the error between system ranking and human judgment."
-                    },
-                    {
-                        "question": "The P-Norm Parameterization: Is there a 'Universal Operator' that can switch between Boolean logic and Vector Space behavior?",
-                        "answer": "The Extended Boolean model's P-norm operator acts as a mathematical bridge. Research indicates that as p tends to infinity, the model converges to strict Boolean logic, while at p=1, it converges to a sum-based vector model. This allows for 'Query Optimization' where the system dynamically adjusts the p-value based on the user's observed intent (strict filtering vs exploratory browsing)."
-                    }
+                "text": "Similarity is calculated using the membership function ($\\\\mu$) which maps terms to documents as a probability-like score."
+            },
+            "formula": {
+                "equation": "\\mu_{A \\cap B}(x) = \\min[\\mu_A(x), \\mu_B(x)], \\quad \\mu_{A \\cup B}(x) = \\max[\\mu_A(x), \\mu_B(x)]",
+                "description": "Fuzzy logic replaces binary 'All-or-Nothing' with Min/Max operators to preserve the degree of truth during complex query evaluation.",
+                "terms": [
+                    { "symbol": "\\mu_A(x)", "meaning": "Degree of membership of document x in set A (e.g. 'Term 1 exists')" },
+                    { "symbol": "\\mu_{A \\cap B}", "meaning": "Membership in both sets (AND)" },
+                    { "symbol": "\\mu_{A \\cup B}", "meaning": "Membership in either set (OR)" }
                 ],
-                "mathematicalModeling": {
-                    "problemStatement": "Modeling the Boolean interpretation of 'AND' and 'OR' in a fuzzy continuous space using p-norms.",
-                    "derivation": [
-                        {
-                            "step": "Define the Extended Boolean distance (similarity) from the ideal point (1, 1) for a query (A AND B).",
-                            "equation": "sim(D, q_{and}) = 1 - \\sqrt[p]{ \\frac{(1-x_a)^p + (1-x_b)^p}{2} }",
-                            "interpretation": "Similarity is measured as the complement of the normalized p-distance from the 'perfect match' point."
-                        },
-                        {
-                            "step": "Define the Extended Boolean distance (similarity) from the origin (0, 0) for a query (A OR B).",
-                            "equation": "sim(D, q_{or}) = \\sqrt[p]{ \\frac{x_a^p + x_b^p}{2} }",
-                            "interpretation": "Similarity is measured as the p-distance from the 'null match' point."
-                        },
-                        {
-                            "step": "Analyze the convergence behavior as p increases.",
-                            "equation": "\\lim_{p \\to \\infty} \\sqrt[p]{ \\frac{x_a^p + x_b^p}{2} } = \\max(x_a, x_b)",
-                            "interpretation": "Mathematically proves that the p-norm OR behaves exactly like a Fuzzy OR (Max) at high p values."
-                        }
+                "calculation": {
+                    "exampleTitle": "The Graded Match",
+                    "description": "Evaluate 'Term 1 AND Term 2' for a doc where T1 is 0.9 strength and T2 is 0.4 strength.",
+                    "steps": [
+                        { "label": "T1 Strength", "formula": "0.9", "note": "High relevance for T1" },
+                        { "label": "T2 Strength", "formula": "0.4", "note": "Moderate relevance for T2" },
+                        { "label": "Fuzzy AND", "formula": "\\min(0.9, 0.4) = 0.4", "note": "Weakest link determines result" },
+                        { "label": "Fuzzy OR", "formula": "\\max(0.9, 0.4) = 0.9", "note": "Strongest link determines result" }
                     ],
-                    "conclusion": "Extended Boolean and Fuzzy models provided the first rigorous mathematical framework for handling the subjective nature of 'Best Match' retrieval, proving that logic and mathematics can be unified to handle human ambiguity."
+                    "input": "T1:0.9, T2:0.4.",
+                    "output": "AND Score: 0.4"
                 }
             }
         },
         {
-            "slideNumber": 13,
-            "type": "summary",
-            "title": "Topic Wrap-up",
+            "slideNumber": 8,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "linkage": "We've softened the logic. Now let's look at more advanced algebraic ways to uncover hidden meanings in text.",
-                "nextTopic": "Algebraic Models",
-                "preparation": "Review Matrix Decomposition (SVD)."
+                "text": "The input to a Fuzzy IR model is a **Degree of Term Occurrence**. The output is a **Membership Score[0..1]**. Unlike Boolean output which is 'Yes/No', the fuzzy output ranks documents by their weakest (AND) or strongest (OR) connections. This 'Soft Filtering' (output logic) ensures that 'Near-Matches' (input flexibility) are never hidden from the user, even if they don't meet a strict threshold."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: The Query Softener",
+            "content": {
+                "text": "**1. Step 1**: Document contains 'Retrieval' with weight 0.8 and 'Logic' with weight 0.2. \n**2. Step 2**: User wants 'Retrieval AND Logic'. \n**3. Step 3**: Boolean System: FAIL (because 0.2 is too low for a match). \n**4. Step 4**: Fuzzy System: $min(0.8, 0.2) = 0.2$. \n**5. Step 5**: Document is returned with score 0.2 instead of being deleted. \n**6. Step 6**: This enables the system to show 'Ranked Results' for failing boolean queries."
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "python_demo",
+            "title": "Python Demo: The Fuzzy Evaluator",
+            "content": {
+                "code": "def fuzzy_and(val1, val2):\n    return min(val1, val2)\n\ndef fuzzy_or(val1, val2):\n    return max(val1, val2)\n\n# Doc 1: Very relevant for A, slightly for B\nd1 = {\"science\": 0.9, \"history\": 0.1}\n\n# User Search: \"science AND history\"\nscore_and = fuzzy_and(d1[\"science\"], d1[\"history\"])\nscore_or = fuzzy_or(d1[\"science\"], d1[\"history\"])\n\nprint(f\"AND Match: {score_and}\")\nprint(f\"OR Match: {score_or}\")",
+                "input": "Values 0.9 and 0.1.",
+                "output": "AND: 0.1, OR: 0.9",
+                "interpretation": "The script shows why Fuzzy logic is 'Cautious' for AND and 'Optimistic' for OR. Notice how the Doc is kept alive with a 0.1 score. In a massive library, this document might be the only one that mentions both topics, and Fuzzy IR ensures it remains visible."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "comparison",
+            "title": "Comparison: Boolean vs. Fuzzy IR",
+            "comparison": {
+                "headers": ["Aspect", "Boolean Model", "Fuzzy Set Model"],
+                "rows": [
+                    ["Membership", "$\{0, 1\}$", "$[0, 1]$"],
+                    ["Logic", "Crisp (All/None)", "Graded (Vague)"],
+                    ["Precision", "High (but many misses)", "Balanced (fewer misses)"],
+                    ["User Control", "High (Full syntax)", "Medium (Partial weights)"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "activity",
+            "title": "Virtual Lab: The Age Slider",
+            "content": {
+                "activity": "The Membership Curve",
+                "description": "Imagine a set 'Young Books'. 1. If a book is 1 year old, $\\mu = 1.0$. 2. If it's 50 years old, $\\mu = 0.0$. 3. What is the membership of a 10-year-old book? 4. If you search 'Young AND Popular' and Popularity is 0.8, what is the final score? Use Fuzzy AND logic."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why is the 'Minimum' used for AND instead of 'Average'? (Hint: Does a document with 0% of Term B satisfy Term B?). \n2. How can we automatically calculate the membership $\\mu$ without asking a human? \n3. Is 'Fuzzy Logic' the same as 'Probability'? (Hint: Probability is about likelihood, Fuzzy is about degree of truth)."
             }
         }
     ]

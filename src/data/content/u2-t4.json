@@ -1,178 +1,147 @@
 {
     "id": "u2-t4",
-    "title": "Indexing and Searching (Inverted Files, Boolean, Pattern)",
+    "title": "Indexing: Inverted Files & Compression",
     "unitId": "unit-2",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Indexing and Searching",
-            "subtitle": "The Mechanics of Rapid Retrieval",
+            "title": "The Inverted Index",
+            "subtitle": "The Engine Room of Modern Retrieval",
             "content": {
-                "text": "How do we search billions of pages in milliseconds? We move from sequential scanning to direct access via indexing.",
-                "hook": "Searching without an index is like reading every book in the library to find one quote."
+                "text": "How do we search billions of pages in milliseconds? We move from sequential scanning to direct access via indexing. The Inverted Index is the most critical data structure in IR.",
+                "hook": "Searching without an index is like reading every book in a library to find one quote."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Inverted Files (The Index)",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "definition": "The core data structure of all modern search engines. A mapping from words to the lists of documents they appear in.",
-                "text": "Structure: 1. Vocabulary (The words), 2. Postings Lists (The IDs), 3. Payloads (Frequency/Position).",
-                "hook": "Word 'Data' -> [Doc 5, Doc 88, Doc 102]"
+                "text": "Before studying indexing, you should know: \n1. **Dictionary**: A sorted list of unique terms. \n2. **Postings List**: A list of document IDs associated with a term. \n3. **Sorting**: Basic algorithms like Merge Sort for creating the index."
             }
         },
         {
             "slideNumber": 3,
-            "type": "diagram",
-            "title": "Visualizing the Inverted Index",
+            "type": "standard",
+            "title": "Background: From Card Catalogs to Inverted Files",
             "content": {
-                "description": "Logic of mapping terms to document identifiers.",
-                "steps": [
-                    "Extract Terms (Vocabulary)",
-                    "Sort Terms Alphabetically",
-                    "Create Postings Lists (DocIDs)",
-                    "Apply Compression (D-Gaps)",
-                    "Final Searchable Structure"
-                ]
+                "text": "In libraries, card catalogs indexed books by Author or Title. In the 1950s, computer scientists realized we could index *every word*. The Inverted File was born. By the 1990s, with the explosion of the web, researchers developed 'Compression' (Gaps) to keep these massive indices in memory (RAM)."
             }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Boolean Queries",
+            "title": "Motivation",
             "content": {
-                "text": "Searching by combining terms with AND, OR, and NOT. These are solved by merging sorted postings lists.",
-                "outcomes": [
-                    "AND: Intersection of lists.",
-                    "OR: Union of lists.",
-                    "NOT: Difference of lists."
-                ]
+                "text": "Why unique data structures? Because a search engine dictionary might have 10 million words, and each word might appear in 100 million documents. If we don't compress the IDs, the index would be larger than the actual web! Indexing makes retrieval $O(1)$ for lookup, regardless of collection size."
             }
         },
         {
             "slideNumber": 5,
             "type": "standard",
-            "title": "Sequential Searching",
+            "title": "Challenges",
             "content": {
-                "text": "Scanning the raw text file from start to finish (e.g. grep).",
-                "problem": "Too slow for massive data, but necessary for complex pattern matching that isn't indexed.",
-                "algorithms": [
-                    "KMP (Knuth-Morris-Pratt)",
-                    "Boyer-Moore",
-                    "Aho-Corasick"
-                ]
+                "text": "1. Index Size vs. RAM: Keeping the 'Vocabulary' in fast memory. 2. Delta Compression: Storing huge DocIDs efficiently. 3. Update speed: Adding new documents without rebuilding the entire multi-terabyte index."
             }
         },
         {
             "slideNumber": 6,
-            "type": "list",
-            "title": "Pattern Matching & Structural Queries",
+            "type": "grid",
+            "title": "Structural Components",
             "items": [
-                "Pattern Searching: Using Automata or Suffix Trees to find wildcards (*) in indexed text.",
-                "Structural Searching: Using the index to find keywords within specific document segments (like Title or Author).",
-                "Proximity Searching: Finding words within 'N' positions of each other."
+                "Vocabulary (Lexicon): The set of all unique words found in the collection.",
+                "Postings: The list of Document IDs (DocIDs) where each word appears.",
+                "D-Gaps: Storing the difference between DocIDs to save space.",
+                "Payloads: Extra info like positions (for proximity search) or term frequency."
             ]
         },
         {
             "slideNumber": 7,
             "type": "standard",
-            "title": "Index Compression",
+            "title": "The Concept: D-Gaps (Delta Encoding)",
             "content": {
-                "text": "Making the index fit in RAM. We compress the postings lists using Gap Encoding.",
-                "outcomes": [
-                    "D-Gaps: Store [100, 105, 110] as [100, 5, 5].",
-                    "Bit-level Compression: Variable Byte, Gamma/Delta codes.",
-                    "Dictionary Compression: Front coding."
-                ]
+                "text": "Postings lists are always sorted. Instead of storing large absolute DocIDs, we store the 'Gap' between them. Smaller numbers take fewer bits to store."
             },
             "formula": {
-                "equation": "g_i = d_{i} - d_{i-1} \\quad \\text{where } d_0 = 0",
-                "description": "Delta Gaps (Gap Encoding) reduce the magnitude of numbers in a postings list by storing differences between consecutive document IDs rather than absolute values.",
+                "equation": "g_i = d_i - d_{i-1}, \\quad \\text{where } d_0 = 0",
+                "description": "Gap (g) is the difference between current DocID (d_i) and previous DocID (d_{i-1}).",
                 "terms": [
-                    {
-                        "symbol": "d_i",
-                        "meaning": "The i-th Document ID in a sorted postings list"
-                    },
-                    {
-                        "symbol": "g_i",
-                        "meaning": "The gap (difference) to be stored in the compressed index"
-                    },
-                    {
-                        "symbol": "d_{i-1}",
-                        "meaning": "The previous Document ID in the list"
-                    }
+                    { "symbol": "d_i", "meaning": "Absolute ID of the i-th document in the sorted list" },
+                    { "symbol": "g_i", "meaning": "The resulting gap (Delta) to be stored" },
+                    { "symbol": "d_{i-1}", "meaning": "The ID of the immediate predecessor doc" }
                 ],
                 "calculation": {
-                    "exampleTitle": "Gap Encoding Transformation",
-                    "description": "Compressing a postings list for a common term.",
+                    "exampleTitle": "The Compression Audit",
+                    "description": "Store DocIDs [1000, 1005, 1008, 1020] using Gaps.",
                     "steps": [
-                        {
-                            "label": "Sorted List",
-                            "formula": "D = [4500, 4503, 4510, 4525]",
-                            "note": "Document IDs are large (4 digits)."
-                        },
-                        {
-                            "label": "Calculate First Entry",
-                            "formula": "g_1 = 4500 - 0 = 4500",
-                            "note": "First entry is stored as is."
-                        },
-                        {
-                            "label": "Calculate Subsequent Gaps",
-                            "formula": "g_2=3, g_3=7, g_4=15",
-                            "note": "D-Gaps are 4503-4500, 4510-4503, etc."
-                        },
-                        {
-                            "label": "Compressed Sequence",
-                            "formula": "G = [4500, 3, 7, 15]",
-                            "note": "Smaller numbers require fewer bits to store."
-                        }
+                        { "label": "List", "formula": "DocIDs: [1000, 1005, 1008, 1020]", "note": "All large numbers" },
+                        { "label": "Gap 1", "formula": "1000 - 0 = 1000", "note": "First doc stays large" },
+                        { "label": "Gap 2", "formula": "1005 - 1000 = 5", "note": "Significant reduction" },
+                        { "label": "Gap 3", "formula": "1008 - 1005 = 3", "note": "Tiny number" },
+                        { "label": "Gap 4", "formula": "1020 - 1008 = 12", "note": "Shrinks bits required" }
                     ],
-                    "input": "[4500, 4503, 4510, 4525]",
-                    "output": "[4500, 3, 7, 15] (Compressed)"
+                    "input": "IDs: [1000, 1005, 1008, 1020].",
+                    "output": "Gaps: [1000, 5, 3, 12]"
                 }
             }
         },
         {
             "slideNumber": 8,
-            "type": "activity",
-            "title": "Activity: List Merge",
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "activity": "The AND Gate",
-                "description": "List 1: [2, 5, 10, 22, 31]. List 2: [5, 12, 22, 45]. What is the result of (List 1 AND List 2)? How many comparisons did you make?"
+                "text": "The input to an indexing system is the **Raw Document Collection**. The output is an **Inverted File structure**. For a query term (input), the index output is a **Pointer to a Postings List**. By using D-Gaps (input transformation), the resulting bitstream (output) becomes highly compressible. This allows the search engine to keep the entire primary index in memory, reducing 'Input/Output latency' from 10ms (Disk) to 100ns (RAM)—a 100,000x speedup."
             }
         },
         {
             "slideNumber": 9,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "What are the three parts of an inverted file?",
-                "Why is a sorted postings list important for Boolean queries?",
-                "When is sequential searching better than indexing?",
-                "Explain D-gap compression."
-            ]
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Constructing an Index",
+            "content": {
+                "text": "**1. Sample Input**: D1: 'Search IR', D2: 'IR is fun'. \n**2. Step-by-Step Illustration**: \n - Tokenize: [D1: Search, IR], [D2: IR, Is, Fun]. \n - Create Initial Map: Search->[1], IR->[1], IR->[2], Is->[2], Fun->[2]. \n - **Sort Vocabulary**: Fun, IR, Is, Search. \n - **Merge Postings**: IR appeared in 1 and 2. \n - **Create Final Index**: Fun:[2], IR:[1, 2], Is:[2], Search:[1]. \n**3. Sample Output**: Term 'IR' points to list [1, 2]. \n**4. Interpretation of Results**: The system successfully 'inverted' the documents. Instead of scanning Docs to find terms, we scan terms to find Docs. This process is the secret sauce of Google's speed."
+            }
         },
         {
             "slideNumber": 10,
             "type": "python_demo",
-            "title": "Python Demo: Rocchio Formula",
+            "title": "Python Demo: The Gap Compressor",
             "content": {
-                "code": "def rocchio_update(q_old, rel_docs, non_rel_docs, alpha=1.0, beta=0.75, gamma=0.25):\n    # Simplified: Vector Addition\n    q_new = [alpha * x for x in q_old]\n    \n    # Add relevant influence\n    for doc in rel_docs:\n        q_new = [q + beta * d for q, d in zip(q_new, doc)]\n        \n    # Subtract non-relevant influence\n    for doc in non_rel_docs:\n        q_new = [q - gamma * d for q, d in zip(q_new, doc)]\n        \n    return [round(x, 2) for x in q_new]\n\nq = [1.0, 0.0]\nrel = [[0.8, 0.2]]\nnon = [[0.1, 0.9]]\n\nupdated = rocchio_update(q, rel, non)\nprint(f\"New Query Vector: {updated}\")",
-                "input": "Q:[1,0], Rel:[[0.8, 0.2]], Non:[[0.1, 0.9]]",
-                "output": "New Query Vector: [1.58, -0.07]",
-                "interpretation": "Rocchio moves the query vector closer to relevant docs and away from non-relevant ones.\nThe new vector [1.58, -0.07] has increased its first dimension (where the relevant doc was strong).\nThis is the mathematical basis for 'Relevance Feedback'."
+                "code": "def encode_gaps(doc_ids):\n    gaps = []\n    last_id = 0\n    for current_id in sorted(doc_ids):\n        gaps.append(current_id - last_id)\n        last_id = current_id\n    return gaps\n\ndef decode_gaps(gaps):\n    ids = []\n    current = 0\n    for g in gaps:\n        current += g\n        ids.append(current)\n    return ids\n\n# Original Postings\nraw_ids = [1020, 1000, 1005, 1008]\ncompressed = encode_gaps(raw_ids)\nprint(f\"Original Sorted IDs: {sorted(raw_ids)}\")\nprint(f\"Stored Gaps: {compressed}\")\nprint(f\"Verified Decoding: {decode_gaps(compressed)}\")",
+                "input": "Unsorted DocIDs list.",
+                "output": "Gaps: [1000, 5, 3, 12]",
+                "interpretation": "The script demonstrates 'Lossless Compression'. We transform 4-digit numbers into 1 or 2-digit numbers. In a bit-level index (like Variable Byte Encoding), '12' takes only 4 bits, while '1020' takes 10 bits. Across billions of entries, this saves petabytes of storage."
             }
         },
         {
             "slideNumber": 11,
-            "type": "summary",
-            "title": "Unit Wrap-up",
+            "type": "comparison",
+            "title": "Comparison: Sequential vs. Indexed Search",
+            "comparison": {
+                "headers": ["Aspect", "Sequential Scan (grep)", "Inverted Index (Search Engine)"],
+                "rows": [
+                    ["Search Complexity", "O(N) - Linear", "O(1) - Constant time lookup"],
+                    ["Initial Work", "Zero", "High (Crawl & Index)"],
+                    ["Storage", "Original Text", "Text + Index (approx. 50% more)"],
+                    ["Update Speed", "Fast", "Slower (Index maintenance)"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "activity",
+            "title": "Virtual Lab: Book Index Audit",
             "content": {
-                "text": "Unit 2 complete. We can now process, query, index, and compress text. Next, we look at the Human Interface.",
-                "nextTopic": "Unit 3: User Interfaces",
-                "preparation": "Read about HCI (Human-Computer Interaction)."
+                "activity": "The Back of the Book",
+                "description": "Pick a textbook. Go to the 'Index' in the back. Find the word 'Search'. 1. How many page numbers are listed? 2. Is this list sorted? 3. Could you calculate the 'D-Gaps' for those page numbers? This is exactly how Google indexes the web."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why does an index usually consume about 50% extra storage space compared to the raw text? \n2. In a 'Real-Time' index (like Twitter), how do you keep the D-Gaps valid when thousands of new docs arrive every second? \n3. Is an Inverted Index useful for 'Images'? Why or why not?"
             }
         }
     ]

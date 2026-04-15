@@ -1,342 +1,144 @@
 {
     "id": "u1-t3",
-    "title": "Classic IR Models",
+    "title": "Classic IR Models: Boolean & Vector",
     "unitId": "unit-1",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Classic Information Retrieval Models",
-            "subtitle": "Boolean, Vector, and Probabilistic",
+            "title": "Classic IR Models",
+            "subtitle": "The Mathematical Pillars of Search",
             "content": {
-                "text": "IR (Information Retrieval) Models provide the mathematical framework for defining the retrieval process. The 'Classic' models are the foundation of all modern search systems.",
-                "hook": "How do you mathematically prove that Document A is more relevant than Document B?"
+                "text": "How do we bridge the gap between human language and computer logic? Models provide the mathematical framework for representing documents and measuring their similarity to a query.",
+                "hook": "Searching is not a guess; it is a geometric calculation in a high-dimensional space."
             }
         },
         {
             "slideNumber": 2,
-            "type": "diagram",
-            "title": "Taxonomy of IR Models",
+            "type": "standard",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "description": "The family tree of retrieval models.",
-                "steps": [
-                    "Set-Theoretic (Boolean)",
-                    "Algebraic (Vector Space)",
-                    "Probabilistic (BM25 - Best Match 25)"
-                ]
+                "text": "Before studying models, you should know: \n1. **Set Theory**: AND, OR, NOT operations. \n2. **Linear Algebra**: Vectors, Dot Products, and Magnitudes. \n3. **Statistics**: Probability of an event occurring (0.0 to 1.0)."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "The Boolean Model",
+            "title": "Background: From Logic to Geometry",
             "content": {
-                "definition": "A model based on set theory and Boolean algebra. Documents are sets of terms. Queries are boolean expressions (AND, OR, NOT).",
-                "text": "The simplest model. A document either matches (1) or it doesn't (0). There is no partial match."
+                "text": "In the 1960s, the **Boolean Model** was the only way to search databases. It was exact but binary. In 1975, Gerard Salton proposed the **Vector Space Model (VSM)**, treating documents as points in space. This allowed for 'Partial Matches' and 'Ranking', which the Boolean model could never do."
             }
         },
         {
             "slideNumber": 4,
-            "type": "list",
-            "title": "Boolean Model: Pros & Cons",
-            "items": [
-                "✅ Easy to implement and computationally efficient.",
-                "✅ Exact semantics (User gets exactly what they asked for).",
-                "❌ No ranking (Alphabetical sort is useless for large results).",
-                "❌ 'Too strict': AND can yield zero results; OR can yield thousands."
-            ]
+            "type": "standard",
+            "title": "Motivation",
+            "content": {
+                "text": "Why unique models? Because text is unstructured. Unlike a database where you can search 'Age > 20', in text, you search for 'Concepts'. Models allow us to turn 'Concepts' into 'Numbers' so we can rank 1 million results by relevance."
+            }
         },
         {
             "slideNumber": 5,
             "type": "standard",
-            "title": "The Vector Space Model (VSM)",
+            "title": "Challenges",
             "content": {
-                "definition": "Visualizes documents and queries as vectors in a multi-dimensional space. Relevance is the distance/angle between them.",
-                "text": "Solves the ranking problem. Uses term weights (TF-IDF) to determine importance. We compute the Cosine Similarity between the Query Vector and Document Vectors."
-            },
-            "formula": {
-                "equation": "\\text{sim}(\\vec{q}, \\vec{d}) = \\frac{\\vec{q} \\cdot \\vec{d}}{||\\vec{q}|| \\times ||\\vec{d}||} = \\frac{\\sum_{i=1}^{n} q_i \\times d_i}{\\sqrt{\\sum_{i=1}^{n} q_i^2} \\times \\sqrt{\\sum_{i=1}^{n} d_i^2}}",
-                "description": "Cosine Similarity measures the angle between query and document vectors in the high-dimensional term space.",
-                "terms": [
-                    {
-                        "symbol": "\\text{sim}(\\vec{q}, \\vec{d})",
-                        "meaning": "Similarity score between query vector q and document vector d (range: 0 to 1)"
-                    },
-                    {
-                        "symbol": "\\vec{q} \\cdot \\vec{d}",
-                        "meaning": "Dot product of query and document vectors - measures overlap in term space"
-                    },
-                    {
-                        "symbol": "||\\vec{q}||",
-                        "meaning": "Magnitude (length) of query vector - normalizes for query length"
-                    },
-                    {
-                        "symbol": "||\\vec{d}||",
-                        "meaning": "Magnitude (length) of document vector - normalizes for document length"
-                    },
-                    {
-                        "symbol": "q_i",
-                        "meaning": "Weight of the i-th term in the query (typically TF-IDF)"
-                    },
-                    {
-                        "symbol": "d_i",
-                        "meaning": "Weight of the i-th term in the document (typically TF-IDF)"
-                    },
-                    {
-                        "symbol": "n",
-                        "meaning": "Total number of unique terms in the vocabulary"
-                    }
-                ]
-            },
-            "calculation": {
-                "exampleTitle": "Cosine Similarity Example",
-                "description": "Calculating the similarity between a query Q and a document D1 in a 2D term space.",
-                "steps": [
-                    {
-                        "label": "Define Vectors",
-                        "formula": "\\vec{q} = [1, 1], \\vec{d} = [2, 0]",
-                        "note": "Terms: 'search', 'engine'"
-                    },
-                    {
-                        "label": "Calculate Dot Product",
-                        "formula": "\\vec{q} \\cdot \\vec{d} = (1 \\times 2) + (1 \\times 0) = 2"
-                    },
-                    {
-                        "label": "Calculate Magnitudes",
-                        "formula": "||\\vec{q}|| = \\sqrt{1^2 + 1^2} = 1.414, ||\\vec{d}|| = \\sqrt{2^2 + 0^2} = 2"
-                    },
-                    {
-                        "label": "Final Score",
-                        "formula": "\\text{sim} = \\frac{2}{1.414 \\times 2} = 0.707"
-                    }
-                ],
-                "input": "Q:[1,1], D:[2,0]",
-                "output": "Similarity: 0.707"
-            },
-            "subTopics": [
-                {
-                    "title": "Deep Dive: Document Vectorization",
-                    "content": "A document is represented as a point in a n-dimensional space where each dimension corresponds to a unique term in the vocabulary.",
-                    "subSubTopics": [
-                        {
-                            "title": "Normalized Term Weights",
-                            "content": "Why normalize? Without normalization, long documents would naturally have higher similarity to any query just because they have more words.",
-                            "keyPoints": [
-                                "Cosine normalization: Divides by the length of the vector.",
-                                "Ensures all documents have equal competing chance regardless of length."
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "title": "Deep Dive: Thresholding & Ranking",
-                    "content": "Instead of a binary yes/no, VSM allows us to set a threshold for similarity.",
-                    "subSubTopics": [
-                        {
-                            "title": "Optimal Thresholding",
-                            "content": "Finding the 'sweet spot' where we keep only the most relevant results.",
-                            "examples": [
-                                "Setting threshold = 0.5 to filter low-confidence matches.",
-                                "Using top-K results for dynamic thresholding."
-                            ]
-                        }
-                    ]
-                }
-            ]
+                "text": "1. Term Independence: Models assume words like 'New' and 'York' are unrelated. 2. Scale: Processing vectors with 50,000 dimensions. 3. Ambiguity: A 'Match' doesn't always mean 'Relevant'."
+            }
         },
         {
             "slideNumber": 6,
-            "type": "illustration",
-            "title": "Vector Space Representation",
-            "content": {
-                "description": "The logic of geometric retrieval.",
-                "steps": [
-                    "Term Dimensions (X, Y, Z axes)",
-                    "Document Vectorization",
-                    "Query Vectorization",
-                    "Cosine Angle Calculation"
-                ]
-            }
+            "type": "grid",
+            "title": "The Big Three Models",
+            "items": [
+                "Boolean Model: Pure set theory. Binary (1 or 0) results.",
+                "Vector Space Model: Geometric similarity. Graded ranking.",
+                "Probabilistic Model: Bayesian inference. Ranking by probability of relevance."
+            ]
         },
         {
             "slideNumber": 7,
             "type": "standard",
-            "title": "TF-IDF Weighting",
+            "title": "The Concept: Cosine Similarity",
             "content": {
-                "text": "The most famous formula in IR.",
-                "outcomes": [
-                    "TF (Term Frequency): How often term t appears in doc d. (Higher is better)",
-                    "IDF (Inverse Document Frequency): log(N/df). Penalizes common words like 'the'. (Rarity is valuable)"
-                ]
+                "text": "In the Vector Space Model, similarity is measured by the cosine of the angle between doc and query vectors."
             },
             "formula": {
-                "equation": "w_{t,d} = tf_{t,d} \\times \\log\\frac{N}{df_t}",
-                "description": "TF-IDF (Term Frequency-Inverse Document Frequency) is the fundamental weighting scheme in Information Retrieval.",
+                "equation": "sim(d_j, q) = \\frac{\\vec{d}_j \\cdot \\vec{q}}{|\\vec{d}_j| \\cdot |\\vec{q}|}",
+                "description": "The normalized dot product of two vectors. The score ranges from 0 (orthogonal) to 1 (identical direction).",
                 "terms": [
-                    {
-                        "symbol": "w_{t,d}",
-                        "meaning": "Weight of term t in document d - the final importance score"
-                    },
-                    {
-                        "symbol": "tf_{t,d}",
-                        "meaning": "Term Frequency - number of times term t appears in document d"
-                    },
-                    {
-                        "symbol": "N",
-                        "meaning": "Total number of documents in the collection"
-                    },
-                    {
-                        "symbol": "df_t",
-                        "meaning": "Document Frequency - number of documents containing term t"
-                    },
-                    {
-                        "symbol": "\\log\\frac{N}{df_t}",
-                        "meaning": "IDF (Inverse Document Frequency) - penalizes common terms, boosts rare discriminative terms"
-                    }
+                    { "symbol": "\\vec{d}_j", "meaning": "Document vector (weights of terms in doc j)" },
+                    { "symbol": "\\vec{q}", "meaning": "Query vector (weights of terms in query)" },
+                    { "symbol": "|\\vec{x}|", "meaning": "Euclidean magnitude (length) of vector x" }
                 ],
                 "calculation": {
-                    "exampleTitle": "TF-IDF Weighting Example",
-                    "description": "Weighting the term 'Retrieval' in a document within a corpus of 10,000 documents.",
+                    "exampleTitle": "The Angle Audit",
+                    "description": "Compare Q=[1, 1] with D=[1, 0].",
                     "steps": [
-                        {
-                            "label": "Term Frequency (TF)",
-                            "formula": "tf_{t,d} = 5",
-                            "note": "The word appears 5 times in this document."
-                        },
-                        {
-                            "label": "Document Frequency (DF)",
-                            "formula": "df_t = 100",
-                            "note": "100 documents in the entire collection contain this word."
-                        },
-                        {
-                            "label": "Inverse Document Frequency (IDF)",
-                            "formula": "idf = \\log_{10}(\\frac{10000}{100}) = 2",
-                            "note": "Using base-10 log for simplicity."
-                        },
-                        {
-                            "label": "Final Weight",
-                            "formula": "w = 5 \\times 2 = 10",
-                            "note": "Term Frequency multiplied by IDF."
-                        }
+                        { "label": "Dot Product", "formula": "1*1 + 1*0 = 1", "note": "One shared term" },
+                        { "label": "Magnitudes", "formula": "|Q|=\\sqrt{2}, |D|=1", "note": "Normalization factors" },
+                        { "label": "Final Sim", "formula": "1 / \\sqrt{2} = 0.707", "note": "45-degree similarity" }
                     ],
-                    "input": "TF:5, DF:100, N:10000",
-                    "output": "Weight (w): 10.0"
+                    "input": "Q:[1,1], D:[1,0].",
+                    "output": "Sim: 0.707"
                 }
             }
         },
         {
             "slideNumber": 8,
             "type": "standard",
-            "title": "Probabilistic Model (Binary Independence)",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "text": "Based on the Probability Ranking Principle: 'If a system ranks documents by decreasing probability of relevance to the user, effectiveness is maximized.'",
-                "hook": "It asks: What are the odds that this document is relevant?"
+                "text": "The input to a model is the **Term Weight Matrix (TF-IDF)**. The output is a **Similarity Score**. In VSM, an output near 1.0 indicates that the input document's 'Topical Direction' matches the query perfectly. A low output score tells the system that although terms might match (input overlap), the document is about a different subject (output rank)."
             }
         },
         {
             "slideNumber": 9,
-            "type": "grid",
-            "title": "Model Comparison",
-            "items": [
-                "Boolean: Binary decision. Good for expert systems (Law, Med).",
-                "Vector: Ranked results. Best for general web search.",
-                "Probabilistic: Ranked results. Strong theoretical basis, but hard to estimate initial probabilities."
-            ]
+            "type": "standard",
+            "title": "Step-by-Step Illustration: The Geometry of Search",
+            "content": {
+                "text": "**1. Step 1**: Map Doc 1 ('Data Science') to [1, 1] in 2D space. \n**2. Step 2**: Map Query ('Python Science') to [0, 1]. \n**3. Step 3**: Calculate the angle between the two points. \n**4. Step 4**: Small angle = High Cosine = High Rank. \n**5. Step 5**: Perform this for all docs and return the ones with the smallest angles."
+            }
         },
         {
             "slideNumber": 10,
-            "type": "activity",
-            "title": "Activity: Manual Indexing",
+            "type": "python_demo",
+            "title": "Python Demo: The Cosine Calculator",
             "content": {
-                "activity": "Rank the Docs",
-                "description": "Query: 'Apple Pie'. Doc A: 'Apple chart pie'. Doc B: 'Apple apple apple'. Doc C: 'Pie chart'. Which is most relevant in Boolean? Which in VSM?"
+                "code": "import math\n\ndef cosine(v1, v2):\n    dot = sum(x*y for x, y in zip(v1, v2))\n    mag = math.sqrt(sum(x*x for x in v1)) * math.sqrt(sum(y*y for y in v2))\n    return round(dot/mag, 3) if mag > 0 else 0\n\nq = [1, 1, 0] # Terms: Space, Mars, Pizza\nd1 = [0.9, 0.8, 0] # Space doc\nd2 = [0, 0, 1] # Food doc\n\nprint(f\"Similarity with Space Doc: {cosine(q, d1)}\")\nprint(f\"Similarity with Food Doc: {cosine(q, d2)}\")",
+                "input": "Query [1,1,0] against [0.9,0.8,0] and [0,0,1].",
+                "output": "Space: 0.994, Food: 0.0",
+                "interpretation": "The script calculates the 'Distance' in space. Notice the Space doc gets a nearly perfect 0.994 score, while the Food doc is completely unrelated (0.0). This is how IR separates 'Signal' from 'Noise'."
             }
         },
         {
             "slideNumber": 11,
-            "type": "project",
-            "title": "Project: VSM Calculator",
-            "content": {
-                "idea": "Cosine Similarity Engine",
-                "input": "Query 'Q' and two sentences 'D1', 'D2'.",
-                "process": "1. Count word frequencies (TF). 2. Compute Cosine Similarity.",
-                "output": "Score for D1 vs D2. Declare the winner."
+            "type": "comparison",
+            "title": "Comparison: Boolean vs. Vector Model",
+            "comparison": {
+                "headers": ["Feature", "Boolean Model", "Vector Space Model"],
+                "rows": [
+                    ["Ranking", "None (Unordered set)", "Graded (Ranked list)"],
+                    ["Weighting", "Binary (In/Out)", "TF-IDF (Continuous)"],
+                    ["Partial Match", "Impossible", "Native support"],
+                    ["Best for", "Legal/Medical search", "Web/General search"]
+                ]
             }
         },
         {
             "slideNumber": 12,
-            "type": "quiz",
-            "title": "Mastery Check",
-            "questions": [
-                "Why is the Boolean model considered 'data retrieval' rather than 'information retrieval'?",
-                "What does IDF stand for, and why is it needed?",
-                "If the angle between two document vectors is 0 degrees, what is their similarity?",
-                "State the Probability Ranking Principle."
-            ],
-            "answers": [
-                "Because it performs exact matching (binary outcome) without ranking, similar to database queries, rather than estimating relevance.",
-                "Inverse Document Frequency. It is needed to penalize common words (like 'the') and boost rare, discriminative terms to improve retrieval quality.",
-                "The similarity is 1 (Perfect Similarity), as Cosine(0) = 1.",
-                "\"If a system ranks documents by decreasing probability of relevance to the user, effectiveness is maximized.\""
-            ]
+            "type": "activity",
+            "title": "Virtual Lab: The Boolean Trap",
+            "content": {
+                "activity": "The AND Filter",
+                "description": "Go to Google. Search for `\"Artificial Intelligence\" AND \"Space\"`. 1. How many results? 2. Now remove the AND and just search `Artificial Intelligence Space`. 3. Why did the second search find DIFFERENT results? (Hint: VSM allows docs that only mention one term strongly)."
+            }
         },
         {
             "slideNumber": 13,
-            "type": "python_demo",
-            "title": "Python Demo: Model Comparison",
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
             "content": {
-                "code": "def boolean_match(query_terms, doc_terms):\n    return set(query_terms).issubset(set(doc_terms))\n\nquery = ['information', 'retrieval']\ndoc1 = ['this', 'is', 'an', 'information', 'retrieval', 'system']\ndoc2 = ['only', 'information', 'here']\n\nprint(f\"Doc 1 Match: {boolean_match(query, doc1)}\")\nprint(f\"Doc 2 Match: {boolean_match(query, doc2)}\")",
-                "input": "Query: ['information', 'retrieval']\nDoc1: [...information, retrieval...]\nDoc2: [...information...]",
-                "output": "Doc 1 Match: True\nDoc 2 Match: False",
-                "interpretation": "This demonstrates the strict Boolean model. \nDoc 1 matches because it contains ALL query terms.\nDoc 2 fails (False) because it is missing the term 'retrieval'.\nThis 'all-or-nothing' approach is the baseline for IR models."
-            }
-        },
-        {
-            "slideNumber": 14,
-            "type": "research_perspective",
-            "title": "Research Perspective: Advanced Modeling in Classic IR",
-            "content": {
-                "researchQuestions": [
-                    {
-                        "question": "The Orthogonality Assumption in Vector Space Models: How does term dependency undermine the independence assumption of the basis vectors?",
-                        "answer": "The standard VSM assumes terms are independent (basis vectors are orthogonal). However, semantic dependencies (e.g., 'car' and 'engine' appearing together) invalidate this. Research in the 'Generalized Vector Space Model' (GVSM) solves this by redefining the inner product space using a Term-Term Correlation Matrix (G), allowing the system to match documents that are semantically related even if they share few exact terms."
-                    },
-                    {
-                        "question": "The Curse of Dimensionality: Does Cosine Similarity remain a valid metric in ultra-high dimensional sparse vocabularies?",
-                        "answer": "In high-dimensional spaces, the distance between any two random points tends to converge, making discrimination difficult. Research shows that for sparse IR vectors, the 'Fractional Distance Metric' or 'Manhattan Distance (L1)' can sometimes provide more robust ranking than Euclidean (L2) or Cosine, particularly when dealing with long-tail vocabulary distributions."
-                    }
-                ],
-                "mathematicalModeling": {
-                    "problemStatement": "Deriving TF-IDF as a measure of 'Self-Information' from Shannon's Information Theory.",
-                    "derivation": [
-                        {
-                            "step": "Define the probability of a term t appearing in a random document d.",
-                            "equation": "P(t) = \\frac{df_t}{N}",
-                            "interpretation": "Common words have high probability; rare words have low probability."
-                        },
-                        {
-                            "step": "Calculate the Self-Information (Surprisal) of term t.",
-                            "equation": "I(t) = -\\log_2 P(t) = \\log_2 \\frac{N}{df_t}",
-                            "interpretation": "This is the mathematical foundation of IDF. A term that appears rarely provides more 'Information' when it is found."
-                        },
-                        {
-                            "step": "Combine with Term Frequency to get the total information contribution of term t to document d.",
-                            "equation": "w_{t,d} = tf_{t,d} \\times (-\\log \\frac{df_t}{N})",
-                            "interpretation": "TF-IDF is essentially the total 'Information Content' of a term within a specific document relative to the whole corpus."
-                        }
-                    ],
-                    "conclusion": "Classic models like VSM and TF-IDF are not mere heuristics; they are grounded in Geometric Algebra and Information Theory, providing a rigourous framework for ranking unstructured text."
-                }
-            }
-        },
-        {
-            "slideNumber": 15,
-            "type": "summary",
-            "title": "Topic Wrap-up",
-            "content": {
-                "linkage": "VSM is powerful but treats terms as independent dimensions. Next, we look at Fuzzy Logic and Neural alternatives.",
-                "nextTopic": "Set-Theoretic Models (Fuzzy & Extended Boolean)",
-                "preparation": "Review Fuzzy Set Theory (Membership functions)."
+                "text": "1. Why does the Vector Space Model perform better for natural language than the Boolean Model? \n2. Can a document be retrieved in VSM if it contains NONE of the exact query words? (Think of synonyms/embeddings). \n3. Is a 45-degree angle ($0.707$ similarity) 'Good enough' for a user?"
             }
         }
     ]

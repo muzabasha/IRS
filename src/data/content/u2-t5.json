@@ -1,173 +1,147 @@
 {
     "id": "u2-t5",
-    "title": "Indexing & Searching",
+    "title": "Searching: Pattern Matching & Structure",
     "unitId": "unit-2",
     "slides": [
         {
             "slideNumber": 1,
-            "title": "Indexing & Searching",
             "type": "title",
-            "subtitle": "The Engine Behind the Search",
+            "title": "Searching Algorithms",
+            "subtitle": "Beyond Simple Keywords",
             "content": {
-                "text": "Retrieval at scale requires specialized structures. We move from 'scanning' documents to 'lookup' in an Inverted Index.",
-                "hook": "Finding a needle in a haystack is easy if you have a needle-to-haystack map."
+                "text": "Sometimes an index isn't enough. For complex wildcards, regular expressions, or hardware-constrained searching, we use Pattern Matching and Structural Search.",
+                "hook": "Finding 'cat', 'cats', and 'category' with one query requires more than a simple list."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "The Inverted Index",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "definition": "A mapping from Content (Terms) to Locations (Document IDs).",
-                "text": "It consists of a Dictionary (Vocabulary) and Postings Lists (lists of doc IDs where each term appears).",
-                "hook": "Term 'IR' -> [Doc 1, Doc 42, Doc 105]"
+                "text": "Before studying pattern matching, you should know: \n1. **Regular Expressions**: Wildcards (*), character classes ([a-z]), and anchors (^, $). \n2. **State Machines**: How computers transition through logic to match a pattern. \n3. **String Buffers**: How text is read from disk into memory for scanning."
             }
         },
         {
             "slideNumber": 3,
-            "type": "illustration",
-            "title": "Visualizing the Index",
+            "type": "standard",
+            "title": "Background: From grep to Suffix Trees",
             "content": {
-                "caption": "Term -> Postings List -> Payload (Frequency/Position)",
-                "description": " modern indices also store positions for phrase searching ('New' followed by 'York')."
+                "text": "In the 1970s, `grep` (Global Regular Expression Print) became the standard for 'Sequential Search'. As data grew, researchers developed 'Suffix Trees' and 'Suffix Arrays'—indices that allow you to search for *any* substring in $O(\text{pattern length})$ time. This is the technology behind DNA sequence matching and autocomplete."
             }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Index Construction",
+            "title": "Motivation",
             "content": {
-                "text": "How do we build it? For small datasets: In-memory. For massive datasets: Sort-based blocked indexing (BSBI) or Single-pass in-memory indexing (SPIMI).",
-                "steps": [
-                    "Tokenize documents",
-                    "Store as (Term, DocID) pairs",
-                    "Sort pairs by Term",
-                    "Merge DocIDs for same term into a list"
-                ]
+                "text": "Why unique searching? Because users don't always know the exact word. They search for patterns like 'sm*th' to find both 'Smith' and 'Smyth'. Also, documents have 'Structure' (headers, footers, meta-data). We need to search *locally* within these structures to find relevant results (e.g. ' find the word Einstein only in the AUTHOR field')."
             }
         },
         {
             "slideNumber": 5,
             "type": "standard",
-            "title": "Searching & Merging",
+            "title": "Challenges",
             "content": {
-                "text": "Boolean queries are solved by merging sorted postings lists. For 'A AND B', we look for common DocIDs in both lists using two pointers.",
-                "outcomes": [
-                    "Complexity: O(M+N) where M, N are list lengths.",
-                    "Skip Pointers help speed this up by jumping over irrelevant DocIDs."
-                ]
-            },
-            "formula": {
-                "equation": "\\text{Merge}(L_1, L_2) \\Rightarrow O(|L_1| + |L_2|)",
-                "description": "The linear merge algorithm efficiently finds common document IDs by moving two pointers concurrently across sorted postings lists.",
-                "terms": [
-                    {
-                        "symbol": "L_1, L_2",
-                        "meaning": "Sorted postings lists for terms T1 and T2"
-                    },
-                    {
-                        "symbol": "|L_i|",
-                        "meaning": "Length (number of documents) in the list"
-                    },
-                    {
-                        "symbol": "O(m+n)",
-                        "meaning": "Linear time complexity - each element is visited at most once"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Intersecting Postings",
-                    "description": "Merging two lists to find documents containing both words.",
-                    "steps": [
-                        {
-                            "label": "Pointers at Start",
-                            "formula": "P_1 \\to [2, 5, 8], P_2 \\to [1, 2, 5]",
-                            "note": "Pointers at index 0."
-                        },
-                        {
-                            "label": "Compare: 2 vs 1",
-                            "formula": "1 < 2 \\Rightarrow P_2++",
-                            "note": "Move smaller pointer forward."
-                        },
-                        {
-                            "label": "Compare: 2 vs 2",
-                            "formula": "2 = 2 \\Rightarrow Match!",
-                            "note": "Append Doc 2 to results; both move forward."
-                        },
-                        {
-                            "label": "Final Result",
-                            "formula": "Rel = \\{2, 5\\}",
-                            "note": "Loop continues until one list is exhausted."
-                        }
-                    ],
-                    "input": "L1:[2, 5, 8], L2:[1, 2, 5]",
-                    "output": "Match: {2, 5}"
-                }
+                "text": "1. Computational Complexity: Broad pattern matching can be very slow. 2. Index Bloat: Suffix structures can be 10x larger than the original text. 3. Ambiguity: Searching for structural tags in messy HTML is prone to 'Nested Tag' errors."
             }
         },
         {
             "slideNumber": 6,
-            "type": "diagram",
-            "title": "Ranked Retrieval Flow",
-            "content": {
-                "description": "Calculating scores on the fly.",
-                "steps": [
-                    "Decode Posting",
-                    "Calculate TF-IDF for Doc",
-                    "Accumulate in Heap",
-                    "Return Top K"
-                ]
-            }
+            "type": "grid",
+            "title": "Searching Techniques",
+            "items": [
+                "Sequential Searching: Scanning every byte (no index).",
+                "Pattern Matching: Wildcards and RegEx using Automata.",
+                "Structural Search: Searching within XML/HTML tags.",
+                "Suffix Structures: Index-based substring searching."
+            ]
         },
         {
             "slideNumber": 7,
-            "type": "activity",
-            "title": "Activity: Manual Merge",
+            "type": "standard",
+            "title": "The Concept: KMP (Knuth-Morris-Pratt) Algorithm",
             "content": {
-                "activity": "The Pointer Game",
-                "description": "List A: [1, 5, 20, 25, 40]. List B: [2, 5, 21, 40, 55]. Find the intersection using the two-pointer method. How many comparisons did you make?"
+                "text": "KMP avoids 'backtracking' by using the 'Fail Function'. If a match fails, it knows how much of the pattern can be skipped."
+            },
+            "formula": {
+                "equation": "T[i..i+m-1] = P[0..m-1]",
+                "description": "Matching a pattern (P) in a text (T). Efficiency is achieved by pre-computing a 'Partial Match Table' to determine shifts.",
+                "terms": [
+                    { "symbol": "T", "meaning": "The main text to search within" },
+                    { "symbol": "P", "meaning": "The pattern to find (e.g. 'ABC')" },
+                    { "symbol": "m", "meaning": "Length of the pattern" },
+                    { "symbol": "O(N)", "meaning": "Complexity: Linear time (never looks at the same character twice)" }
+                ],
+                "calculation": {
+                    "exampleTitle": "The Smart Shift",
+                    "description": "Searching for 'ABCD' in 'ABCX...'. Match fails at 'X'.",
+                    "steps": [
+                        { "label": "Text", "formula": "'A B C X'", "note": "X matches nothing in pattern" },
+                        { "label": "Pattern", "formula": "'A B C D'", "note": "Failed at index 3" },
+                        { "label": "Skip", "formula": "Shift to next 'A'", "note": "KMP knows 'B' and 'C' won't match 'A'" },
+                        { "label": "Complexity", "formula": "1 Match Check per Char", "note": "Unlike brute force which checks many" }
+                    ],
+                    "input": "P:'ABCD', T:'ABCX...'",
+                    "output": "Next check starts at X+1."
+                }
             }
         },
         {
             "slideNumber": 8,
-            "type": "project",
-            "title": "Mini-Project: Indexer",
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "idea": "Simple Dictionary Indexer",
-                "input": "Multiple tiny text files.",
-                "process": "Use a Python dictionary `index = {}`. For each word, append the filename to `index[word]` if it's not already there.",
-                "output": "Print the index: 'word': [file1, file2]."
+                "text": "The input to a structural search is a **Tagged Document (XML/HTML)** and a **Scope (e.g. <title>)**. The output is a **Filtered Result Set**. In pattern matching, the input is a **Greedy Wildcard (.*)**. The output is every matching substring. These algorithms ensure that the search engine 'Understands' document hierarchy (input structure) and provides 'Context-Aware' results (output relevance), rather than just flat text matching."
             }
         },
         {
             "slideNumber": 9,
-            "type": "quiz",
-            "title": "Quiz",
-            "questions": [
-                "What is a 'Postings List'?",
-                "What is the time complexity of merging two sorted lists?",
-                "Why do we sort the postings lists by DocID?",
-                "What are 'Skip Pointers'?"
-            ]
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Structural Querying",
+            "content": {
+                "text": "**1. Sample Input**: Doc: '<title>IR Intro</title> <body>IR is math.</body>'. Query: 'SEARCH \"IR\" WITHIN \"TITLE\"'. \n**2. Step-by-Step Illustration**: \n - System parses the DOM (Document Object Model). \n - **Identify Scope**: Title content = 'IR Intro'. \n - **Match Pattern**: Find 'IR' in 'IR Intro'. \n - **Ignore Other Sections**: Although 'IR' is in the <body>, it is ignored. \n**3. Sample Output**: Match found in Title. \n**4. Interpretation of Results**: Structural searching drastically increases 'Precision'. Instead of finding every page with the word 'Einstein', we find only the ones where he is the 'Author'. This is how academic databases (IEEE, ACM) work."
+            }
         },
         {
             "slideNumber": 10,
             "type": "python_demo",
-            "title": "Python Demo: Thesaurus Expansion",
+            "title": "Python Demo: The Structural Matcher",
             "content": {
-                "code": "thesaurus = {\n    \"car\": [\"automobile\", \"vehicle\", \"sedan\"],\n    \"fast\": [\"quick\", \"speedy\", \"rapid\"]\n}\n\ndef expand_query(query):\n    tokens = query.split()\n    expanded = []\n    for t in tokens:\n        expanded.append(t)\n        if t in thesaurus:\n            expanded.extend(thesaurus[t])\n    return \" \".join(expanded)\n\nq = \"fast car\"\nprint(f\"Original: {q}\")\nprint(f\"Expanded: {expand_query(q)}\")",
-                "input": "\"fast car\"",
-                "output": "Original: fast car\nExpanded: fast quick speedy rapid car automobile vehicle sedan",
-                "interpretation": "Global analysis uses external knowledge (thesaurus) to fix 'vocabulary mismatch'.\nBy expanding the query, the system can find a document about 'quick vehicles' even if the user typed 'fast car'.\nThis drastically improves Recall."
+                "code": "import re\n\ndef structural_search(doc, tag, query):\n    # Extract text within tags using RegEx\n    pattern = f\"<{tag}>(.*?)</{tag}>\"\n    sections = re.findall(pattern, doc, re.IGNORECASE)\n    \n    # Search for query within those sections\n    matches = [s for s in sections if query.lower() in s.lower()]\n    return matches\n\nhtml = \"\"\"\n<title>Information Retrieval Course</title>\n<body>Students love the information.</body>\n<footer>Contact us for information.</footer>\n\"\"\"\n\nres = structural_search(html, \"title\", \"Information\")\nprint(f\"Found in Title: {res}\")",
+                "input": "Search 'Information' only in <title> tags.",
+                "output": "['Information Retrieval Course']",
+                "interpretation": "The script uses RegEx to enforce structural constraints. Notice that although 'Information' appears 3 times in the text, the structural output only returns 1 result. This effectively 'filters' out irrelevant background noise."
             }
         },
         {
             "slideNumber": 11,
-            "type": "summary",
-            "title": "Topic Wrap-up",
+            "type": "comparison",
+            "title": "Comparison: Sequential vs. Suffix Search",
+            "comparison": {
+                "headers": ["Aspect", "Sequential (grep)", "Suffix Tree / Array"],
+                "rows": [
+                    ["Pattern Support", "Full RegEx (Greedy)", "Substrings / Wildcards"],
+                    ["Search Speed", "O(N) - Slow for GBs", "O(M) - Instant (Pattern length)"],
+                    ["Disk Utility", "High (No extra space)", "Low (Requires massive index)"],
+                    ["Best for", "Live streams / Small files", "Static, huge text collections"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "activity",
+            "title": "Virtual Lab: RegEx Detective",
             "content": {
-                "linkage": "We have an index. But it's massive. How do we make it smaller to fit in RAM?",
-                "nextTopic": "Index Compression",
-                "preparation": "Recall Binary encoding and Variable Byte encoding."
+                "activity": "The Wildcard Hunt",
+                "description": "Open a text editor (Notepad++, VS Code). Type 'Information'. Now press Ctrl+F and check 'Use Regular Expressions'. Search for `^Inf.*n$`. How many words match this pattern in the current slide? This is Pattern Matching in action."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why is searching for a word in the 'Title' more relevant than searching in the 'Footer'? \n2. In a 'DNA Search' (which has 3 billion characters), why is Sequential Search impossible? \n3. How would you design a structural search for a PDF which has no HTML tags?"
             }
         }
     ]

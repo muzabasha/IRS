@@ -1,245 +1,147 @@
 {
     "id": "u1-t5",
-    "title": "Algebraic Models",
+    "title": "Topic 5: Latent Semantic Indexing (LSI)",
     "unitId": "unit-1",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Algebraic Information Retrieval Models",
-            "subtitle": "Beyond Keywork Matching: LSI and Generalized VSM",
+            "title": "Latent Semantic Indexing",
+            "subtitle": "Searching for Meaning, Not Words",
             "content": {
-                "text": "Classic VSM assumes terms are independent (Orthogonal). Algebraic models assume terms are related (e.g., 'car' and 'auto' share a dimension).",
-                "hook": "How can a search engine return documents about 'cars' when you searched for 'automobiles'?"
+                "text": "The biggest problem in IR is that people use different words for the same thing. LSI uses advanced algebra to find 'Hidden' (Latent) relationships between words, allowing a search for 'Car' to find documents about 'Automobiles'.",
+                "hook": "LSI allows the computer to understand that 'Surgery' and 'Operation' are neighbors in the world of ideas."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "The Independence Assumption Problem",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "problem": "Synonymy and Polysemy",
-                "text": "In standard VSM, the axis for 'car' is 90 degrees to 'automobile'. They have 0 similarity. This causes low Recall (missed documents). Algebraic models map them to a lower-dimensional 'concept' space."
+                "text": "Before studying LSI, you should know: \n1. **Term-Document Matrix**: A grid where rows are words and columns are documents. \n2. **Synonymy**: Different words with the same meaning. \n3. **Polysemy**: One word with many meanings (e.g. 'Bank')."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Generalized Vector Space Model (GVSM)",
+            "title": "Background: The SVD Breakthrough",
             "content": {
-                "definition": "An extension of VSM where term vectors are not orthogonal. We compute correlations between terms based on co-occurrence in the collection.",
-                "text": "If two terms often appear together, their vectors are pulled closer. This implicitly handles synonyms."
+                "text": "In 1988, researchers at Bell Labs realized that 'Noise' in search was caused by the sheer number of unique words. They applied **Singular Value Decomposition (SVD)** to 'squash' the term-document matrix into a few hundred 'Core Concepts'. This was the ancestor of modern AI embeddings and Word2Vec."
             }
         },
         {
             "slideNumber": 4,
-            "type": "diagram",
-            "title": "LSI Mathematical Process",
+            "type": "standard",
+            "title": "Motivation",
             "content": {
-                "description": "LSI uses Singular Value Decomposition (SVD) to uncover latent relationships.",
-                "steps": [
-                    "Term-Document Matrix (A)",
-                    "Decompose: A = U . Sigma . V^T",
-                    "Truncate Sigma (Keep Top K)",
-                    "Map Terms to Concept Space",
-                    "Query Matching in Reduced Space"
-                ]
-            },
-            "formula": {
-                "equation": "A = U \\Sigma V^T \\approx U_k \\Sigma_k V_k^T",
-                "description": "Singular Value Decomposition (SVD) for Latent Semantic Indexing decomposes the term-document matrix into three matrices to discover hidden semantic structures.",
-                "terms": [
-                    {
-                        "symbol": "A",
-                        "meaning": "Original term-document matrix (m×n) where m=terms, n=documents"
-                    },
-                    {
-                        "symbol": "U",
-                        "meaning": "Left singular vectors (m×m) - term-to-concept mapping matrix"
-                    },
-                    {
-                        "symbol": "\\Sigma",
-                        "meaning": "Diagonal matrix (m×n) of singular values - strength of each concept/dimension"
-                    },
-                    {
-                        "symbol": "V^T",
-                        "meaning": "Right singular vectors transposed (n×n) - document-to-concept mapping"
-                    },
-                    {
-                        "symbol": "U_k",
-                        "meaning": "Truncated U matrix keeping only k dimensions (dimensionality reduction)"
-                    },
-                    {
-                        "symbol": "\\Sigma_k",
-                        "meaning": "Truncated Sigma keeping only k largest singular values"
-                    },
-                    {
-                        "symbol": "V_k^T",
-                        "meaning": "Truncated V^T keeping only k dimensions - reduced representation"
-                    },
-                    {
-                        "symbol": "k",
-                        "meaning": "Number of latent concepts/dimensions to keep (typically 100-300 for LSI)"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "LSI Matrix Transformation",
-                    "description": "Reducing a term-document matrix A from 3 dimensions down to 2 latent concepts.",
-                    "steps": [
-                        {
-                            "label": "Original Matrix (A)",
-                            "formula": "A_{3 \\times 3} = [\\text{Terms} \\times \\text{Docs}]",
-                            "note": "A sparse matrix containing raw TF-IDF weights."
-                        },
-                        {
-                            "label": "Full Decomposition",
-                            "formula": "A = U_{3 \\times 3} \\Sigma_{3 \\times 3} V_{3 \\times 3}^T",
-                            "note": "SVD captures all variance in the data."
-                        },
-                        {
-                            "label": "Truncation (k=2)",
-                            "formula": "A \\approx U_{3 \\times 2} \\Sigma_{2 \\times 2} V_{2 \\times 3}^T",
-                            "note": "We discard the smallest singular value to remove 'noise'."
-                        },
-                        {
-                            "label": "Reconstruction",
-                            "formula": "A_{\\text{new}} = [0.9, 0.1, 0.8; ...]",
-                            "note": "The new matrix is dense; documents about 'cars' now have non-zero scores for 'automobile'."
-                        }
-                    ],
-                    "input": "3x3 Sparse Matrix",
-                    "output": "3x3 Dense Semantic Matrix"
-                }
+                "text": "Why use LSI? Because keyword matching fails. If you search 'Physician', you miss all documents that only use the word 'Doctor'. LSI creates a 'Semantic Space' where these two words are placed close together, ensuring that you find information based on **Concepts**, not just exact characters."
             }
         },
         {
             "slideNumber": 5,
-            "type": "illustration",
-            "title": "Semantic Dimensionality Reduction",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "description": "Logic of semantically aware retrieval.",
-                "steps": [
-                    "Raw Features (Thousands of Words)",
-                    "Identify Latent Topics (Concepts)",
-                    "Project to Low-D Plane (2D/3D)",
-                    "Cluster Similar Concepts"
-                ]
+                "text": "1. Computational Cost: SVD on a matrix with 1 million documents is extremely slow. 2. Interpretability: What does 'Concept #42' actually mean? (It's hard for humans to name them). 3. Updates: Adding a single new document requires re-calculating the entire conceptual space."
             }
         },
         {
             "slideNumber": 6,
-            "type": "list",
-            "title": "Pros & Cons of LSI",
+            "type": "grid",
+            "title": "The SVD Components",
             "items": [
-                "✅ Handles Synonyms extremely well (High Recall).",
-                "✅ Noise reduction (removes random term usage).",
-                "❌ Computationally expensive (SVD is slow for large matrices).",
-                "❌ Hard to explain (What does 'Dimension 4' mean?)."
+                "Matrix A: Original Term-Doc counts.",
+                "Matrix U: Term relationships to Concepts.",
+                "Matrix S (Sigma): Importance of each Concept.",
+                "Matrix V: Document relationships to Concepts."
             ]
         },
         {
             "slideNumber": 7,
             "type": "standard",
-            "title": "Neural IR (Modern Algebra)",
+            "title": "The Concept: Singular Value Decomposition (SVD)",
             "content": {
-                "text": "Word Embeddings (Word2Vec, GloVe) are the modern successors to LSI. They use neural networks to learn dense vector representations where `Vector(King) - Vector(Man) + Vector(Woman) = Vector(Queen)`.",
-                "hook": "Deep Learning is essentially Algebra on steroids."
-            }
-        },
-        {
-            "slideNumber": 8,
-            "type": "activity",
-            "title": "Activity: Semantic Connection",
-            "content": {
-                "activity": "Find the Link",
-                "description": "Take terms: 'Apple', 'Banana', 'iPhone', 'Pie'. Standard VSM sees 4 distinct terms. Group them into Concepts (Fruit vs Tech). How would LSI handle a doc with 'Apple' and 'iPhone' vs 'Apple' and 'Pie'?"
-            }
-        },
-        {
-            "slideNumber": 9,
-            "type": "project",
-            "title": "Mini-Project: Matrix factorization",
-            "content": {
-                "idea": "Simple LSI in Python",
-                "input": "Small Term-Doc matrix (5 docs, 10 terms).",
-                "process": "Use `numpy.linalg.svd`. Reduce k=2.",
-                "output": "Plot the 5 docs on a 2D graph. Do similar docs cluster?"
-            }
-        },
-        {
-            "slideNumber": 10,
-            "type": "quiz",
-            "title": "Quiz",
-            "questions": [
-                "What is the main advantage of GVSM over Standard VSM?",
-                "What mathematical technique does LSI use?",
-                "How does LSI help with Synonymy?",
-                "Why is LSI rarely used for the entire web index?"
-            ],
-            "answers": [
-                "GVSM removes the assumption that term vectors are orthogonal (independent), acknowledging that terms like 'car' and 'auto' are correlated.",
-                "Singular Value Decomposition (SVD) of the Term-Document matrix.",
-                "It maps terms and documents to a reduced 'concept' space; synonyms tend to map to the same conceptual axis, allowing retrieval even if exact words don't match.",
-                "Because SVD is computationally expensive (cubic complexity) and hard to update dynamically as new documents are added (scalability issues)."
-            ]
-        },
-        {
-            "slideNumber": 11,
-            "type": "python_demo",
-            "title": "Python Demo: TF-IDF Weighting",
-            "content": {
-                "code": "import math\n\ndef calculate_tfidf(tf, df, total_docs):\n    idf = math.log10(total_docs / df)\n    return round(tf * idf, 4)\n\n# Term 'retrieval' in a doc\ntf = 5\ndf = 10\nN = 1000\n\nweight = calculate_tfidf(tf, df, N)\nprint(f\"TF-IDF Weight: {weight}\")",
-                "input": "TF: 5 (freq in doc)\nDF: 10 (docs with term)\nN: 1000 (total docs)",
-                "output": "TF-IDF Weight: 10.0",
-                "interpretation": "TF-IDF balances term frequency and rarity.\nTerms that appear often in one doc but rarely in others (low DF) get high weights.\nThis allows the Vector Space Model to rank specific documents higher than generic ones."
-            }
-        },
-        {
-            "slideNumber": 12,
-            "type": "research_perspective",
-            "title": "Research Perspective: Latent Semantic Space & Factorization",
-            "content": {
-                "researchQuestions": [
-                    {
-                        "question": "The Optimal Rank k: At what point does dimensionality reduction lose the 'Signal' of the semantics?",
-                        "answer": "Research in LSA focuses on the 'Elbow Method' in the distribution of singular values. High singular values represent stable semantic structures (signal), while low ones represent document-specific noise. The mathematical challenge is finding a k that minimizes the Frobenius norm ||A - Aₖ||_F while maximizing the separability of document clusters in the reduced space."
-                    },
-                    {
-                        "question": "The Problem of Incrementality: How can algebraic models scale to dynamic document streams like the Web?",
-                        "answer": "SVD is computationally expensive (O(min(mn², m²n))). Current research focuses on 'Fold-in' techniques and Incremental LSA, which update the concept space without recomputing the entire decomposition. This shift from batch to online learning is critical for modern real-time search applications."
-                    }
+                "text": "LSI decomposes the term-document matrix into three matrices to isolate the strongest latent patterns."
+            },
+            "formula": {
+                "equation": "A = U \\Sigma V^T \\approx U_k \\Sigma_k V_k^T",
+                "description": "We approximate the original matrix A by keeping only the top (k) largest singular values from Sigma, discarding the 'Noise'.",
+                "terms": [
+                    { "symbol": "A", "meaning": "Original Term-Document Matrix (m x n)" },
+                    { "symbol": "U_k", "meaning": "Term-Concept Matrix (m x k)" },
+                    { "symbol": "\\Sigma_k", "meaning": "Concept-Importance Diagonal Matrix (k x k)" },
+                    { "symbol": "V_k^T", "meaning": "Concept-Document Matrix (k x n)" }
                 ],
-                "mathematicalModeling": {
-                    "problemStatement": "Identifying Latent Semantic relationships as a Low-Rank Approximation problem.",
-                    "derivation": [
-                        {
-                            "step": "Model the term-document matrix A as a product of orthogonal concept bases.",
-                            "equation": "A = U \\Sigma V^T",
-                            "interpretation": "U maps terms to concepts, V maps documents to concepts, and Σ scales them by importance."
-                        },
-                        {
-                            "step": "Reduce the rank of the system to filter out synonymy noise.",
-                            "equation": "\\hat{D}_{sim}(d_i, d_j) = \\vec{v}_i^T \\Sigma_k^2 \\vec{v}_j",
-                            "interpretation": "Similarity is re-calculated in the k-dimensional concept space rather than the sparse term space."
-                        },
-                        {
-                            "step": "Analyze the error of approximation using the Eckart-Young Theorem.",
-                            "equation": "\\min_{rank(B) = k} ||A - B||_F = ||A - A_k||_F = \\sqrt{\\sum_{i=k+1}^{r} \\sigma_i^2}",
-                            "interpretation": "The total semantic loss is exactly the square root of the sum of squares of the discarded singular values."
-                        }
+                "calculation": {
+                    "exampleTitle": "The Concept Squeeze",
+                    "description": "Reduce a matrix with 10,000 words to 2 concepts.",
+                    "steps": [
+                        { "label": "Original", "formula": "10,000 \\times 10,000", "note": "Huge, sparse matrix" },
+                        { "label": "Decompose", "formula": "U \\Sigma V^T", "note": "Isolating raw data" },
+                        { "label": "Truncate", "formula": "k=300", "note": "Keep only 300 strongest patterns" },
+                        { "label": "Reconstruct", "formula": "Approx(A)", "note": "Matrix is now dense and meaningful" }
                     ],
-                    "conclusion": "Algebraic models like LSI prove that 'meaning' can be extracted purely from the co-occurrence structure of text, provided we can correctly partition the signal from the noise in the matrix manifold."
+                    "input": "N=10k, K=300.",
+                    "output": "Noise reduced by 97%."
                 }
             }
         },
         {
-            "slideNumber": 13,
-            "type": "summary",
-            "title": "Topic Wrap-up",
+            "slideNumber": 8,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "linkage": "We've covered deterministic (Boolean/Vector) and algebraic models. Next, we embrace uncertainty fully.",
-                "nextTopic": "Probabilistic Models",
-                "preparation": "Review Bayes' Theorem."
+                "text": "The input to LSI is a **Sparse Term-Doc Matrix (lots of zeros)**. The output is a **Dense Concept Space**. This output mapping ensures that if the input terms 'Surgery' and 'Knife' appear in the same docs (input co-occurrence), their output vectors will be aligned. Even if a query (input) doesn't contain the word 'Knife', the LSI engine (output similarity) will rank the doc higher because it recognizes the 'Medical' concept (latent structure)."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Finding the Hidden Link",
+            "content": {
+                "text": "**1. Step 1**: Doc 1: 'Doctor Surgery', Doc 2: 'Hospital Nurse', Doc 3: 'Solar Power'. \n**2. Step 2**: SVD sees 'Doctor', 'Surgery', 'Hospital', 'Nurse' always appear together. \n**3. Step 3**: It creates a **Concept Axis** for 'Medicine'. \n**4. Step 4**: Query: 'Nurse'. \n**5. Step 5**: In VSM, Doc 1 gets a score of 0 (No match). In LSI, Doc 1 gets a high score because it belongs to the 'Medicine' concept. \n**6. Step 6**: Doc 3 (Solar) is ignored because it's on a different conceptual axis."
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "python_demo",
+            "title": "Python Demo: Semantic Similarity",
+            "content": {
+                "code": "import numpy as np\n\n# Terms: [Doctor, Surgery, Sun, Panel]\ndocs = np.array([\n    [1, 1, 0, 0], # Doc 1: Med\n    [1, 0, 0, 0], # Doc 2: Doctor\n    [0, 0, 1, 1]  # Doc 3: Solar\n]).T\n\n# SVD (Latent Concept Finding)\nU, S, Vt = np.linalg.svd(docs)\n\n# Look at the first concept (U[:, 0])\nprint(f\"Concept 1 Weights: {np.round(U[:, 0], 2)}\")",
+                "input": "3 docs with Medical and Solar terms.",
+                "output": "Concept 1: [0.71, 0.71, 0, 0]",
+                "interpretation": "The script finds the 'Latent' pattern. Notice how 'Doctor' and 'Surgery' are grouped perfectly into the first concept (0.71, 0.71), while the Solar terms are 0. LSI 'sees' that Doctor and Surgery are partners, even before we tell it anything about medicine."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "comparison",
+            "title": "Comparison: VSM vs. LSI",
+            "comparison": {
+                "headers": ["Feature", "Vector Space Model (VSM)", "Latent Semantic Indexing (LSI)"],
+                "rows": [
+                    ["Matching", "Exact Terms Only", "Concepts & Synonyms"],
+                    ["Matrix Type", "Sparse (Millions of 0s)", "Dense (No 0s)"],
+                    ["Recall", "Lower (Misses synonyms)", "Higher (Finds related intent)"],
+                    ["Computing Power", "Low", "Extremely High (SVD is heavy)"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "activity",
+            "title": "Virtual Lab: Manual Dimensionality Reduction",
+            "content": {
+                "activity": "The Word Grouping",
+                "description": "List 10 words about 'Banking' and 10 about 'Rivers'. 1. How many share the word 'Bank'? 2. If you were LSI, how would you separate these into two groups using a single 'Concept' axis? (Hint: Surround 'Bank' with 'Money' vs 'Water')."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why does LSI typically keep only 300 concepts? Why not 3,000? (Hint: The paradox of noise). \n2. Can LSI solve the problem of 'Polysemy' (words with multiple meanings)? \n3. How would LSI handle a brand new word (unseen during training) in a query?"
             }
         }
     ]

@@ -1,248 +1,146 @@
 {
     "id": "u1-t2",
-    "title": "The Retrieval Process",
+    "title": "Topic 2: The Retrieval Process",
     "unitId": "unit-1",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "The Information Retrieval Process",
-            "subtitle": "From User Need to Ranked Results",
+            "title": "The Retrieval Process",
+            "subtitle": "Navigating the Journey from Query to Result",
             "content": {
-                "text": "Understanding the complete lifecycle of a search query: how a user's vague information need is transformed, matched, and satisfied by an IR system.",
-                "hook": "A search engine is a conversation between a user and a collection of documents."
+                "text": "How does a computer understand what you want? The retrieval process is a multi-stage pipeline that transforms raw text and user intent into a meaningful ranked list.",
+                "hook": "Search is an iterative loop of discovery, not a single light switch."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "The User Task",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "text": "The process begins with a user's 'Information Need'. This is distinct from the 'Query' they type. The gap between the two is often where retrieval fails.",
-                "definition": "Information Need: A desire to locate and obtain information to satisfy a conscious or unconscious need."
+                "text": "Before studying the process, you should know: \n1. **Index**: The data structure that stores mappings (like an index in a book). \n2. **TF-IDF**: The concept that 'Rare' words are more important than 'Common' words. \n3. **Query Engine**: The software component that executes the search logic."
             }
         },
         {
             "slideNumber": 3,
-            "type": "grid",
-            "title": "Types of IR Tasks",
-            "items": [
-                "Ad-hoc Retrieval: Standard search (e.g., Google). One-time query on a static collection.",
-                "Filtering/Routing: Static query on a dynamic stream (e.g., News alerts).",
-                "Browsing: User navigates a structure (e.g., Directory) with no specific query.",
-                "Question Answering: Returning a specific fact rather than a document list."
-            ]
+            "type": "standard",
+            "title": "Background: The Birth of Ranking",
+            "content": {
+                "text": "Early systems (1960s) used simple Boolean 'IN or OUT' logic. In 1968, the SMART system introduced the concept of 'Ranking'—showing the most relevant documents first. This changed the user experience from 'Filtering' to 'Discovery', allowing us to handle millions of results efficiently."
+            }
         },
         {
             "slideNumber": 4,
-            "type": "diagram",
-            "title": "The Retrieval Cycle",
+            "type": "standard",
+            "title": "Motivation",
             "content": {
-                "description": "The formalized process of retrieval.",
-                "steps": [
-                    "User Input",
-                    "Query Parsing",
-                    "Logical View (Keywords)",
-                    "Index Lookup",
-                    "Ranking",
-                    "Result Presentation"
-                ]
+                "text": "Why study the process? Because optimizing search isn't just about faster code; it's about better stages. By understanding the 'Pipeline', we can improve individual modules—like better 'Stemming' or smarter 'Ranking'—to produce a superior user experience."
             }
         },
         {
             "slideNumber": 5,
             "type": "standard",
-            "title": "Logical View of Documents",
+            "title": "Challenges",
             "content": {
-                "text": "Computers don't understand meaning; they understand patterns. We transform full text into a 'Logical View'—usually a set of index terms (keywords).",
-                "outcomes": [
-                    "Full Text: 'The quick brown fox jumps...'",
-                    "Logical View: {fox, brown, quick, jump}"
-                ]
+                "text": "1. Latency: Completing all stages in under 500ms. 2. Synonymy: Finding 'Hot' when the user types 'Warm'. 3. Normalization: Matching 'Search' with 'Searching' and 'Searches'."
             }
         },
         {
             "slideNumber": 6,
-            "type": "list",
-            "title": "Text Operations (Preprocessing)",
+            "type": "grid",
+            "title": "The Workflow Stages",
             "items": [
-                "Lexical Analysis: Treating digits, hyphens, punctuation.",
-                "Stopword Elimination: Removing 'the', 'of', 'and'.",
-                "Stemming: Reducing 'computing', 'computed' to 'comput'.",
-                "Thesaurus Expansion: Adding synonyms (e.g., car -> automobile)."
+                "Indexing: Pre-processing the collection (Offline).",
+                "Query Formulation: Refining the user's raw input.",
+                "Matching: Finding documents that contain the query terms.",
+                "Ranking: Sorting the matches by relevance probability."
             ]
         },
         {
             "slideNumber": 7,
-            "type": "illustration",
-            "title": "Inverted Index Structure",
+            "type": "standard",
+            "title": "The Concept: The Probability Ranking Principle (PRP)",
             "content": {
-                "description": "Logic of the Inverted Index data structure.",
-                "steps": [
-                    "Vocabulary (Terms)",
-                    "Postings Lists (DocIDs)",
-                    "Frequency/Positions",
-                    "Pointer Linkage"
-                ]
+                "text": "The PRP states that an IR system should rank documents in descending order of their probability of relevance to the user."
+            },
+            "formula": {
+                "equation": "P(R=1|D, Q) > P(R=1|D', Q)",
+                "description": "If the probability of relevance (R=1) for Doc D is higher than for Doc D', then D must be ranked above D'.",
+                "terms": [
+                    { "symbol": "P(R=1|D, Q)", "meaning": "Probability that document D is relevant to query Q" },
+                    { "symbol": "R=1", "meaning": "Binary state: Relevant" },
+                    { "symbol": "D, D'", "meaning": "Two different documents in the collection" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Ranking Decision Audit",
+                    "description": "System calculates Relevance Probabilities for 3 docs.",
+                    "steps": [
+                        { "label": "Doc A", "formula": "P=0.85", "note": "Very likely relevant" },
+                        { "label": "Doc B", "formula": "P=0.30", "note": "Weak match" },
+                        { "label": "Doc C", "formula": "P=0.92", "note": "Highest score" },
+                        { "label": "Final Rank", "formula": "[C, A, B]", "note": "Descending order of P" }
+                    ],
+                    "input": "Scores: A:0.85, B:0.3, C:0.92.",
+                    "output": "1:C, 2:A, 3:B"
+                }
             }
         },
         {
             "slideNumber": 8,
-            "type": "activity",
-            "title": "Activity: Query Translation",
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "activity": "The Telephone Game",
-                "description": "Think of a complex question you have (e.g., 'Why is the sky blue?'). Now write down 3 different keyword queries you would type into Google to find the answer. Notice how you simplified the language."
+                "text": "The input to the retrieval process is **User Intent (Query)**. The output is a **Value-Added ranked list**. The system transforms a simple input string into a list where the top output items (Rank 1-3) satisfy 80% of the user's need. This 'Efficiency of Delivery' (output quality) minimizes the user's effort in scrolling, proving that the mathematical scoring (input processing) was successful."
             }
         },
         {
             "slideNumber": 9,
             "type": "standard",
-            "title": "Matching & Ranking",
+            "title": "Step-by-Step Illustration: From Search to Satisfaction",
             "content": {
-                "text": "The core intelligence of the system. It calculates a score for each document (Sim(q, d)) indicating how well it matches the query.",
-                "hook": "Ranking is what separates a search engine from a database."
-            },
-            "formula": {
-                "equation": "J(A, B) = \\frac{|A \\cap B|}{|A \\cup B|} = \\frac{|A \\cap B|}{|A| + |B| - |A \\cap B|}",
-                "description": "The Jaccard Coefficient is a simple set-theoretic measure of similarity between a query and a document.",
-                "terms": [
-                    {
-                        "symbol": "J(A, B)",
-                        "meaning": "Jaccard similarity score (range: 0 to 1)"
-                    },
-                    {
-                        "symbol": "A",
-                        "meaning": "The set of unique terms in Document A"
-                    },
-                    {
-                        "symbol": "B",
-                        "meaning": "The set of unique terms in Query B"
-                    },
-                    {
-                        "symbol": "|A \\cap B|",
-                        "meaning": "Number of terms present in both the document and the query"
-                    },
-                    {
-                        "symbol": "|A \\cup B|",
-                        "meaning": "Total number of unique terms in the combination of document and query"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Set-Theoretic Matching",
-                    "description": "Comparing a query 'blue sky' with a document.",
-                    "steps": [
-                        {
-                            "label": "Tokenize Input",
-                            "formula": "Q = \\{blue, sky\\}, D = \\{sky, clear, sunny\\}",
-                            "note": "Document mentions sky but not blue."
-                        },
-                        {
-                            "label": "Calculate Intersection",
-                            "formula": "|Q \\cap D| = |\\{sky\\}| = 1",
-                            "note": "They share 1 word."
-                        },
-                        {
-                            "label": "Calculate Union",
-                            "formula": "|Q \\cup D| = |\\{blue, sky, clear, sunny\\}| = 4",
-                            "note": "There are 4 unique words total."
-                        },
-                        {
-                            "label": "Jaccard Score",
-                            "formula": "J = \\frac{1}{4} = 0.25",
-                            "note": "Similarity is 25%."
-                        }
-                    ],
-                    "input": "Q:2 terms, D:3 terms, Overlap:1",
-                    "output": "Sim: 0.25"
-                }
+                "text": "**1. Step 1**: User types 'Best Camera'. \n**2. Step 2**: System performs **Query Expansion** (adds 'Photography', 'Review'). \n**3. Step 3**: System executes **Boolean Match** against the Inverted Index. \n**4. Step 4**: System calculates **Cosine Similarity** for the 5,000 matches. \n**5. Step 5**: System applies **PageRank** (Authoritative boost). \n**6. Step 6**: User sees the top 10 results."
             }
         },
         {
             "slideNumber": 10,
-            "type": "project",
-            "title": "Mini-Project: Tokenizer",
+            "type": "python_demo",
+            "title": "Python Demo: The Ranking Loop",
             "content": {
-                "idea": "Build a Text Normalizer",
-                "input": "A string: 'Hello, World! This is IR 101.'",
-                "process": "1. Lowercase. 2. Remove Punctuation. 3. Split by space.",
-                "output": "['hello', 'world', 'this', 'is', 'ir', '101']"
+                "code": "def calculate_relevance(query, doc):\n    # Simple word overlap / length normalization\n    q_terms = set(query.lower().split())\n    d_terms = doc.lower().split()\n    matches = [t for t in d_terms if t in q_terms]\n    return round(len(matches) / len(d_terms), 3)\n\nquery = \"space planet\"\ndocs = [\n    \"Space is vast with many a planet.\",\n    \"The planet Earth is in space.\",\n    \"I like pizza.\"\n]\n\n# Calculate scores\nranked = sorted([(calculate_relevance(query, d), d) for d in docs], reverse=True)\n\nfor score, text in ranked:\n    print(f\"[{score}] {text}\")",
+                "input": "Search 'space planet' in 3 sentences.",
+                "output": "Scores: 0.286 (Doc 1), 0.333 (Doc 2), 0.0 (Doc 3).",
+                "interpretation": "The script ranks the documents based on keyword density. Notice how the 'Pizza' doc gets a score of 0.0 and is buried at the bottom. The system successfully prioritized the 'Topic' of space."
             }
         },
         {
             "slideNumber": 11,
-            "type": "quiz",
-            "title": "Check Your Understanding",
-            "questions": [
-                "What is the difference between Ad-hoc retrieval and Filtering?",
-                "Why do we reduce documents to a 'Logical View'?",
-                "If a user wants 'apple' (the fruit) but types 'apple' (the brand), what kind of problem is this?",
-                "Name one advantage of stemming."
-            ],
-            "answers": [
-                "Ad-hoc is a one-time query on a static collection, while Filtering is a static query (profile) on a dynamic document stream.",
-                "Computers cannot understand full text meaning efficiently; a 'Logical View' (keywords) allows for efficient indexing and matching.",
-                "This is a Polysemy (Ambiguity) problem.",
-                "It improves recall by matching variations of a word (e.g., 'fish', 'fishing', 'fished') to the same root query term."
-            ]
+            "type": "comparison",
+            "title": "Comparison: Ad-hoc Retrieval vs. Filtering",
+            "comparison": {
+                "headers": ["Feature", "Ad-hoc Retrieval (Search)", "Information Filtering (Push)"],
+                "rows": [
+                    ["Collection", "Static (mostly)", "Dynamic (Incoming stream)"],
+                    ["User Need", "Transient (Short-term)", "Persistent (Long-term profile)"],
+                    ["Trigger", "User types query", "New document arrives"],
+                    ["Example", "Google Search", "Newsletter / TikTok Feed"]
+                ]
+            }
         },
         {
             "slideNumber": 12,
-            "type": "python_demo",
-            "title": "Python Demo: Text Tokenization Pipeline",
+            "type": "activity",
+            "title": "Virtual Lab: The Ranking Hunt",
             "content": {
-                "code": "import re\n\ndef simple_tokenizer(text):\n    # 1. Lowercase\n    text = text.lower()\n    # 2. Remove punctuation using regex\n    text = re.sub(r'[^a-z0-9\\s]', '', text)\n    # 3. Split by whitespace\n    tokens = text.split()\n    return tokens\n\nraw_data = \"Hello, IR Student! Welcome to Unit 1: Introduction to IR.\"\nclean_tokens = simple_tokenizer(raw_data)\nprint(f\"Raw: {raw_data}\")\nprint(f\"Tokens: {clean_tokens}\")",
-                "input": "\"Hello, IR Student! Welcome to Unit 1: Introduction to IR.\"",
-                "output": "Raw: Hello, IR Student! Welcome to Unit 1: Introduction to IR.\nTokens: ['hello', 'ir', 'student', 'welcome', 'to', 'unit', '1', 'introduction', 'to', 'ir']",
-                "interpretation": "Tokenization is the first step in the retrieval process. \nBy converting text to lowercase and removing punctuation, we ensure that 'Hello,' and 'hello' are treated as the same index term.\nThis normalization is crucial for increasing the probability of a match between a query and a document."
+                "activity": "The Divergent Search",
+                "description": "Go to Google and search for 'Mercury'. 1. How many results are about the planet? 2. How many are about the element? 3. How many are about the car brand? The system's 'Retrieval Process' had to decide which intent to rank first. Why did it choose that one?"
             }
         },
         {
             "slideNumber": 13,
-            "type": "research_perspective",
-            "title": "Research Perspective: The User-System Interaction Model",
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
             "content": {
-                "researchQuestions": [
-                    {
-                        "question": "Cognitive Load vs. System Recall: Is there a mathematical upper bound to how many results a human can process before precision becomes irrelevant?",
-                        "answer": "Academic research in Interactive IR (IIR) utilizes 'Information Foraging Theory' to model users as optimal foragers. Mathematically, there is a 'diminishing returns' point where the cost of scanning (cognitive load) exceeds the expected gain in information. Advanced systems use this to dynamically truncate result lists or switch from ranking to summarization when confidence drops below a threshold."
-                    },
-                    {
-                        "question": "The Vocabulary Mismatch Problem: To what extent can automated query expansion solve semantic ambiguity without introducing 'Query Drift'?",
-                        "answer": "Query Drift occurs when expansion terms (synonyms) shift the query's meaning away from the original intent (e.g., expanding 'jaguar' to 'car' when the user wanted 'animal'). Research uses 'Pseudo-Relevance Feedback' models to measure the variance in term co-occurrence matrices, only expanding when the top-k results show high internal coherence."
-                    }
-                ],
-                "mathematicalModeling": {
-                    "problemStatement": "Modeling the Information Retrieval Process as a Markov Decision Process (MDP).",
-                    "derivation": [
-                        {
-                            "step": "Define the state S as the user's current knowledge state and the query representation.",
-                            "equation": "S_t = \\{Q_t, R_{1:t}, D_{1:t}\\}",
-                            "interpretation": "The state includes the current query, previous rewards (relevance), and viewed documents."
-                        },
-                        {
-                            "step": "Model the user's action A (reformulating or clicking) as a transition between states.",
-                            "equation": "P(S_{t+1} | S_t, A_t)",
-                            "interpretation": "Each search action changes the system's state and the user's understanding."
-                        },
-                        {
-                            "step": "Define the Value Function for an optimal search policy.",
-                            "equation": "V(s) = \\max_a \\sum_{s'} P(s'|s,a) [R(s,a,s') + \\gamma V(s')]",
-                            "interpretation": "The Bellman equation shows that a user chooses search actions to maximize the total 'Expected Information Gain'."
-                        }
-                    ],
-                    "conclusion": "Information Retrieval is not just a static match but a dynamic optimization problem where the 'Optimal Searcher' balances the exploration of new terms and exploitation of current high-ranking documents."
-                }
-            }
-        },
-        {
-            "slideNumber": 14,
-            "type": "summary",
-            "title": "Topic Wrap-up",
-            "content": {
-                "linkage": "We've defined the process. Next, we need mathematical models to perform the 'Ranking' step.",
-                "nextTopic": "Classic IR Models",
-                "preparation": "Refresh your knowledge of Sets (Union, Intersection) and Vectors (Dot Product)."
+                "text": "1. Why is the 'Probability Ranking Principle' considered the most important idea in IR? \n2. How does the 'Retrieval Process' change when you use Voice Search (Siri/Alexa)? \n3. Could a search engine work without an 'Offline' Indexing stage?"
             }
         }
     ]

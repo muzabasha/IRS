@@ -1,165 +1,146 @@
 {
     "id": "u2-t6",
-    "title": "Index Compression",
+    "title": "Text Compression: Entropy & Coding",
     "unitId": "unit-2",
     "slides": [
         {
             "slideNumber": 1,
-            "title": "Index Compression",
             "type": "title",
-            "subtitle": "Optimizing Space and Speed",
+            "title": "Text Compression",
+            "subtitle": "Storing More with Less",
             "content": {
-                "text": "A full inverted index for the web would be multi-terabyte. We compress the dictionary (to fit in RAM - Random Access Memory) and the postings (to save disk I/O - Input/Output).",
-                "hook": "Compression doesn't just save space; it often makes search faster by reducing I/O (Input/Output)."
+                "text": "Information Retrieval is a battle against 'Scale'. Compression is our secret weapon, allowing us to shrink indices and documents so they fit in fast memory and fly across networks.",
+                "hook": "Data is what you store; Information is what you keep after you squeeze out the silence."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Dictionary Compression",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "text": "The dictionary contains terms and pointers. We can compress it using techniques like:",
-                "outcomes": [
-                    "Dictionary-as-a-string: Removing the fixed-length overhead for terms.",
-                    "Front Coding: Storing shared prefixes only (e.g., 'automata', 'automate', 'automatic').",
-                    "Blocked Storage: Grouping terms to save pointer space."
-                ]
+                "text": "Before studying compression, you should know: \n1. **Binary Logic**: 1s and 0s (bits). \n2. **Probability**: Frequent events require fewer bits; rare events require more. \n3. **ASCII**: The standard 8-bit representation of characters (e.g. 'A' = 01000001)."
             }
         },
         {
             "slideNumber": 3,
-            "type": "illustration",
-            "title": "Front Coding Example",
+            "type": "standard",
+            "title": "Background: Claude Shannon's Legacy",
             "content": {
-                "caption": "Storing 'auto-mata', '-mate', '-matic' instead of full words.",
-                "description": "This leverages the alphabetical sorting of the dictionary."
+                "text": "In 1948, Claude Shannon founded Information Theory. He proved that the 'Entropy' of a message defines exactly how much it can be compressed. In the 1950s, David Huffman developed the 'Huffman Coding' algorithm, which remains the foundation of ZIP, JPEG, and IR index compression today."
             }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Postings Compression",
+            "title": "Motivation",
             "content": {
-                "text": "The biggest part of the index. Since DocIDs are sorted, we store the Gaps (D-gaps) between them instead of the raw IDs.",
-                "hook": "Postings: [100, 105, 110] -> [100, 5, 5]. Smaller numbers = fewer bits."
+                "text": "Why compress IR indices? Because a 'Large' index is a 'Slow' index. If the index fits in RAM (Random Access Memory), search is 1,000x faster than if it resides on Disk. Compression isn't just about saving money on hard drives; it is about the 'Human Experience' of instant search."
             }
         },
         {
             "slideNumber": 5,
-            "type": "grid",
-            "title": "Variable Byte Encoding (V-Byte)",
-            "items": [
-                "Small numbers use 1 byte.",
-                "Large numbers use more.",
-                "Uses 7 bits for data and 1 bit as a 'continuation' flag.",
-                "Extremely fast to decode."
-            ],
-            "formula": {
-                "equation": "\\text{Byte}(n) = [C, b_6, b_5, b_4, b_3, b_2, b_1, b_0]",
-                "description": "Variable Byte encoding uses a series of bytes to represent an integer, where the highest-order bit (C) is a continuation bit (0 = more bytes follow, 1 = last byte).",
-                "terms": [
-                    {
-                        "symbol": "n",
-                        "meaning": "The positive integer (gap) to be encoded"
-                    },
-                    {
-                        "symbol": "C",
-                        "meaning": "Continuation bit (MSB)"
-                    },
-                    {
-                        "symbol": "b_i",
-                        "meaning": "Data bits from the binary representation of the gap"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "V-Byte Encoding process",
-                    "description": "Encoding the number 130 into Variable Byte format.",
-                    "steps": [
-                        {
-                            "label": "Binary Conversion",
-                            "formula": "130_{10} = 10000010_2",
-                            "note": "130 is slightly larger than the 7-bit limit (127)."
-                        },
-                        {
-                            "label": "Split into 7-bit Chunks",
-                            "formula": "Chunk 2: 0000001, Chunk 1: 0000010",
-                            "note": "We take the lowest 7 bits first."
-                        },
-                        {
-                            "label": "Assign Continuation Bits",
-                            "formula": "Byte 1: [0, 0000001], Byte 2: [1, 0000010]",
-                            "note": "First byte has C=0 (more follows), second has C=1 (end)."
-                        },
-                        {
-                            "label": "Final V-Byte",
-                            "formula": "[00000001, 10000010] = [1, 130]",
-                            "note": "Value is reconstructed as (1 * 128) + 2 = 130."
-                        }
-                    ],
-                    "input": "n:130",
-                    "output": "Bytes: [0x01, 0x82]"
-                }
+            "type": "standard",
+            "title": "Challenges",
+            "content": {
+                "text": "1. Compression Ratio vs. Speed: High compression often requires long compute times. 2. Random Access: How do we read DocID #1,000,000 without decompressing the entire bitstream? 3. Bit-level alignment: Computers process 'bytes' (8 bits) fast, but bit-level coding (3 bits per word) can be slow."
             }
         },
         {
             "slideNumber": 6,
-            "type": "standard",
-            "title": "Gamma Encoding",
-            "content": {
-                "definition": "A bit-level compression scheme for very small gaps. It encodes a gap as (length in unary, value in binary).",
-                "text": "Optimal for distributions that follow Zipf's Law (where many gaps are 1 or 2)."
-            }
+            "type": "grid",
+            "title": "Coding Techniques",
+            "items": [
+                "Fixed-length: Every character uses 8 bits (e.g. ASCII).",
+                "Variable-length: Common words use 2 bits; rare words use 20 bits (Huffman).",
+                "Dictionary-based: Storing pointers to a common word table (LZ77).",
+                "Arithmetic Coding: Treating the entire text as a single decimal number."
+            ]
         },
         {
             "slideNumber": 7,
-            "type": "activity",
-            "title": "Activity: Gap Coding",
+            "type": "standard",
+            "title": "The Concept: Huffman Coding",
             "content": {
-                "activity": "Calculate the Gaps",
-                "description": "Original IDs: [15, 22, 23, 40, 41, 42, 60]. Write down the D-gaps. Notice how many '1' gaps occur."
+                "text": "Huffman coding assigns shorter bit-sequences to characters that appear more frequently in the text."
+            },
+            "formula": {
+                "equation": "Avg\\_Length = \\sum_{i=1}^{n} P(x_i) \\times L_i",
+                "description": "The average number of bits per character is the sum of each character's probability (P) multiplied by its code length (L).",
+                "terms": [
+                    { "symbol": "P(x_i)", "meaning": "Probability (Frequency) of character i" },
+                    { "symbol": "L_i", "meaning": "Length of the bit-code assigned to character i" },
+                    { "symbol": "n", "meaning": "Number of unique characters in the vocabulary" }
+                ],
+                "calculation": {
+                    "exampleTitle": "The Squeeze Audit",
+                    "description": "Calculate Avg Length for 3 characters. A(frequency 0.7), B(0.2), C(0.1).",
+                    "steps": [
+                        { "label": "Code A", "formula": "A = '0' (Length 1)", "note": "Most frequent" },
+                        { "label": "Code B", "formula": "B = '10' (Length 2)", "note": "Less frequent" },
+                        { "label": "Code C", "formula": "C = '11' (Length 2)", "note": "Rarest" },
+                        { "label": "Avg Length", "formula": "(0.7 \\times 1) + (0.2 \\times 2) + (0.1 \\times 2) = 1.3 \\text{ bits}", "note": "Fixed-length would be 2 bits (35% saving)" }
+                    ],
+                    "input": "Freqs: A:0.7, B:0.2, C:0.1.",
+                    "output": "Avg Length: 1.3 bits"
+                }
             }
         },
         {
             "slideNumber": 8,
-            "type": "project",
-            "title": "Mini-Project: V-Byte",
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "idea": "Bit Manipulator",
-                "input": "Number 130.",
-                "process": "Convert 130 into 2-byte V-byte (Hint: 130 > 127).",
-                "output": "The two hex values for the bytes."
+                "text": "The input to a compressor is the **Symbol Frequency Distribution**. The output is a **Prefix-Free Code Table**. Because the codes are prefix-free (input logic), the decoder (output logic) never gets confused. For example, if 'A' is '0', no other code can start with '0'. This 'Instant Decoding' (output efficiency) means the search engine can decompress trillions of DocIDs per second, transforming 'Cold Storage' (input) into 'Hot Results' (output) instantly."
             }
         },
         {
             "slideNumber": 9,
-            "type": "quiz",
-            "title": "Quiz",
-            "questions": [
-                "Why is compression beneficial for search speed?",
-                "What is 'Front Coding'?",
-                "Define a 'D-gap'.",
-                "How many bits are used for data in a standard Variable Byte?"
-            ]
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Constructing a Huffman Tree",
+            "content": {
+                "text": "**1. Sample Input**: Char freqs: E(5), A(3), B(2). \n**2. Step-by-Step Illustration**: \n - Combine two rarest: B and A. New Node (B+A) = 5. \n - **Tree Structure**: Root has two children: E (5) and [B+A] (5). \n - **Assign Bits**: Left branch = 0, Right branch = 1. \n - **Final Codes**: E = '0', A = '11', B = '10'. \n**3. Sample Output**: E:0, A:11, B:10. \n**4. Interpretation of Results**: The most frequent character 'E' only uses 1 bit. The text 'EA' would be '011' (3 bits). Without compression, 'EA' would use 16 bits (ASCII). The system successfully 'squeezed' the data while remaining perfectly readable."
+            }
         },
         {
             "slideNumber": 10,
             "type": "python_demo",
-            "title": "Python Demo: Binary Independence Model",
+            "title": "Python Demo: The Bit-Savings Calculator",
             "content": {
-                "code": "def calculate_rsv(p_rel, u_nonrel):\n    # Simplified Retrieval Status Value\n    import math\n    rsv = 0\n    for p, u in zip(p_rel, u_nonrel):\n        rsv += math.log( (p * (1-u)) / (u * (1-p)) )\n    return round(rsv, 3)\n\n# Term 1: p=0.8 (rel), u=0.1 (non-rel)\n# Term 2: p=0.7 (rel), u=0.2 (non-rel)\nstatus = calculate_rsv([0.8, 0.7], [0.1, 0.2])\nprint(f\"RSV Score: {status}\")",
-                "input": "P:[0.8, 0.7], U:[0.1, 0.2]",
-                "output": "RSV Score: 3.296",
-                "interpretation": "BIM calculates the log-odds of a document being relevant.\nIf a term appears frequently in relevant docs (High P) and rarely in non-relevant ones (Low U), the score increases.\nThis is the core of probabilistic retrieval theories."
+                "code": "def calculate_savings(probabilities):\n    # fixed length log2(n) rounded up\n    import math\n    n = len(probabilities)\n    fixed = math.ceil(math.log2(n))\n    \n    # Optimal Shannon Entropy\n    entropy = sum(-p * math.log2(p) for p in probabilities if p > 0)\n    \n    savings = (1 - (entropy / fixed)) * 100\n    return round(entropy, 2), round(savings, 1)\n\n# Scenario: Skewed data (common in IR)\nfreqs = [0.8, 0.1, 0.05, 0.05]\nent, sav = calculate_savings(freqs)\n\nprint(f\"Shannon Entropy (Optimal bits): {ent}\")\nprint(f\"Theoretical Savings over 2-bit fixed coding: {sav}%\")",
+                "input": "4 symbols with skewed probabilities [0.8, 0.1, 0.05, 0.05].",
+                "output": "Entropy: 0.92 bits, Savings: 53.8%",
+                "interpretation": "The script proves that if one word dominates (80% frequency), we can compress the data to less than 1 bit per character! In IR, Zipf's Law ensures this skewness, making compression extremely effective. We can theoretically save over 50% of our server costs just through better coding math."
             }
         },
         {
             "slideNumber": 11,
-            "type": "summary",
-            "title": "Topic Wrap-up",
+            "type": "comparison",
+            "title": "Comparison: Huffman vs. LZW (ZIP)",
+            "comparison": {
+                "headers": ["Aspect", "Huffman Coding", "LZW (Dictionary)"],
+                "rows": [
+                    ["Method", "Statistical (Frequency based)", "Structural (Sequence based)"],
+                    ["Best for", "Short alphabets (Numbers/Base4)", "Natural language (Repeating phrases)"],
+                    ["Memory", "Low (Small table)", "High (Large dictionary)"],
+                    ["IR Use", "Index Gaps (Numbers)", "Full text storage"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "activity",
+            "title": "Virtual Lab: Zipf vs. Compression",
             "content": {
-                "linkage": "We have covered how to build, clean, and compress the engine. Next, we move to the User Interface.",
-                "nextTopic": "Unit 3: User Interfaces",
-                "preparation": "Think about how we present these compressed results to a human."
+                "activity": "The Great Squeeze",
+                "description": "1. Create a text file with 1,000 'A' characters. 2. Create another with a random mix of A-Z. 3. Right-click both -> 'Compress to ZIP'. Which file became smaller? Why? (Hint: The entropy of the all-A file is near zero)."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why does encrypted or encrypted data often *increase* in size if you try to compress it? \n2. In a search engine, why do we use 'Variable Byte' encoding instead of Huffman for most indices? (Hint: Decoding speed). \n3. Could we use 'Lossy' compression (like MP3/JPEG) for text? What would happen to the search results?"
             }
         }
     ]

@@ -1,249 +1,145 @@
 {
     "id": "u1-t6",
-    "title": "Probabilistic Models",
+    "title": "Topic 6: Probabilistic Models",
     "unitId": "unit-1",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Probabilistic Information Retrieval",
-            "subtitle": "Binary Independence Model & BM25",
+            "title": "Probabilistic IR Models",
+            "subtitle": "Search as Statistical Inference",
             "content": {
-                "text": "Using Probability Theory to estimate the likelihood that a user will find a document relevant.",
-                "hook": "We don't just guess relationships; we calculate the odds."
+                "text": "Is a document relevant? We can't be 100% sure. Probabilistic models treat relevance as a variable and use Bayes' Theorem to rank documents by the odds of being relevant.",
+                "hook": "Search is a bet: based on the terms, what are the odds you'll like this page?"
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Probability Ranking Principle (PRP)",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "definition": "PRP: 'If a reference retrieval system's response to each request is a ranking of the documents in the collection in order of decreasing probability of relevance... then the system's effectiveness will be the best that can be obtained.'",
-                "text": "Basically: Rank by P(Rel|Doc)."
+                "text": "Before studying probabilistic models, you should know: \n1. **Bayes' Theorem**: How to update the probability of a hypothesis as more evidence becomes available. \n2. **Binary Independence Model (BIM)**: The assumption that terms appear independently in documents. \n3. **Log-Odds**: Transforming probabilities into a linear scale for easier addition."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Binary Independence Model (BIM)",
+            "title": "Background: Robertson and Sparck Jones",
             "content": {
-                "text": "The classic probabilistic model. 'Binary' because terms are either present (1) or absent (0). 'Independence' because we assume terms occur independently (like Naive Bayes).",
-                "problem": "Requires initial guesses for P(Relevant), which is hard to get without user feedback."
+                "text": "In 1976, Stephen Robertson and Karen Sparck Jones published the foundations of modern probabilistic IR. They moved away from 'Geometry' (VSM) toward 'Information Theory'. This led to the creation of **BM25**, which remains the default ranking algorithm for most industrial search engines today."
             }
         },
         {
             "slideNumber": 4,
-            "type": "list",
-            "title": "Key Components of BIM",
-            "items": [
-                "P(ti | R): Probability term i occurs in a relevant doc.",
-                "P(ti | NR): Probability term i occurs in a non-relevant doc.",
-                "Log-Odds Ratio: The weight of a term is derived from these probabilities.",
-                "Retrieval Status Value (RSV): The score of a document."
-            ]
+            "type": "standard",
+            "title": "Motivation",
+            "content": {
+                "text": "Why unique models? Because Relevance is subjective. One user's 'Relevant' is another's 'Junk'. Probabilistic models handle this uncertainty by using 'Prior' knowledge and 'Evidence' (the document's text) to make a calculated guess that improves over time with feedback."
+            }
         },
         {
             "slideNumber": 5,
             "type": "standard",
-            "title": "Okapi BM25",
+            "title": "Challenges",
             "content": {
-                "definition": "Best Match 25. A non-binary probabilistic model that incorporates Term Frequency and Document Length Normalization.",
-                "text": "The gold standard in IR for decades. It fixes BIM's flaw (ignoring frequency) and VSM's flaw (ignoring document length bias)."
-            },
-            "formula": {
-                "equation": "\\text{BM25}(q, d) = \\sum_{t \\in q} \\text{IDF}(t) \\cdot \\frac{tf_{t,d} \\cdot (k_1 + 1)}{tf_{t,d} + k_1 \\cdot (1 - b + b \\cdot \\frac{|d|}{\\text{avgdl}})}",
-                "description": "BM25 (Best Matching 25) is the state-of-the-art probabilistic ranking function combining TF, IDF, and document length normalization.",
-                "terms": [
-                    {
-                        "symbol": "\\text{BM25}(q, d)",
-                        "meaning": "Relevance score for document d given query q - higher score means more relevant"
-                    },
-                    {
-                        "symbol": "t \\in q",
-                        "meaning": "Summation over all terms t that appear in query q"
-                    },
-                    {
-                        "symbol": "\\text{IDF}(t)",
-                        "meaning": "Inverse Document Frequency of term t - typically log((N - df_t + 0.5) / (df_t + 0.5))"
-                    },
-                    {
-                        "symbol": "tf_{t,d}",
-                        "meaning": "Raw term frequency - number of times term t appears in document d"
-                    },
-                    {
-                        "symbol": "k_1",
-                        "meaning": "Term frequency saturation parameter (typical value: 1.2 to 2.0) - controls how quickly TF impact saturates"
-                    },
-                    {
-                        "symbol": "b",
-                        "meaning": "Document length normalization parameter (typical value: 0.75) - 0 means no normalization, 1 means full normalization"
-                    },
-                    {
-                        "symbol": "|d|",
-                        "meaning": "Length of document d in words"
-                    },
-                    {
-                        "symbol": "\\text{avgdl}",
-                        "meaning": "Average document length across the entire collection"
-                    },
-                    {
-                        "symbol": "\\frac{|d|}{\\text{avgdl}}",
-                        "meaning": "Document length ratio - penalizes long documents, boosts short ones"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "BM25 Scoring Example",
-                    "description": "Calculating relevance for the term 'search' in a document of length 3.",
-                    "steps": [
-                        {
-                            "label": "Define Parameters",
-                            "formula": "tf=2, |d|=3, avgdl=10, k_1=1.5, b=0.75",
-                            "note": "A short document (3 words) where 'search' appears twice."
-                        },
-                        {
-                            "label": "Calculate Length Normalization (K)",
-                            "formula": "K = 1.5 \\times (0.25 + 0.75 \\times \\frac{3}{10}) = 0.7125",
-                            "note": "K is the document length correction factor."
-                        },
-                        {
-                            "label": "Calculate TF Impact",
-                            "formula": "\\frac{2 \\times (1.5 + 1)}{2 + 0.7125} = \\frac{5}{2.7125} = 1.843",
-                            "note": "How much the term frequency contributes to the score."
-                        },
-                        {
-                            "label": "Final Score",
-                            "formula": "1.0 \\times 1.843 = 1.843",
-                            "note": "Assuming IDF for 'search' is 1.0."
-                        }
-                    ],
-                    "input": "tf:2, |d|:3, avgdl:10",
-                    "output": "Relevance Score: 1.843"
-                }
+                "text": "1. Parameter Estimation: How do we know the probability of a word appearing in a 'Relevant' doc if we haven't seen any yet? 2. Independence Assumption: Words like 'New' and 'York' are definitely not independent. 3. Zero Frequency: Handling words that never appeared in the training set."
             }
         },
         {
             "slideNumber": 6,
-            "type": "illustration",
-            "title": "BM25 Probabilistic Ranking",
-            "content": {
-                "description": "Logic of the state-of-the-art probabilistic ranking.",
-                "steps": [
-                    "Query Term Match",
-                    "Inverse Document Frequency (IDF)",
-                    "Term Frequency (TF) with Saturation",
-                    "Document Length Normalization",
-                    "Aggregate Ranked Potential"
-                ]
-            }
-        },
-        {
-            "slideNumber": 7,
-            "type": "diagram",
-            "title": "Bayesian Network Logic",
-            "content": {
-                "description": "Modeling retrieval as belief propagation.",
-                "steps": [
-                    "Document Layer (Sources)",
-                    "Concept Layer (Index Terms)",
-                    "Query Layer (User Goal)",
-                    "Inference Pass (Relevance Belief)"
-                ]
-            }
-        },
-        {
-            "slideNumber": 8,
-            "type": "activity",
-            "title": "Activity: Odds Calculation",
-            "content": {
-                "activity": "Calculate Weights",
-                "description": "Given: Collection size N=100. Term 'cloud' appears in 30 docs. Assume relevant set R=10 docs, and 'cloud' is in 8 of them. Calculate the probabilistic weight for 'cloud'."
-            }
-        },
-        {
-            "slideNumber": 9,
-            "type": "project",
-            "title": "Mini-Project: BM25 Scorer",
-            "content": {
-                "idea": "Implement the Formula",
-                "input": "Query 'q', Doc 'd', AvgDocLength, k1=1.5, b=0.75.",
-                "process": "Write a Python function `bm25_score(q, d)`.",
-                "output": "Compare scores against standard TF-IDF."
-            }
-        },
-        {
-            "slideNumber": 10,
-            "type": "quiz",
-            "title": "Quiz",
-            "questions": [
-                "What assumption does the Binary Independence Model make about term relationships?",
-                "What prevents a long document from unfairly getting a high score in BM25?",
-                "What is 'Term Frequency Saturation'?",
-                "Explain the role of Relevance Feedback in probabilistic models."
-            ],
-            "answers": [
-                "It assumes terms occur independently of each other within relevant and non-relevant sets (similar to Naive Bayes), ignoring term dependencies.",
-                "Document Length Normalization (parameter 'b'). It penalizes term frequency counts from very long documents to allow fair comparison with shorter ones.",
-                "A property where increasing the number of times a term appears in a document yields diminishing returns in score, unlike raw TF which grows linearly.",
-                "It provides the initial (or updated) set of relevant documents needed to estimate the probabilities P(term|Relevant) and P(term|Non-Relevant) accurately."
+            "type": "grid",
+            "title": "Key Probabilistic Concepts",
+            "items": [
+                "Probability of Relevance: $P(R | d)$.",
+                "Binary Independence Model (BIM): The doc is a bit-vector (1 if term present, 0 if absent).",
+                "Okapi BM25: The 'State of the Art' extension of basic BIM.",
+                "Log-Odds Ratio: The mathematical score used for ranking."
             ]
         },
         {
-            "slideNumber": 11,
-            "type": "python_demo",
-            "title": "Python Demo: BM25 Ranking",
+            "slideNumber": 7,
+            "type": "standard",
+            "title": "The Concept: The BIM Retrieval Status Value (RSV)",
             "content": {
-                "code": "def bm25_score(tf, doc_len, avg_len, n_docs, df, k1=1.5, b=0.75):\n    idf = math.log10((n_docs - df + 0.5) / (df + 0.5) + 1)\n    numerator = tf * (k1 + 1)\n    denominator = tf + k1 * (1 - b + b * (doc_len / avg_len))\n    return round(idf * (numerator / denominator), 4)\n\nimport math\nscore = bm25_score(tf=3, doc_len=200, avg_len=150, n_docs=100, df=10)\nprint(f\"BM25 Score: {score}\")",
-                "input": "TF: 3, DocLen: 200, AvgLen: 150, N: 100, DF: 10",
-                "output": "BM25 Score: 1.056",
-                "interpretation": "BM25 is a probabilistic model that handles 'term saturation'.\nUnlike TF-IDF, increasing TF in BM25 has a diminishing return on the score.\nThis prevents a single term from dominating the ranking just by being repeated."
-            }
-        },
-        {
-            "slideNumber": 12,
-            "type": "research_perspective",
-            "title": "Research Perspective: Statistical Inference in IR",
-            "content": {
-                "researchQuestions": [
-                    {
-                        "question": "The Zero-Frequency Problem: How can Bayesian Smoothing prevent the 'Zero-Probability' pitfall without distorting the model?",
-                        "answer": "Probabilistic models often encounter terms in queries that are absent from a document (tf=0). A naive model would return zero probability. Research in Jelinek-Mercer and Dirichlet Smoothing proves that we must treat a document not as a static set, but as a sample from a distribution. Smoothing acts as a 'Prior' that incorporates collection-wide term statistics, ensuring every query can be ranked against every document."
-                    },
-                    {
-                        "question": "BM25 vs. Language Models: Why does IDF emerge naturally in the Query Likelihood approach?",
-                        "answer": "In Language Modeling for IR, we estimate P(Q|M_D). Research shows that the 'IDF' effect isn't an explicit weight but a consequence of the denominator in the smoothing equation. A term that is common in the collection (P(w|C) is high) contributes less to the document-specific likelihood than a rare term, providing a unified probabilistic explanation for the success of traditional heuristics."
-                    }
+                "text": "The RSV is the score used to rank documents. It is the log-odds of a document being relevant vs. non-relevant."
+            },
+            "formula": {
+                "equation": "RSV_d = \\sum_{i: x_i=1} \\log \\left( \\frac{p_i(1-u_i)}{u_i(1-p_i)} \\right)",
+                "description": "The score is the sum over terms present in the query and doc. p_i is the prob that term i is in a relevant doc; u_i is the prob that it is in a non-relevant doc.",
+                "terms": [
+                    { "symbol": "p_i", "meaning": "P(x_i=1 | R=1): Probability term i is in a Relevant doc" },
+                    { "symbol": "u_i", "meaning": "P(x_i=1 | R=0): Probability term i is in a Non-relevant doc" },
+                    { "symbol": "RSV_d", "meaning": "Retrieval Status Value (Final Score)" }
                 ],
-                "mathematicalModeling": {
-                    "problemStatement": "Modeling Retrieval as a Bayesian Inference problem on an acyclic graph (Inference Network).",
-                    "derivation": [
-                        {
-                            "step": "Define a Bayesian Network with three layers: Documents (D), Terms (T), and Query (Q).",
-                            "equation": "P(Q|d) = \\sum_{T} P(Q|T)P(T|d)",
-                            "interpretation": "The probability of relevance is the belief propagation from the document nodes to the query node through shared index terms."
-                        },
-                        {
-                            "step": "Model the 'TF-Saturation' of Okapi BM25 as a Poisson process.",
-                            "equation": "S(tf) = \\frac{(k_1+1)tf}{k_1+tf}",
-                            "interpretation": "The saturation curve follows a hyperbolic function, proving that relevance is non-linearly related to frequency."
-                        },
-                        {
-                            "step": "Derive the optimal value for the length normalization parameter 'b'.",
-                            "equation": "RSV = \\sum idf \\cdot \\frac{tf}{tf + k_1(1-b + b\\frac{dl}{avgdl})}",
-                            "interpretation": "At b=1, we assume documents contain term repetitions due toverbosity; at b=0, we assume terms are repeated due to content depth. The 'Research Consensus' b=0.75 represents a hybrid reality."
-                        }
+                "calculation": {
+                    "exampleTitle": "The Bayes Bet",
+                    "description": "Calculate score for 1 term. p=0.8, u=0.2.",
+                    "steps": [
+                        { "label": "Prob Ratio", "formula": "0.8(1-0.2) / 0.2(1-0.8) = 0.64 / 0.04 = 16", "note": "Relevant ratio" },
+                        { "label": "Log Transform", "formula": "\\log_{10}(16) \\approx 1.204", "note": "Logarithmic score" },
+                        { "label": "Interpretation", "formula": "> 0", "note": "Positive evidence for relevance" }
                     ],
-                    "conclusion": "Probabilistic models transform IR from a heuristic 'Matching' task into a rigorous 'Inference' task, where every ranking result is the most likely solution given the available statistical evidence."
+                    "input": "p:0.8, u:0.2.",
+                    "output": "RSV Contribution: 1.204"
                 }
             }
         },
         {
-            "slideNumber": 13,
-            "type": "summary",
-            "title": "Topic Wrap-up",
+            "slideNumber": 8,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "linkage": "We have covered flat text models. But real data has structure (Title vs Body, XML tags).",
-                "nextTopic": "Structured Text Retrieval",
-                "preparation": "Familiarize yourself with DOM trees and XML paths."
+                "text": "The input to a probabilistic model is a **Prior Ratio** (based on document frequencies). The output is a **Posterior Score**. If the ratio (input) is high, it means the term is a 'Good Discriminator'—it appears much more in relevant docs than others. The output RSV tells the system that the document 'Behaves' like a relevant one (output categorization), allowing us to rank it at the top."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: The Bayesian Ranking",
+            "content": {
+                "text": "**1. Step 1**: System starts with a 'Uniform Prior' (all docs equally likely relevant). \n**2. Step 2**: User types a query. \n**3. Step 3**: System updates the probability for each doc based on term frequencies. \n**4. Step 4**: Terms that are 'Rare' in the collection but 'Common' in the doc get the highest weights. \n**5. Step 5**: Final list is ordered by the updated probability."
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "python_demo",
+            "title": "Python Demo: The Bayes Scorer",
+            "content": {
+                "code": "import math\n\ndef calculate_rsv(p, u):\n    # Retrieval Status Value contribution for one term\n    ratio = (p * (1 - u)) / (u * (1 - p))\n    return round(math.log10(ratio), 3)\n\n# Term 1: Frequent in Relevant, Rare in Non-Relevant\nscore1 = calculate_rsv(p=0.9, u=0.1)\n# Term 2: Equally distributed\nscore2 = calculate_rsv(p=0.5, u=0.5)\n\nprint(f\"High evidence term: {score1}\")\nprint(f\"Zero evidence term: {score2}\")",
+                "input": "Two terms with different distribution profiles.",
+                "output": "High: 1.908, Zero: 0.0",
+                "interpretation": "The script demonstrates 'Discriminative Power'. Note how a term that is common in relevant docs but rare elsewhere (score 1.9) boosts the ranking significantly. A term found everywhere (score 0.0) provides no help in ranking. This is why stopwords get naturally 'muted' in probabilistic IR."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "comparison",
+            "title": "Comparison: VSM vs. Probabilistic Model",
+            "comparison": {
+                "headers": ["Aspect", "Vector Space Model (VSM)", "Probabilistic Model (BIM)"],
+                "rows": [
+                    ["Conceptual View", "Geometric (Angle/Distance)", "Statistical (Odds/Prob)"],
+                    ["Assumptions", "Term Independence", "Binary Independence"],
+                    ["Weighting", "TF-IDF (Ad-hoc)", "Probabilistic logs (Theoretical)"],
+                    ["Performance", "Consistent", "Often better (BM25 matches humans best)"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "activity",
+            "title": "Virtual Lab: The Probability Guess",
+            "content": {
+                "activity": "The Bayes Box",
+                "description": "Imagine 10 documents. 3 are 'Relevant'. 1. If a word appears in all 3 relevant docs but only 1 non-relevant doc, what are the odds that a new doc containing that word is relevant? 2. Calculate the Ratio ($p/u$). Is it greater than 1? If so, the word is a positive 'Scent'!"
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why does the Probabilistic Model need 'Relevance Feedback' more than VSM does? (Hint: Parameter estimation). \n2. In a 'Cold Start' (no search history), how can we estimate $p$ and $u$? \n3. Is it possible for a document to have a 'Negative' RSV score?"
             }
         }
     ]

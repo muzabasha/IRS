@@ -1,218 +1,146 @@
 {
     "id": "u1-t8",
-    "title": "Browsing Models",
+    "title": "Topic 8: Models for Browsing",
     "unitId": "unit-1",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Browsing Models",
-            "subtitle": "Navigating Information Space",
+            "title": "Models for Browsing",
+            "subtitle": "Informal Discovery in the Digital Ocean",
             "content": {
-                "text": "Sometimes users don't have a specific query. They want to explore. Browsing models formalize this exploration.",
-                "hook": "Search is teletransportation; Browsing is walking."
+                "text": "Searching is for when you know what you want. Browsing is for when you don't. Browsing models formalize how users navigate through information spaces without a specific keyword.",
+                "hook": "Searching is like a surgical strike; browsing is like a scenic walk through the park."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Three Types of Browsing",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "outcomes": [
-                    "Flat Browsing: Linear scanning (e.g., reading a list).",
-                    "Structure-Guided Browsing: Hierarchical navigation (e.g., File Explorer).",
-                    "Hypertext Browsing: Networked navigation (e.g., The Web)."
-                ]
+                "text": "Before studying browsing models, you should know: \n1. **Hyperlink**: A clickable connection between two information nodes. \n2. **Flat Space**: A collection with no links (like a pile of loose papers). \n3. **Navigation Intent**: The desire to 'Explore' rather than 'Find'."
             }
         },
         {
             "slideNumber": 3,
-            "type": "list",
-            "title": "The Hypertext Model",
-            "items": [
-                "Nodes: Units of information.",
-                "Links: Relationships between nodes.",
-                "Anchors: The clickable area leading to a link.",
-                "Maps/History: Tools to prevent 'getting lost in hyperspace'."
-            ]
+            "type": "standard",
+            "title": "Background: From Xanadu to the Web",
+            "content": {
+                "text": "In 1945, Vannevar Bush imagined 'The Memex'—a device for browsing linked concepts. This led to Ted Nelson's 'Project Xanadu' and eventually Tim Berners-Lee's 'World Wide Web'. Browsing shifted from 'Linear Table of Contents' to 'Non-linear Hypertext', allowing users to follow their own 'Stream of Consciousness'."
+            }
         },
         {
             "slideNumber": 4,
-            "type": "illustration",
-            "title": "Hypertext Browsing Flow",
+            "type": "standard",
+            "title": "Motivation",
             "content": {
-                "description": "Logic of navigating a networked information space.",
-                "steps": [
-                    "Current Node (Current Page)",
-                    "Scan Layout (Anchors)",
-                    "Select Link (Click)",
-                    "Traverse to New Node",
-                    "Update Browser History"
-                ]
+                "text": "Why study browsing? Because 70% of information discovery is 'Accidental' (Serendipity). Browsing models allow us to build better 'Recommendation Engines' (like Netflix) and 'Related Links' that keep users engaged even when they've finished their original search."
             }
         },
         {
             "slideNumber": 5,
             "type": "standard",
-            "title": "Berry-Picking Model",
+            "title": "Challenges",
             "content": {
-                "definition": "A model by Marcia Bates. Users don't just run one query. They run a query, read a bit, learn a new term, run a new query, and 'pick berries' (info) along the way.",
-                "text": "This contrasts with the standard 'Match-Rank-Retrieve' model."
-            },
-            "formula": {
-                "equation": "\\text{Recall@k} = \\frac{|Rel \\cap Ret_{1 \\dots k}|}{|Rel|}",
-                "description": "In browsing models, evaluation often focuses on how many relevant documents ('berries') a user finds within the first 'k' documents they choose to inspect.",
-                "terms": [
-                    {
-                        "symbol": "Ret_{1 \\dots k}",
-                        "meaning": "The first 'k' items encountered/retrieved during the browsing session"
-                    },
-                    {
-                        "symbol": "Rel",
-                        "meaning": "The total number of relevant documents in the collection"
-                    },
-                    {
-                        "symbol": "k",
-                        "meaning": "The inspection depth (number of clicks or items viewed)"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Discovery Rate Check",
-                    "description": "A user browses through 5 pages of a 10-page relevant collection.",
-                    "steps": [
-                        {
-                            "label": "Total Relevant",
-                            "formula": "|Rel| = 10",
-                            "note": "There are 10 key pieces of info on the topic."
-                        },
-                        {
-                            "label": "Items Browsed",
-                            "formula": "k = 5",
-                            "note": "User checks first 5 results/links."
-                        },
-                        {
-                            "label": "Matches Found",
-                            "formula": "|Match_{1..5}| = 3",
-                            "note": "3 of those 5 contain the 'berries' needed."
-                        },
-                        {
-                            "label": "Calculate Recall@5",
-                            "formula": "R = 3 / 10 = 0.3",
-                            "note": "User has captured 30% of the topic's relevant content."
-                        }
-                    ],
-                    "input": "Rel:10, Browsed:5, Found:3",
-                    "output": "Recall: 30%"
-                }
+                "text": "1. Disorientation: Being 'Lost in Hyperspace' (forgetting where you started). 2. Cognitive Overload: Too many links on one page can confuse the user. 3. Evaluation: How do you measure the success of a 'Window Shopping' session?"
             }
         },
         {
             "slideNumber": 6,
-            "type": "standard",
-            "title": "Automated Browsing Support",
-            "content": {
-                "text": "How can systems help browsers?",
-                "outcomes": [
-                    "Clustering results into folders.",
-                    "Suggesting 'Related Topics'.",
-                    "Visualizing connection maps."
-                ]
-            }
-        },
-        {
-            "slideNumber": 7,
-            "type": "activity",
-            "title": "Activity: Navigation Design",
-            "content": {
-                "activity": "UX Flow",
-                "description": "Design a browsing interface for a Music Library. How do you allow a user to drift from 'Bach' to 'Baroque' to '17th Century History' without a search bar?"
-            }
-        },
-        {
-            "slideNumber": 8,
-            "type": "project",
-            "title": "Mini-Project: Crawler",
-            "content": {
-                "idea": "Simple Link Follower",
-                "input": "A starting URL (Seed).",
-                "process": "Fetch page, extract all <a href> links, add to queue.",
-                "output": "A printed list of visited titles (Breadcrumbs)."
-            }
-        },
-        {
-            "slideNumber": 9,
-            "type": "quiz",
-            "title": "Quiz",
-            "questions": [
-                "Define 'Lost in Hyperspace'.",
-                "How does the Berry-Picking model differ from the classic Water-fall retrieval model?",
-                "What is the role of a 'Sitemap' in structure-guided browsing?",
-                "Give an example of a dynamic taxonomy."
-            ],
-            "answers": [
-                "A phenomenon where users lose their orientation or \"sense of place\" within a large, complex, nonlinear hypertext structure.",
-                "The classic model assumes a single static query -> final output. Berry-picking assumes the user's query and information need evolve dynamically as they find and read partial information.",
-                "It provides a hierarchical overview (map) of the entire site's structure, allowing users to jump to specific sections without sequential clicking.",
-                "Faceted search on Amazon (filtering by Brand, Price, Rating) where the categories displayed depend on the current search results."
+            "type": "grid",
+            "title": "Browsing Categories",
+            "items": [
+                "Flat Browsing: Scrolling through a chronological list (Email/Twitter).",
+                "Structure Browsing: Navigating a folder tree (Windows Explorer).",
+                "Hypertext Browsing: Clicking links in a web graph.",
+                "Hybrid Browsing: Search that leads to browsing (Google -> Wikipedia)."
             ]
         },
         {
-            "slideNumber": 10,
-            "type": "python_demo",
-            "title": "Python Demo: Mean Average Precision (MAP)",
+            "slideNumber": 7,
+            "type": "standard",
+            "title": "The Concept: The Random Surfer Model",
             "content": {
-                "code": "def average_precision(relevant_ranks):\n    precisions = [ (i+1)/rank for i, rank in enumerate(relevant_ranks) ]\n    return sum(precisions) / len(precisions)\n\n# Relevant docs found at positions 1, 3, and 5\nrankings = [1, 3, 5]\nap = average_precision(rankings)\nprint(f\"Average Precision: {round(ap, 3)}\")",
-                "input": "Relevant Doc Ranks: [1, 3, 5]",
-                "output": "Average Precision: 0.756",
-                "interpretation": "MAP evaluates the quality of a ranked list.\nIt rewards systems that place relevant documents at the very top of the results.\nFinding relevant docs at ranks 1, 3, 5 results in a higher score than 5, 8, 10."
-            }
-        },
-        {
-            "slideNumber": 11,
-            "type": "research_perspective",
-            "title": "Research Perspective: Information Foraging & Scent",
-            "content": {
-                "researchQuestions": [
-                    {
-                        "question": "The Information Scent: How do users decide which link to click without knowing the destination content?",
-                        "answer": "Research in 'Information Foraging Theory' suggests that users estimate the 'closeness' of a link to their goal based on semantic cues (the anchor text). We model this using 'Vector Similarity' between the user's latent goal and the link's text. A user will only traverse a link if the expected 'Scent' exceeds the cost of the click."
-                    },
-                    {
-                        "question": "Cognitive Maps vs. Linear Navigation: Why do users get 'Lost in Hyperspace'?",
-                        "answer": "Human cognition is naturally spatial. When browsing non-linear hypertext, the mental 'Cognitive Map' of the session can become fragmented. Research uses 'Graph Entropy' to measure the complexity of a site structure; higher structural entropy correlates with increased user disorientation and session abandonment."
-                    }
+                "text": "The browsing behavior can be modeled as a 'Random Walk' where the user clicks a link or jumps to a new page with a specific probability."
+            },
+            "formula": {
+                "equation": "P(n+1) = d \\cdot M \\cdot P(n) + (1-d) \\cdot \\frac{1}{N} \\mathbf{1}",
+                "description": "The probability of being on a page at step n+1 depends on the transition matrix (M), the previous state (P(n)), and the 'Damping Factor' (d) which models the chance of getting bored and jumping at random.",
+                "terms": [
+                    { "symbol": "d", "meaning": "Damping factor (usually 0.85): Prob of following a link" },
+                    { "symbol": "1-d", "meaning": "Prob of 'teleporting' to a random page" },
+                    { "symbol": "N", "meaning": "Total number of nodes in the graph" }
                 ],
-                "mathematicalModeling": {
-                    "problemStatement": "Modeling the 'Random Surfer' and 'Intentional Browser' as a Stochastic Process.",
-                    "derivation": [
-                        {
-                            "step": "Define a browsing session as a transition matrix P where P(i,j) is the probability of moving from node i to node j.",
-                            "equation": "P(i, j) = \\frac{1}{d_{out}(i)}",
-                            "interpretation": "In a random walk (like basic PageRank), all outgoing links are equally likely."
-                        },
-                        {
-                            "step": "Incorporate 'User Intent' by weighting transitions based on semantic scent (utility U).",
-                            "equation": "P(i, j | Goal) = \\frac{e^{U(Goal, j)}}{\\sum_{k \\in Links(i)} e^{U(Goal, k)}}",
-                            "interpretation": "This is the Softmax distribution over links. A link that matches the goal semantically has an exponentially higher probability of being chosen."
-                        },
-                        {
-                            "step": "Calculate the expected 'Stopping Time' - the point at which the user finds all berries or gives up.",
-                            "equation": "E[T] = (I - P)^{-1} \\mathbf{1}",
-                            "interpretation": "The fundamental matrix of the Markov chain provides the average number of steps a user takes before reaching a terminal (success or failure) state."
-                        }
+                "calculation": {
+                    "exampleTitle": "The Attention Span Audit",
+                    "description": "If d=0.85, after how many clicks is a user likely to 'teleport' away?",
+                    "steps": [
+                        { "label": "Step 1", "formula": "0.15", "note": "15% chance to teleport instantly" },
+                        { "label": "Step 3", "formula": "0.85^3 \\approx 0.61", "note": "60% still browsing links" },
+                        { "label": "Step 10", "formula": "0.85^{10} \\approx 0.19", "note": "80% have given up or jumped elsewhere" },
+                        { "label": "Observation", "formula": "Log Decay", "note": "Browsing sessions are finite and decay fast" }
                     ],
-                    "conclusion": "Browsing is not random; it is a mathematically predictable optimization process where users maximize their 'Information Gain' per unit of 'Interaction Cost'."
+                    "input": "d:0.85, Steps:10.",
+                    "output": "Stay Chance: 19.6%"
                 }
             }
         },
         {
-            "slideNumber": 12,
-            "type": "summary",
-            "title": "Topic Wrap-up",
+            "slideNumber": 8,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "linkage": "We have covered how to find and browse text. But the field is evolving. What's next?",
-                "nextTopic": "Trends & Research Issues",
-                "preparation": "Read about 'The Semantic Web' and 'Voice Search'."
+                "text": "The input to a browsing model is a **Connectivity Graph (Links)**. The output is **Dwell Time** or **Page Importance**. If a node has many 'input' links, the random surfer (output behavior) is mathematically 'trapped' there longer. This 'Sink Effect' (output intensity) tells the IR system that the page is extremely valuable to a browser, leading to the PageRank output which we see in every search engine."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: The Wiki Rabbit Hole",
+            "content": {
+                "text": "**1. Step 1**: User starts at 'Search Engines'. \n**2. Step 2**: Clicks link to 'Information Theory'. \n**3. Step 3**: Clicks link to 'Entropy'. \n**4. Step 4**: Clicks link to 'Thermodynamics'. \n**5. Step 5**: Teleports (Types new URL) to 'Pizza Recipes'. \n**6. Step 6**: This non-linear path is modeled as a Markov Chain with a jump parameter, representing the natural human browse cycle."
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "python_demo",
+            "title": "Python Demo: The Random Walker",
+            "content": {
+                "code": "import random\n\ndef simulate_browse(current, graph, damping=0.85):\n    # Roll a die to see if we 'Jump' or 'Click'\n    if random.random() < (1 - damping):\n        return \"[TELEPORT] to random page\"\n    \n    # Click a link from current page\n    links = graph.get(current, [])\n    if not links:\n        return f\"[STUCK] at {current} (no links)\"\n    return f\"[CLICK] to {random.choice(links)}\"\n\nweb = {\n    \"p1\": [\"p2\", \"p3\"],\n    \"p2\": [\"p3\"],\n    \"p3\": []\n}\n\nprint(f\"User at P1: {simulate_browse('p1', web)}\")",
+                "input": "User at P1 with damping factor 0.85.",
+                "output": "Either CLICK to P2/P3 or TELEPORT.",
+                "interpretation": "The script demonstrates 'Stochastic Browsing'. Note that even if a page has 0 links (Doc 3), the system doesn't crash; the user simply 'Teleports' or resets their search. This robustness is what makes the web browseable at scale."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "comparison",
+            "title": "Comparison: Searching vs. Browsing",
+            "comparison": {
+                "headers": ["Aspect", "Searching (Querying)", "Browsing (Navigating)"],
+                "rows": [
+                    ["User Goal", "Find a specific known item", "Explore a topic / Learn"],
+                    ["Mental Effort", "High (Constructing a query)", "Low (Scanning and clicking)"],
+                    ["Result Path", "Short (Query -> Result)", "Long (A -> B -> C -> D)"],
+                    ["Best for", "Efficiency", "Serendipity & Discovery"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "activity",
+            "title": "Virtual Lab: The Wiki Game",
+            "content": {
+                "activity": "The Degrees of Separation",
+                "description": "1. Go to Wikipedia page 'Einstein'. 2. Try to reach 'Cheese' solely by clicking links. 3. How many clicks did it take? 4. This is 'Hierarchical Browsing'. Does it feel faster than a direct search for 'Cheese'?"
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why does TikTok use 'Infinite Scroll' (Flat Browsing) instead of links? \n2. In a 'Disoriented' state, why is the 'Back Button' the most important UI element? \n3. How can we automatically find 'Stuck' pages (dead ends) in a browsing graph?"
             }
         }
     ]

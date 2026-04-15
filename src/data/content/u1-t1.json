@@ -1,377 +1,145 @@
 {
     "id": "u1-t1",
-    "title": "Basic IR Concepts",
+    "title": "Introduction to Information Retrieval",
     "unitId": "unit-1",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Basic Concepts of Information Retrieval",
-            "subtitle": "Unit 1: Introduction to IR",
+            "title": "Information Retrieval (IR)",
+            "subtitle": "The Science of Search",
             "content": {
-                "text": "Information Retrieval is the art and science of searching for information in documents, searching for documents themselves, searching for metadata which describe documents, or searching within databases, whether relational stand-alone databases or hypertextually-networked databases such as the World Wide Web.",
+                "text": "Information Retrieval is the art and science of searching for information in documents, searching for metadata, or searching within massive networked databases like the Web. It is the bridge between human curiosity and the world's knowledge.",
                 "hook": "Imagine trying to find a needle in a haystack. Now imagine the haystack is the size of the internet. That's IR."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Course Plan Positioning",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "position": "Unit 1 / Topic 1",
-                "preRequisites": [
-                    "Data Structures",
-                    "Basic Probability"
-                ],
-                "outcomes": [
-                    "Define Information Retrieval",
-                    "Differentiate IR from DB",
-                    "Understand the IR System Architecture"
-                ]
+                "text": "To fully grasp IR, you should be familiar with: \n1. **Data Structures**: Lists, Trees, and Hash Maps. \n2. **Set Theory**: Intersection, Union, and Difference. \n3. **Natural Language**: Understanding how words combine to form meaning."
             }
         },
         {
             "slideNumber": 3,
-            "type": "list",
-            "title": "Content Covered Today",
-            "items": [
-                "Definition of IR",
-                "Data vs Information vs Knowledge",
-                "The User Task",
-                "Logical View of Documents",
-                "Past, Present, and Future of IR"
-            ]
+            "type": "standard",
+            "title": "Background: From Card Catalogs to AI",
+            "content": {
+                "text": "Before search engines, we used library card catalogs. In the 1950s, IR began with punched cards. By the 1990s, the Web turned IR from a niche library tool into a trillion-dollar industry. Today, we don't just 'Search'; we use 'AI' to predict what the user wants before they even finish typing."
+            }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Background of the Topic",
+            "title": "Motivation",
             "content": {
-                "text": "Before search engines (Google, Bing), we had library card catalogs. The need to organize and retrieve knowledge dates back to the Library of Alexandria. In the digital age, 1950s punched cards gave way to modern inverted indices."
+                "text": "Why study IR? Because we are drowning in data but starving for information. Without IR models, the web would be a dark, unsearchable library. IR enables discovery, commerce, and global education."
             }
         },
         {
             "slideNumber": 5,
             "type": "standard",
-            "title": "Motivation - Why Explore IR?",
+            "title": "Challenges",
             "content": {
-                "text": "We live in the Zettabyte Era. Data is useless if you can't find what you need. IR is the bridge between 'Data Overload' and 'Actionable Insight'."
+                "text": "1. The Semantic Gap: Computers see bytes; humans see 'Holidays'. 2. Vocabulary Mismatch: You search for 'Automobile', but the best page says 'Car'. 3. Scale: Indexing 100 billion pages that change every second."
             }
         },
         {
             "slideNumber": 6,
-            "type": "standard",
-            "title": "Problem Statement",
-            "content": {
-                "problem": "Unstructured Data Explosion",
-                "consequence": "Without IR models, finding relevant information in unstructured text (emails, web pages, PDFs) is computationally impossible at scale."
-            }
+            "type": "grid",
+            "title": "IR vs. Data Retrieval",
+            "items": [
+                "Data Retrieval: Exact match (SQL). Results are either Correct or Incorrect.",
+                "Info Retrieval: Partial match (Best Match). Results are Ranked by Relevance.",
+                "Query in DR: Well-defined (Structured).",
+                "Query in IR: Ambiguous (Natural Language)."
+            ]
         },
         {
             "slideNumber": 7,
             "type": "standard",
-            "title": "Core Concept Overview",
+            "title": "The Concept: Precision and Recall",
             "content": {
-                "concept": "Relevance",
-                "definition": "The key difference between DB (Exact Match) and IR (Best Match). IR systems rank results based on how likely they satisfy the user's information need."
+                "text": "The performance of every IR system is measured by two competing ratios: Precision (accuracy) and Recall (completeness)."
+            },
+            "formula": {
+                "equation": "P = \\frac{|Rel \\cap Ret|}{|Ret|}, \\quad R = \\frac{|Rel \\cap Ret|}{|Rel|}",
+                "description": "Precision (P) is the percentage of retrieved docs that are relevant. Recall (R) is the percentage of all relevant docs that were successfully retrieved.",
+                "terms": [
+                    { "symbol": "Rel", "meaning": "The set of all Relevant documents in the library" },
+                    { "symbol": "Ret", "meaning": "The set of all documents the system Retrieved" },
+                    { "symbol": "Rel \\cap Ret", "meaning": "Relevant documents successfully found (Hits)" }
+                ],
+                "calculation": {
+                    "exampleTitle": "The Efficiency Audit",
+                    "description": "Library has 100 relevant docs. System shows 10 results. 8 of them are relevant.",
+                    "steps": [
+                        { "label": "Precision", "formula": "8 / 10 = 0.8", "note": "80% of results are good" },
+                        { "label": "Recall", "formula": "8 / 100 = 0.08", "note": "Found only 8% of all good docs" },
+                        { "label": "Observation", "formula": "Trade-off", "note": "High precision, but very low recall" }
+                    ],
+                    "input": "Rel:100, Ret:10, Hits:8.",
+                    "output": "P: 0.8, R: 0.08"
+                }
             }
         },
         {
             "slideNumber": 8,
             "type": "standard",
-            "title": "Technical Foundations",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "text": "IR relies on Boolean Logic, Vector Spaces, and Probability Theory. It assumes documents can be represented as 'Bag of Words' or feature vectors."
-            },
-            "formula": {
-                "equation": "P = \\frac{|Rel \\cap Ret|}{|Ret|} \\quad , \\quad R = \\frac{|Rel \\cap Ret|}{|Rel|}",
-                "description": "Precision and Recall are the fundamental metrics for evaluating the effectiveness of an IR system.",
-                "terms": [
-                    {
-                        "symbol": "P",
-                        "meaning": "Precision - accuracy of the retrieved results (proportion of retrieved docs that are relevant)"
-                    },
-                    {
-                        "symbol": "R",
-                        "meaning": "Recall - completeness of the retrieved results (proportion of relevant docs retrieved)"
-                    },
-                    {
-                        "symbol": "Rel",
-                        "meaning": "The set of all Relevant documents in the collection"
-                    },
-                    {
-                        "symbol": "Ret",
-                        "meaning": "The set of all Retrieved documents for a given query"
-                    },
-                    {
-                        "symbol": "Rel \\cap Ret",
-                        "meaning": "Intersection: The set of relevant documents that were successfully retrieved"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Evaluation Case Study",
-                    "description": "In a collection of 100 docs, where 20 are relevant.",
-                    "steps": [
-                        {
-                            "label": "Gather Stats",
-                            "formula": "|Rel|=20, |Ret|=30",
-                            "note": "System retrieved 30 docs."
-                        },
-                        {
-                            "label": "Count Overlap",
-                            "formula": "|Rel \\cap Ret|=15",
-                            "note": "15 out of the 30 retrieved were actually relevant."
-                        },
-                        {
-                            "label": "Calculate Precision",
-                            "formula": "P = \\frac{15}{30} = 0.5",
-                            "note": "50% of what was retrieved is relevant."
-                        },
-                        {
-                            "label": "Calculate Recall",
-                            "formula": "R = \\frac{15}{20} = 0.75",
-                            "note": "75% of all relevant docs were captured."
-                        }
-                    ],
-                    "input": "Rel:20, Ret:30, Hits:15",
-                    "output": "P: 0.5, R: 0.75"
-                }
+                "text": "The input to an IR system is a **Query (intent)** and a **Document Collection**. The output is a **Ranked List**. The system uses 'Similarity' (input comparison) to determine which doc should be at Rank 1. The output precision tells the user if they can trust the top results, while recall tells the user if they need to 'Search Deeper' to find more information."
             }
         },
         {
             "slideNumber": 9,
-            "type": "diagram",
-            "title": "The Classic IR System Architecture",
+            "type": "standard",
+            "title": "Step-by-Step Illustration: The IR Architecture",
             "content": {
-                "description": "Functional overview of a classic information retrieval system architecture.",
-                "steps": [
-                    "User Information Need",
-                    "Query Formulation",
-                    "Matching & Ranking",
-                    "Document Collection Index",
-                    "Relevance Evaluation"
-                ]
-            },
-            "subTopics": [
-                {
-                    "title": "Module 1: The Input System",
-                    "content": "Focuses on how the system receives and processes the user's information need into a machine-readable format.",
-                    "subSubTopics": [
-                        {
-                            "title": "Information Need vs. Query",
-                            "content": "An information need is a gap in a user's knowledge, while a query is the actual string of words typed into the system.",
-                            "keyPoints": [
-                                "Information Need: Abstract, mental state.",
-                                "Query: Surface representation of the need.",
-                                "Vocabulary Mismatch: One of the biggest challenges in IR."
-                            ]
-                        },
-                        {
-                            "title": "Query Processing",
-                            "content": "Transforming raw strings into vectors or logical expressions.",
-                            "examples": [
-                                "Expanding 'watch' to include 'wristwatch' and 'timepiece'.",
-                                "Removing punctuation and normalizing case."
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "title": "Module 2: The Core Retrieval Engine",
-                    "content": "The heart of the system where matching and ranking occur based on mathematical models.",
-                    "subSubTopics": [
-                        {
-                            "title": "The Indexer",
-                            "content": "Builds an efficient structure (usually an Inverted Index) to speed up searches.",
-                            "keyPoints": [
-                                "Inverted Index: Maps words to the list of documents they appear in.",
-                                "Scale: Must handle millions of documents efficiently."
-                            ]
-                        },
-                        {
-                            "title": "The Ranking Algorithm",
-                            "content": "Applies a scoring function to determine which documents are most likely to be relevant.",
-                            "examples": [
-                                "Calculating Cosine Similarity between query and doc vectors.",
-                                "Using PageRank to determine document authority."
-                            ]
-                        }
-                    ]
-                }
-            ]
+                "text": "**1. Step 1 (Input)**: User types 'Python programming'. \n**2. Step 2 (Process)**: System cleans the query (removes 'the', lowercase). \n**3. Step 3 (Match)**: System scans the Inverted Index for 'python'. \n**4. Step 4 (Rank)**: Docs are sorted by TF-IDF or PageRank. \n**5. Step 5 (Output)**: A list of 10 links is shown to the user. \n**6. Step 6 (Feedback)**: User clicks Link #2, reinforcing its relevance."
+            }
         },
         {
             "slideNumber": 10,
-            "type": "diagram",
-            "title": "Flow from Document Collection to Indexed Terms",
+            "type": "python_demo",
+            "title": "Python Demo: Simple Keyword Matcher",
             "content": {
-                "description": "The systematic pipeline for transforming raw document collections into a searchable index structure.",
-                "steps": [
-                    "Raw Documents (HTML/PDF/Text)",
-                    "Lexical Analysis & Tokenization",
-                    "Filtering (Stopword Removal)",
-                    "Morphological Analysis (Stemming)",
-                    "Final Indexed Terms (Vocabulary)"
-                ]
+                "code": "collection = [\n    \"I love Python and Data Science.\",\n    \"Java is another cool language.\",\n    \"Searching is the core of IR.\"\n]\n\ndef search(query, docs):\n    results = []\n    for d in docs:\n        if query.lower() in d.lower():\n            results.append(d)\n    return results\n\nq = \"Python\"\nprint(f\"Retrieving for: '{q}'\")\nprint(f\"Matches: {search(q, collection)}\")",
+                "input": "Search 'Python' in a list of 3 documents.",
+                "output": "['I love Python and Data Science.']",
+                "interpretation": "This script is the simplest possible IR system. Notice it only returns 1 result because it is an 'Exact Match' (Data Retrieval style). Real IR systems would use 'Partial Matching' to return similar sentences as well."
             }
         },
         {
             "slideNumber": 11,
-            "type": "case_study",
-            "title": "Real-Time Case Study",
-            "content": {
-                "title": "The Evolution of Google Search",
-                "problem": "Keyword spamming in late 90s.",
-                "solution": "PageRank algorithm (Link Analysis).",
-                "outcome": "Trustworthy, authoritative results prioritizing relevance over frequency."
-            }
-        },
-        {
-            "slideNumber": 12,
-            "type": "grid",
-            "title": "Applications",
-            "items": [
-                "Web Search Engines",
-                "Digital Libraries",
-                "Enterprise Search",
-                "Recommender Systems"
-            ]
-        },
-        {
-            "slideNumber": 13,
-            "type": "standard",
-            "title": "Challenges & Limitations",
-            "content": {
-                "text": "Ambiguity in Natural Language (Polysemy, Synonymy). Scalability with index size. Privacy in personalized search."
-            }
-        },
-        {
-            "slideNumber": 14,
-            "type": "standard",
-            "title": "Research & Open Problems",
-            "content": {
-                "text": "Neural IR (BERT/Transformers), Cross-lingual Retrieval, Multimedia/Video Search, Explainable Ranking."
-            }
-        },
-        {
-            "slideNumber": 15,
-            "type": "standard",
-            "title": "Tool / Technology Mapping",
-            "content": {
-                "tools": [
-                    "Elasticsearch",
-                    "Apache Solr",
-                    "Lucene",
-                    "Python NLTK/SpaCy"
+            "type": "comparison",
+            "title": "Comparison: IR vs. Database Systems",
+            "comparison": {
+                "headers": ["Aspect", "Database (RDBMS)", "Information Retrieval (IR)"],
+                "rows": [
+                    ["Matching", "Exact (SQL Match)", "Graded (Similarity)"],
+                    ["Query", "Structured (SELECT...)", "Unstructured (Natural Language)"],
+                    ["Result", "Set of records", "Ranked list of snippets"],
+                    ["Goal", "Efficiency & Consitency", "Relevance & Satisfaction"]
                 ]
             }
         },
         {
-            "slideNumber": 16,
+            "slideNumber": 12,
             "type": "activity",
-            "title": "Experiential Learning Activity",
+            "title": "Virtual Lab: Google Audit",
             "content": {
-                "activity": "Boolean Search Challenge",
-                "description": "Go to Google. Use 'site:', 'filetype:pdf', and quote operators to find a specific research paper on 'Vector Space Model' published before 2000."
+                "activity": "The Precision Test",
+                "description": "Perform a search for 'Space Exploration' on Google. Look at the top 10 results. 1. How many are actually relevant to your intent? (Precision). 2. How many 'Relevant' results do you think the entire internet has? (Recall mystery)."
             }
         },
         {
-            "slideNumber": 17,
-            "type": "project",
-            "title": "Project-Based Learning Idea",
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
             "content": {
-                "idea": "Build a Mini-Search Engine",
-                "input": "A folder of 50 text files.",
-                "process": "Build an Inverted Index (Python dictionary).",
-                "output": "A script that takes a keyword and returns filenames containing it."
-            }
-        },
-        {
-            "slideNumber": 18,
-            "type": "quiz",
-            "title": "Open-Ended Quiz Questions",
-            "questions": [
-                "Why is exact matching insufficient for text retrieval?",
-                "How is 'Data' different from 'Information' in the context of IR?",
-                "Explain the concept of 'Bag of Words'.",
-                "What is the role of stopwords in preprocessing?",
-                "Give an example of a navigational query."
-            ],
-            "answers": [
-                "Exact matching fails because of synonymy (words with same meaning) and polysemy (words with multiple meanings), causing missed relevant docs or irrelevant ones.",
-                "Data is raw facts/symbols; Information is processed data with meaning and relevance to a user's need.",
-                "A representation where text is treated as a collection of words, disregarding grammar and order but keeping multiplicity.",
-                "Stopwords (like 'the', 'is') are removed to reduce index size and noise, as they carry little semantic value.",
-                "Searching 'facebook login' or 'youtube' - where the intent is to go to a specific site."
-            ]
-        },
-        {
-            "slideNumber": 19,
-            "type": "python_demo",
-            "title": "Python Demo: IR Metrics Calculation",
-            "content": {
-                "code": "def calculate_metrics(relevant_total, retrieved_total, relevant_retrieved):\n    precision = relevant_retrieved / retrieved_total if retrieved_total > 0 else 0\n    recall = relevant_retrieved / relevant_total if relevant_total > 0 else 0\n    f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0\n    return {\"Precision\": round(precision, 2), \"Recall\": round(recall, 2), \"F1\": round(f1, 2)}\n\n# Case Study: Collection of 100 documents\n# 20 are relevant, system retrieved 30, and 15 of them were relevant\nstats = calculate_metrics(relevant_total=20, retrieved_total=30, relevant_retrieved=15)\nprint(f\"Evaluation Results: {stats}\")",
-                "input": "RelevantDocs = 20\nRetrievedDocs = 30\nRelevantHits = 15",
-                "output": "Evaluation Results: {'Precision': 0.5, 'Recall': 0.75, 'F1': 0.6}",
-                "interpretation": "This script automates the evaluation of an IR system. \nPrecision (0.5) tells us that 50% of the results shown to the user are relevant.\nRecall (0.75) tells us that the system successfully found 75% of all existing relevant documents.\nThe F1-Score (0.6) provides a balanced harmonic mean of both metrics."
-            }
-        },
-        {
-            "slideNumber": 20,
-            "type": "exam",
-            "title": "Model Examination Questions",
-            "questions": [
-                "Define Information Retrieval. Explain the functional overview of an IR system with a block diagram. (10 Marks)",
-                "Differentiate between Data Retrieval and Information Retrieval. (5 Marks)",
-                "Write short notes on Digital Libraries. (5 Marks)"
-            ]
-        },
-        {
-            "slideNumber": 21,
-            "type": "research_perspective",
-            "title": "Research Perspective: Theoretical Foundations of IR",
-            "content": {
-                "researchQuestions": [
-                    {
-                        "question": "How does the 'Semantic Gap' impact the theoretical bounds of retrieval precision in unstructured data?",
-                        "answer": "The Semantic Gap represents the disconnect between low-level data representations (tokens/pixels) and high-level human concepts. Research focuses on bridging this using Latent Semantic Indexing (LSI) and Neural Embeddings. It shifts the problem from exact term matching to 'Concept Matching', where the system must infer intent from latent relationships in a high-dimensional vector space."
-                    },
-                    {
-                        "question": "The problem of ad-hoc retrieval vs filtering: How do Bayesian models distinguish between static user profiles and dynamic information needs?",
-                        "answer": "Ad-hoc retrieval assumes a one-time search over a large collection, whereas filtering deals with incoming streams against a profile. Research models this using Bayesian Inference, where the 'Information Need' is a posterior probability distribution that is updated based on feedback. Filtering requires modeling 'Drift' in the user's profile over time."
-                    }
-                ],
-                "mathematicalModeling": {
-                    "problemStatement": "Modeling Information Overload as a Shannon Entropy problem in communication systems.",
-                    "derivation": [
-                        {
-                            "step": "Define the Document Collection as a source of information S.",
-                            "equation": "H(S) = -\\sum_{i=1}^{n} P(d_i) \\log_2 P(d_i)",
-                            "interpretation": "Entropy measures the uncertainty or 'surprise' in the collection. High entropy indicates lack of structure."
-                        },
-                        {
-                            "step": "Model the Retrieval process as a noise-reduction filter.",
-                            "equation": "I(Q; D) = H(D) - H(D|Q)",
-                            "interpretation": "Mutual Information I(Q;D) represents the amount of information the query Q provides about the relevant document D. We seek to maximize this."
-                        },
-                        {
-                            "step": "Derive the optimal filtering threshold using the Probability Ranking Principle.",
-                            "equation": "P(R=1|D, Q) > \\tau",
-                            "interpretation": "A document is retrieved only if the posterior probability of relevance exceeds a threshold defined by the cost of Type I vs Type II errors."
-                        }
-                    ],
-                    "conclusion": "The retrieval system is mathematically optimized when it minimizes the residual entropy of the collection relative to the query, fulfilling the user's information need with minimum cognitive load."
-                }
-            }
-        },
-        {
-            "slideNumber": 22,
-            "type": "summary",
-            "title": "Plan for Next Class",
-            "content": {
-                "nextTopic": "The Retrieval Process & Modeling",
-                "linkage": "Now that we know WHAT IR is, next we learn HOW to formalize it mathematically.",
-                "preparation": "Read about Set Theory basics."
+                "text": "1. Why is it impossible to calculate 'absolute recall' on the web? (Hint: Does anyone know total pages?). \n2. In a search for 'Apple', how does the system know if you want the fruit or the iPhone? \n3. Is a system that is 100% Precise always 'Good'? (Think: What if it only finds 1 result for a huge topic?)"
             }
         }
     ]

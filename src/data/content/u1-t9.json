@@ -1,217 +1,146 @@
 {
     "id": "u1-t9",
-    "title": "Trends & Research Issues",
+    "title": "Topic 9: Trends and Research Issues",
     "unitId": "unit-1",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Trends & Research Issues in IR",
-            "subtitle": "The Future of Search",
+            "title": "Trends & Research in IR",
+            "subtitle": "The Future of Information Discovery",
             "content": {
-                "text": "Information Retrieval is not a solved problem. It changes with technology, user behavior, and data scale.",
-                "hook": "Search is no longer just 10 blue links on a white page."
+                "text": "Information Retrieval is no longer just about keywords. We are entering the era of Generative AI, Neural Search, and Explainable AI. The goal is to move from 'Searching for Documents' to 'Talking to Knowledge'.",
+                "hook": "We are teaching computers not just to find words, but to understand dreams."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Current Trending Topics",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "text": "Neural Information Retrieval (BERT - Bidirectional Encoder Representations from Transformers, GPT - Generative Pre-trained Transformer integration) is transforming search from exact keyword matching to semantic meaning matching.",
-                "outcomes": [
-                    "Dense retrieval (vectors)",
-                    "Cross-lingual search",
-                    "Conversational AI"
-                ]
-            },
-            "formula": {
-                "equation": "P(y_i|x) = \\frac{e^{s_i}}{\\sum_{j=1}^{K} e^{s_j}}",
-                "description": "In Neural IR, the Softmax function is used to convert raw similarity scores (logits) from a deep learning model into a probability distribution over the top document candidates.",
-                "terms": [
-                    {
-                        "symbol": "P(y_i|x)",
-                        "meaning": "The probability that document 'i' is the relevant answer for query 'x'"
-                    },
-                    {
-                        "symbol": "s_i",
-                        "meaning": "Similarity score (logit) for document 'i' calculated by the neural network"
-                    },
-                    {
-                        "symbol": "e",
-                        "meaning": "Euler's number (exponential base)"
-                    },
-                    {
-                        "symbol": "K",
-                        "meaning": "Number of candidate documents in the final ranking stage"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Neural Ranking Normalization",
-                    "description": "Converting scores for 2 documents into probabilities.",
-                    "steps": [
-                        {
-                            "label": "Raw Neural Scores",
-                            "formula": "s_1 = 2.0, s_2 = 1.0",
-                            "note": "Doc 1 is significantly stronger than Doc 2."
-                        },
-                        {
-                            "label": "Exponentiate",
-                            "formula": "e^2 \\approx 7.39, e^1 \\approx 2.72",
-                            "note": "Applying the exponential function."
-                        },
-                        {
-                            "label": "Calculate Sum",
-                            "formula": "\\sum = 7.39 + 2.72 = 10.11",
-                            "note": "The normalization factor."
-                        },
-                        {
-                            "label": "Final Probability",
-                            "formula": "P(1) = 0.73, P(2) = 0.27",
-                            "note": "Probabilities sum to 1.0 (73% vs 27%)."
-                        }
-                    ],
-                    "input": "Scores:[2, 1]",
-                    "output": "P1: 0.73, P2: 0.27"
-                }
+                "text": "Before exploring trends, you should know: \n1. **Classic IR**: VSM, Inverted Indices, and Precision/Recall. \n2. **Neural Networks**: The basics of how AI learns from data. \n3. **Word Embeddings**: Representing words as deep AI vectors instead of simple counts."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "The Semantic Web",
+            "title": "Background: From BERT to LLMs",
             "content": {
-                "definition": "Web 3.0. Moving from a 'Web of Documents' to a 'Web of Data'.",
-                "text": "Using RDF (Resource Description Framework), SPARQL (SPARQL Protocol and RDF Query Language), and Ontologies to help machines understand the *meaning* of data, not just keyword matches."
+                "text": "In 2018, Google introduced **BERT**, which used 'Contextual Embeddings' to understand that 'Bank' near 'River' is different from 'Bank' near 'Money'. In 2022, Large Language Models (LLMs) like GPT transformed search into 'Generative Retrieval', where the system writes an answer instead of just showing links."
             }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Scalability Challenges",
+            "title": "Motivation",
             "content": {
-                "problem": "The Web is infinite.",
-                "text": "Indexing billions of dynamic pages in real-time requires distributed systems (MapReduce, Hadoop) and efficient compression."
+                "text": "Why unique research? Because the web is getting more complex. Video, Audio, and 3D data need to be searchable just like text. Also, as AI starts 'Hallucinating' answers, research into **Trustworthy IR** and **Fact-Checking** has become the single most important task for computer scientists."
             }
         },
         {
             "slideNumber": 5,
-            "type": "diagram",
-            "title": "Federated Search Architecture",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "description": "Searching across multiple distinct databases with one query.",
-                "steps": [
-                    "User Query Entry",
-                    "Database Source Selection",
-                    "Protocol Translation (SRU/Z39.50)",
-                    "Sub-Query Execution",
-                    "Result Merging & De-duplication"
-                ]
+                "text": "1. Fairness & Bias: Ensuring AI doesn't promote misinformation or stereotypes. 2. Interpretability: If an AI ranks a result #1, it must be able to explain *why*. 3. Power Consumption: Large models require massive energy, leading to a push for 'Green AI'."
             }
         },
         {
             "slideNumber": 6,
-            "type": "standard",
-            "title": "Privacy vs Personalization",
-            "content": {
-                "text": "Better search requires knowing the user (Location, History). This conflicts with privacy concerns (GDPR - General Data Protection Regulation). Research focuses on 'Privacy-Preserving IR (Information Retrieval)'.",
-                "hook": "Can we personalize without tracking?"
-            }
-        },
-        {
-            "slideNumber": 7,
-            "type": "activity",
-            "title": "Activity: Bias Hunt",
-            "content": {
-                "activity": "Algorithm Auditing",
-                "description": "Search for professional roles (e.g., 'CEO', 'Doctor', 'Nurse') on Google Images. Analyze the gender and racial distribution of the top 20 results. Discuss potential algorithmic bias."
-            }
-        },
-        {
-            "slideNumber": 8,
-            "type": "project",
-            "title": "Research Proposal",
-            "content": {
-                "idea": "Define a Problem",
-                "input": "Pick a domain (e.g., Medical Search).",
-                "process": "Identification of gap (e.g., 'Doctors use jargon, Patients use slang').",
-                "output": "Propose a feature to solve it (e.g., 'Automatic Query Expansion with Medical Thesaurus')."
-            }
-        },
-        {
-            "slideNumber": 9,
-            "type": "quiz",
-            "title": "Course Checkpoint",
-            "questions": [
-                "What is the difference between specific and federated search?",
-                "Why is 'Context' becoming more important than 'Keywords'?",
-                "Name one challenge in Voice Search compared to Text Search.",
-                "What is the 'Vocabulary Mismatch Problem'?"
-            ],
-            "answers": [
-                "Specific search indexes a centralized collection; Federated search broadcasts a query to multiple autonomous databases and merges the results.",
-                "Because mobile/voice queries (\"restaurants near me\") rely on location, time, and user history (context) rather than just the explicit words typed.",
-                "Lack of explicit punctuation/segmentation, speech recognition errors, and the expectation of a single direct answer rather than a list of links.",
-                "The issue where the user uses different words (e.g., \"cellphone\") than the author used (e.g., \"mobile device\"), leading to missed relevant documents."
+            "type": "grid",
+            "title": "Emerging Trends",
+            "items": [
+                "Neural IR: Replacing Cosine Similarity with Deep Learning scores.",
+                "Semantic Search: Understanding intent using Large Language Models.",
+                "Zero-Shot Retrieval: Searching a new topic with zero training data.",
+                "Multimodal IR: Searching across text, images, and audio seamlessly."
             ]
         },
         {
-            "slideNumber": 10,
-            "type": "python_demo",
-            "title": "Python Demo: Histogram Intersection",
+            "slideNumber": 7,
+            "type": "standard",
+            "title": "The Concept: Dense Vector Retrieval",
             "content": {
-                "code": "def histogram_intersection(h1, h2):\n    return sum(min(a, b) for a, b in zip(h1, h2))\n\n# Simulating 4-bin color histograms\nimg1 = [0.1, 0.5, 0.2, 0.2] # Mostly Green\nimg2 = [0.2, 0.4, 0.1, 0.3] # Similar\n\nsim = histogram_intersection(img1, img2)\nprint(f\"Image Similarity: {round(sim, 2)}\")",
-                "input": "Img1 Hist: [0.1, 0.5, 0.2, 0.2]\nImg2 Hist: [0.2, 0.4, 0.1, 0.3]",
-                "output": "Image Similarity: 0.8",
-                "interpretation": "For Multimedia IR, we compare feature vectors like color histograms.\nHistogram Intersection calculates the overlap between two distributions.\nA score of 0.8 indicates 80% color distribution similarity."
-            }
-        },
-        {
-            "slideNumber": 11,
-            "type": "research_perspective",
-            "title": "Research Perspective: The Neural & Ethical Shift",
-            "content": {
-                "researchQuestions": [
-                    {
-                        "question": "Axiomatic IR: Can we mathematically define the 'Rules of Fairness' that a ranking algorithm must never break?",
-                        "answer": "Research in Axiomatic IR seeks to identify fundamental constraints (Axioms) that any reasonable retrieval model should satisfy (e.g., if we add more query terms to a document, its score should not decrease). As we move to 'Black Box' neural models, verifying these axioms becomes a critical research area to ensure predictable and explainable behavior."
-                    },
-                    {
-                        "question": "The Privacy Paradox: How can we achieve high personalization without compromising individual user anonymity?",
-                        "answer": "Modern research utilizes 'Differential Privacy' and 'Federated Learning'. Mathematically, we add calibrated noise to user profiles such that the system learns aggregate trends without being able to identify a single user's specific query history. The research challenge is the 'Utility-Privacy Tradeoff': more noise protects privacy but degrades retrieval precision."
-                    }
+                "text": "Neural IR replaces' Sparse' keyword vectors with 'Dense' embeddings where meaning is captured in 768+ dimensions."
+            },
+            "formula": {
+                "equation": "\\text{Score}(Q, D) = \\text{NeuralNet}(\\vec{E}_{Q}, \\vec{E}_{D})",
+                "description": "The score is no longer a simple dot product; it is a weight determined by a transformer network that compares the contextual embeddings (E) of the query and document.",
+                "terms": [
+                    { "symbol": "\\vec{E}_{Q}", "meaning": "Deep embedding of the query string" },
+                    { "symbol": "\\vec{E}_{D}", "meaning": "Deep embedding of the document" },
+                    { "symbol": "Score", "meaning": "Semantic similarity (matching intent, not just words)" }
                 ],
-                "mathematicalModeling": {
-                    "problemStatement": "Modeling the 'Learning to Rank' (LTR) objective using Pairwise Cross-Entropy Loss.",
-                    "derivation": [
-                        {
-                            "step": "Define a pair of documents (d_i, d_j) where d_i is more relevant than d_j.",
-                            "equation": "h(d_i, d_j) = P(d_i \\succ d_j) = \\frac{1}{1 + e^{-(s_i - s_j)}}",
-                            "interpretation": "We model the probability that the system correctly ranks i above j as a logistic function of the score difference."
-                        },
-                        {
-                            "step": "Define the Binary Cross-Entropy loss for the entire ranking task.",
-                            "equation": "L = - \\sum_{(i,j) \\in S} \\log(P(d_i \\succ d_j))",
-                            "interpretation": "The model is optimized by minimizing the log-likelihood of incorrect rankings across all known preference pairs."
-                        },
-                        {
-                            "step": "Incorporate a 'Fairness Constraint' using a Lagrangian Multiplier.",
-                            "equation": "L_{total} = L + \\lambda \\cdot |Mean(s_{GroupA}) - Mean(s_{GroupB})|",
-                            "interpretation": "We penalize the model if the average scores for different demographic groups deviate significantly, enforcing statistical parity."
-                        }
+                "calculation": {
+                    "exampleTitle": "The Semantic Audit",
+                    "description": "Calculate score for Q:'Cold' and D1:'Icy', D2:'Common Cold'.",
+                    "steps": [
+                        { "label": "Keyword Match", "formula": "Match=0", "note": "Traditional IR fails (no shared words)" },
+                        { "label": "Contextual V1", "formula": "E('Cold') \\approx E('Icy')", "note": "High semantic overlap in weather context" },
+                        { "label": "Contextual V2", "formula": "E('Cold') \\neq E('Medical')", "note": "Low overlap if intent is different" },
+                        { "label": "Final Rank", "formula": "1: Icy, 2: Cold (medical)", "note": "Intent-driven ranking" }
                     ],
-                    "conclusion": "The future of IR research lies at the intersection of Deep Learning and Ethics, where mathematical models must optimize not just for 'Relevance', but for 'Trustworthiness', 'Fairness', and 'Privacy'."
+                    "input": "Q:'Cold', Context: Weather.",
+                    "output": "Semantic Match Found: Icy."
                 }
             }
         },
         {
-            "slideNumber": 12,
-            "type": "summary",
-            "title": "Unit Wrap-up",
+            "slideNumber": 8,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "linkage": "We have completed the Introduction to IR (Unit 1). We know the 'What', 'Why', and 'How' of models.",
-                "nextTopic": "Unit 2: Query Languages & Text Processing",
-                "preparation": "Get ready to dive deep into SQL-like syntax and strict text operations."
+                "text": "The input to a neural IR model is a **Natural Language Sentence**. The output is a **Semantic Ranking**. By using deep output vectors (768D), the system 'Infers' relationships between words that never appear together in the input collection. This 'Zero-Shot Discovery' (output capability) means the system can find relevant documents (inputs) purely based on the **Essence** of information, overcoming the vocabulary mismatch that has plagued IR for 50 years."
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Retrieval Augmented Generation (RAG)",
+            "content": {
+                "text": "**1. Step 1**: User asks a complex question to an AI. \n**2. Step 2**: The AI converts the question into a dense vector. \n**3. Step 3**: It performs a Search (Retrieval) over a trusted library. \n**4. Step 4**: It feeds the 'Top 5 results' into an LLM. \n**5. Step 5**: The AI writes a summary based *only* on those 5 results. \n**6. Step 6**: Output: A human-like answer with citations. This is the future of search."
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "python_demo",
+            "title": "Python Demo: The Semantic Vector Matcher",
+            "content": {
+                "code": "import numpy as np\n\ndef neural_sim(q_emb, d_emb):\n    # Simulate a deep matching function\n    return np.dot(q_emb, d_emb) / (np.linalg.norm(q_emb) * np.linalg.norm(d_emb))\n\n# Terms: [Temperature, Weather, Medical, Finance]\nq = [1.0, 0.9, 0.1, 0.0] # 'Hot day'\nd1 = [0.1, 0.0, 0.8, 0.1] # Medical Doc\nd2 = [0.9, 1.0, 0.0, 0.1] # Weather Doc\n\nprint(f\"Similarity with Medical: {round(neural_sim(q, d1), 3)}\")\nprint(f\"Similarity with Weather: {round(neural_sim(q, d2), 3)}\")",
+                "input": "Query 'Hot day' against Medical and Weather docs in embedding space.",
+                "output": "Medical: 0.154, Weather: 0.997",
+                "interpretation": "The script shows 'Intent Alignment'. Note how the system perfectly separates the concepts. In the future, every word will be a point in a 1,000D 'Universe of Meaning', and searching will simply be finding the closest star to your query."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "comparison",
+            "title": "Comparison: Keyword Search vs. Neural Search",
+            "comparison": {
+                "headers": ["Aspect", "Keyword Search (Elasticsearch)", "Neural Search (Vector DB)"],
+                "rows": [
+                    ["Matching", "Exact Tokens (Fast)", "Semantic Meaning (Intuitive)"],
+                    ["Language Support", "Language specific dictionaries", "Universal (Cross-lingual)"],
+                    ["Accuracy", "High for SKU/Code search", "High for 'How-to' / Narrative search"],
+                    ["Hardware", "CPU intensive", "GPU intensive"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "activity",
+            "title": "Virtual Lab: Talking to the PDF",
+            "content": {
+                "activity": "The Generative Search",
+                "description": "Go to an AI tool (like NotebookLM or Perplexity). 1. Upload a syllabus. 2. Ask 'What are the three most mathematically heavy topics?'. 3. Did it find the documents (Retrieval) and then explain them (Generation)? This is RAG in action."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. If an AI writes the answer for you, will you ever visit the original website? What happens to the 'Revenue' of the creator? \n2. How can we verify that a 'Neural Search' result isn't just a hallucinations? \n3. Is 'Privacy' possible in a world where everything you search is converted into an AI vector?"
             }
         }
     ]

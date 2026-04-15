@@ -1,239 +1,175 @@
 {
     "id": "u2-t1",
-    "title": "Query Languages (Keyword, Pattern, Structural, Protocols)",
+    "title": "Modeling: Boolean & Vector Models",
     "unitId": "unit-2",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Query Languages in IR",
-            "subtitle": "Bridging User Intent and System Logic",
+            "title": "IR Modeling",
+            "subtitle": "Mathematical Frameworks for Search",
             "content": {
-                "text": "A query language is the interface between the user's information need and the search engine's matching capabilities. It defines the syntax and semantics for expressing search requests.",
-                "hook": "Knowing what you want is one thing. Knowing how to ask for it is another."
+                "text": "How do we represent documents and queries mathematically? Modeling is the foundation of IR that determines how the system computes 'Relevance'.",
+                "hook": "Search is not just word-matching; it is a calculation of similarity in a high-dimensional space."
             }
         },
         {
             "slideNumber": 2,
             "type": "standard",
-            "title": "Introduction to Query Languages",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "text": "Query languages in IR differ from SQL. While SQL is for structured data and exact matches, IR query languages handle unstructured data and ranked matches. They must be simple enough for users but powerful enough for complex needs."
+                "text": "Before studying IR models, you should know: \n1. **Set Theory**: Union (OR), Intersection (AND), and Difference (NOT). \n2. **Linear Algebra**: The concept of Vectors and Dot Products. \n3. **Binary Logic**: 1 for True (Matched), 0 for False (Not Matched)."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Keyword Querying",
+            "title": "Background: From Logic to Logic",
             "content": {
-                "text": "The most common form. Users type a sequence of words. The system implicitly treats them as an OR (Broad) or AND (Narrow) operation.",
-                "outcomes": [
-                    "Single-word queries",
-                    "Context queries (Phrases)",
-                    "Boolean combinations (implicit or explicit)"
-                ]
-            },
-            "formula": {
-                "equation": "R(q_{AND}) = \\bigcap_{t \\in q} Dist(t), \\quad R(q_{OR}) = \\bigcup_{t \\in q} Dist(t)",
-                "description": "Information Retrieval queries are mathematically modeled as set operations over the distribution of terms in the collection.",
-                "terms": [
-                    {
-                        "symbol": "R(q)",
-                        "meaning": "Result set - list of documents matching the query 'q'"
-                    },
-                    {
-                        "symbol": "\\bigcap",
-                        "meaning": "Intersection (AND logic) - document must contain ALL terms"
-                    },
-                    {
-                        "symbol": "\\bigcup",
-                        "meaning": "Union (OR logic) - document can contain ANY of the terms"
-                    },
-                    {
-                        "symbol": "Dist(t)",
-                        "meaning": "Distribution set of term 't' (all doc IDs where 't' occurs)"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Boolean Set Matching",
-                    "description": "Evaluating a multi-term query against an index.",
-                    "steps": [
-                        {
-                            "label": "Define Index",
-                            "formula": "D(\\text{cat}) = \\{1, 2, 4\\}, D(\\text{dog}) = \\{2, 3, 4\\}",
-                            "note": "A small 4-doc collection."
-                        },
-                        {
-                            "label": "Intersection (AND)",
-                            "formula": "\\{1, 2, 4\\} \\cap \\{2, 3, 4\\} = \\{2, 4\\}",
-                            "note": "Only Docs 2 and 4 have both words."
-                        },
-                        {
-                            "label": "Union (OR)",
-                            "formula": "\\{1, 2, 4\\} \\cup \\{2, 3, 4\\} = \\{1, 2, 3, 4\\}",
-                            "note": "All docs match if search is 'cat OR dog'."
-                        },
-                        {
-                            "label": "Negation (NOT)",
-                            "formula": "D(\\text{cat}) - D(\\text{dog}) = \\{1\\}",
-                            "note": "Doc 1 has 'cat' but NOT 'dog'."
-                        }
-                    ],
-                    "input": "Q:'cat AND dog'",
-                    "output": "Docs: [2, 4]"
-                }
+                "text": "In the 1960s, the **Boolean model** dominated. It was exact but 'All or Nothing'. In the 1970s, Gerard Salton introduced the **Vector Space Model (VSM)**, allowing for partial matches and ranking. This was the first giant leap toward modern intelligent search."
             }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Pattern Matching",
+            "title": "Motivation",
             "content": {
-                "definition": "Retrieving documents containing words that match a specific pattern rather than exact terms.",
-                "text": "Common patterns: 1. Wildcards (*, ?), 2. Prefix matching, 3. Suffix matching, 4. Range queries (e.g. [a-z]), 5. Regular Expressions."
-            },
-            "subTopics": [
-                {
-                    "title": "Deep Dive: Regular Expressions in IR",
-                    "content": "Regular expressions provide the most powerful mechanism for text pattern matching, allowing for complex search logic within a single query string.",
-                    "subSubTopics": [
-                        {
-                            "title": "Regex Efficiency",
-                            "content": "Why is regex slow on large indices? Unlike simple terms, regex often requires a full scan of the vocabulary unless specialized indices like Trigram indices are used.",
-                            "keyPoints": [
-                                "Anchor points (^, $) improve performance.",
-                                "Greedy vs Non-greedy matching impacts retrieval speed."
-                            ]
-                        }
-                    ]
-                }
-            ]
+                "text": "Why unique models? Because simple keyword matching doesn't account for 'Importance'. If a word appears 1,000 times in a doc, that doc is likely more relevant than one where it appears once. Modeling allows us to 'Weight' terms and 'Rank' results."
+            }
         },
         {
             "slideNumber": 5,
             "type": "standard",
-            "title": "Structural Queries",
+            "title": "Challenges",
             "content": {
-                "text": "Combining content search with structural constraints. Useful for XML or HTML documents.",
-                "examples": [
-                    "Find 'Hamlet' in <Title>",
-                    "Find words near each other in the same <Paragraph>",
-                    "Containment and proximity operators."
-                ]
-            },
-            "subTopics": [
-                {
-                    "title": "XML Retrieval Concepts",
-                    "content": "Retrieving 'focused' elements rather than entire documents. The goal is to return the most specific XML tag that satisfies the query.",
-                    "subSubTopics": [
-                        {
-                            "title": "CAS and CO Queries",
-                            "content": "1. Content-and-Structure (CAS): Queries specifying both tags and text. 2. Content-Only (CO): Queries ignoring tags for ranking but respecting them for display.",
-                            "examples": [
-                                "Find 'Shakespeare' in <author> tags (CAS).",
-                                "Find 'climate change' anywhere but prefer <abstract> results (CO)."
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "slideNumber": 6,
-            "type": "standard",
-            "title": "Query Protocols",
-            "content": {
-                "text": "The standards used to communicate queries between systems.",
-                "outcomes": [
-                    "Z39.50: A classic protocol for library and information systems.",
-                    "SRU/SRW (Search/Retrieve URL): Modern web-friendly versions of Z39.50.",
-                    "OpenSearch: Providing search results in a standard format."
-                ]
+                "text": "1. The Curse of Dimensionality: A vocabulary of 50,000 words results in a 50,000-dimension space. 2. Term Independence: Models often assume words like 'New' and 'York' are independent, ignoring phrases. 3. Computational Cost: Calculating millions of cosine similarities for every query."
             }
         },
         {
+            "slideNumber": 6,
+            "type": "grid",
+            "title": "Primary models",
+            "items": [
+                "Boolean Model: Pure logic (AND, OR, NOT). Exact match.",
+                "Vector Space Model: Bag of words represented as vectors in space.",
+                "Classical Probability: Ranking by the probability of being relevant.",
+                "TF-IDF: The standard weighting scheme for term importance."
+            ]
+        },
+        {
             "slideNumber": 7,
-            "type": "activity",
-            "title": "Activity: Protocol Trace",
+            "type": "standard",
+            "title": "The Concept: Cosine Similarity",
             "content": {
-                "activity": "Inspect the URL",
-                "description": "Go to Google and search for something. Look at the URL structure. Can you find the 'q=' parameter? That's part of the simple query protocol."
+                "text": "In the Vector Space Model, we measure relevance by the 'Angle' between the query vector and the document vector."
+            },
+            "formula": {
+                "equation": "sim(D, Q) = \\frac{\\vec{D} \\cdot \\vec{Q}}{|\\vec{D}| \\times |\\vec{Q}|} = \\frac{\\sum_{i=1}^{n} w_{i,D} w_{i,Q}}{\\sqrt{\\sum w_{i,D}^2} \\times \\sqrt{\\sum w_{i,Q}^2}}",
+                "description": "Similarity is the dot product of two vectors normalized by their magnitudes. It calculates the cosine of the angle between them (1.0 = identical, 0.0 = orthogonal).",
+                "terms": [
+                    { "symbol": "sim(D, Q)", "meaning": "Similarity score between document D and query Q" },
+                    { "symbol": "w_{i,D}", "meaning": "Weight of term i in document D" },
+                    { "symbol": "w_{i,Q}", "meaning": "Weight of term i in query Q" },
+                    { "symbol": "n", "meaning": "Size of the vocabulary (dimensions)" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Vector Alignment Audit",
+                    "description": "Calculate similarity for Q=[1, 1] and D=[1, 0].",
+                    "steps": [
+                        { "label": "Dot Product", "formula": "(1 \\times 1) + (1 \\times 0) = 1", "note": "Shared terms" },
+                        { "label": "Magnitude Q", "formula": "\\sqrt{1^2 + 1^2} = 1.414", "note": "Query length" },
+                        { "label": "Magnitude D", "formula": "\\sqrt{1^2 + 0^2} = 1", "note": "Doc length" },
+                        { "label": "Similarity", "formula": "1 / (1.414 \\times 1) = 0.707", "note": "45-degree angle" }
+                    ],
+                    "input": "Q:[1,1], D:[1,0]",
+                    "output": "Sim: 0.707"
+                }
             }
         },
         {
             "slideNumber": 8,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "What is the difference between a prefix match and a regular expression?",
-                "Why are structural queries important for XML data?",
-                "What protocol is widely used in library management systems?",
-                "Explain the 'Keyword' query type."
-            ],
-            "answers": [
-                "Prefix match matches terms starting with a string (e.g., 'comp*'), while regex allows complex pattern matching logic (e.g., '[a-z]+[0-9]*').",
-                "Because XML is structured (tags), querying needs to respect hierarchy (e.g., title inside book) which keyword search ignores.",
-                "Z39.50 is the classic protocol (and SRU/SRW for web).",
-                "The simplest type where users provide words, implicitly treated as OR/AND, typically matched against an inverted index."
-            ]
-        },
-        {
-            "slideNumber": 9,
-            "type": "python_demo",
-            "title": "Python Demo: Morphological Analysis",
+            "type": "standard",
+            "title": "The Concept: TF-IDF Weighting",
             "content": {
-                "code": "def simple_stemmer(word):\n    suffixes = ['ing', 'ed', 'es', 's', 'ly']\n    for suffix in suffixes:\n        if word.endswith(suffix):\n            return word[:-len(suffix)]\n    return word\n\nwords = [\"fishing\", \"played\", \"cities\", \"quickly\"]\nstems = [simple_stemmer(w) for w in words]\nprint(f\"Stems: {stems}\")",
-                "input": "['fishing', 'played', 'cities', 'quickly']",
-                "output": "Stems: ['fish', 'play', 'citi', 'quick']",
-                "interpretation": "Stemming reduces words to their roots to improve recall.\nBy stripping suffixes, 'fishing' and 'fish' both map to the same index term.\nThis ensures a user searching for 'fish' finds documents about 'fishing'."
-            }
-        },
-        {
-            "slideNumber": 10,
-            "type": "research_perspective",
-            "title": "Research Perspective: Formal Languages & Semantic Mapping",
-            "content": {
-                "researchQuestions": [
-                    {
-                        "question": "The Expressivity-Efficiency Tradeoff: Why hasn't the Web adopted more powerful structural query languages like XQuery?",
-                        "answer": "Research shows that as query language expressivity increases, computational complexity rises (from O(n) for keywords to O(n³) or worse for certain structural joins). For the web-scale, 'At-Least-N' keyword models are favored. The research challenge is implementing 'Deep Structure' search on top of 'Flat' inverted indices using specialized data structures like Trigram or Suffix Trees."
-                    },
-                    {
-                        "question": "Natural Language to Formal Logic: Can we bypass the query language entirely using Semantic Parsing?",
-                        "answer": "Users prefer natural language questions over formal logic (A ∩ B). Research in 'Semantic Parsing' focuses on automatically translating 'Who won the Oscar in 2023?' into a formal SPARQL or SQL-like query. The core mathematical problem is the 'Ambiguity of Quantifiers' and correctly mapping natural entities to knowledge graph nodes."
-                    }
+                "text": "TF-IDF rewards words that are frequent in a document (TF) but punishes words that are frequent across the entire collection (IDF)."
+            },
+            "formula": {
+                "equation": "w_{i,j} = tf_{i,j} \\times \\log\\left(\\frac{N}{df_i}\\right)",
+                "description": "Term Frequency (TF) times Inverse Document Frequency (IDF). N is the total docs, df is docs containing word i.",
+                "terms": [
+                    { "symbol": "tf_{i,j}", "meaning": "Number of occurrences of term i in document j" },
+                    { "symbol": "N", "meaning": "Total number of documents in the collection" },
+                    { "symbol": "df_i", "meaning": "Number of documents containing term i" }
                 ],
-                "mathematicalModeling": {
-                    "problemStatement": "Modeling Pattern Matching as a Finite State Automaton (FSA) problem.",
-                    "derivation": [
-                        {
-                            "step": "Define a query pattern P as a Regular Expression that generates a formal language L(P).",
-                            "equation": "M(P, D) = \\{d \\in D | \\exists w \\in d, w \\in L(P)\\}",
-                            "interpretation": "A document matches if it contains at least one word that is a member of the language defined by the pattern P."
-                        },
-                        {
-                            "step": "Model the search process as a transition between states in a Non-deterministic Finite Automaton (NFA).",
-                            "equation": "\\delta(q, a) = \\{q_1, q_2, \\dots, q_k\\}",
-                            "interpretation": "Each character of the document text acts as an input that moves the search engine through a state machine, aiming for an 'Accepting' state (a match)."
-                        },
-                        {
-                            "step": "Analyze the 'Search Tree' growth for wildcard queries.",
-                            "equation": "N(p^*) = \\sum_{i=1}^{L} V^i",
-                            "interpretation": "A 'greedy' wildcard search theoretically visits every possible lexical combination, proving why unconstrained patterns are computationally expensive compared to direct hash-based lookups."
-                        }
+                "calculation": {
+                    "exampleTitle": "The Specificity Factor",
+                    "description": "Weight of word occurring 3 times in 1 doc, in a library of 1000 docs where word occurs in 10 docs.",
+                    "steps": [
+                        { "label": "TF", "formula": "3", "note": "Local frequency" },
+                        { "label": "IDF", "formula": "\\log_{10}(1000/10) = \\log_{10}(100) = 2", "note": "Global rarity" },
+                        { "label": "Final Weight", "formula": "3 \\times 2 = 6", "note": "Final TF-IDF score" }
                     ],
-                    "conclusion": "Query languages are not just syntax; they are formal boundaries that define what is findable. Research moves toward 'Human-Centric' languages that provide the power of logic with the ease of natural speech."
+                    "input": "TF:3, N:1000, df:10",
+                    "output": "Weight: 6.0"
                 }
             }
         },
         {
-            "slideNumber": 11,
-            "type": "summary",
-            "title": "Trends and Research Issues",
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "text": "Current research focuses on Natural Language Queries (asking full questions), Conversational Search (Voice assistants), and Cross-Language Querying.",
-                "nextTopic": "Query Operations",
-                "preparation": "Read about Relevance Feedback."
+                "text": "The input to a model is the **Term Count Matrix**. The output is a **Ranked List of Scores (0.0 to 1.0)**. In Cosine Similarity, an output near 1.0 means the 'Direction' of the query (the relative proportion of words) perfectly matches the document. A low similarity output tells the system to discard that document, even if it contains many of the query's words, because they are not in the same proportions (meaning the 'Topic' is different)."
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: The Search Space",
+            "content": {
+                "text": "**1. Sample Input**: Query: 'Cat Food'. Doc 1: 'Cat Food store'. Doc 2: 'Dog Food shop'. \n**2. Step-by-Step Illustration**: \n - Map terms to dimensions: [Cat, Dog, Food]. \n - Query Vector: [1, 0, 1]. \n - Doc 1 Vector: [1, 0, 1]. \n - Doc 2 Vector: [0, 1, 1]. \n - Calculate Cosine Similarity: \n - Doc 1: $\\text{Angle}=0^\\circ, \\text{Sim}=1.0$ (Perfect). \n - Doc 2: $\\text{Angle}=60^\\circ, \\text{Sim}=0.5$ (Partial). \n**3. Sample Output**: 1. Doc 1, 2. Doc 2. \n**4. Interpretation of Results**: The VSM output ranked Doc 1 higher because it shared 'Cat' and 'Food'. Doc 2 only shared 'Food', getting a lower score. Unlike Boolean logic which would return both, VSM provides a preference."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "python_demo",
+            "title": "Python Demo: The Mini-Scorer",
+            "content": {
+                "code": "import math\n\ndef cosine_sim(v1, v2):\n    dot = sum(a*b for a, b in zip(v1, v2))\n    mag1 = math.sqrt(sum(a*a for a in v1))\n    mag2 = math.sqrt(sum(b*b for b in v2))\n    return round(dot / (mag1 * mag2), 3)\n\n# Query: 'Retrieval'\n# Doc A: 'Information Retrieval' \n# Doc B: 'Information Management'\n\nq = [1]\nd1 = [1] # Retrieval exists\nd2 = [0] # Retrieval missing\n\n# Higher dims: [Info, Retrieval, Management]\nq_vec = [1, 1, 0]\nd1_vec = [1, 1, 0]\nd2_vec = [1, 0, 1]\n\nprint(f\"Similarity (Match): {cosine_sim(q_vec, d1_vec)}\")\nprint(f\"Similarity (Partial): {cosine_sim(q_vec, d2_vec)}\")",
+                "input": "Query [1,1,0] against docs [1,1,0] and [1,0,1].",
+                "output": "Match: 1.0, Partial: 0.5",
+                "interpretation": "The script calculates cosine similarity. Notice how the Doc with the 'Wrong' word (Management) is penalized. The more 'Right' words a doc has, the closer its vector aligns with the query, increasing the output score toward 1.0."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "comparison",
+            "title": "Comparison: Boolean vs. Vector Model",
+            "comparison": {
+                "headers": ["Aspect", "Boolean Model", "Vector Space Model"],
+                "rows": [
+                    ["Result Type", "Binary (Match / No-Match)", "Ranked (Continuous Score)"],
+                    ["Weighting", "None (All words equal)", "High (TF-IDF Importance)"],
+                    ["Precision", "High (but limited)", "Better (due to ranking)"],
+                    ["Complexity", "Low (Fast bit-logic)", "High (Vector arithmetic)"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "activity",
+            "title": "Virtual Lab: Drawing the Web",
+            "content": {
+                "activity": "The Paper VSM",
+                "description": "Take a 2D graph paper. Let X-axis be 'Sports' and Y-axis be 'Politics'. 1. Put a dot at (5, 0) for a sports article. 2. Put a dot at (0, 5) for a politics article. 3. Put a dot at (3, 3) for a hybrid article. Now, where would a query for 'Sporting Election' land? Which dot is closest to the query line?"
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why does TF-IDF use a Logarithm for IDF instead of just $N/df$? (Hint: Diminishing returns). \n2. Can a document be relevant even if its cosine similarity is 0? (Think of synonyms). \n3. How would you model 'User Context' (like location) as an additional vector dimension?"
             }
         }
     ]

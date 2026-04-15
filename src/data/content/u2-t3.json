@@ -1,164 +1,145 @@
 {
     "id": "u2-t3",
-    "title": "Text Operations (Preprocessing, Clustering, Compression)",
+    "title": "Text Operations: Tokenization & Stemming",
     "unitId": "unit-2",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
             "title": "Text Operations",
-            "subtitle": "Transforming Raw Text for Storage and Analysis",
+            "subtitle": "Cleaning the Noise for the Index",
             "content": {
-                "text": "Text operations prepare documents for indexing. This involves cleaning (preprocessing), grouping (clustering), and shrinking (compression).",
-                "hook": "Data is messy; information is organized; compressed information is efficient."
+                "text": "Before we index text, we must clean it. A search engine doesn't care about a 'comma' or the difference between 'Running' and 'Run'. Pre-processing transforms raw sentences into a clean stream of 'Tokens'.",
+                "hook": "Data is messy; information is organized; tokens are efficient."
             }
         },
         {
             "slideNumber": 2,
-            "type": "diagram",
-            "title": "Text Processing Pipeline",
+            "type": "standard",
+            "title": "Prerequisite Knowledge",
             "content": {
-                "description": "The logic of preparing raw documents for indexing.",
-                "steps": [
-                    "Tokenization (Lexical Analysis)",
-                    "Stopword Filtering",
-                    "Stemming / Lemmatization",
-                    "Thesaurus Expansion",
-                    "Term Normalization"
-                ]
+                "text": "Before studying text operations, you should know: \n1. **Case Sensitivity**: That 'Apple' and 'apple' are often the same thing in search. \n2. **Suffixes**: Common endings like -ing, -ed, -s. \n3. **Stopwords**: Extremely common words like 'the', 'is', 'a' that carry little meaning."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Document Clustering",
+            "title": "Background: The Linguist's Dilemma",
             "content": {
-                "definition": "Unsupervised grouping of documents based on content similarity.",
-                "text": "Clusters help in: 1. Speeding up retrieval (Cluster Pruning), 2. Organizing results for the user, 3. Detecting duplicate content.",
-                "hook": "Birds of a feather (or words of a topic) flock together."
+                "text": "In the 1970s, storage was expensive. Martin Porter developed the 'Porter Stemmer' algorithm to group different versions of a word into a single 'Stem' to save space. Today, we still use these rules to ensure that a search for 'Teaching' finds documents about 'Teachers'."
             }
         },
         {
             "slideNumber": 4,
-            "type": "list",
-            "title": "Text Compression",
-            "items": [
-                "Objective: Reduce storage and increase disk transfer speed.",
-                "Huffman Coding: Variable-length prefix codes.",
-                "Arithmetic Coding: Better compression than Huffman but slower.",
-                "Ziv-Lempel (LZ) algorithms: Dictionary-based compression (ZIP/GZIP)."
-            ],
-            "formula": {
-                "equation": "H = - \\sum_{i} P(s_i) \\log_2 P(s_i)",
-                "description": "Entropy (H) defines the theoretical limit of text compression. Huffman coding calculates bit-lengths for symbols based on their probability (P) to approach this limit.",
-                "terms": [
-                    {
-                        "symbol": "H",
-                        "meaning": "Entropy - average bits required per symbol"
-                    },
-                    {
-                        "symbol": "P(s_i)",
-                        "meaning": "Probability of occurrence for symbol 'i' in the text"
-                    },
-                    {
-                        "symbol": "\\log_2",
-                        "meaning": "Logarithm base 2 (yields units of bits)"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Huffman Bit-Savings",
-                    "description": "Comparing fixed-length vs variable-length for 3 symbols.",
-                    "steps": [
-                        {
-                            "label": "Frequency Count",
-                            "formula": "A=60\\%, B=30\\%, C=10\\%",
-                            "note": "'A' is the most common character."
-                        },
-                        {
-                            "label": "Assign Codes",
-                            "formula": "A=0, B=10, C=11",
-                            "note": "Common symbols get shorter codes."
-                        },
-                        {
-                            "label": "Average Length",
-                            "formula": "L = (0.6 \\times 1) + (0.3 \\times 2) + (0.1 \\times 2) = 1.4 \\text{ bits}",
-                            "note": "A fixed 2-bit code would use 2.0 bits."
-                        },
-                        {
-                            "label": "Space Saved",
-                            "formula": "\\text{Reduction} = 30\\%",
-                            "note": "Saving 0.6 bits per character (30% less space)."
-                        }
-                    ],
-                    "input": "Probabilities: [0.6, 0.3, 0.1]",
-                    "output": "Avg Length: 1.4 bits"
-                }
+            "type": "standard",
+            "title": "Motivation",
+            "content": {
+                "text": "Why unique operations? Because human language is messy. If we don't 'Stem', the index will have 5 different entries for 'Run', 'Running', 'Ran', 'Runs', 'Runner'. This splits the 'Relevance' score and makes searching harder. By normalizing, we improve 'Recall'—finding more relevant documents for the user."
             }
         },
         {
             "slideNumber": 5,
             "type": "standard",
-            "title": "Comparing Compression Techniques",
+            "title": "Challenges",
             "content": {
-                "text": "How do we choose a compression method?",
-                "outcomes": [
-                    "Compression Ratio: How much space is saved.",
-                    "Encoding Speed: How fast can we compress.",
-                    "Decoding Speed: How fast can we read (critical for search).",
-                    "Random Access: Can we jump to the middle without decompressing everything?"
-                ]
+                "text": "1. Over-stemming: Reducing 'Organization' and 'Organ' to the same stem (Bad!). 2. Under-stemming: Leaving 'Alumnus' and 'Alumni' as different words. 3. Language Specificity: Porter's rules for English don't work for Hindi or Kannada."
             }
         },
         {
             "slideNumber": 6,
-            "type": "activity",
-            "title": "Activity: Huffman Tree",
-            "content": {
-                "activity": "Code the Word",
-                "description": "Calculate the frequency of letters in the word 'MISSISSIPPI'. Draw a simple Huffman tree. Which letter gets the shortest code?"
-            }
+            "type": "grid",
+            "title": "The Pipeline",
+            "items": [
+                "Lexical Analysis: Breaking sentences into tokens (words).",
+                "Stopword Removal: Deleting 'junk' words like 'the', 'to', 'for'.",
+                "Stemming: Stripping suffixes (e.g., 'running' -> 'run').",
+                "Normalization: Case folding (A -> a) and removing accents (é -> e)."
+            ]
         },
         {
             "slideNumber": 7,
-            "type": "project",
-            "title": "Mini-Project: Tokenizer",
+            "type": "standard",
+            "title": "The Concept: Zipf's Law (Stopword Motivation)",
             "content": {
-                "idea": "Clean the web",
-                "input": "A raw HTML file.",
-                "process": "1. Strip tags, 2. Lowercase, 3. Remove punctuation, 4. Stem.",
-                "output": "A list of valid indexable tokens."
+                "text": "Zipf's Law explains why we remove stopwords. A few words appear thousands of times, while most words appear once."
+            },
+            "formula": {
+                "equation": "freq_t \\approx \\frac{1}{rank_t^s}",
+                "description": "The frequency of a term (t) is inversely proportional to its rank (r) in the frequency table. For English, s is usually 1.",
+                "terms": [
+                    { "symbol": "freq_t", "meaning": "Number of times word t appears in the collection" },
+                    { "symbol": "rank_t", "meaning": "The rank of word t (e.g. #1 word 'the', #2 'of')" },
+                    { "symbol": "s", "meaning": "Power-law exponent (usually close to 1.0)" }
+                ],
+                "calculation": {
+                    "exampleTitle": "The Frequency Audit",
+                    "description": "If the word 'the' (rank 1) appears 1,000 times, how often does the 10th most common word appear?",
+                    "steps": [
+                        { "label": "Rank 1", "formula": "1000 / 1 = 1000", "note": "Target frequency" },
+                        { "label": "Rank 10", "formula": "1000 / 10 = 100", "note": "Massive drop" },
+                        { "label": "Observation", "formula": "1000 vs 100", "note": "Top 1% of words take up 50% of the index" }
+                    ],
+                    "input": "Freq(1): 1000, Rank: 10.",
+                    "output": "Freq(10): 100"
+                }
             }
         },
         {
             "slideNumber": 8,
-            "type": "quiz",
-            "title": "Topic Quiz",
-            "questions": [
-                "What is the difference between stemming and lemmatization?",
-                "Name one benefit of document clustering in search engines.",
-                "Why is decoding speed more important than encoding speed in IR?",
-                "How does Zipf's law relate to stopword removal?"
-            ]
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
+            "content": {
+                "text": "The input to text operations is **Raw, Messy Text**. The output is a **Clean Token Stream**. According to Zipf's Law, the top 100 output tokens (stopwords) often account for 50% of an input collection's size. Removing these 'heavy' outputs reduces index size by half without losing any 'Searched' meaning. Stemming output ensures that variable input forms map to a single 'Logical Concept' in the index, dramatically increasing search sensitivity (Recall)."
+            }
         },
         {
             "slideNumber": 9,
-            "type": "python_demo",
-            "title": "Python Demo: Cosine Similarity",
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Normalizing the Web",
             "content": {
-                "code": "import math\n\ndef cosine_sim(v1, v2):\n    dot = sum(a*b for a, b in zip(v1, v2))\n    norm1 = math.sqrt(sum(a*a for a in v1))\n    norm2 = math.sqrt(sum(b*b for b in v2))\n    return dot / (norm1 * norm2) if norm1*norm2 > 0 else 0\n\nq = [1, 0, 1]\nd = [1, 1, 0]\n\nsim = cosine_sim(q, d)\nprint(f\"Similarity: {round(sim, 3)}\")",
-                "input": "Query: [1, 0, 1]\nDoc: [1, 1, 0]",
-                "output": "Similarity: 0.5",
-                "interpretation": "Cosine similarity measures the angle between vectors.\nA score of 0.5 means the query and document vectors are 60 degrees apart.\nThis is the standard ranking metric for the Vector Space Model."
+                "text": "**1. Sample Input**: 'The cats are running! 🐱'. \n**2. Step-by-Step Illustration**: \n - **Tokenize**: ['The', 'cats', 'are', 'running', '!']. \n - **Lowercase**: ['the', 'cats', 'are', 'running']. \n - **Stopword Removal**: ['cats', 'running']. \n - **Stemming**: ['cat', 'run']. \n**3. Sample Output**: ['cat', 'run']. \n**4. Interpretation of Results**: We turned a 5-word sentence with punctuation and grammar into 2 core 'Key Concepts'. Now, if a user searches for 'Cats', they will find this sentence even though the index only stores 'cat'."
             }
         },
         {
             "slideNumber": 10,
-            "type": "summary",
-            "title": "Wrap-up",
+            "type": "python_demo",
+            "title": "Python Demo: The Mini-Preprocessor",
             "content": {
-                "text": "Text is now ready. Next, we build the actual structure that allows us to find it: the Inverted Index.",
-                "nextTopic": "Indexing and Searching",
-                "preparation": "Learn about the structure of an Inverted File."
+                "code": "import re\n\nstopwords = {'the', 'is', 'are', 'in', 'to', 'for'}\n\ndef preprocess(text):\n    # 1. Lowercase\n    text = text.lower()\n    # 2. Tokenize & Strip punctuation\n    tokens = re.findall(r'\\w+', text)\n    # 3. Filter stopwords\n    filtered = [t for t in tokens if t not in stopwords]\n    # 4. Simple Stemming (Suffix stripping)\n    stemmed = [t[:-1] if t.endswith('s') else t for t in filtered]\n    return stemmed\n\nsentence = \"The search engines are indexing cats for us!\"\nprint(f\"Original: {sentence}\")\nprint(f\"Cleaned Tokens: {preprocess(sentence)}\")",
+                "input": "A full sentence with punctuation.",
+                "output": "['search', 'engine', 'index', 'cat', 'u']",
+                "interpretation": "The script demonstrates the 'Reduction' of language. Note how 'cats' becomes 'cat' and 'the', 'are', 'for' disappear. This tiny list of words is 100% sufficient to index the original meaning while saving 60% of the storage space."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "comparison",
+            "title": "Comparison: Stemming vs. Lemmatization",
+            "comparison": {
+                "headers": ["Aspect", "Stemming (Porter)", "Lemmatization"],
+                "rows": [
+                    ["Method", "Crude rule-based cutting", "Intelligent dictionary lookup"],
+                    ["Result", "May not be a real word ('teaching'->'teach')", "Always a real word ('saw'->'see')"],
+                    ["Speed", "Very Fast (Arithmetic)", "Slower (Requires database)"],
+                    ["Use Case", "Web Search (Massive scale)", "Question Answering (High detail)"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "activity",
+            "title": "Virtual Lab: Manual Preprocessing",
+            "content": {
+                "activity": "The Reducer",
+                "description": "Find a paragraph in a news article. 1. Cross out every word that is 3 letters or less (Junk filter). 2. Strip the 'ing' and 'es' from the remaining words. 3. Now read the words that are left. Does the 'Meaning' still come through? That's what a search engine sees."
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why do search engines keep a 'Thesaurus' to map 'Cars' to 'Automobiles' if stemming doesn't work? \n2. In a search for 'To be or not to be', removing stopwords would delete the entire query! How does Google handle this exception? \n3. Is Case Folding (A->a) always a good idea? (Hint: Does 'Apple' the company mean the same as 'apple' the fruit?)"
             }
         }
     ]
