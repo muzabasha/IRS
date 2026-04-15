@@ -80,7 +80,7 @@
                 "text": "Fitts's Law is a predictive model of human movement primarily used in HCI to describe the time it takes to move to a target area."
             },
             "formula": {
-                "equation": "T = a + b \\\\log_2 \\\\left( \\\\frac{D}{W} + 1 \\\\right)",
+                "equation": "T = a + b \\log_2 \\left( \\frac{D}{W} + 1 \\right)",
                 "description": "The time (T) required to move to a target is a function of the distance (D) and the width (W) of the target.",
                 "terms": [
                     { "symbol": "T", "meaning": "Average time to complete the movement" },
@@ -93,13 +93,14 @@
                     "description": "Calculate time for a button click.",
                     "steps": [
                         { "label": "Setup", "formula": "D=200, W=20, a=0.2, b=0.1", "note": "Standard desktop layout" },
-                        { "label": "Log Part", "formula": "\\\\log_2(200/20 + 1) \\\\approx 3.45", "note": "Index of Difficulty" },
-                        { "label": "Total Time", "formula": "T = 0.2 + (0.1 \\\\times 3.45) = 0.545s", "note": "Predicted click time" }
+                        { "label": "Log Part", "formula": "\\log_2(200/20 + 1) \\approx 3.45", "note": "Index of Difficulty" },
+                        { "label": "Total Time", "formula": "T = 0.2 + (0.1 \\times 3.45) = 0.545s", "note": "Predicted click time" }
                     ],
                     "input": "D:200, W:20, Constants:[0.2, 0.1]",
                     "output": "T: 0.545 seconds"
                 }
             }
+
         },
         {
             "slideNumber": 10,

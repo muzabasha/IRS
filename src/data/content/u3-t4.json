@@ -80,10 +80,10 @@
                 "text": "The Rocchio Algorithm is the classic method for using feedback to update a search query vector in the Vector Space Model."
             },
             "formula": {
-                "equation": "Q_{new} = \\\\alpha \\\\vec{Q}_{orig} + \\\\beta \\\\left( \\\\frac{1}{|D_r|} \\\\sum_{\\\\vec{d} \\\\in D_r} \\\\vec{d} \\\\right) - \\\\gamma \\\\left( \\\\frac{1}{|D_{nr}|} \\\\sum_{\\\\vec{d} \\\\in D_{nr}} \\\\vec{d} \\\\right)",
+                "equation": "Q_{new} = \\alpha \\vec{Q}_{orig} + \\beta \\left( \\frac{1}{|D_r|} \\sum_{\\vec{d} \\in D_r} \\vec{d} \\right) - \\gamma \\left( \\frac{1}{|D_{nr}|} \\sum_{\\vec{d} \\in D_{nr}} \\vec{d} \\right)",
                 "description": "The new query (Q_new) is a weighted sum of the original query, the average of relevant documents (D_r), and the average of non-relevant documents (D_nr).",
                 "terms": [
-                    { "symbol": "\\\\alpha, \\\\beta, \\\\gamma", "meaning": "Weights: Importance of original query, relevance, and non-relevance" },
+                    { "symbol": "\\alpha, \\beta, \\gamma", "meaning": "Weights: Importance of original query, relevance, and non-relevance" },
                     { "symbol": "D_r", "meaning": "The set of documents marked as relevant" },
                     { "symbol": "D_{nr}", "meaning": "The set of documents marked as non-relevant" }
                 ],
@@ -91,15 +91,16 @@
                     "exampleTitle": "Query Expansion Loop",
                     "description": "Calculate a one-dimensional update for a single term weight.",
                     "steps": [
-                        { "label": "Original", "formula": "Q=0.5, \\\\alpha=1, \\\\beta=0.75, \\\\gamma=0.25", "note": "Initial query weight" },
+                        { "label": "Original", "formula": "Q=0.5, \\alpha=1, \\beta=0.75, \\gamma=0.25", "note": "Initial query weight" },
                         { "label": "Rel Doc", "formula": "D_r = [0.9]", "note": "User liked a document with high weight" },
                         { "label": "Non-Rel Doc", "formula": "D_{nr} = [0.1]", "note": "User disliked a document with low weight" },
-                        { "label": "New Query", "formula": "Q_{new} = 0.5 + (0.75 \\\\times 0.9) - (0.25 \\\\times 0.1) = 1.15", "note": "Weight increased!" }
+                        { "label": "New Query", "formula": "Q_{new} = 0.5 + (0.75 \\times 0.9) - (0.25 \\times 0.1) = 1.15", "note": "Weight increased!" }
                     ],
                     "input": "Q_orig=0.5, Dr=0.9, Dnr=0.1, Weights:[1, 0.75, 0.25]",
                     "output": "Q_new Weight: 1.15"
                 }
             }
+
         },
         {
             "slideNumber": 10,
@@ -172,8 +173,67 @@
             "type": "standard",
             "title": "Discussion & Self-Reflection",
             "content": {
-                "text": "1. Why is the 'Relevant centroid' given more weight ($\\\\beta=0.75$) than the 'Non-relevant centroid' ($\\\\gamma=0.25$)? \n2. How should a search engine handle 'Negative Feedback'? If a user dislikes one news article, should the engine hide ALL articles from that source? \n3. Is 'Personalization' actually harmful to society by creating echo chambers?"
+                "text": "1. Why is the 'Relevant centroid' given more weight (\\beta=0.75) than the 'Non-relevant centroid' (\\gamma=0.25)? \n2. How should a search engine handle 'Negative Feedback'? If a user dislikes one news article, should the engine hide ALL articles from that source? \n3. Is 'Personalization' actually harmful to society by creating echo chambers?"
+            }
+
+        },
+        {
+            "slideNumber": 18,
+            "type": "standard",
+            "title": "The Gold Standard: Precision and Recall",
+            "content": {
+                "text": "How do we know if our relevance judgments and feedback actually work? We use the foundational metrics of IR: Precision and Recall."
+            },
+            "formula": {
+                "equation": "P = \\frac{TP}{TP + FP}, \\quad R = \\frac{TP}{TP + FN}",
+                "description": "Precision (P) measures accuracy (no false positives), while Recall (R) measures coverage (finding all relevant bits).",
+                "terms": [
+                    { "symbol": "TP", "meaning": "True Positives: Relevant documents that were retrieved" },
+                    { "symbol": "FP", "meaning": "False Positives: Non-relevant documents that were retrieved" },
+                    { "symbol": "FN", "meaning": "False Negatives: Relevant documents that were NOT retrieved" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Efficiency Audit",
+                    "description": "Calculate score for a system that found 80 relevant docs out of 100, but also 20 junk ones.",
+                    "steps": [
+                        { "label": "Precision", "formula": "80 / (80 + 20) = 0.8", "note": "80% accuracy" },
+                        { "label": "Recall", "formula": "80 / (80 + 20) = 0.8", "note": "80% coverage" },
+                        { "label": "F-Measure", "formula": "F_1 = \\frac{2PR}{P+R} = 0.8", "note": "Balanced score" }
+                    ],
+                    "input": "TP:80, FP:20, FN:20.",
+                    "output": "P: 0.8, R: 0.8, F1: 0.8"
+                }
+            }
+        },
+        {
+            "slideNumber": 19,
+            "type": "standard",
+            "title": "Advanced Metrics: MAP & nDCG",
+            "content": {
+                "text": "Ranked retrieval requires metrics that consider the *order* of results. A relevant document at Rank 1 is much more valuable than at Rank 10."
+            },
+            "formula": {
+                "equation": "\\text{MAP} = \\frac{1}{|Q|} \\sum_{q=1}^{|Q|} \\text{AveP}(q), \\quad \\text{DCG}_p = \\sum_{i=1}^p \\frac{rel_i}{\\log_2(i+1)}",
+                "description": "Mean Average Precision (MAP) averages performance across many queries. Discounted Cumulative Gain (DCG) rewards highly relevant items at the top of the list.",
+                "terms": [
+                    { "symbol": "AveP", "meaning": "Average Precision for a single query" },
+                    { "symbol": "Q", "meaning": "Set of all queries" },
+                    { "symbol": "rel_i", "meaning": "Relevance score (e.g. 0 to 3) of result at position i" },
+                    { "symbol": "\\log_2(i+1)", "meaning": "Discount factor that reduces the value of lower-ranked items" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Ranking Bonus",
+                    "description": "Calculate DCG at position 2 for a list: [High Relevance (3), Low Relevance (1)].",
+                    "steps": [
+                        { "label": "Rank 1", "formula": "3 / \\log_2(2) = 3", "note": "Full value" },
+                        { "label": "Rank 2", "formula": "1 / \\log_2(3) \\approx 0.63", "note": "Discounted value" },
+                        { "label": "Sum", "formula": "3 + 0.63 = 3.63", "note": "DCG@2 Score" }
+                    ],
+                    "input": "Rel:[3, 1], p=2",
+                    "output": "DCG@2: 3.63"
+                }
             }
         }
     ]
 }
+

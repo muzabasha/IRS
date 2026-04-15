@@ -80,7 +80,7 @@
                 "text": "Query Entropy measures the uncertainty or informative value of a query. A query with many specific terms has higher entropy (is more informative) but might retrieve fewer documents."
             },
             "formula": {
-                "equation": "H(Q) = -\\\\sum_{i=1}^{n} P(w_i) \\\\log_2 P(w_i)",
+                "equation": "H(Q) = -\\sum_{i=1}^{n} P(w_i) \\log_2 P(w_i)",
                 "description": "Entropy (H) is the sum of probabilities (P) of each word (w) in the query multiplied by their log probability. More rare or descriptive words increase query information.",
                 "terms": [
                     { "symbol": "P(w)", "meaning": "Probability of word w appearing in the collection (rarity)" },
@@ -97,6 +97,7 @@
                     "output": "Result: 'Graphene' is 4x more informative (bits)"
                 }
             }
+
         },
         {
             "slideNumber": 10,

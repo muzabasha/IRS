@@ -80,7 +80,7 @@
                 "text": "The Information Scent equation helps us predict when a user will stop browsing and start clicking."
             },
             "formula": {
-                "equation": "E[U] = (P \\\\times V) - C",
+                "equation": "E[U] = (P \\times V) - C",
                 "description": "Expected Utility (E[U]) is the perceived probability (P) of success multiplied by the value (V), minus the cost (C) of the interaction.",
                 "terms": [
                     { "symbol": "P", "meaning": "Probability of relevance (Scent strength)" },
@@ -93,7 +93,7 @@
                     "description": "Evaluate if a result snippet is 'clickable'.",
                     "steps": [
                         { "label": "Setup", "formula": "P=0.9, V=100, C=10", "note": "Strong title match" },
-                        { "label": "Calculation", "formula": "(0.9 \\\\times 100) - 10 = 80", "note": "Strong positive utility" },
+                        { "label": "Calculation", "formula": "(0.9 \\times 100) - 10 = 80", "note": "Strong positive utility" },
                         { "label": "Alternative", "formula": "P=0.2, V=100, C=10", "note": "For vague titles: 20-10 = 10 (weak)" }
                     ],
                     "input": "P:0.9, V:100, C:10",
