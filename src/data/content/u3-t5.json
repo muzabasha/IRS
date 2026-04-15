@@ -1,16 +1,16 @@
 {
     "id": "u3-t5",
-    "title": "Search Support & Result Evaluation",
+    "title": "Evaluation: Precision, Recall and F-Measure",
     "unitId": "unit-3",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Search Support & Evaluation",
-            "subtitle": "Helping the User Decide",
+            "title": "Evaluation in IR",
+            "subtitle": "Measuring Success and Relevance",
             "content": {
-                "text": "Getting a list of links is only half the battle. The user needs help deciding which link to click. 'Search Support' tools like snippets, categories, and facets provide this critical assistance.",
-                "hook": "We don't search for links; we search for answers."
+                "text": "How do we know if a search engine is actually 'good'? Evaluation provides the mathematical metrics to measure how well a system satisfies a user's information need.",
+                "hook": "Measurement is the first step that leads to control and eventually to improvement."
             }
         },
         {
@@ -18,160 +18,156 @@
             "type": "standard",
             "title": "Prerequisite Knowledge",
             "content": {
-                "text": "Before studying Search Support, you should know: \n1. **Query Specification**: How users formulate their initial request. \n2. **Information Scent**: The theory that users follow cues (snippets) to find relevance. \n3. **Decision Making**: The basic idea that users have a 'budget' of time and energy (Cognitive Load)."
+                "text": "To understand evaluation metrics, you should know: \n1. **Relevance**: The concept that a document either 'matches' or 'does not match' a query. \n2. **Retrieval Set**: The list of documents returned by the search engine. \n3. **Ground Truth**: A set of human-judged relevant documents used for testing."
+            }
+        },
+        {
+            "slideNumber": 3,
+            "type": "standard",
+            "title": "Background: The Cranfield Paradigm",
+            "content": {
+                "text": "In the 1960s, Cyril Cleverdon established the 'Cranfield Paradigm'. It requires three things: 1. A collection of documents. 2. A set of test queries. 3. Binary relevance judgments (Yes/No) for every query-document pair. This allows us to calculate consistent scores across different algorithms."
             }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Background",
+            "title": "Motivation",
             "content": {
-                "text": "In the early 1990s, search results were just the 'Page Title'. Users had to click blindly. The introduction of 'Snippets' (short text previews) in the late 90s revolutionized IR. Today, we have 'Featured Snippets' that attempt to answer the question directly on the search page."
+                "text": "Why evaluate? Because 'Relevance' is subjective. We need objective numbers to compare the Vector Space Model against the Probabilistic Model. Without metrics like Precision and Recall, we are just 'guessing' which system is better."
             }
         },
         {
             "slideNumber": 5,
             "type": "standard",
-            "title": "Motivation",
+            "title": "Challenges",
             "content": {
-                "text": "Why invest in support tools? Because cognitive load is high. If a user has to click 10 links to find one fact, they will perceive the engine as poor. By providing 'Support' (like Facets on Amazon), we help the user 'Divide and Conquer' a massive result set quickly."
+                "text": "1. Exhaustivity: It is impossible for humans to judge every document on the web for a query. 2. Subjectivity: Two people might disagree on whether a document is relevant. 3. Static Nature: Standard metrics don't account for how the user's need changes over time."
             }
         },
         {
             "slideNumber": 6,
-            "type": "standard",
-            "title": "Challenges",
-            "content": {
-                "text": "1. Snippet Selection: Which part of a 10,000-word document is most relevant to the user's specific query? 2. Multi-Device Layout: Showing facets on a tiny mobile screen. 3. Zero-Click Search: If we answer the query in the snippet, the original website might lose traffic."
-            }
+            "type": "grid",
+            "title": "Common Metrics",
+            "items": [
+                "Precision: Accuracy of results (How many retrieved are actually good?)",
+                "Recall: Completeness of results (How many good ones did we find?)",
+                "F-Measure: Harmonic mean of Precision and Recall.",
+                "Fallout: The proportion of non-relevant docs that were retrieved."
+            ]
         },
         {
             "slideNumber": 7,
-            "type": "grid",
-            "title": "Application",
-            "items": [
-                "E-commerce Facets: 'Brand', 'Price', 'Rating' filters.",
-                "Keyword Highlighting: Seeing query terms in bold within snippets.",
-                "Related Queries: 'Users also searched for...'.",
-                "Definition Boxes: Instant answers for common lookups ('height of Eiffel Tower')."
-            ]
+            "type": "standard",
+            "title": "The Concept: Precision and Recall",
+            "content": {
+                "text": "Precision measures the quality (exactness) of the search, while Recall measures the quantity (completeness)."
+            },
+            "formula": {
+                "equation": "\\text{Precision} = \\frac{TP}{TP + FP}, \\quad \\text{Recall} = \\frac{TP}{TP + FN}",
+                "description": "Precision is the ratio of relevant documents found to the total documents retrieved. Recall is the ratio of relevant documents found to the total relevant documents in the collection.",
+                "terms": [
+                    { "symbol": "TP", "meaning": "True Positives: Relevant documents that were correctly retrieved." },
+                    { "symbol": "FP", "meaning": "False Positives: Non-relevant documents that were retrieved (noise)." },
+                    { "symbol": "FN", "meaning": "False Negatives: Relevant documents that were NOT retrieved (missed)." }
+                ],
+                "calculation": {
+                    "exampleTitle": "Search Accuracy Check",
+                    "description": "Evaluate a search that returns 10 docs, 8 of which are relevant, out of 20 total relevant ones.",
+                    "steps": [
+                        { "label": "Setup", "formula": "TP=8, FP=2, FN=12", "note": "Retrieved=10, Total Rel=20" },
+                        { "label": "Precision", "formula": "8 / (8 + 2) = 0.8", "note": "80% accuracy" },
+                        { "label": "Recall", "formula": "8 / (8 + 12) = 0.4", "note": "40% coverage" }
+                    ],
+                    "input": "TP:8, FP:2, RelInCollection:20",
+                    "output": "P: 0.8, R: 0.4"
+                }
+            }
         },
         {
             "slideNumber": 8,
             "type": "standard",
-            "title": "Introduction to Evaluation Support",
+            "title": "The Concept: F-Measure (Balanced Score)",
             "content": {
-                "text": "Evaluation support is about reducing 'Hick's Law' overhead. Hick's Law states that the time it takes to make a decision increases with the number of choices. By using 'Facets' to group 1,000 results into 5 categories, we drastically speed up the decision process."
+                "text": "The F-Measure combines Precision and Recall into a single number using the Harmonic Mean, which punishes extreme values."
+            },
+            "formula": {
+                "equation": "F = \\frac{2 \\times P \\times R}{P + R}",
+                "description": "F1-Score gives equal weight to Precision and Recall. It is high only when both P and R are high.",
+                "terms": [
+                    { "symbol": "P", "meaning": "Precision" },
+                    { "symbol": "R", "meaning": "Recall" },
+                    { "symbol": "F", "meaning": "F1-Measure" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Overall Performance",
+                    "description": "Calculate F1 for P=0.8 and R=0.4.",
+                    "steps": [
+                        { "label": "Numerator", "formula": "2 \\times 0.8 \\times 0.4 = 0.64", "note": "Product" },
+                        { "label": "Denominator", "formula": "0.8 + 0.4 = 1.2", "note": "Sum" },
+                        { "label": "Result", "formula": "0.64 / 1.2 \\approx 0.533", "note": "Balanced score" }
+                    ],
+                    "input": "P:0.8, R:0.4",
+                    "output": "F1: 0.533"
+                }
             }
         },
         {
             "slideNumber": 9,
             "type": "standard",
-            "title": "Step-by-Step Algorithm: Result Evaluation Optimization",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "text": "1. **Identify Query Context**: Determine if the query is Informational, Navigational, or Transactional. \n2. **Extract Snippets**: Find the passage in each top document that has the highest density of query terms. \n3. **Generate Facets**: Analyze the metadata of the result set (e.g., File types, Date ranges, Authors). \n4. **Apply Hick's Law**: Group items into sets of 5-7 to minimize cognitive friction for the user. \n5. **Render UI**: Show the query-dependent snippets and the navigation filters. \n6. **Monitor Engagement**: Track which snippets lead to a 'Short-click' (immediate bounce) vs a 'Long-click' (satisfaction)."
+                "text": "The input to evaluation is the **Contingency Matrix** (TP, FP, FN, TN). The output is a triplet of scores (**P, R, F**). High Precision means the user doesn't see 'Junk'. High Recall means the user finds 'Everything'. The F-measure output is the final 'Quality Score'. If F is low, it signals the developer that either the ranking is too strict (Low Recall) or too loose (Low Precision)."
             }
         },
         {
             "slideNumber": 10,
             "type": "standard",
-            "title": "The Concept: Hick's Law",
+            "title": "Step-by-Step Illustration: The Search Audit",
             "content": {
-                "text": "Hick's Law describes the time it takes for a person to make a decision as a result of the possible choices they have."
-            },
-            "formula": {
-                "equation": "T = a + b \\\\log_2(n + 1)",
-                "description": "Decision time (T) increases logarithmically as the number of choices (n) increases.",
-                "terms": [
-                    { "symbol": "T", "meaning": "Average time to make a choice" },
-                    { "symbol": "n", "meaning": "Number of equally probable choices" },
-                    { "symbol": "a, b", "meaning": "Standard constants for human reaction and processing" }
-                ],
-                "calculation": {
-                    "exampleTitle": "Choice Overload",
-                    "description": "Compare choosing from 10 results vs 100 results.",
-                    "steps": [
-                        { "label": "Setup", "formula": "n=10, a=0.5s, b=0.15s", "note": "Processing 10 results" },
-                        { "label": "Log Part", "formula": "0.15 \\\\times \\\\log_2(11) \\\\approx 0.52s", "note": "Complexity overhead" },
-                        { "label": "Total Time", "formula": "0.5 + 0.52 = 1.02s", "note": "Time for 10 items" }
-                    ],
-                    "input": "n:10, a:0.5, b:0.15",
-                    "output": "T: 1.02 seconds"
-                }
+                "text": "**1. Sample Input**: A library search for 'Calculus' retrieves 5 books. 4 are about Calculus ($TP=4$), and 1 is a Cooking book ($FP=1$). In total, the library has 10 Calculus books ($TP+FN=10$). \n**2. Step-by-Step Illustration**: \n - Calculate Precision: $4 / (4+1) = 0.8$. (80% of what was shown was good). \n - Calculate Recall: $4 / 10 = 0.4$. (We found only 40% of the total books). \n - Calculate F1: $(2 \\times 0.8 \times 0.4) / (0.8 + 0.4) = 0.53$. \n**3. Sample Output**: $P=0.8, R=0.4, F=0.53$. \n**4. Interpretation of Results**: The system has high 'Trust' (Precision) but leaves many stones unturned (Low Recall). To improve the user experience, we should expand the query to find the other 6 Calculus books."
             }
         },
         {
             "slideNumber": 11,
-            "type": "standard",
-            "title": "Interpretation of Input and Output",
+            "type": "python_demo",
+            "title": "Python Demo: The Evaluation Lab",
             "content": {
-                "text": "The input to Hick's Law is the **Number of Results (n)**. The output is **Decision Time (T)**. If the input (n) is large (like 100), the output T increases logarithmically. By providing 'Facets' to group results into sets of 5, the system effectively reduces the 'input n' seen at each decision point, giving a much faster and efficient output T."
+                "code": "def evaluate_ir(tp, fp, fn):\n    precision = tp / (tp + fp) if (tp + fp) > 0 else 0\n    recall = tp / (tp + fn) if (tp + fn) > 0 else 0\n    f1 = (2 * precision * recall) / (precision + recall) if (precision + recall) > 0 else 0\n    \n    return {\"Precision\": round(precision, 3), \"Recall\": round(recall, 3), \"F1\": round(f1, 3)}\n\n# Scenario: Strict Search (High P, Low R)\nprint(f\"Strict System: {evaluate_ir(tp=5, fp=1, fn=20)}\")\n\n# Scenario: Loose Search (Low P, High R)\nprint(f\"Loose System: {evaluate_ir(tp=20, fp=50, fn=5)}\")",
+                "input": "TP=5, FP=1, FN=20 vs TP=20, FP=50, FN=5.",
+                "output": "Strict: F1=0.32, Loose: F1=0.42",
+                "interpretation": "The script shows the classic trade-off. The 'Strict' system is very accurate but misses most results. The 'Loose' system finds almost everything but shows a lot of junk. IR engineering is the art of balancing these two numbers."
             }
         },
         {
             "slideNumber": 12,
-            "type": "standard",
-            "title": "Step-by-Step Illustration: Navigating Results",
-            "content": {
-                "text": "**1. Sample Input**: Suppose a user is shown 10 result items ($n=10$). Constants: $b=0.15s, a=0s$. \n**2. Step-by-Step Illustration**: \n - Calculate log complexity: $\\\\log_2(10 + 1) = \\\\log_2(11) \\\\approx 3.45$ bits. \n - Apply constant $b$: $0.15 \\\\times 3.45 = 0.518s$. \n**3. Sample Output**: $T = 0.518$ seconds. \n**4. Interpretation of Results**: The user takes about half a second to decide which of the 10 results to click. If we provide 100 items ($n=100$), the output $T$ would grow to $0.99s$ (nearly 1 second), proving why 'Top-10' pagination is so effective."
+            "type": "comparison",
+            "title": "Comparison: Precision vs. Recall",
+            "comparison": {
+                "headers": ["Aspect", "High Precision Focus", "High Recall Focus"],
+                "rows": [
+                    ["User Goal", "Find 1 or 2 perfect answers fast", "Find every possible document on a topic"],
+                    ["Typical System", "Web Search (Google)", "Legal or Medical Patent Search"],
+                    ["Result Quality", "No junk, but many missed items", "No missed items, but high junk volume"],
+                    ["Cost of Error", "Low (Just look at next result)", "Extreme (Missing a cure or a law)"]
+                ]
             }
         },
         {
             "slideNumber": 13,
-            "type": "python_demo",
-            "title": "Python Demo: Decision Time Predictor",
+            "type": "activity",
+            "title": "Virtual Lab: Manual Audit",
             "content": {
-                "code": "import math\n\ndef calculate_hicks_time(num_options, a=0.5, b=0.2):\n    # Hick's Law formula\n    return a + b * math.log2(num_options + 1)\n\nprint(f\"Time for 100 results: {round(calculate_hicks_time(100), 2)}s\")\nprint(f\"Time for 5 facets: {round(calculate_hicks_time(5), 2)}s\")",
-                "input": "n=100 vs. n=5.",
-                "output": "100 Results: 1.83s, 5 Facets: 1.02s",
-                "interpretation": "The script shows that making a decision among 100 items takes nearly twice as long as choosing from a curated category of 5 items. This is why filtering and faceting are essential search-support features."
+                "activity": "The 10-Result Test",
+                "description": "Search for 'Impact of climate change on coffee' on a search engine. Look at the first 10 results. Mark each as 'Relevant' or 'Not Relevant'. Calculate your 'Precision @ 10'. Now, guess how many relevant pages exist on the whole internet. How does this affect your perceived Recall?"
             }
         },
         {
             "slideNumber": 14,
             "type": "standard",
-            "title": "Advantages & Drawbacks",
-            "content": {
-                "text": "Advantage: Facets reduce the 'Linear Scan' effort (where users read from top to bottom) into a 'Faceted Navigation' (where they move to the correct area). Drawback: If the facets are poorly generated (e.g. empty categories), they waste screen space."
-            }
-        },
-        {
-            "slideNumber": 15,
-            "type": "standard",
-            "title": "Solution to Address Drawbacks",
-            "content": {
-                "text": "To improve facets, use 'Dynamic Faceting'—only show filters that have results for the current query. For snippets, use 'Query-Biased Summaries' that highlight the exact relationship between the document content and the user's information need."
-            }
-        },
-        {
-            "slideNumber": 16,
-            "type": "comparison",
-            "title": "Comparison: Static vs. Dynamic Snippets",
-            "comparison": {
-                "headers": ["Feature", "Static Snippet (Metadata)", "Dynamic Snippet (Query-Biased)"],
-                "rows": [
-                    ["Content", "First 100 words of page", "Sentences containing query terms"],
-                    ["Relevance", "Zero (Same for every search)", "High (Shows WHY it matches)"],
-                    ["Computation", "Free (Pre-computed)", "Expensive (Computed on-the-fly)"],
-                    ["User trust", "Low", "High"]
-                ]
-            }
-        },
-        {
-            "slideNumber": 17,
-            "type": "activity",
-            "title": "Virtual Lab: Snippet Audit",
-            "content": {
-                "activity": "The Snippet Detective",
-                "description": "Search for something technical (e.g., 'Python decorators vs generators'). Look at the snippets for the top 3 results. Which snippet helped you understand the answer *before* clicking? If you can answer your question without clicking any link, is the search engine 'stealing' traffic or 'providing value'?"
-            }
-        },
-        {
-            "slideNumber": 18,
-            "type": "standard",
             "title": "Discussion & Self-Reflection",
             "content": {
-                "text": "1. Why does Amazon show 'Average Star Rating' as a facet on the left? Does it hide high-quality new products? \n2. As an IR student, how would you design a 'Snippet' for a video search? Should it be text, a thumbnail, or a 3-second clip? \n3. Is 'Result Evaluation' harder for users on a smartphone than on a large monitor? Why?"
+                "text": "1. Why can't we have 100% Precision and 100% Recall at the same time in most systems? \n2. In a 'Search for a Missing Person', is Recall or Precision more important? Why? \n3. How does 'Autocomplete' help improve precision before the search even begins?"
             }
         }
     ]

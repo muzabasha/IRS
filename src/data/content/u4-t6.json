@@ -1,16 +1,16 @@
 {
     "id": "u4-t6",
-    "title": "Natural Language & Question Answering",
+    "title": "Multimedia Retrieval: Video, Audio & Semantic Web",
     "unitId": "unit-4",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Natural Language & QA",
-            "subtitle": "From Search Engines to Answer Engines",
+            "title": "Complex Multimedia & Semantic Web",
+            "subtitle": "Searching Sounds, Motion, and Meaning",
             "content": {
-                "text": "The ultimate goal of IR is to provide an 'Answer', not just a 'List of Links'. Natural Language Processing (NLP) bridge the gap between human language and machine data.",
-                "hook": "We don't want a web page about weather; we want to know 'Should I bring an umbrella?'"
+                "text": "Information Retrieval is moving from 'Static' data (text, images) to 'Dynamic' data (video, audio) and 'Stuctured' data (The Semantic Web).",
+                "hook": "We are teaching computers not just to see, but to listen and understand."
             }
         },
         {
@@ -18,15 +18,15 @@
             "type": "standard",
             "title": "Prerequisite Knowledge",
             "content": {
-                "text": "Before studying QA systems, you should understand: \n1. **Query Specification**: How users formulate questions starting with 'Who', 'What', 'Where'. \n2. **Basic NLP**: Concepts like 'Nouns' (Entities) and 'Verbs' (Actions). \n3. **Mean Reciprocal Rank (MRR)**: A metric that reward the system more for putting the correct answer at #1."
+                "text": "Before studying advanced retrieval, you should know: \n1. **Spectrograms**: A visual representation of the spectrum of frequencies in a sound. \n2. **Keyframes**: Representative frames that summarize a video clip. \n3. **Ontologies**: A set of concepts and categories in a subject area that shows their properties and the relations between them."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Background",
+            "title": "Background: The Evolution of Meaning",
             "content": {
-                "text": "In the 1960s, systems like BASEBALL answered questions from small, fixed databases. In the early 2010s, IBM's Watson defeated humans at Jeopardy! Today, LLMs (Large Language Models) have turned every search into a potential QA session. The shift is from 'Information Retrieval' to 'Information Generation'."
+                "text": "In the early 2000s, video search meant searching 'Captions'. In 2010, Shazam proved we could search 'Audio Fingerprints'. Today, the Semantic Web (Web 3.0) uses Linked Data to help computers understand that 'Paris' is a 'City' and 'Eiffel' is a 'Landmark' located in it."
             }
         },
         {
@@ -34,7 +34,7 @@
             "type": "standard",
             "title": "Motivation",
             "content": {
-                "text": "Why study QA? Because on mobile and voice devices, users don't have a screen to browse 10 links. They need a single, concise answer. QA (Question Answering) is the most efficient interface for 'Factoid' information needs."
+                "text": "Why unique methods for audio/video? Because you cannot 'CTR+F' a song or a gesture. Acoustic fingerprints allow us to identify a song from a 5-second recording in a noisy bar. Semantic triples (Subject-Predicate-Object) allow us to answer complex questions like 'Who is the wife of the President of France?'"
             }
         },
         {
@@ -42,137 +42,132 @@
             "type": "standard",
             "title": "Challenges",
             "content": {
-                "text": "1. Ambiguity: 'Is the president in?' (Which president? In where?). 2. Temporality: 'Who is the CEO of Twitter?' (The answer changes over time). 3. Reasoning: 'Can a cat fit in a shoebox?' requires spatial reasoning, not just keyword matching."
+                "text": "1. Temporal dimension: A video changes over time, requiring 'Shot Detection'. 2. Audio Noise: Background talking or wind making it hard to match a sound. 3. Interoperability: Getting different websites to use the same 'Knowledge Graph' (Semantic Web)."
             }
         },
         {
             "slideNumber": 6,
             "type": "grid",
-            "title": "Application",
+            "title": "Advanced Features",
             "items": [
-                "Digital Assistants (Siri, Alexa, Google Assistant).",
-                "Customer Support Bots: 'How do I reset my password?'.",
-                "Code Completion: 'How do I sort a list in Python?'.",
-                "Factoid Search: 'Capital of France' -> 'Paris'."
+                "Audio Fingerprinting: Mapping frequencies to a unique digital ID.",
+                "Motion Vectors: Tracking how objects move through video frames.",
+                "RDF Triples: Storing info as 'Subject -> Relationship -> Object'.",
+                "Knowledge Graphs: Interconnected networks of entities (Google/Wikidata)."
             ]
         },
         {
             "slideNumber": 7,
             "type": "standard",
-            "title": "Introduction to QA Pipelines",
+            "title": "The Concept: Audio Fingerprinting (Shazam style)",
             "content": {
-                "text": "A standard Factoid QA pipeline involves: 1. Question Transformation (into a query), 2. Document/Passage Retrieval, and 3. Answer Extraction (finding the exact phrase)."
+                "text": "The Spectrogram of an audio clip is reduced to a sparse set of 'peaks' (time-frequency pairs) that form a unique fingerprint."
+            },
+            "formula": {
+                "equation": "F(t_1, f_1, t_2, f_2, \\Delta t) = \\text{Hash ID}",
+                "description": "A fingerprint is created by pairing two peaks (frequency 1 and 2) and their time difference, creating a robust key for the database.",
+                "terms": [
+                    { "symbol": "f", "meaning": "Frequency of a sound peak" },
+                    { "symbol": "t", "meaning": "Time anchor of the peak" },
+                    { "symbol": "\\Delta t", "meaning": "Time distance between two peaks" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Acoustic Matching",
+                    "description": "Find if a hash '[f10, f15, dt2]' exists in the song index.",
+                    "steps": [
+                        { "label": "Listen", "formula": "Extract peaks from 3 seconds of audio", "note": "Creates list of hashes" },
+                        { "label": "Match", "formula": "Inner Join on Hash_ID", "note": "Instant lookup" },
+                        { "label": "Vote", "formula": "Check for time-aligned clusters", "note": "Validates the match" }
+                    ],
+                    "input": "5 second noisy audio clip.",
+                    "output": "Result: 'Song X' with 98% confidence."
+                }
             }
         },
         {
             "slideNumber": 8,
             "type": "standard",
-            "title": "Step-by-Step Algorithm: Factoid QA Pipeline",
+            "title": "The Concept: Semantic Triples (RDF)",
             "content": {
-                "text": "1. **Question Analysis**: Tokenize the input ('Who founded Apple?'). Identify the 'Answer Type' (In this case, a 'Person'). \n2. **Query Formulation**: Turn the question into a search query ('founded Apple'). \n3. **Passage Retrieval**: Find the top 5 documents and extract the 'best' windows of text sentences from them. \n4. **Entity Tagging**: Run a Named Entity Recognizer (NER) over the passages to identity all 'Person' entities. \n5. **Scoring**: Rank the candidate entities based on their distance to the query words ('founded' and 'Apple'). \n6. **Final Selection**: Return the highest-scoring entity as the final answer ('Steve Jobs'). \n7. **Evaluation**: Use MRR to measure if the correct answer was placed at the top of the output candidates."
+                "text": "The Semantic Web represents knowledge using 'Triples'—a Subject, a Predicate (link), and an Object."
+            },
+            "formula": {
+                "equation": "\\langle \\text{Subject} \\rangle \\xrightarrow{\\text{Predicate}} \\langle \\text{Object} \\rangle",
+                "description": "Example: <Newton> --invented--> <Calculus>. This allows machines to 'reason' rather than just match words.",
+                "terms": [
+                    { "symbol": "Subject", "meaning": "The entity we are describing (The URI)" },
+                    { "symbol": "Predicate", "meaning": "The relationship (The link)" },
+                    { "symbol": "Object", "meaning": "The related entity or a simple value" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Reasoning Loop",
+                    "description": "Question: 'Where was Einstein's wife born?'",
+                    "steps": [
+                        { "label": "Step 1", "formula": "<Einstein> --spouse--> <Mileva_Maric>", "note": "Find the person" },
+                        { "label": "Step 2", "formula": "<Mileva_Maric> --birthplace--> <Titel>", "note": "Follow the link" },
+                        { "label": "Result", "formula": "Final Answer: Titel, Serbia", "note": "Multi-hop reasoning" }
+                    ],
+                    "input": "One natural language question.",
+                    "output": "Titel, Serbia"
+                }
             }
         },
         {
             "slideNumber": 9,
             "type": "standard",
-            "title": "The Concept: Mean Reciprocal Rank (MRR)",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "text": "MRR is the gold-standard metric for evaluating QA and Navigational search."
-            },
-            "formula": {
-                "equation": "MRR = \\\\frac{1}{|Q|} \\\\sum_{i=1}^{|Q|} \\\\frac{1}{\\\\text{rank}_i}",
-                "description": "MRR is the average of reciprocal ranks of the first correct answer for each query in a test set.",
-                "terms": [
-                    { "symbol": "|Q|", "meaning": "Total number of test questions" },
-                    { "symbol": "rank_i", "meaning": "Rank at which the first correct answer was found for query i" },
-                    { "symbol": "1/rank", "meaning": "Reciprocal rank (1 for #1, 0.5 for #2, 0.25 for #4...)" }
-                ],
-                "calculation": {
-                    "exampleTitle": "QA Performance Test",
-                    "description": "Calculate MRR for a 3-question session.",
-                    "steps": [
-                        { "label": "Q1: Rank #1", "formula": "1 / 1 = 1.0", "note": "Perfect match" },
-                        { "label": "Q2: Rank #2", "formula": "1 / 2 = 0.5", "note": "Found in second result" },
-                        { "label": "Q3: Fail", "formula": "1 / \\\\infty = 0", "note": "Answer not found" },
-                        { "label": "Mean", "formula": "(1.0 + 0.5 + 0) / 3 = 0.5", "note": "Good but not great" }
-                    ],
-                    "input": "Ranks: [1, 2, None].",
-                    "output": "MRR: 0.5"
-                }
+                "text": "For audio/video, the input is a **Signal Stream**. The output is a **Content ID (Song/Show)**. For the Semantic Web, the input is a **Knowledge Query (SPARQL)**. The output is a **Fact**. Unlike traditional IR which outputs 'Documents' for the user to read, Semantic IR outputs 'Answers', significantly reducing the user's cognitive search cost."
             }
         },
         {
             "slideNumber": 10,
             "type": "standard",
-            "title": "Interpretation of Input and Output",
+            "title": "Step-by-Step Illustration: Video Shot Detection",
             "content": {
-                "text": "The input is the **Rank (r)** of the first correct answer. The output is the **Mean Reciprocal Rank (MRR)**. If the input rank is 1 (Perfect), the output is 1.0. If the input rank is 0 (Missed), the output is 0. A high MRR output across many questions indicates that the input 'extraction' and 'ranking' layers are performing correctly even for complex queries."
+                "text": "**1. Sample Input**: A 60-second video of an interview. \n**2. Step-by-Step Illustration**: \n - System monitors the **Pixel Difference** between Frame X and Frame X+1. \n - If Difference > Threshold (e.g. sharp color change), mark a 'Shot Boundary'. \n - Extract one **Keyframe** per shot (e.g. the person speaking). \n - Perform Image Retrieval on those keyframes to find similar videos. \n**3. Sample Output**: A summary of 'Shot 1: Outdoor', 'Shot 2: Indoor'. \n**4. Interpretation of Results**: The system 'indexed' the video as a sequence of discrete events. This allows a user to jump to exactly where the 'Explosion' or the 'Interviewee' is, rather than watching the whole 60 seconds."
             }
         },
         {
             "slideNumber": 11,
-            "type": "standard",
-            "title": "Step-by-Step Illustration: First Answer Wins",
+            "type": "python_demo",
+            "title": "Python Demo: The Fact Finder",
             "content": {
-                "text": "**1. Sample Input**: Suppose we test 2 questions. For Q1, correct answer is at #1. For Q2, correct answer is at #2. \n**2. Step-by-Step Illustration**: \n - Calculate Reciprocal Rank for Q1: $1 / 1 = 1.0$. \n - Calculate Reciprocal Rank for Q2: $1 / 2 = 0.5$. \n - Sum of Reciprocals: $1.0 + 0.5 = 1.5$. \n - Find Average: $1.5 / 2 = 0.75$. \n**3. Sample Output**: $MRR = 0.75$. \n**4. Interpretation of Results**: The output score of 0.75 is good. However, if Q1 had slipped to #3, the MRR would drop to 0.41, indicating a significant loss in user trust since we failed to find the fact 'immediately' for either question."
+                "code": "kb = {\n    \"Eiffel Tower\": {\"Location\": \"Paris\", \"Height\": \"330m\", \"BuiltBy\": \"Gustave Eiffel\"},\n    \"Paris\": {\"Country\": \"France\", \"Pop\": \"2.1 Million\"},\n    \"France\": {\"Capital\": \"Paris\", \"Currency\": \"Euro\"}\n}\n\ndef semantic_lookup(entity, relationship):\n    # Simulate a Knowledge Graph traversal\n    fact = kb.get(entity, {}).get(relationship)\n    return f\"{entity} {relationship} is {fact}\"\n\nprint(semantic_lookup(\"Eiffel Tower\", \"Location\"))\nprint(semantic_lookup(\"France\", \"Currency\"))",
+                "input": "Entity names and relationships.",
+                "output": "Eiffel Location: Paris, France Currency: Euro",
+                "interpretation": "The script simulates the 'Knowledge Graph'. Instead of searching through web pages about the Eiffel tower, the system directly answers the request. This is how 'Google Knowledge Panels' work in the sidebar of search results."
             }
         },
         {
             "slideNumber": 12,
-            "type": "python_demo",
-            "title": "Python Demo: The Answer Scorer (MRR)",
-            "content": {
-                "code": "def calculate_mrr(rankings):\n    # rankings: list of ranks of the first correct answer\n    total_rr = 0\n    for rank in rankings:\n        if rank > 0:\n            total_rr += 1.0 / rank\n    return round(total_rr / len(rankings), 3)\n\n# Test session: Q1 found at #1, Q2 found at #3, Q3 not found\ntest_ranks = [1, 3, 0]\nprint(f\"System MRR: {calculate_mrr(test_ranks)}\")",
-                "input": "Ranks: [1, 3, 0].",
-                "output": "MRR: 0.444",
-                "interpretation": "The script demonstrates that a single 'Miss' (rank 0) or a low-ranked result (#3) pulls the average down significantly. QA systems strive for MRR > 0.8 to be considered 'Human-usable' for voice interactions."
+            "type": "comparison",
+            "title": "Comparison: Document Search vs. Fact Search",
+            "comparison": {
+                "headers": ["Aspect", "Traditional IR (Web 2.0)", "Semantic IR (Web 3.0)"],
+                "rows": [
+                    ["Data Unit", "Unstructured Doc / Page", "Structured Triple / Entity"],
+                    ["Search Goal", "Find relevant pages", "Find specific facts"],
+                    ["Machine Role", "Ranking documents", "Understanding meaning"],
+                    ["User Role", "Reading and extracting", "Receiving the answer"]
+                ]
             }
         },
         {
             "slideNumber": 13,
-            "type": "standard",
-            "title": "Advantages & Drawbacks",
+            "type": "activity",
+            "title": "Virtual Lab: Knowledge Mapping",
             "content": {
-                "text": "Advantage: Factoid QA saves tremendous user time and is the foundation for almost all modern AI assistants. Drawback: 'Over-Confidence'—a QA system might state a false fact very confidently, leading the user to believe it even when it is wrong."
+                "activity": "The Triple-Maker",
+                "description": "Pick your favorite movie. Write down 5 facts about it as 'Triples'. \nExample: <Inception> --directedBy--> <Christopher_Nolan>. \nNow try to 'link' one of your objects to another triple (e.g. Nolan's birthplace). How many 'hops' do you need to reach your home country from the movie?"
             }
         },
         {
             "slideNumber": 14,
             "type": "standard",
-            "title": "Solution to Address Drawbacks",
-            "content": {
-                "text": "To address 'Hallucinations', use RAG (Retrieval-Augmented Generation) where the answer is strictly extracted from a verified source document. Always include a link back to the source so the user can 'Fact-check' the AI's output."
-            }
-        },
-        {
-            "slideNumber": 15,
-            "type": "comparison",
-            "title": "Comparison: IR vs. QA vs. Chat",
-            "comparison": {
-                "headers": ["Feature", "Traditional Search (IR)", "Question Answering (QA)", "Conversational AI (Chat)"],
-                "rows": [
-                    ["Input", "Keywords", "Specific Question", "Multi-turn Dialogue"],
-                    ["Output", "List of Links", "Specific Fact/Phrase", "Narrative Paragraph"],
-                    ["Evaluation", "Precision/MAP", "MRR", "Human Satisfaction"],
-                    ["Reasoning", "None (Matching)", "Low (Extraction)", "High (Generation)"]
-                ]
-            }
-        },
-        {
-            "slideNumber": 16,
-            "type": "activity",
-            "title": "Virtual Lab: Factoid Audit",
-            "content": {
-                "activity": "The Answer Engine Test",
-                "description": "Go to Google and ask 3 questions: 1. 'What is the boiling point of milk?'. 2. 'How many stars are in the Milky Way?'. 3. 'Who is the best IR professor?'. Notice which ones got an 'Instant Answer Box' (Factoid QA) and which ones gave you 'Links only'. Why did question #3 not get an instant answer?"
-            }
-        },
-        {
-            "slideNumber": 17,
-            "type": "standard",
             "title": "Discussion & Self-Reflection",
             "content": {
-                "text": "1. Why is Mean Reciprocal Rank (MRR) the best metric for QA, rather than standard Precision? \n2. Is a QA system 'smarter' if it can answer 'I don't know' rather than guessing? \n3. How would you design a QA system for a child compared to one for a medical doctor?"
+                "text": "1. Why is 'Video Search' often called 'The Last Frontier' of IR? \n2. In a 'Semantic Web', if every fact is linked, can anything ever be private? \n3. Will AI models like ChatGPT eventually replace the 'Knowledge Graph', or will they work together? (Hint: Think about accuracy vs. speed)."
             }
         }
     ]

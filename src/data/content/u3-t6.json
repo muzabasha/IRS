@@ -1,16 +1,16 @@
 {
     "id": "u3-t6",
-    "title": "Trends & Research in UI",
+    "title": "Evaluation: MAP and nDCG",
     "unitId": "unit-3",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Trends & Research in IR UI",
-            "subtitle": "The Future of Information",
+            "title": "Ranked Evaluation",
+            "subtitle": "Beyond Binary Relevance",
             "content": {
-                "text": "The 'Search Bar' is evolving. We are moving from 'Keywords' to 'Conversations' and from 'Screens' to 'Voice' and 'AR' (Augmented Reality).",
-                "hook": "The best search interface is one that you don't even notice."
+                "text": "In a real search engine, the *order* of results matters. If the best result is at position #10 instead of #1, the system is failing. advanced metrics like MAP and nDCG account for this ranking position.",
+                "hook": "90% of users never look past the first page of results."
             }
         },
         {
@@ -18,15 +18,15 @@
             "type": "standard",
             "title": "Prerequisite Knowledge",
             "content": {
-                "text": "To understand IR trends, you should know: \n1. **Query Process**: How users interact with a search box. \n2. **Basic Ranking**: The concept that some results are 'Better' than others. \n3. **Chatbots vs. Search**: The basic difference between a result list and a chat response."
+                "text": "To understand ranked evaluation, you should know: \n1. **Precision at k (P@k)**: Precision calculated for the top k results. \n2. **Ranked List**: A search result where entries are sorted by predicted relevance. \n3. **Logarithms**: Basic understanding of how log scales work for diminishing returns."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Background",
+            "title": "Background: From Set to List",
             "content": {
-                "text": "The 2010s saw 'Mobile-First' search. In the 2020s, the paradigm shifted with Large Language Models (LLMs). We moved from 'Indexing Documents' to 'Generating Answers'. 'Conversational IR' (like Perplexity or ChatGPT) is now the most researched trend in the field."
+                "text": "Early IR metrics treated search results as an unordered 'Set'. But web users read 'Lists'. Mean Average Precision (MAP) became the standard for researchers in the 1990s. Later, Discounted Cumulative Gain (DCG) was introduced to handle 'Graded Relevance' (e.g. 3=Perfect, 2=Good, 1=Fair, 0=Bad)."
             }
         },
         {
@@ -34,7 +34,7 @@
             "type": "standard",
             "title": "Motivation",
             "content": {
-                "text": "Why study trends? Because the user's information need is becoming more complex. A user doesn't just want a 'List of hotels'; they want a 'Schedule for a 3-day trip to Paris'. This requires 'Dialogic IR'—the ability of the system to ask clarifying questions and remember past turns."
+                "text": "Why use MAP/nDCG? Because Precision/Recall don't distinguish between a relevant result at #1 and a relevant result at #10. For a web engine, getting the right answer at #1 is a 'victory', but at #10 it is a 'failure'. These metrics reward 'Early Retrieval'."
             }
         },
         {
@@ -42,136 +42,133 @@
             "type": "standard",
             "title": "Challenges",
             "content": {
-                "text": "1. Hallucinations: AI models making up facts in a search result. 2. Attribution: How do we cite sources in a generated paragraph? 3. User Agency: If the AI answers the question, does the user lose the ability to explore alternative viewpoints?"
+                "text": "1. Position Bias: Users are more likely to click #1 even if #2 is better. 2. Graded Judgments: It is harder for humans to rate a document on a scale of 0-4 than a simple Yes/No. 3. Normalization: How do we compare queries where one has 5 relevant docs and another has 5,000?"
             }
         },
         {
             "slideNumber": 6,
             "type": "grid",
-            "title": "Application",
+            "title": "Advanced Metrics",
             "items": [
-                "Generative Search (SGE/Perplexity/Bing AI).",
-                "Voice-First Interfaces (Google Assistant/Siri).",
-                "Augmented Reality (AR) overlays for product search.",
-                "Multi-modal Search (using an image + text together)."
+                "Average Precision (AP): The average of P@k for every position k where a relevant doc is found.",
+                "MAP: The mean of AP scores across all queries in a test set.",
+                "DCG: Sum of relevance scores, discounted by the log of their position.",
+                "nDCG: DCG normalized by the 'Ideal' DCG to get a score between 0 and 1."
             ]
         },
         {
             "slideNumber": 7,
             "type": "standard",
-            "title": "Introduction to Conversational IR",
+            "title": "The Concept: Average Precision (AP)",
             "content": {
-                "text": "Conversational IR (ConvIR) treats the search session as an interactive dialogue. The system must maintain a 'State' or 'Context Vector' that evolves with each user turn ($Q_1, Q_2, ...$)."
+                "text": "Average Precision (AP) rewards a system for putting relevant documents at the very top of the list."
+            },
+            "formula": {
+                "equation": "AP = \\frac{1}{|Rel|} \\sum_{k=1}^{n} P(k) \\times rel(k)",
+                "description": "AP is the sum of Precision at position k (P(k)) for every relevant document found, divided by the total number of relevant documents (|Rel|).",
+                "terms": [
+                    { "symbol": "P(k)", "meaning": "Precision at position k (proportion of relevant docs in top k)" },
+                    { "symbol": "rel(k)", "meaning": "Binary relevance (1 if document at k is relevant, 0 otherwise)" },
+                    { "symbol": "n", "meaning": "Total number of retrieved documents" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Ranking Audit",
+                    "description": "Calculate AP for a list of 5 docs where #1 and #3 are relevant.",
+                    "steps": [
+                        { "label": "Pos 1 (Rel)", "formula": "P@1 = 1/1 = 1.0", "note": "Hit!" },
+                        { "label": "Pos 2 (Non)", "formula": "P@2 = 1/2 = 0.5", "note": "Miss (ignored in sum)" },
+                        { "label": "Pos 3 (Rel)", "formula": "P@3 = 2/3 = 0.67", "note": "Hit!" },
+                        { "label": "Total AP", "formula": "(1.0 + 0.67) / 2 = 0.835", "note": "Average of hits" }
+                    ],
+                    "input": "Hits at: 1, 3. Total Rel: 2.",
+                    "output": "AP: 0.835"
+                }
             }
         },
         {
             "slideNumber": 8,
             "type": "standard",
-            "title": "Step-by-Step Algorithm: Dialogic Context Tracking",
+            "title": "The Concept: nDCG (Graded Relevance)",
             "content": {
-                "text": "1. **Receive Turn 1 ($Q_1$)**: Extract the user's initial information need and create a state vector $S_1$. \n2. **Store & Answer**: Return the first result and save $S_1$ in the session cache. \n3. **Receive Turn 2 ($Q_2$)**: Check for 'Anaphora' (e.g., words like 'he', 'it', 'there' that refer to previous turns). \n4. **Update State ($S_2$)**: Compute the weighted similarity between $Q_2$ and $S_1$. If the similarity is high, merge them into $S_2$. \n5. **Perform Retrieval**: Search the index using the combined $S_2$ context rather than just $Q_2$. \n6. **Refine Results**: Filter out items the user already saw in Turn 1 to provide 'Novelty' in the results."
+                "text": "nDCG uses graded relevance (0-4 stars) and applies a 'Discount' for lower positions, assuming users lose interest as they scroll."
+            },
+            "formula": {
+                "equation": "DCG_p = \\sum_{i=1}^{p} \\frac{2^{rel_i} - 1}{\\log_2(i + 1)}, \\quad nDCG_p = \\frac{DCG_p}{IDCG_p}",
+                "description": "Relevance is exponentially boosted (2^rel), and position is logarithmically penalized. IDCG is the score of a 'Perfect' ranking.",
+                "terms": [
+                    { "symbol": "rel_i", "meaning": "Graded relevance of result at position i" },
+                    { "symbol": "p", "meaning": "Rank position to evaluate up to" },
+                    { "symbol": "IDCG", "meaning": "Ideal DCG (The maximum possible score for that set of documents)" }
+                ],
+                "calculation": {
+                    "exampleTitle": "The Luxury of Position #1",
+                    "description": "Compare DCG for Rel score 3 at pos 1 vs. pos 2.",
+                    "steps": [
+                        { "label": "Pos 1", "formula": "(2^3 - 1) / \\log_2(2) = 7 / 1 = 7.0", "note": "Full value at top" },
+                        { "label": "Pos 2", "formula": "(2^3 - 1) / \\log_2(3) = 7 / 1.58 = 4.43", "note": "Discounted value" },
+                        { "label": "Loss", "formula": "7.0 vs 4.43", "note": "Dropping to #2 costs 37% of value" }
+                    ],
+                    "input": "Rel:3, Pos:1 vs. 2.",
+                    "output": "37% Penalty at Pos 2"
+                }
             }
         },
         {
             "slideNumber": 9,
             "type": "standard",
-            "title": "The Concept: Contextual Similarity",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "text": "Contextual Similarity measures how much a current search depends on previous ones."
-            },
-            "formula": {
-                "equation": "Sim(Q_t, H_{t-1}) = \\\\frac{\\\\vec{Q}_t \\\\cdot \\\\vec{H}_{t-1}}{|\\\\vec{Q}_t| |\\\\vec{H}_{t-1}|}",
-                "description": "Cosine similarity between the current query (Q_t) and the history (H_{t-1}) determines if the user is staying on topic or switching tasks.",
-                "terms": [
-                    { "symbol": "Q_t", "meaning": "Current query vector at turn t" },
-                    { "symbol": "H_{t-1}", "meaning": "Aggregated history vector of all previous turns" },
-                    { "symbol": "Sim", "meaning": "Similarity score (0.0 to 1.0)" }
-                ],
-                "calculation": {
-                    "exampleTitle": "Staying on Topic",
-                    "description": "Check if Turn 2 is related to Turn 1.",
-                    "steps": [
-                        { "label": "Setup", "formula": "Q1:'Paris', Q2:'Hotel'", "note": "Vectors have high overlap" },
-                        { "label": "Similarity", "formula": "\\\\vec{v}_1 \\\\cdot \\\\vec{v}_2 \\\\approx 0.85", "note": "High score (on topic)" },
-                        { "label": "Final Action", "formula": "Sim > 0.5", "note": "Maintain context" }
-                    ],
-                    "input": "Turn 1: Paris, Turn 2: Hotel.",
-                    "output": "Sim: 0.85 (Related)"
-                }
+                "text": "The input to MAP/nDCG is a **Ranked List with Relevance Labels**. The output is a **Score (0.0 to 1.0)**. A MAP of 1.0 means the system put every single relevant document at the top of the list sequentially. A low nDCG output tells the system architect that high-quality content (grade 3/4) is 'Buried' too deep in the ranking, requiring a better sorting algorithm."
             }
         },
         {
             "slideNumber": 10,
             "type": "standard",
-            "title": "Interpretation of Input and Output",
+            "title": "Step-by-Step Illustration: The Perfect Ranker",
             "content": {
-                "text": "The inputs to Context Tracking are the **Current Vector ($Q_t$)** and the **History Vector ($H_{t-1}$)**. The output is a **Similarity Score (Sim)**. If Sim > 0.8 (high similarity as input), the system's output is 'Maintain Context', allowing it to resolve pronouns (he/it). If Sim < 0.2, the system's output is 'Switch Topic', leading to a fresh conversation state."
+                "text": "**1. Sample Input**: Collection has 2 relevant docs. System returns: [Rel, Non-Rel, Rel]. \n**2. Step-by-Step Illustration**: \n - Precision at first Rel (@1): $1/1 = 1.0$. \n - Precision at second Rel (@3): $2/3 = 0.67$. \n - **Average Precision (AP)**: $(1.0 + 0.67) / 2 = 0.835$. \n - Compare to a system that returns [Rel, Rel, Non-Rel]: $AP = (1/1 + 2/2) / 2 = 1.0$. \n**3. Sample Output**: System A: 0.835, System B: 1.0. \n**4. Interpretation of Results**: Even though both systems found all relevant docs, System B has a 16% higher score because it put them at the very top. This proves why 'Rank Matters'."
             }
         },
         {
             "slideNumber": 11,
-            "type": "standard",
-            "title": "Step-by-Step Illustration: Talking to the Bot",
+            "type": "python_demo",
+            "title": "Python Demo: The Ranking Auditor",
             "content": {
-                "text": "**1. Sample Input**: Turn 1: 'Who is Einstein?'. Turn 2: 'When was he born?'. Vector similarity between 'Einstein' and 'he born' = $0.95$. \n**2. Step-by-Step Illustration**: \n - System detects high similarity ($0.95 > 0.8$). \n - Identifies 'he' as a dangling reference. \n - Searches previous turn vectors for the most likely person entity ('Einstein'). \n**3. Sample Output**: Result: System answers with Einstein's birth date. \n**4. Interpretation of Results**: The high similarity output validated the session link, preventing the system from failing to understand the vague word 'he'."
+                "code": "import math\n\ndef calculate_dcg(relevances):\n    dcg = 0\n    for i, rel in enumerate(relevances):\n        rank = i + 1\n        dcg += (2**rel - 1) / math.log2(rank + 1)\n    return round(dcg, 3)\n\n# System 1: Best doc at #1, Decent at #2\nres_1 = [3, 1, 0, 0]\n# System 2: Decent at #1, Best at #2\nres_2 = [1, 3, 0, 0]\n\ndcg1 = calculate_dcg(res_1)\ndcg2 = calculate_dcg(res_2)\n\nprint(f\"DCG (Best at top): {dcg1}\")\nprint(f\"DCG (Best buried): {dcg2}\")\nprint(f\"nDCG Gain: {round((dcg1/dcg1), 2)} vs {round((dcg2/dcg1), 2)}\")",
+                "input": "Rel lists: [3, 1, 0, 0] vs [1, 3, 0, 0].",
+                "output": "System 1: 7.631, System 2: 5.424",
+                "interpretation": "The script calculates DCG. Note how System 1 is much better because it put the 'Perfect' (rel=3) match at the first position. System 2 is penalized significantly for burying the best result, even though all the same docs are present."
             }
         },
         {
             "slideNumber": 12,
-            "type": "python_demo",
-            "title": "Python Demo: Context Tracker",
-            "content": {
-                "code": "history = []\n\ndef search_with_context(query):\n    # Simulate keeping history\n    global history\n    entities = ['Apple', 'Steve Jobs', 'Cupertino']\n    \n    # Checking if query has a pronoun like 'he' or 'it'\n    if any(p in query.lower() for p in ['he', 'it', 'there']):\n        if history:\n            return f\"[Context: {history[-1]}] Answering for '{query}'\"\n    \n    # New unique search\n    history.append(query)\n    return f\"[New Search] Creating context for '{query}'\"\n\nprint(f\"Turn 1: {search_with_context('Who is CEO of Apple?')}\")\nprint(f\"Turn 2: {search_with_context('How old is he?')}\")",
-                "input": "Turn 1: 'Who is CEO of Apple?', Turn 2: 'How old is he?'.",
-                "output": "Turn 2: [Context: Apple CEO] 63 years old.",
-                "interpretation": "The script demonstrates 'Anaphora Resolution'. By remembering that Turn 1 was about the 'Apple CEO', the system correctly interprets 'he' in Turn 2 as Tim Cook rather than a random male from the database."
+            "type": "comparison",
+            "title": "Comparison: MAP vs. nDCG",
+            "comparison": {
+                "headers": ["Metric", "Mean Average Precision (MAP)", "Normalized DCG (nDCG)"],
+                "rows": [
+                    ["Relevance Type", "Binary (Rel / Non-Rel)", "Graded (0, 1, 2, 3, 4)"],
+                    ["Primary Focus", "Finding all relevant items early", "Putting 'Best' items in 'Top' slots"],
+                    ["User Assumption", "Binary satisfaction", "Diminishing returns of scrolling"],
+                    ["Standard for", "Academic Research (TREC)", "Commercial Search (Google/Bing)"]
+                ]
             }
         },
         {
             "slideNumber": 13,
-            "type": "standard",
-            "title": "Advantages & Drawbacks",
+            "type": "activity",
+            "title": "Virtual Lab: Grading the Web",
             "content": {
-                "text": "Advantage: Dialogic search is far more natural for humans and works perfectly on voice-only devices. Drawback: 'Drift'—if the system maintains context for too long, it might misinterpret a new, unrelated query as being part of the old one."
+                "activity": "The 5-Star Search",
+                "description": "Search for 'Best budget laptops'. Look at the top 5 results. Rank each on a scale of 0 (Spam/Ad) to 4 (Perfect recommendation). Use the DCG formula to calculate the score for this search engine. Now, swap the order of #1 and #5. How much does the score drop?"
             }
         },
         {
             "slideNumber": 14,
             "type": "standard",
-            "title": "Solution to Address Drawbacks",
-            "content": {
-                "text": "To prevent 'Drift', use a 'Decay Factor' that gives less weight to turns that happened 10 minutes ago. Provide a 'Reset' or 'New Chat' button so the user can explicitly clear the history."
-            }
-        },
-        {
-            "slideNumber": 15,
-            "type": "comparison",
-            "title": "Comparison: Traditional vs. Conversational IR",
-            "comparison": {
-                "headers": ["Feature", "Traditional IR (Web Search)", "Conversational IR (ConvIR)"],
-                "rows": [
-                    ["Turn count", "Usually 1", "Multiple (Session-based)"],
-                    ["Reference", "Standalone query", "Dangling references (he/it/then)"],
-                    ["Response", "Ranked list of docs", "Generated natural language answer"],
-                    ["State", "Stateless", "Stateful (History-aware)"]
-                ]
-            }
-        },
-        {
-            "slideNumber": 16,
-            "type": "activity",
-            "title": "Virtual Lab: Talking to Search",
-            "content": {
-                "activity": "The Context Challenge",
-                "description": "Go to Google Gemini or ChatGPT. Ask 'Who wrote Harry Potter?'. Once it answers, ask 'Is she still writing?'. Does it know who 'she' is? Now ask 'What is the weather in Tokyo?'. Ask 'How far is it?'. Does 'it' mean Tokyo or the author? Notice where the context breaks."
-            }
-        },
-        {
-            "slideNumber": 17,
-            "type": "standard",
             "title": "Discussion & Self-Reflection",
             "content": {
-                "text": "1. Why is 'Anaphora Resolution' (resolving 'he', 'it', 'there') the hardest part of Conversational IR? \n2. Will the 'Search Result Page' eventually disappear, replaced by a single AI answer? If so, how will we verify the truth? \n3. How would you design a conversational search interface for a car dashboard?"
+                "text": "1. Why does nDCG give more weight to 'Highly Relevant' documents ($2^{rel}-1$) than 'Fair' documents? \n2. Is MAP useful if a user only ever looks at the first 3 results? \n3. How would you adjust evaluation for a 'Voice Search' where only ONE result is ever read to the user?"
             }
         }
     ]

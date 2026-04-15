@@ -1,153 +1,174 @@
 {
     "id": "u3-t7",
-    "title": "Trends & Research Issues (UI)",
+    "title": "Indexing: Inverted Files & Trees",
     "unitId": "unit-3",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Trends & Research Issues (UI)",
-            "subtitle": "The Future of Information Interaction",
+            "title": "Document Indexing",
+            "subtitle": "Storing Information for Instant Retrieval",
             "content": {
-                "text": "Interfaces are moving beyond the screen. Research is focusing on conversational AI, immersive environments, and pervasive search.",
-                "hook": "One day, we won't 'search'; we'll just 'know'."
+                "text": "A search engine cannot scan trillions of documents every time you type a word. It needs a pre-computed map of where each word exists. This is called an 'Index'.",
+                "hook": "Searching without an index is like reading a library from 'A' to 'Z' just to find one book."
             }
         },
         {
             "slideNumber": 2,
-            "type": "list",
-            "title": "Trending Research",
-            "items": [
-                "Conversational Agents/Chatbots: Search through dialogue (e.g., ChatGPT, Gemini).",
-                "Collaborative Search: Multiple users searching together in real-time.",
-                "Cross-Device IR: Finishing a search on a phone that started on a laptop.",
-                "Affective IR: Adapting the interface based on the user's emotional state."
-            ]
+            "type": "standard",
+            "title": "Prerequisite Knowledge",
+            "content": {
+                "text": "Before studying indexing structures, you should know: \n1. **Tokenization**: How a sentence is broken into individual words. \n2. **Postings**: A list of document IDs where a specific term appears. \n3. **Storage Latency**: The difference in speed between Disk (HDD/SSD) and Memory (RAM)."
+            }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Conversational Search",
+            "title": "Background: From Scrolls to Bits",
             "content": {
-                "text": "The shift from 'query-response' to 'turn-taking dialogue'. The system maintains state and context over multiple exchanges.",
-                "problem": "Trust and Hallucination. If the interface is too human-like, users may trust it too much when it's wrong."
-            },
-            "formula": {
-                "equation": "\\text{Sim}(Q_{curr}, Q_{prev}) = \\frac{\\sum A_i B_i}{\\sqrt{\\sum A_i^2} \\sqrt{\\sum B_i^2}}",
-                "description": "Conversational systems use Cosine Similarity between the current query vector and previous dialogue turns to determine if the user is still on the same topic or has shifted intent.",
-                "terms": [
-                    {
-                        "symbol": "Q_{curr}",
-                        "meaning": "Vector representation of the current user utterance"
-                    },
-                    {
-                        "symbol": "Q_{prev}",
-                        "meaning": "Context vector representing previous turns in the session"
-                    },
-                    {
-                        "symbol": "\\text{Sim}",
-                        "meaning": "Similarity score (1.0 = same topic, 0.0 = completely new topic)"
-                    }
-                ],
-                "calculation": {
-                    "exampleTitle": "Topic Shift Detection",
-                    "description": "Comparing a follow-up query to the session context.",
-                    "steps": [
-                        {
-                            "label": "Turn 1",
-                            "formula": "Q_1 = [1, 0] \\text{ (Topic: AI)}",
-                            "note": "User asks about Artificial Intelligence."
-                        },
-                        {
-                            "label": "Turn 2",
-                            "formula": "Q_2 = [0.9, 0.1] \\text{ (Topic: ML)}",
-                            "note": "User asks about Machine Learning (very similar)."
-                        },
-                        {
-                            "label": "Similarity Score",
-                            "formula": "\\text{Sim} = 0.95",
-                            "note": "High similarity; system keeps the 'AI' context active."
-                        },
-                        {
-                            "label": "Turn 3",
-                            "formula": "Q_3 = [0.1, 0.9] \\text{ (Topic: Cooking)}",
-                            "note": "User suddenly asks about a recipe."
-                        }
-                    ],
-                    "input": "Q1:[1,0], Q2:[0.9, 0.1]",
-                    "output": "Action: Maintain Context"
-                }
-            },
-            "subTopics": [
-                {
-                    "title": "Topic Mastery: State Management",
-                    "content": "Unlike classic IR where each query is isolated, conversational IR requires tracking 'anaphora' (references to previous nouns) and 'ellipses'.",
-                    "subSubTopics": [
-                        {
-                            "title": "Anaphora Resolution",
-                            "content": "Resolving what 'it' refers to in the sequence: 'Find books by JK Rowling' -> 'Are any of them available?'.",
-                            "keyPoints": [
-                                "Context window management.",
-                                "Entity linking across turns."
-                            ]
-                        }
-                    ]
-                }
-            ]
+                "text": "Ancient scholars used 'Concordances'—hand-written lists of important words in a book. Modern IR use 'Inverted Indexes'. In the 1980s, 'Signature Files' were popular for their small size. Today, 'Suffix Trees' and 'Compressed Inverted Files' dominate, allowing us to index the entire web on clusters of servers."
+            }
         },
         {
             "slideNumber": 4,
             "type": "standard",
-            "title": "Pervasive Search (IoT)",
+            "title": "Motivation",
             "content": {
-                "text": "Information is everywhere. Searching via smart glasses, smart mirrors, or voice-only devices.",
-                "hook": "Search is becoming an invisible layer of our environment."
-            },
-            "subTopics": [
-                {
-                    "title": "The Zero-UI Concept",
-                    "content": "Removing the screen as the primary interface. Interactions occur via voice, gesture, or even gaze.",
-                    "subSubTopics": [
-                        {
-                            "title": "Gaze-Based Retrieval",
-                            "content": "Using eye-tracking to determine what a user is interested in before they even express it.",
-                            "examples": [
-                                "Reading a web page and automatically highlighting related articles based on where you look.",
-                                "Smart displays in stores providing info on products you stare at."
-                            ]
-                        }
-                    ]
-                }
-            ]
+                "text": "Why unique data structures? Because a text collection is massive. If we use a simple linear list, searching takes $O(N)$ time. With an Inverted Index, lookup becomes almost instant—regardless of how many billions of documents we have."
+            }
         },
         {
             "slideNumber": 5,
-            "type": "activity",
-            "title": "Activity: Future Design",
+            "type": "standard",
+            "title": "Challenges",
             "content": {
-                "activity": "Interaction Innovation",
-                "description": "Design a search interface for a surgeon wearing AR glasses during surgery. They need to find a patient's history without using their hands. Describe the interaction."
+                "text": "1. Index Size: The index can be 50-100% the size of the original text. 2. Updates: How to add new documents without rebuilding the entire index. 3. Memory vs. Disk: Balancing speed (RAM) with cost (Disk)."
             }
         },
         {
             "slideNumber": 6,
-            "type": "python_demo",
-            "title": "Python Demo: Interest Profile Modeling",
-            "content": {
-                "code": "def update_user_profile(profile, category_clicked, learning_rate=0.1):\n    # Re-weight user interests based on behavior\n    for cat in profile:\n        if cat == category_clicked:\n            profile[cat] += learning_rate * (1 - profile[cat])\n        else:\n            profile[cat] -= learning_rate * profile[cat]\n    return {k: round(v, 3) for k, v in profile.items()}\n\ncurrent_profile = {'Tech': 0.7, 'Arts': 0.3}\nnew_profile = update_user_profile(current_profile, 'Arts')\nprint(f\"Updated Interest Profile: {new_profile}\")",
-                "input": "Profile: Tech(0.7), Arts(0.3). Event: Arts clicked.",
-                "output": "Updated Interest Profile: {'Tech': 0.63, 'Arts': 0.37}",
-                "interpretation": "Adaptive IR systems build models of user interests.\nWhen a user interacts with 'Arts' content, the system increases its weight in the profile.\nThis enables 'Personalized Search' where the same query returns different results for different users."
-            }
+            "type": "grid",
+            "title": "Common Index Types",
+            "items": [
+                "Inverted Index: Mapping words to Doc IDs (The gold standard).",
+                "Signature Files: Using bitmasks and hashing for compact storage.",
+                "Suffix Trees: For searching within strings and DNA sequences.",
+                "Suffix Arrays: A more memory-efficient version of suffix trees."
+            ]
         },
         {
             "slideNumber": 7,
-            "type": "summary",
-            "title": "Unit Wrap-up",
+            "type": "standard",
+            "title": "The Concept: The Inverted Index",
             "content": {
-                "linkage": "We've mastered how humans and machines interact over text. Now we enter the world of images, audio, and video.",
-                "nextTopic": "Unit 4: Multimedia IR",
-                "preparation": "Think about how you'd search for a specific song if you didn't know the lyrics."
+                "text": "An inverted index consists of two parts: a 'Dictionary' of unique words and a 'Postings List' for each word."
+            },
+            "formula": {
+                "equation": "\\text{Postings}(t) = \\{ d_1, d_2, d_3, \\dots, d_n \\}",
+                "description": "For every term (t) in the vocabulary, we store a sorted list of Document IDs (d) where that term appears.",
+                "terms": [
+                    { "symbol": "t", "meaning": "A unique term (word) in the vocabulary" },
+                    { "symbol": "d_i", "meaning": "Unique ID of a document containing term t" },
+                    { "symbol": "\\text{Postings}", "meaning": "The list of occurrences" }
+                ],
+                "calculation": {
+                    "exampleTitle": "The Index Map",
+                    "description": "Index two sentences: D1: 'Search IR', D2: 'IRS Search'",
+                    "steps": [
+                        { "label": "Tokenize", "formula": "Words: ['Search', 'IR', 'IRS']", "note": "The Dictionary" },
+                        { "label": "Map 'Search'", "formula": "Search \\rightarrow [1, 2]", "note": "Appears in both" },
+                        { "label": "Map 'IR'", "formula": "IR \\rightarrow [1]", "note": "Appears in D1" },
+                        { "label": "Map 'IRS'", "formula": "IRS \\rightarrow [2]", "note": "Appears in D2" }
+                    ],
+                    "input": "D1: 'Search IR', D2: 'IRS Search'",
+                    "output": "Index: Search:[1,2], IR:[1], IRS:[2]"
+                }
+            }
+        },
+        {
+            "slideNumber": 8,
+            "type": "standard",
+            "title": "The Concept: Signature Files (Bit-Slicing)",
+            "content": {
+                "text": "Signature files use hashing to create a fixed-size bitmask for every document. It's like a 'digest' of document content."
+            },
+            "formula": {
+                "equation": "\\text{Match}(Q, S_d) = (hash(Q) \\text{ AND } S_d) == hash(Q)",
+                "description": "If a word exists in a document, its hash bits must be set in the document signature (S_d).",
+                "terms": [
+                    { "symbol": "S_d", "meaning": "The binary signature of document d" },
+                    { "symbol": "hash(Q)", "meaning": "The bitmask of the query term" },
+                    { "symbol": "\\text{AND}", "meaning": "Bitwise AND operation" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Fast Filter",
+                    "description": "Check if 'Search' (bits 1010) is in doc (bits 1011).",
+                    "steps": [
+                        { "label": "Input", "formula": "Q=1010, S=1011", "note": "Bits compared" },
+                        { "label": "Bitwise AND", "formula": "1010 \\& 1011 = 1010", "note": "Matches query!" },
+                        { "label": "Verdict", "formula": "Match is True", "note": "Document *might* have the word." }
+                    ],
+                    "input": "Q mask: 1010, Doc mask: 1011",
+                    "output": "Potential Match"
+                }
+            }
+        },
+        {
+            "slideNumber": 9,
+            "type": "standard",
+            "title": "Interpretation of Input and Output",
+            "content": {
+                "text": "The input to an indexing system is the **Raw Text Collection**. The output is an **Index Structure**. In an Inverted Index, the lookup (output) time is $O(1)$ for the dictionary and $O(L_1 + L_2)$ for merging postings, allowing the search engine to skip billions of irrelevant documents (inputs). For Signature Files, the output is a set of 'Potential Candidate' documents, requiring a second pass of verification (filtering out 'False Drops')."
+            }
+        },
+        {
+            "slideNumber": 10,
+            "type": "standard",
+            "title": "Step-by-Step Illustration: Merging Results",
+            "content": {
+                "text": "**1. Sample Input**: Query: 'Information AND Retrieval'. \n Index: 'Information' $\\rightarrow [1, 5, 8, 10, 15]$. 'Retrieval' $\\rightarrow [2, 5, 10, 11]$. \n**2. Step-by-Step Illustration**: \n - System starts at the beginning of both lists. \n - Compare 1 and 2: No match. Move pointer in List 1. \n - Compare 5 and 2: Move pointer in List 2. \n - Compare 5 and 5: **MATCH!** Add [5] to result. Move both pointers. \n - Compare 8 and 10: No match. Move List 1. \n - Compare 10 and 10: **MATCH!** Add [10]. \n**3. Sample Output**: Result: Documents [5, 10]. \n**4. Interpretation of Results**: The 'Boolean AND' operation was performed in linear time relative to list length, rather than scanning the entire document set. This is why indexing makes search feasible."
+            }
+        },
+        {
+            "slideNumber": 11,
+            "type": "python_demo",
+            "title": "Python Demo: The Inverted Index Builder",
+            "content": {
+                "code": "from collections import defaultdict\n\ndef build_index(docs):\n    index = defaultdict(list)\n    for doc_id, text in docs.items():\n        words = set(text.lower().split())\n        for word in words:\n            index[word].append(doc_id)\n    return dict(index)\n\n# Mock Database\nmy_docs = {\n    1: \"Information Retrieval is fun\",\n    2: \"Search engines and retrieval\",\n    3: \"Fun with information\"\n}\n\ninverted_index = build_index(my_docs)\nprint(f\"Postings for 'Retrieval': {inverted_index.get('retrieval')}\")\nprint(f\"Postings for 'Information': {inverted_index.get('information')}\")",
+                "input": "Three short sentences.",
+                "output": "Retrieval: [1, 2], Information: [1, 3]",
+                "interpretation": "The script builds a dictionary of lists. When you search for 'retrieval', the system immediately points to Docs 1 and 2 without looking at Doc 3 at all. This 'Pruning' of the search space is what makes search engines fast."
+            }
+        },
+        {
+            "slideNumber": 12,
+            "type": "comparison",
+            "title": "Comparison: Inverted vs. Signature Files",
+            "comparison": {
+                "headers": ["Feature", "Inverted Index", "Signature Files"],
+                "rows": [
+                    ["Storage space", "High (50% - 100% of text)", "Low (10% - 15% of text)"],
+                    ["Search Speed", "Very Fast (Direct pointer lookup)", "Fast (Bitwise scanning)"],
+                    ["Accuracy", "100% (Exact match)", "Lower (Potential false hits)"],
+                    ["Update Ease", "Hard (Requires list expansion)", "Easy (Just add a signature)"]
+                ]
+            }
+        },
+        {
+            "slideNumber": 13,
+            "type": "activity",
+            "title": "Virtual Lab: Manual Indexing",
+            "content": {
+                "activity": "The Paper Index",
+                "description": "Take 3 pieces of paper. Write one sentence on each. Now, on a 4th paper, create a list of every unique word across all 3 sentences. For each word, write down which paper number it appeared on. Congratulations! You just built an Inverted Index. Now find 'Paper with the word THE' using ONLY your list."
+            }
+        },
+        {
+            "slideNumber": 14,
+            "type": "standard",
+            "title": "Discussion & Self-Reflection",
+            "content": {
+                "text": "1. Why do we sort the Document IDs in a postings list? (Hint: Think about merging lists). \n2. In a system like Google, how often do you think the index is 'updated' with new web pages? \n3. Would a 'Signature File' be useful for searching emojis? Why or why not?"
             }
         }
     ]

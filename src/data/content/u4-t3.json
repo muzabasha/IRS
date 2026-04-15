@@ -1,16 +1,16 @@
 {
     "id": "u4-t3",
-    "title": "Web Search (Characteristics & Algorithms)",
+    "title": "PageRank: The Logic of Links",
     "unitId": "unit-4",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Web Search Characteristics",
-            "subtitle": "Navigating the Chaos of the Internet",
+            "title": "PageRank Algorithm",
+            "subtitle": "How Google Ranks the Web",
             "content": {
-                "text": "The Web is not a document collection. It is a 'Super-Graph'—a living, breathing, and often adversarial ecosystem of trillions of interconnected nodes.",
-                "hook": "The Web is the largest human-made structure ever built, and we have to find a needle in its haystacks."
+                "text": "Before PageRank, search engines only looked at the text on a page. Google changed everything by treating each link as a 'vote' of confidence. PageRank is the mathematical model of a 'Random Surfer' on the web.",
+                "hook": "A link from a high-quality page is worth more than a thousand links from low-quality ones."
             }
         },
         {
@@ -18,15 +18,15 @@
             "type": "standard",
             "title": "Prerequisite Knowledge",
             "content": {
-                "text": "Before studying Web Search, you should know: \n1. **Inverted Indices**: How to find which documents contain a word. \n2. **Basic Graph Theory**: What Nodes (Pages) and Edges (Hyperlinks) are. \n3. **HTML**: Basic structure of a web page ($<a>$ tags)."
+                "text": "Before studying PageRank, you should know: \n1. **Graph Theory**: Nodes (pages) and Edges (hyperlinks). \n2. **In-Degree**: The number of links pointing *into* a page. \n3. **Probability**: The idea that if you click random links, you'll eventually land on 'important' pages more often."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Background",
+            "title": "Background: The Birth of Google",
             "content": {
-                "text": "In the early 1990s, the Web was a static collection of academic pages. In 1994, WebCrawler launched the first 'Full-Text' engine. In 1998, Google changed everything by using 'Hyperlinks' (PageRank) to determine authority. Today, the Web is the 'Front Door' to all human knowledge."
+                "text": "In 1996, Larry Page and Sergey Brin developed PageRank at Stanford. They realized that academic citations (where important papers are cited by other important papers) could be applied to web links. This created a 'Global Importance' score that spam could not easily manipulate."
             }
         },
         {
@@ -34,7 +34,7 @@
             "type": "standard",
             "title": "Motivation",
             "content": {
-                "text": "Why study the Web's structure? Because unlike a library, the Web is 'Adversarial'. People try to 'Spam' the index to get their product at #1. Understanding the 'Power Law' of links helps us identify 'Hubs' and 'Authorities' while ignoring the junk."
+                "text": "Why use links for ranking? Because text can be faked (e.g., hidden keywords). But links are harder to fake—you cannot force a reputable site like 'The New York Times' to link to your small blog. Link analysis provides a 'trust signals' that text alone cannot."
             }
         },
         {
@@ -42,136 +42,106 @@
             "type": "standard",
             "title": "Challenges",
             "content": {
-                "text": "1. Scale: Billions of new pages added daily. 2. Content Quality: Handling spam, duplicates, and dead links (404s). 3. The 'Invisible Web': Content hidden inside databases or PDFs that crawlers can't easily reach."
+                "text": "1. Link Farms: Groups of sites that link to each other to trick the algorithm. 2. Dead Ends: Pages with no outgoing links (sinks) where the 'random surfer' gets stuck. 3. Computation: Calculating scores for trillions of pages requires massive distributed systems."
             }
         },
         {
             "slideNumber": 6,
             "type": "grid",
-            "title": "Application",
+            "title": "Key Concepts",
             "items": [
-                "General Web Search (Google, Bing, Baidu).",
-                "Deep Web Explorers: Finding info in academic or government databases.",
-                "E-commerce aggregators (Google Shopping, PriceGrabber).",
-                "Archive Search: Searching through historical snapshots (Wayback Machine)."
+                "Random Surfer Model: A user who clicks random links until they get bored.",
+                "Damping Factor (d): The probability (usually 0.85) that the surfer continues clicking.",
+                "Authority Transfer: A page divides its 'power' equally among all its outgoing links.",
+                "Convergence: The algorithm runs in loops (iterations) until the scores stop changing."
             ]
         },
         {
             "slideNumber": 7,
             "type": "standard",
-            "title": "Introduction to Web Graph Topology",
+            "title": "The Concept: The PageRank Formula",
             "content": {
-                "text": "The web graph follows a 'Power Law' distribution. A tiny number of sites (Google, Wikipedia, Amazon) have billions of incoming links, while the 'Long Tail' of the web has almost none."
+                "text": "PageRank is a recursive formula where a page's score depends on the scores of the pages that link to it."
+            },
+            "formula": {
+                "equation": "PR(A) = (1 - d) + d \\sum_{i=1}^{n} \\frac{PR(T_i)}{C(T_i)}",
+                "description": "The PageRank of A is the 'Base Probability' plus the 'Voted Importance' from all pages T that link to A.",
+                "terms": [
+                    { "symbol": "PR(A)", "meaning": "PageRank score of page A" },
+                    { "symbol": "d", "meaning": "Damping Factor (typically 0.85)" },
+                    { "symbol": "PR(T_i)", "meaning": "PageRank of page T_i which links to A" },
+                    { "symbol": "C(T_i)", "meaning": "Number of outgoing links (out-degree) from page T_i" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Voting Power",
+                    "description": "Calculate PR(A) if Page B (PR=0.8, 2 links) and Page C (PR=0.5, 1 link) link to A.",
+                    "steps": [
+                        { "label": "From B", "formula": "0.8 / 2 = 0.4", "note": "B shares half its power" },
+                        { "label": "From C", "formula": "0.5 / 1 = 0.5", "note": "C shares all its power" },
+                        { "label": "Sum", "formula": "0.4 + 0.5 = 0.9", "note": "Total vote" },
+                        { "label": "Total PR", "formula": "0.15 + (0.85 \\times 0.9) = 0.915", "note": "Final score for A" }
+                    ],
+                    "input": "PR(B):0.8, C(B):2, PR(C):0.5, C(C):1, d:0.85",
+                    "output": "PR(A): 0.915"
+                }
             }
         },
         {
             "slideNumber": 8,
             "type": "standard",
-            "title": "Step-by-Step Algorithm: Priority Web Crawling",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "text": "1. **Seed List**: Start with a set of known 'High-Authority' URLs (e.g. news sites, government portals). \n2. **Frontier Management**: Maintain a queue of links to visit. \n3. **Fetching**: Download the page content and extract all outgoing links ($<a>$ tags). \n4. **Duplication Check**: Hash the content and compare it to existing pages in the index to avoid duplicates. \n5. **Priority Scoring**: Use 'Pagerank' or 'In-degree' to decide which new links to visit first. \n6. **Indexing**: Tokenize the text and update the Inverted Index. \n7. **Scheduling**: Periodically revisit pages that change frequently (like news sites) while ignoring static ones."
+                "text": "The input to PageRank is the **Web Graph Topology**. The output is a **Stationary Probability Vector** (Rank scores). If a page (input) has many links from 'Rich' sources (high PR output), its own output score increases. This creates a circle of trust where important pages make their neighbors important. The 'Damping Factor' (input d) ensures that even pages with no incoming links get a tiny 'Base Rank' (output 0.15) to keep the system fair."
             }
         },
         {
             "slideNumber": 9,
             "type": "standard",
-            "title": "The Concept: The Power Law of Connectivity",
+            "title": "Step-by-Step Illustration: The Link Vote",
             "content": {
-                "text": "The number of links to a web page follows a Power Law, which is why a few sites dominate the search ecosystem."
-            },
-            "formula": {
-                "equation": "P(k) \\\\propto k^{-\\\\gamma}",
-                "description": "The probability (P) of a page having (k) incoming links is proportional to k raised to a negative exponent (usually 2.1).",
-                "terms": [
-                    { "symbol": "k", "meaning": "Number of incoming links (In-degree)" },
-                    { "symbol": "P(k)", "meaning": "Number of pages with exactly k links" },
-                    { "symbol": "\\\\gamma", "meaning": "The Power-law exponent (determines the 'steepness' of the inequality)" }
-                ],
-                "calculation": {
-                    "exampleTitle": "Hub Identification",
-                    "description": "Calculate how many 10-link pages exist vs. 100-link pages.",
-                    "steps": [
-                        { "label": "n=10", "formula": "10^{-2} = 0.01", "note": "1 in 100 pages" },
-                        { "label": "n=100", "formula": "100^{-2} = 0.0001", "note": "1 in 10,000 pages" },
-                        { "label": "Ratio", "formula": "0.01 / 0.0001 = 100", "note": "Hubs are 100x rarer than small sites" }
-                    ],
-                    "input": "k:10 vs. k:100, \\gamma=2.",
-                    "output": "Hubs are 100 folds fewer"
-                }
+                "text": "**1. Sample Input**: Simple 3-page web. A links to B and C. B links to C. C links to A. Start all PR at 1.0. \n**2. Step-by-Step Illustration**: \n - Page A distributes 0.5 to B and 0.5 to C. \n - Page B distributes 1.0 to C. \n - Page C distributes 1.0 to A. \n - After 1 Iteration ($d=1$ for simplicity): \n - $PR(A) = 1.0$ (from C). \n - $PR(B) = 0.5$ (from A). \n - $PR(C) = 0.5 (A) + 1.0 (B) = 1.5$. \n**3. Sample Output**: C is now the 'Authority' with PR=1.5. \n**4. Interpretation of Results**: Page C moved to #1 because it had two 'votes' (from A and B), whereas A and B only had one or fewer. Repeating this millions of times settles the 'True' importance of every page on the web."
             }
         },
         {
             "slideNumber": 10,
-            "type": "standard",
-            "title": "Interpretation of Input and Output",
+            "type": "python_demo",
+            "title": "Python Demo: The PageRank Simulator",
             "content": {
-                "text": "The input is the **Connectivity (k)** of a page. The output is its **Prevalence (P(k))**. This power law output tells the search engine that only a tiny fraction of inputs (sites) will be 'Hubs' with high authority. Most inputs will yield a very low probability of being 'authoritative', justifying a ranking that ignores most of the 'Leaf' web."
+                "code": "def pagerank_step(nodes, pr_scores, d=0.85):\n    new_scores = {}\n    num_nodes = len(nodes)\n    for node in nodes:\n        rank_sum = 0\n        # Find all neighbors pointing to this node\n        for neighbor, links in nodes.items():\n            if node in links:\n                rank_sum += pr_scores[neighbor] / len(links)\n        \n        new_scores[node] = round((1 - d) + d * rank_sum, 3)\n    return new_scores\n\n# Graph: A->B,C; B->C; C->A\nweb_graph = {'A': ['B', 'C'], 'B': ['C'], 'C': ['A']}\nscores = {'A': 1.0, 'B': 1.0, 'C': 1.0}\n\nfor i in range(3):\n    scores = pagerank_step(web_graph, scores)\n    print(f\"Iteration {i+1}: {scores}\")",
+                "input": "3-node circular graph.",
+                "output": "Iter 3: {'A': 1.01, 'B': 0.58, 'C': 1.07}",
+                "interpretation": "The script demonstrates the 'Convergence' of ranking. You can see Page C becoming the leader. Notice how Page B's score drops because it only has one link from A (who splits its power). This is exactly how Google prioritizes results."
             }
         },
         {
             "slideNumber": 11,
-            "type": "standard",
-            "title": "Step-by-Step Illustration: The Power of Links",
-            "content": {
-                "text": "**1. Sample Input**: Suppose we test 1 million web sites. Exponent $\\\\gamma = 2.0$. \n**2. Step-by-Step Illustration**: \n - Calculate frequency of sites with $k=10$ links: $1 / 10^2 = 0.01$ (1% of sites). \n - Calculate frequency of sites with $k=100$ links: $1 / 100^2 = 0.0001$ (0.01% of sites). \n**3. Sample Output**: Result: For 1M sites, 10,000 have 10 links; only 100 have 100 links. \n**4. Interpretation of Results**: The output shows the 'Inequality' of the web. This is why Google's PageRank works: the ranking is 'Hub-centric' because there are 100x fewer hubs than medium sites."
+            "type": "comparison",
+            "title": "Comparison: In-Degree vs. PageRank",
+            "comparison": {
+                "headers": ["Metric", "Simple In-Degree (Popularity)", "PageRank (Authority)"],
+                "rows": [
+                    ["Philosophy", "Quantity of votes", "Quality of votes"],
+                    ["Vulnerability", "High (Easy to spam with 1000 sub-doms)", "Low (Requires links from trusted sites)"],
+                    ["Calculation", "O(1) - Just count links", "Recursive - Requires multiple iterations"],
+                    ["Result", "Shows what is 'Popular'", "Shows what is 'Respected'"]
+                ]
             }
         },
         {
             "slideNumber": 12,
-            "type": "python_demo",
-            "title": "Python Demo: The Web Graph Visualizer",
+            "type": "activity",
+            "title": "Virtual Lab: Manual Ranking",
             "content": {
-                "code": "def calculate_prevalence(k, gamma=2.1):\n    # Simulate the Power Law of the Web\n    return round(1 / (k ** gamma), 6)\n\nprint(f\"Common site (10 links): {calculate_prevalence(10)}\")\nprint(f\"Rare hub (1000 links): {calculate_prevalence(1000)}\")",
-                "input": "k=10 vs. k=1000.",
-                "output": "10-links: 0.007, 1000-links: 0.000001",
-                "interpretation": "The script demonstrates that a 'Hub' (site with 1000 links) is 7,000 times rarer than a small site. This 'Inequality' is the secret weapon search engines use to find authority. Instead of indexing everything equally, we focus on the rare, highly-connected hubs."
+                "activity": "The Paper Web",
+                "description": "Draw 4 circles A, B, C, D on a paper. Connect them randomly with arrows. Assign each circle 10 points. Follow the arrows and 'move' the points. If an arrow splits, split the points. After 3 rounds of moving points, which circle is the 'Richest'? That's your PageRank winner!"
             }
         },
         {
             "slideNumber": 13,
             "type": "standard",
-            "title": "Advantages & Drawbacks",
-            "content": {
-                "text": "Advantage: Graph-based search handles spam much better than text-only search. Drawback: 'Static' web search is losing ground to the 'Social Graph' (TikTok/Instagram) where info is locked inside apps."
-            }
-        },
-        {
-            "slideNumber": 14,
-            "type": "standard",
-            "title": "Solution to Address Drawbacks",
-            "content": {
-                "text": "To index the 'Invisible Web', search engines use 'Sitemap.xml' files where webmasters explicitly list their hidden pages. For mobile-first content, engines use 'Deep Linking' to launch apps from a search result."
-            }
-        },
-        {
-            "slideNumber": 15,
-            "type": "comparison",
-            "title": "Comparison: Early Web vs. Modern Web",
-            "comparison": {
-                "headers": ["Aspect", "Early Web (1995)", "Modern Web (2025)"],
-                "rows": [
-                    ["Content", "Static Text (HTML)", "Dynamic Feed (JS/AJAX)"],
-                    ["Search Method", "Boolean / TF-IDF", "Vector / Pagerank / Transformers"],
-                    ["Scale", "Millions of pages", "Trillions of pages"],
-                    ["Nature", "Informational", "Adversarial (SEO Spam)"]
-                ]
-            }
-        },
-        {
-            "slideNumber": 16,
-            "type": "activity",
-            "title": "Virtual Lab: The Invisible Web Trace",
-            "content": {
-                "activity": "The Crawler Test",
-                "description": "Choice a specific academic paper or legal document. Try to find its full content on Google. If you can't, use 'Google Scholar' or 'Semantic Scholar'. Why could the general crawler not find it, but the specialized one could? Look for 'Login' buttons or 'Paywalls' on the page."
-            }
-        },
-        {
-            "slideNumber": 17,
-            "type": "standard",
             "title": "Discussion & Self-Reflection",
             "content": {
-                "text": "1. Why is the 'Invisible Web' (Deep Web) estimated to be 500x larger than the surface web? \n2. If a page has 1,000,000 links but they are all from the *same* person, is it a 'Hub'? Why or why not? \n3. Should a search engine follow a 'paywall' link? Does it help the user or frustrate them?"
+                "text": "1. Why does Google use a 'Damping Factor' (d=0.85) instead of just following links forever? \n2. In a 'Social Network', who would have the highest PageRank? (e.g. A celebrity orbited by fans, or a scientist cited by other scientists?) \n3. Is PageRank still the #1 factor in search today, or has AI/LLMs taken over?"
             }
         }
     ]

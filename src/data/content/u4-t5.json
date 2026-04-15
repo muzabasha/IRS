@@ -1,16 +1,16 @@
 {
     "id": "u4-t5",
-    "title": "Hyperlink Analysis (PageRank & HITS)",
+    "title": "Multimedia Retrieval: Image Retrieval",
     "unitId": "unit-4",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Hyperlink Analysis",
-            "subtitle": "Measuring Authority in the Web Graph",
+            "title": "Image Retrieval",
+            "subtitle": "Finding Patterns in a Visual World",
             "content": {
-                "text": "The Web is a giant set of votes. Every link from Page-A to Page-B is a vote of confidence. Hyperlink analysis is the math of counting those votes intelligently.",
-                "hook": "A link from the New York Times is worth more than a million links from unknown blogs."
+                "text": "Text search relies on keywords, but image search relies on features like color, texture, and shape. Content-Based Image Retrieval (CBIR) allows us to search using the actual pixels of an image.",
+                "hook": "A picture is worth a thousand words, but only if you can find it."
             }
         },
         {
@@ -18,15 +18,15 @@
             "type": "standard",
             "title": "Prerequisite Knowledge",
             "content": {
-                "text": "Before studying PageRank, you should understand: \n1. **Adjacency Matrices**: How a graph of links $[1 \to 2, 2 \to 3]$ is represented as a grid of 0s and 1s. \n2. **Iterative Algorithms**: The idea that a calculation can be repeated (Cycle 1, Cycle 2...) until the numbers stop changing. \n3. **Basic Probability**: The 'Random Surfer' model starts with a user clicking a random link with probability P."
+                "text": "Before studying image retrieval, you should know: \n1. **Pixels**: The basic building blocks of a digital image. \n2. **Histograms**: A graph showing the distribution of colors in an image. \n3. **Feature Vectors**: Representing an image as a list of numbers $[R, G, B, ...]$."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Background",
+            "title": "Background: From Tags to Pixels",
             "content": {
-                "text": "Before 1998, search engines only looked at the text on a page. This led to 'Keyword Stuffing' spam. Larry Page and Sergey Brin at Stanford developed 'PageRank' to solve this by looking at 'Global Authority'. Simultaneously, Jon Kleinberg developed 'HITS' (Hubs and Authorities) to find specialized communities."
+                "text": "Early image search (like Google Images in 2001) relied entirely on 'Alt Text' and surrounding keywords. Today, we use 'Content-Based' search where the system 'sees' the image. Modern systems use Deep Learning (CNNs) to extract high-level concepts like 'cat' or 'sunset' directly from raw pixels."
             }
         },
         {
@@ -34,7 +34,7 @@
             "type": "standard",
             "title": "Motivation",
             "content": {
-                "text": "Why use links? Because text can lie, but links are harder to manipulate. A reputable site is unlikely to link to a low-quality or scammy site. By following the 'Trust Flow' of links, we can identify the most reliable information on any topic."
+                "text": "Why unique methods for images? Because text descriptors are often incomplete. If you want to find a specific dress or a rug pattern, you cannot describe it in words easily. CBIR allows for 'Query by Example' (QbE)—upload a photo to find similar ones."
             }
         },
         {
@@ -42,136 +42,131 @@
             "type": "standard",
             "title": "Challenges",
             "content": {
-                "text": "1. Dead Ends: What happens if a page has no outgoing links? (The 'Sink' problem). 2. Spider Traps: Groups of pages that link only to each other, trapping the algorithm. 3. Topic Drift: A page about 'Horses' might link to 'Amazon', causing Amazon to rank high for 'Horses'."
+                "text": "1. The Semantic Gap: A computer sees 'Blue Pixels', but a human sees 'The Sky'. 2. Sensory Gap: The same object looks different under different lighting or angles. 3. Computational Cost: Matching an image against billions of others in real-time is extremely difficult."
             }
         },
         {
             "slideNumber": 6,
             "type": "grid",
-            "title": "Application",
+            "title": "Visual Features",
             "items": [
-                "PageRank: The core of Google's original ranking.",
-                "HITS: Identifying 'Hubs' (Review sites) and 'Authorities' (Official products).",
-                "TrustRank: Filtering out spam by starting from a set of 'Human-verified' seeds.",
-                "Social Ranking: Measuring the 'Influence' of a Twitter/X user based on retweets."
+                "Color Histograms: Measuring the global distribution of colors.",
+                "Texture Analysis: Identifying patterns like 'rough', 'smooth', or 'grainy'.",
+                "Shape Descriptors: Boundaries and silhouettes of objects.",
+                "Spatial Layout: Where objects are located in the frame."
             ]
         },
         {
             "slideNumber": 7,
             "type": "standard",
-            "title": "Introduction to PageRank",
+            "title": "The Concept: Color Histogram Similarity",
             "content": {
-                "text": "PageRank simulates a 'Random Surfer'. The surfer clicks random links with probability $d$ (damping) or jumps to a random page entirely with probability $1-d$. Authority flows through the graph over multiple iterations."
+                "text": "We often compare images by looking at the difference between their color histograms."
+            },
+            "formula": {
+                "equation": "d(I, J) = \\sum_{k=1}^{n} |h_I(k) - h_J(k)|",
+                "description": "The distance (d) between image I and image J is the sum of absolute differences between their color bin counts (h).",
+                "terms": [
+                    { "symbol": "h_I(k)", "meaning": "Frequency of color k in image I" },
+                    { "symbol": "h_J(k)", "meaning": "Frequency of color k in image J" },
+                    { "symbol": "n", "meaning": "Number of color bins (e.g. 256 for RGB)" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Color Match Audit",
+                    "description": "Compare two images with 3-color simplified histograms.",
+                    "steps": [
+                        { "label": "Img 1", "formula": "R=100, G=50, B=10", "note": "Mostly Red" },
+                        { "label": "Img 2", "formula": "R=110, G=40, B=15", "note": "Similar Redness" },
+                        { "label": "Distance", "formula": "|110-100| + |40-50| + |15-10| = 10 + 10 + 5 = 25", "note": "Low distance" }
+                    ],
+                    "input": "I:[100,50,10], J:[110,40,15].",
+                    "output": "Distance: 25"
+                }
             }
         },
         {
             "slideNumber": 8,
             "type": "standard",
-            "title": "Step-by-Step Algorithm: PageRank Power Iteration",
+            "title": "The Concept: Euclidean Distance (L2 Norm)",
             "content": {
-                "text": "1. **Initialization**: Assign an equal initial rank to all $N$ pages $(PR = 1/N)$. \n2. **Distribution**: For each page $A$, find all pages $T$ that link TO it. \n3. **Contribution calculation**: Each page $T$ contributes $PR(T) / C(T)$ to $A$, where $C(T)$ is its outgoing link count. \n4. **Summation**: Add up all incoming contributions. \n5. **Apply Damping ($d$)**: Calculate $PR(A) = (1-d) + d \\\\times \\\\text{Sum\\\\_Contributions}$. \n6. **Iteration**: Repeat the process for all pages until the ranks 'converge' (change by less than a small $\\\\epsilon$). \n7. **Normalization**: Ensure the total sum of all PageRanks remains constant (e.g. equal to $N$ or $1$)."
+                "text": "For complex feature vectors (like those from AI models), we use Euclidean distance to find the 'nearest neighbor' in high-dimensional space."
+            },
+            "formula": {
+                "equation": "D(Q, D) = \\sqrt{\\sum_{i=1}^{n} (Q_i - D_i)^2}",
+                "description": "The distance between query vector Q and document vector D is the square root of the sum of squared differences.",
+                "terms": [
+                    { "symbol": "Q_i", "meaning": "Value of feature i in the query image" },
+                    { "symbol": "D_i", "meaning": "Value of feature i in the candidate image" },
+                    { "symbol": "n", "meaning": "Number of dimensions (e.g. 512 or 1024)" }
+                ],
+                "calculation": {
+                    "exampleTitle": "Feature Matching",
+                    "description": "Distance between Q=[0.5, 0.5] and D=[0.8, 0.1].",
+                    "steps": [
+                        { "label": "Diffs", "formula": "(0.5-0.8)^2 + (0.5-0.1)^2 = 0.09 + 0.16 = 0.25", "note": "Squares" },
+                        { "label": "Result", "formula": "\\sqrt{0.25} = 0.5", "note": "Final distance" }
+                    ],
+                    "input": "Q:[0.5, 0.5], D:[0.8, 0.1]",
+                    "output": "Dist: 0.5"
+                }
             }
         },
         {
             "slideNumber": 9,
             "type": "standard",
-            "title": "The Concept: The PageRank Formula",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "text": "PageRank determines the importance of a page based on its neighbors' importance and their 'Generosity' in sharing links."
-            },
-            "formula": {
-                "equation": "PR(A) = (1-d) + d \\\\left( \\\\sum_{i=1}^{n} \\\\frac{PR(T_i)}{C(T_i)} \\\\right)",
-                "description": "PageRank of A is the sum of (Ranks of pages T that link to A) divided by their outgoing link counts (C), scaled by a damping factor d.",
-                "terms": [
-                    { "symbol": "PR(A)", "meaning": "PageRank of the target page A" },
-                    { "symbol": "d", "meaning": "Damping factor (usually 0.85)" },
-                    { "symbol": "C(T)", "meaning": "Number of outgoing links from page T" }
-                ],
-                "calculation": {
-                    "exampleTitle": "A simple Link-Vote",
-                    "description": "Calculate rank of A if B links to it.",
-                    "steps": [
-                        { "label": "Setup", "formula": "PR(B)=1.0, C(B)=2, d=0.85", "note": "B links to 2 pages" },
-                        { "label": "B's share", "formula": "1.0 / 2 = 0.5", "note": "B gives half its power" },
-                        { "label": "Final PR(A)", "formula": "(1-0.85) + 0.85 \\\\times (0.5) = 0.575", "note": "Updated authority" }
-                    ],
-                    "input": "B->A, PR(B):1.0, C(B):2.",
-                    "output": "PR(A): 0.575"
-                }
+                "text": "The input to an image retrieval system is a **Query Image**. The output is a **Ranked list of Visually Similar Images**. If the distance output (d) is low, the images are 'Similar' inputs. If the distance is high, the system's output will ignore that candidate. This 'Geometric' output replaces the 'Keyword' output used in traditional search."
             }
         },
         {
             "slideNumber": 10,
             "type": "standard",
-            "title": "Interpretation of Input and Output",
+            "title": "Step-by-Step Illustration: Reverse Image Search",
             "content": {
-                "text": "The inputs are the **Existing Ranks (PR)** of neighboring pages and their **Outgoing Link Counts (C)**. The output is a **New Rank (PR(A))**. If the incoming neighbor has a very high rank (high input quality), the output rank for page A increases significantly. A link from a trusted input (like Wikipedia) creates a much higher quality output than a link from an unknown one."
+                "text": "**1. Sample Input**: User uploads a photo of a blue chair. \n**2. Step-by-Step Illustration**: \n - System extracts **Color Feature**: 'Blue=90%'. \n - System extracts **Shape Feature**: 'L-shape with 4 legs'. \n - System transforms these into a vector $V_{blue\\_chair} = [0.9, 0.4, 0.8, ...]$. \n - System calculates distance against 1 Billion vectors in the database. \n - **3. Sample Output**: Top 5 images with distance $< 0.1$. \n**4. Interpretation of Results**: The user finds the exact chair model or similar designs because their geometric 'distance' was the lowest in the entire collection."
             }
         },
         {
             "slideNumber": 11,
-            "type": "standard",
-            "title": "Step-by-Step Illustration: The Trust Flow",
+            "type": "python_demo",
+            "title": "Python Demo: The Color Matcher",
             "content": {
-                "text": "**1. Sample Input**: Page-B links TO Page-A. Page-B has rank $1.0$ and links to 2 pages in total ($C=2$). Damping $d=0.85$. \n**2. Step-by-Step Illustration**: \n - Calculate rank share from Page-B: $1.0 / 2 = 0.5$. \n - Apply damping: $0.85 \\\\times (0.5) = 0.425$. \n - Add teleportation factor: $(1 - 0.85) + 0.425 = 0.575$. \n**3. Sample Output**: $PR(A) = 0.575$. \n**4. Interpretation of Results**: The resulting output (0.575) shows that Page-A has received 'authority' from Page-B. If Page-B had 10 outgoing links instead of 2, the output for A would drop to $0.235$, because B's trust is diluted across more targets."
+                "code": "import numpy as np\n\ndef compare_images(hist1, hist2):\n    # Manhattan distance for color histograms\n    return np.sum(np.abs(hist1 - hist2))\n\n# Simplified: [Red, Green, Blue] average values\nquery = np.array([200, 10, 10]) # Very Red\nimg_a = np.array([190, 15, 12]) # Also Red\nimg_b = np.array([10, 200, 10]) # Very Green\n\nprint(f\"Dist to Similar Img: {compare_images(query, img_a)}\")\nprint(f\"Dist to Different Img: {compare_images(query, img_b)}\")",
+                "input": "3 RGB vectors.",
+                "output": "Similar: 17, Different: 380",
+                "interpretation": "The script demonstrates that 'Visual Distance' is just arithmetic. Because the difference between 'Red' and 'Also Red' is only 17, the system ranks Img A as a match. Because 'Red' and 'Green' have a massive distance of 380, Img B is rejected."
             }
         },
         {
             "slideNumber": 12,
-            "type": "python_demo",
-            "title": "Python Demo: PageRank Iteration",
-            "content": {
-                "code": "def pagerank_cycle(ranks, links, d=0.85):\n    new_ranks = {}\n    # Teleportation\n    for node in ranks: new_ranks[node] = (1 - d)\n    \n    # Power Flow\n    for source, targets in links.items():\n        share = d * ranks[source] / len(targets)\n        for t in targets:\n            new_ranks[t] += share\n    return new_ranks\n\n# B links to A and C\nlinks = {'B': ['A', 'C'], 'A': ['C'], 'C': ['A']}\nr = {'A': 1, 'B': 1, 'C': 1}\nprint(f\"Iteration 1: {pagerank_cycle(r, links)}\")",
-                "input": "3-page graph [B->A,C; A->C; C->A].",
-                "output": "A: 0.725, B: 0.15, C: 0.575.",
-                "interpretation": "The script shows one cycle of PageRank. Node A gains authority because both B and C link to it. Node B loses authority because no one links to it (it starts at a high rank but its value isn't 'refreshed' by neighbors). This iteration repeatably identifies the 'Trust Center'."
+            "type": "comparison",
+            "title": "Comparison: Text-Based vs. Content-Based Search",
+            "comparison": {
+                "headers": ["Aspect", "Text-Based (Metadata)", "Content-Based (CBIR)"],
+                "rows": [
+                    ["Input", "Keywords (e.g. 'sunset photo')", "Existing Image / Pixel data"],
+                    ["Search Logic", "Exact word matching", "Feature vector distance"],
+                    ["Accuracy", "Depends on human who tagged it", "Depends on algorithm's vision"],
+                    ["Scale", "Cheap and Fast", "Expensive (requires GPUs/Vectors)"]
+                ]
             }
         },
         {
             "slideNumber": 13,
-            "type": "standard",
-            "title": "Advantages & Drawbacks",
+            "type": "activity",
+            "title": "Virtual Lab: The Human CBIR",
             "content": {
-                "text": "Advantage: PageRank is a 'Global' metric (one score per page) that is independent of any specific query. Drawback: It is slow to compute for the entire web and doesn't handle 'Topic Specialization' (a general hub might not be an expert in rocket science)."
+                "activity": "The Color Sorter",
+                "description": "Go to a site like Pinterest. Search for 'Living Room Decor'. Now, look at the results. Try to group them by 'Color Scheme' (e.g. Earth tones vs. Neon). If you were a computer, what 'number' would you assign to a room that is half-white and half-brown?"
             }
         },
         {
             "slideNumber": 14,
             "type": "standard",
-            "title": "Solution to Address Drawbacks",
-            "content": {
-                "text": "To handle specialized topics, use 'Topic-Sensitive PageRank', where the 'Random Jumps' are biased towards pages in a specific category (e.g. Sports or Tech). To handle spam, use 'Anti-TrustRank' to propagate 'Distrust' from known spam sites."
-            }
-        },
-        {
-            "slideNumber": 15,
-            "type": "comparison",
-            "title": "Comparison: PageRank vs. HITS",
-            "comparison": {
-                "headers": ["Aspect", "PageRank (Google)", "HITS (Kleinberg)"],
-                "rows": [
-                    ["Scope", "Global (All pages)", "Local (Query-dependent)"],
-                    ["Nature", "Single Rank", "Dual Rank (Hub + Authority)"],
-                    ["Stability", "Very Stable over time", "Volatile (changes with query)"],
-                    ["Goal", "Find 'Most Trusted' pages", "Find 'Topic Experts'"]
-                ]
-            }
-        },
-        {
-            "slideNumber": 16,
-            "type": "activity",
-            "title": "Virtual Lab: The PageRank Simulator",
-            "content": {
-                "activity": "The Trust Game",
-                "description": "Draw 4 circles (Nodes A, B, C, D) on a paper. Draw arrows: A -> B, B -> C, C -> A, and D -> A. If you are a 'Random Surfer', which node will you end up at most often? Why does D have the lowest score even though it points to the winner? Hint: Think about who points TO D."
-            }
-        },
-        {
-            "slideNumber": 17,
-            "type": "standard",
             "title": "Discussion & Self-Reflection",
             "content": {
-                "text": "1. Why does PageRank use a damping factor (d=0.85) instead of 1.0? What would happen if a user never 'jumped' to a random page? \n2. In a social network like LinkedIn, does the PageRank of a person's profile tell you their actual skills or just how well-connected they are? \n3. How can 'Link Farming' (creating 1,000 fake sites that link to you) be detected by an algorithm?"
+                "text": "1. Why is 'Search by Image' harder for a computer than 'Search by Text'? \n2. Can an image search engine understand 'Humor' or 'Irony' in a picture, or can it only see shapes and colors? \n3. How would you design a search for images of 'Peace'? What features would you look for?"
             }
         }
     ]
