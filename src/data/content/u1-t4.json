@@ -119,7 +119,7 @@
             "comparison": {
                 "headers": ["Aspect", "Boolean Model", "Fuzzy Set Model"],
                 "rows": [
-                    ["Membership", "$\{0, 1\}$", "$[0, 1]$"],
+                    ["Membership", "$\\\\{0, 1\\\\}$", "$[0, 1]$"],
                     ["Logic", "Crisp (All/None)", "Graded (Vague)"],
                     ["Precision", "High (but many misses)", "Balanced (fewer misses)"],
                     ["User Control", "High (Full syntax)", "Medium (Partial weights)"]

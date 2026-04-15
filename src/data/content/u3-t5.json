@@ -1,16 +1,16 @@
 {
     "id": "u3-t5",
-    "title": "Evaluation: Precision, Recall and F-Measure",
+    "title": "Topic 5: Interface Support for the Search Process",
     "unitId": "unit-3",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Evaluation in IR",
-            "subtitle": "Measuring Success and Relevance",
+            "title": "Interface Support",
+            "subtitle": "Guiding the User from Query to Discovery",
             "content": {
-                "text": "How do we know if a search engine is actually 'good'? Evaluation provides the mathematical metrics to measure how well a system satisfies a user's information need.",
-                "hook": "Measurement is the first step that leads to control and eventually to improvement."
+                "text": "A search interface is more than just a results list. It is a system of support mechanisms—like snippets, highlighting, and visualizations—that help users evaluate information quickly and accurately.",
+                "hook": "The best search interface is like a GPS for knowledge."
             }
         },
         {
@@ -18,15 +18,15 @@
             "type": "standard",
             "title": "Prerequisite Knowledge",
             "content": {
-                "text": "To understand evaluation metrics, you should know: \n1. **Relevance**: The concept that a document either 'matches' or 'does not match' a query. \n2. **Retrieval Set**: The list of documents returned by the search engine. \n3. **Ground Truth**: A set of human-judged relevant documents used for testing."
+                "text": "Before studying interface support, you should know: \n1. **Query Specification**: How users type words to find things. \n2. **Relevance Judgments**: The split-second decision a user makes: 'Is this the right link?'. \n3. **Cognitive Load**: The amount of mental effort required to use an interface."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Background: The Cranfield Paradigm",
+            "title": "Background: The Ten Blue Links",
             "content": {
-                "text": "In the 1960s, Cyril Cleverdon established the 'Cranfield Paradigm'. It requires three things: 1. A collection of documents. 2. A set of test queries. 3. Binary relevance judgments (Yes/No) for every query-document pair. This allows us to calculate consistent scores across different algorithms."
+                "text": "In the 1990s, search results were just 'Ten Blue Links'. Users had to click every link to see if it was relevant. By the 2000s, 'Snippets' (short text summaries) and 'Bold Highlighting' were introduced. This allowed users to 'Information Forage' without leaving the results page."
             }
         },
         {
@@ -34,7 +34,7 @@
             "type": "standard",
             "title": "Motivation",
             "content": {
-                "text": "Why evaluate? Because 'Relevance' is subjective. We need objective numbers to compare the Vector Space Model against the Probabilistic Model. Without metrics like Precision and Recall, we are just 'guessing' which system is better."
+                "text": "Why study interface support? Because users are impatient. Research shows that if a user can't determine relevance in 2 seconds, they will leave. Visual support (like document previews) reduces 'Click-Regret'—the frustration of clicking a link only to find it's useless."
             }
         },
         {
@@ -42,132 +42,104 @@
             "type": "standard",
             "title": "Challenges",
             "content": {
-                "text": "1. Exhaustivity: It is impossible for humans to judge every document on the web for a query. 2. Subjectivity: Two people might disagree on whether a document is relevant. 3. Static Nature: Standard metrics don't account for how the user's need changes over time."
+                "text": "1. Screen Real Estate: Showing complex visualizations on a mobile phone screen. 2. Snippet Quality: Summarizing a 50-page PDF into 2 lines of text. 3. Trust: Ensuring that 'Bold matches' aren't misleading the user about the document's actual content."
             }
         },
         {
             "slideNumber": 6,
             "type": "grid",
-            "title": "Common Metrics",
+            "title": "Key Support Features",
             "items": [
-                "Precision: Accuracy of results (How many retrieved are actually good?)",
-                "Recall: Completeness of results (How many good ones did we find?)",
-                "F-Measure: Harmonic mean of Precision and Recall.",
-                "Fallout: The proportion of non-relevant docs that were retrieved."
+                "Query Highlighting: Bold terms in the snippet that match the query.",
+                "Document Snippets: Dynamic summaries based on query context.",
+                "Visual Previews: Thumbnails or maps showing document structure.",
+                "Related Searches: Suggested refinements (e.g. 'People also ask')."
             ]
         },
         {
             "slideNumber": 7,
             "type": "standard",
-            "title": "The Concept: Precision and Recall",
+            "title": "The Concept: Fitts's Law in UI",
             "content": {
-                "text": "Precision measures the quality (exactness) of the search, while Recall measures the quantity (completeness)."
+                "text": "Fitts's Law predicts the time required to move to a target area (like a 'Next Page' button) based on distance and size."
             },
             "formula": {
-                "equation": "\\text{Precision} = \\frac{TP}{TP + FP}, \\quad \\text{Recall} = \\frac{TP}{TP + FN}",
-                "description": "Precision is the ratio of relevant documents found to the total documents retrieved. Recall is the ratio of relevant documents found to the total relevant documents in the collection.",
+                "equation": "T = a + b \\cdot \\log_2 \\left( 1 + \\frac{D}{W} \\right)",
+                "description": "The movement time (T) is proportional to the log of the distance (D) divided by the width of the target (W).",
                 "terms": [
-                    { "symbol": "TP", "meaning": "True Positives: Relevant documents that were correctly retrieved." },
-                    { "symbol": "FP", "meaning": "False Positives: Non-relevant documents that were retrieved (noise)." },
-                    { "symbol": "FN", "meaning": "False Negatives: Relevant documents that were NOT retrieved (missed)." }
+                    { "symbol": "D", "meaning": "Distance from the user's cursor to the target button" },
+                    { "symbol": "W", "meaning": "Width (size) of the target button" },
+                    { "symbol": "a, b", "meaning": "Empirical constants based on the input device (mouse/touch)" }
                 ],
                 "calculation": {
-                    "exampleTitle": "Search Accuracy Check",
-                    "description": "Evaluate a search that returns 10 docs, 8 of which are relevant, out of 20 total relevant ones.",
+                    "exampleTitle": "Targeting the 'Next' Button",
+                    "description": "Compare a small button 500px away with a large button 500px away.",
                     "steps": [
-                        { "label": "Setup", "formula": "TP=8, FP=2, FN=12", "note": "Retrieved=10, Total Rel=20" },
-                        { "label": "Precision", "formula": "8 / (8 + 2) = 0.8", "note": "80% accuracy" },
-                        { "label": "Recall", "formula": "8 / (8 + 12) = 0.4", "note": "40% coverage" }
+                        { "label": "Small Button", "formula": "W=10px, D=500px, Index=\\log_2(51) \\approx 5.6", "note": "High difficulty" },
+                        { "label": "Large Button", "formula": "W=50px, D=500px, Index=\\log_2(11) \\approx 3.4", "note": "Low difficulty" },
+                        { "label": "Result", "formula": "5.6 vs 3.4", "note": "The larger button is ~40% faster to click" }
                     ],
-                    "input": "TP:8, FP:2, RelInCollection:20",
-                    "output": "P: 0.8, R: 0.4"
+                    "input": "D:500, W:10 vs 50.",
+                    "output": "3.4 bits for Large Button"
                 }
             }
         },
         {
             "slideNumber": 8,
             "type": "standard",
-            "title": "The Concept: F-Measure (Balanced Score)",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "text": "The F-Measure combines Precision and Recall into a single number using the Harmonic Mean, which punishes extreme values."
-            },
-            "formula": {
-                "equation": "F = \\frac{2 \\times P \\times R}{P + R}",
-                "description": "F1-Score gives equal weight to Precision and Recall. It is high only when both P and R are high.",
-                "terms": [
-                    { "symbol": "P", "meaning": "Precision" },
-                    { "symbol": "R", "meaning": "Recall" },
-                    { "symbol": "F", "meaning": "F1-Measure" }
-                ],
-                "calculation": {
-                    "exampleTitle": "Overall Performance",
-                    "description": "Calculate F1 for P=0.8 and R=0.4.",
-                    "steps": [
-                        { "label": "Numerator", "formula": "2 \\times 0.8 \\times 0.4 = 0.64", "note": "Product" },
-                        { "label": "Denominator", "formula": "0.8 + 0.4 = 1.2", "note": "Sum" },
-                        { "label": "Result", "formula": "0.64 / 1.2 \\approx 0.533", "note": "Balanced score" }
-                    ],
-                    "input": "P:0.8, R:0.4",
-                    "output": "F1: 0.533"
-                }
+                "text": "The input to an IR interface is the **Query and Raw Results**. The output is a **Decision-Support Display**. If the interface provides high-quality snippets (input processing), the user's output decision (clicking) is much more accurate. Fitts's Law (output efficiency) ensures that the physical act of searching (input movement) does not become a hurdle to the mental act of thinking."
             }
         },
         {
             "slideNumber": 9,
             "type": "standard",
-            "title": "Interpretation of Input and Output",
+            "title": "Step-by-Step Illustration: Snippet Generation",
             "content": {
-                "text": "The input to evaluation is the **Contingency Matrix** (TP, FP, FN, TN). The output is a triplet of scores (**P, R, F**). High Precision means the user doesn't see 'Junk'. High Recall means the user finds 'Everything'. The F-measure output is the final 'Quality Score'. If F is low, it signals the developer that either the ranking is too strict (Low Recall) or too loose (Low Precision)."
+                "text": "**1. Step 1**: System identifies positions of query terms in the document. \n**2. Step 2**: It selects a 20-word 'window' around the densest cluster of terms. \n**3. Step 3**: It wraps the query terms in `<b>` tags. \n**4. Step 4**: It adds ellipses (...) at the start/end if the window is in the middle of a paragraph. \n**5. Step 5**: Final output: A 'Query-Biased' snippet that shows *exactly* why the doc was retrieved."
             }
         },
         {
             "slideNumber": 10,
-            "type": "standard",
-            "title": "Step-by-Step Illustration: The Search Audit",
+            "type": "python_demo",
+            "title": "Python Demo: The Snippet Maker",
             "content": {
-                "text": "**1. Sample Input**: A library search for 'Calculus' retrieves 5 books. 4 are about Calculus ($TP=4$), and 1 is a Cooking book ($FP=1$). In total, the library has 10 Calculus books ($TP+FN=10$). \n**2. Step-by-Step Illustration**: \n - Calculate Precision: $4 / (4+1) = 0.8$. (80% of what was shown was good). \n - Calculate Recall: $4 / 10 = 0.4$. (We found only 40% of the total books). \n - Calculate F1: $(2 \\times 0.8 \times 0.4) / (0.8 + 0.4) = 0.53$. \n**3. Sample Output**: $P=0.8, R=0.4, F=0.53$. \n**4. Interpretation of Results**: The system has high 'Trust' (Precision) but leaves many stones unturned (Low Recall). To improve the user experience, we should expand the query to find the other 6 Calculus books."
+                "code": "def generate_snippet(doc, query, window=5):\n    words = doc.split()\n    q = query.lower()\n    try:\n        idx = [i for i, w in enumerate(words) if q in w.lower()][0]\n        start = max(0, idx - window)\n        end = min(len(words), idx + window + 1)\n        snippet = \" \".join(words[start:end])\n        # Highlight\n        return snippet.replace(query, f\"**{query}**\")\n    except:\n        return doc[:50] + \"...\"\n\ntext = \"Information retrieval is the science of searching for information in documents.\"\nprint(f\"Snippet: {generate_snippet(text, 'science')}\")",
+                "input": "Search for 'science' in a long sentence.",
+                "output": "retrieval is the **science** of searching for",
+                "interpretation": "The script demonstrates 'Contextual Wrapping'. By showing words *around* the hit, the user understands the context. Note how 'Science' is highlighted to draw the eye immediately. This reduces scanning time by 50%."
             }
         },
         {
             "slideNumber": 11,
-            "type": "python_demo",
-            "title": "Python Demo: The Evaluation Lab",
-            "content": {
-                "code": "def evaluate_ir(tp, fp, fn):\n    precision = tp / (tp + fp) if (tp + fp) > 0 else 0\n    recall = tp / (tp + fn) if (tp + fn) > 0 else 0\n    f1 = (2 * precision * recall) / (precision + recall) if (precision + recall) > 0 else 0\n    \n    return {\"Precision\": round(precision, 3), \"Recall\": round(recall, 3), \"F1\": round(f1, 3)}\n\n# Scenario: Strict Search (High P, Low R)\nprint(f\"Strict System: {evaluate_ir(tp=5, fp=1, fn=20)}\")\n\n# Scenario: Loose Search (Low P, High R)\nprint(f\"Loose System: {evaluate_ir(tp=20, fp=50, fn=5)}\")",
-                "input": "TP=5, FP=1, FN=20 vs TP=20, FP=50, FN=5.",
-                "output": "Strict: F1=0.32, Loose: F1=0.42",
-                "interpretation": "The script shows the classic trade-off. The 'Strict' system is very accurate but misses most results. The 'Loose' system finds almost everything but shows a lot of junk. IR engineering is the art of balancing these two numbers."
-            }
-        },
-        {
-            "slideNumber": 12,
             "type": "comparison",
-            "title": "Comparison: Precision vs. Recall",
+            "title": "Comparison: Static vs. Dynamic Snippets",
             "comparison": {
-                "headers": ["Aspect", "High Precision Focus", "High Recall Focus"],
+                "headers": ["Feature", "Static Snippet (Metadata)", "Dynamic Snippet (Query-Biased)"],
                 "rows": [
-                    ["User Goal", "Find 1 or 2 perfect answers fast", "Find every possible document on a topic"],
-                    ["Typical System", "Web Search (Google)", "Legal or Medical Patent Search"],
-                    ["Result Quality", "No junk, but many missed items", "No missed items, but high junk volume"],
-                    ["Cost of Error", "Low (Just look at next result)", "Extreme (Missing a cure or a law)"]
+                    ["Content", "First 200 chars or <meta> tag", "Fragments of text containing the query"],
+                    ["User Benefit", "Consistent description", "Shows why the doc is relevant to THIS query"],
+                    ["Computing", "Low (Pre-computed)", "High (Calculated at search time)"],
+                    ["Accuracy", "Low for long docs", "Very High"]
                 ]
             }
         },
         {
-            "slideNumber": 13,
+            "slideNumber": 12,
             "type": "activity",
-            "title": "Virtual Lab: Manual Audit",
+            "title": "Virtual Lab: The Snippet Audit",
             "content": {
-                "activity": "The 10-Result Test",
-                "description": "Search for 'Impact of climate change on coffee' on a search engine. Look at the first 10 results. Mark each as 'Relevant' or 'Not Relevant'. Calculate your 'Precision @ 10'. Now, guess how many relevant pages exist on the whole internet. How does this affect your perceived Recall?"
+                "activity": "The Scan Test",
+                "description": "Go to Google. Search for 'History of Jazz'. 1. Scan the results for 5 seconds. 2. How many 'Bold' words did you see? 3. Did the snippets describe the 'History' or just the word 'Jazz'? This is the difference between a good and bad support interface."
             }
         },
         {
-            "slideNumber": 14,
+            "slideNumber": 13,
             "type": "standard",
             "title": "Discussion & Self-Reflection",
             "content": {
-                "text": "1. Why can't we have 100% Precision and 100% Recall at the same time in most systems? \n2. In a 'Search for a Missing Person', is Recall or Precision more important? Why? \n3. How does 'Autocomplete' help improve precision before the search even begins?"
+                "text": "1. Why does highlighting the query terms make the user feel like the search is 'Faster'? \n2. In a search for 'Pizza', would a 'Dynamic Snippet' be better than just a photo? \n3. How could Fitts's Law help us design search interfaces for elderly users with shaky-hand movements?"
             }
         }
     ]

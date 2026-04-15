@@ -1,16 +1,16 @@
 {
     "id": "u3-t6",
-    "title": "Evaluation: MAP and nDCG",
+    "title": "Topic 6: Trends & Research in IR UI",
     "unitId": "unit-3",
     "slides": [
         {
             "slideNumber": 1,
             "type": "title",
-            "title": "Ranked Evaluation",
-            "subtitle": "Beyond Binary Relevance",
+            "title": "Future of Search Interfaces",
+            "subtitle": "Beyond the Search Box",
             "content": {
-                "text": "In a real search engine, the *order* of results matters. If the best result is at position #10 instead of #1, the system is failing. advanced metrics like MAP and nDCG account for this ranking position.",
-                "hook": "90% of users never look past the first page of results."
+                "text": "The keyboard and the screen are no longer the only ways to find information. We are moving toward voice, gesture, and immersive 3D search environments. The trend is moving from 'Searching' to 'Conversing'.",
+                "hook": "In the future, the best search interface will be the one you don't even notice."
             }
         },
         {
@@ -18,15 +18,15 @@
             "type": "standard",
             "title": "Prerequisite Knowledge",
             "content": {
-                "text": "To understand ranked evaluation, you should know: \n1. **Precision at k (P@k)**: Precision calculated for the top k results. \n2. **Ranked List**: A search result where entries are sorted by predicted relevance. \n3. **Logarithms**: Basic understanding of how log scales work for diminishing returns."
+                "text": "Before exploring UI trends, you should know: \n1. **Query Intent**: What the user wants to achieve (Transactional, Informational, Navigational). \n2. **Natural Language Processing (NLP)**: How computers understand human speech. \n3. **Multimodal Interaction**: Using more than one sense (Touch + Voice) to interact."
             }
         },
         {
             "slideNumber": 3,
             "type": "standard",
-            "title": "Background: From Set to List",
+            "title": "Background: The Conversational Pivot",
             "content": {
-                "text": "Early IR metrics treated search results as an unordered 'Set'. But web users read 'Lists'. Mean Average Precision (MAP) became the standard for researchers in the 1990s. Later, Discounted Cumulative Gain (DCG) was introduced to handle 'Graded Relevance' (e.g. 3=Perfect, 2=Good, 1=Fair, 0=Bad)."
+                "text": "For decades, IR was a 'Submit -> Wait -> View' process. In the 2010s, 'Conversational Search' (like Siri and Alexa) emerged. Now, with Large Language Models (LLMs), the interface is no longer a list of links, but a helpful assistant that can synthesize answers and ask clarifying questions."
             }
         },
         {
@@ -34,7 +34,7 @@
             "type": "standard",
             "title": "Motivation",
             "content": {
-                "text": "Why use MAP/nDCG? Because Precision/Recall don't distinguish between a relevant result at #1 and a relevant result at #10. For a web engine, getting the right answer at #1 is a 'victory', but at #10 it is a 'failure'. These metrics reward 'Early Retrieval'."
+                "text": "Why study trends? Because 'Search' is expanding into every device—watches, cars, and home speakers. Understanding these trends allows us to build 'Zero-Query' interfaces that predict what you need based on your situation (e.g. showing a map when you enter your car)."
             }
         },
         {
@@ -42,133 +42,104 @@
             "type": "standard",
             "title": "Challenges",
             "content": {
-                "text": "1. Position Bias: Users are more likely to click #1 even if #2 is better. 2. Graded Judgments: It is harder for humans to rate a document on a scale of 0-4 than a simple Yes/No. 3. Normalization: How do we compare queries where one has 5 relevant docs and another has 5,000?"
+                "text": "1. Privacy vs. Personalization: How much context is too much? 2. Accessibility: How do we make search accessible to users who cannot see or speak? 3. Trust: If the interface 'Writes' the answer for you, how do you verify its truthfulness?"
             }
         },
         {
             "slideNumber": 6,
             "type": "grid",
-            "title": "Advanced Metrics",
+            "title": "Key Trends",
             "items": [
-                "Average Precision (AP): The average of P@k for every position k where a relevant doc is found.",
-                "MAP: The mean of AP scores across all queries in a test set.",
-                "DCG: Sum of relevance scores, discounted by the log of their position.",
-                "nDCG: DCG normalized by the 'Ideal' DCG to get a score between 0 and 1."
+                "Voice IR: Searching via natural speech (NLP).",
+                "Multimodal Search: Using an image to search for text (or vice versa).",
+                "Conversational Search: Interactive refinement sessions with an AI.",
+                "Zero-Query Search: Anticipating needs before the user asks."
             ]
         },
         {
             "slideNumber": 7,
             "type": "standard",
-            "title": "The Concept: Average Precision (AP)",
+            "title": "The Concept: Information Scent & Foraging",
             "content": {
-                "text": "Average Precision (AP) rewards a system for putting relevant documents at the very top of the list."
+                "text": "Information Foraging Theory models human users as hunters looking for 'Scent' (cues) that lead to 'Prey' (information)."
             },
             "formula": {
-                "equation": "AP = \\frac{1}{|Rel|} \\sum_{k=1}^{n} P(k) \\times rel(k)",
-                "description": "AP is the sum of Precision at position k (P(k)) for every relevant document found, divided by the total number of relevant documents (|Rel|).",
+                "equation": "V = \\frac{I}{T + t}, \\quad Scent = \\sum_{i} P(L_i | G)",
+                "description": "Value (V) is the information gain (I) divided by search time (T) and handling time (t). Scent is the probability that a link (L) leads to the goal (G).",
                 "terms": [
-                    { "symbol": "P(k)", "meaning": "Precision at position k (proportion of relevant docs in top k)" },
-                    { "symbol": "rel(k)", "meaning": "Binary relevance (1 if document at k is relevant, 0 otherwise)" },
-                    { "symbol": "n", "meaning": "Total number of retrieved documents" }
+                    { "symbol": "V", "meaning": "Efficiency of the forage (The 'Nutritional Value' of the search)" },
+                    { "symbol": "I", "meaning": "Information gained from the source" },
+                    { "symbol": "T, t", "meaning": "Time spent finding and reading the result" }
                 ],
                 "calculation": {
-                    "exampleTitle": "Ranking Audit",
-                    "description": "Calculate AP for a list of 5 docs where #1 and #3 are relevant.",
+                    "exampleTitle": "The Hunter's Audit",
+                    "description": "Compare a clear snippet vs. a vague snippet for a 5-minute task.",
                     "steps": [
-                        { "label": "Pos 1 (Rel)", "formula": "P@1 = 1/1 = 1.0", "note": "Hit!" },
-                        { "label": "Pos 2 (Non)", "formula": "P@2 = 1/2 = 0.5", "note": "Miss (ignored in sum)" },
-                        { "label": "Pos 3 (Rel)", "formula": "P@3 = 2/3 = 0.67", "note": "Hit!" },
-                        { "label": "Total AP", "formula": "(1.0 + 0.67) / 2 = 0.835", "note": "Average of hits" }
+                        { "label": "Clear Snippet", "formula": "I=100, T=10s, t=60s. V = 1.42 bits/sec", "note": "High scent, low search time" },
+                        { "label": "Vague Snippet", "formula": "I=100, T=60s, t=60s. V = 0.83 bits/sec", "note": "Low scent, high search time" },
+                        { "label": "Observation", "formula": "1.42 vs 0.83", "note": "A good interface nearly doubles search efficiency" }
                     ],
-                    "input": "Hits at: 1, 3. Total Rel: 2.",
-                    "output": "AP: 0.835"
+                    "input": "I:100, T_c:10, T_v:60.",
+                    "output": "71% Efficiency Gain for Clear Scent"
                 }
             }
         },
         {
             "slideNumber": 8,
             "type": "standard",
-            "title": "The Concept: nDCG (Graded Relevance)",
+            "title": "Interpretation of Input and Output",
             "content": {
-                "text": "nDCG uses graded relevance (0-4 stars) and applies a 'Discount' for lower positions, assuming users lose interest as they scroll."
-            },
-            "formula": {
-                "equation": "DCG_p = \\sum_{i=1}^{p} \\frac{2^{rel_i} - 1}{\\log_2(i + 1)}, \\quad nDCG_p = \\frac{DCG_p}{IDCG_p}",
-                "description": "Relevance is exponentially boosted (2^rel), and position is logarithmically penalized. IDCG is the score of a 'Perfect' ranking.",
-                "terms": [
-                    { "symbol": "rel_i", "meaning": "Graded relevance of result at position i" },
-                    { "symbol": "p", "meaning": "Rank position to evaluate up to" },
-                    { "symbol": "IDCG", "meaning": "Ideal DCG (The maximum possible score for that set of documents)" }
-                ],
-                "calculation": {
-                    "exampleTitle": "The Luxury of Position #1",
-                    "description": "Compare DCG for Rel score 3 at pos 1 vs. pos 2.",
-                    "steps": [
-                        { "label": "Pos 1", "formula": "(2^3 - 1) / \\log_2(2) = 7 / 1 = 7.0", "note": "Full value at top" },
-                        { "label": "Pos 2", "formula": "(2^3 - 1) / \\log_2(3) = 7 / 1.58 = 4.43", "note": "Discounted value" },
-                        { "label": "Loss", "formula": "7.0 vs 4.43", "note": "Dropping to #2 costs 37% of value" }
-                    ],
-                    "input": "Rel:3, Pos:1 vs. 2.",
-                    "output": "37% Penalty at Pos 2"
-                }
+                "text": "The input to modern UI research is **User Behavior Metrics (Eye tracking, click logs)**. The output is a **Frictionless Experience**. If the 'Scent' (input signals) is strong, the user reaches the goal faster. The research goal (output) is to maximize the 'Information Value per Second' (V), ensuring that the machine's complexity (input) remains hidden behind a simple, intuitive output response."
             }
         },
         {
             "slideNumber": 9,
             "type": "standard",
-            "title": "Interpretation of Input and Output",
+            "title": "Step-by-Step Illustration: The Conversational Loop",
             "content": {
-                "text": "The input to MAP/nDCG is a **Ranked List with Relevance Labels**. The output is a **Score (0.0 to 1.0)**. A MAP of 1.0 means the system put every single relevant document at the top of the list sequentially. A low nDCG output tells the system architect that high-quality content (grade 3/4) is 'Buried' too deep in the ranking, requiring a better sorting algorithm."
+                "text": "**1. Step 1**: User asks 'Tell me about climate change'. \n**2. Step 2**: System detects the query is too 'Broad' ($V$ is low). \n**3. Step 3**: System asks: 'Are you interested in the causes or the solutions?'. \n**4. Step 4**: User says 'Solutions'. \n**5. Step 5**: System narrows the search to 'Renewable Energy' and 'Carbon Capture'. \n**6. Step 6**: Output: A focused summary that maximizes $I$ while minimizing search time $T$."
             }
         },
         {
             "slideNumber": 10,
-            "type": "standard",
-            "title": "Step-by-Step Illustration: The Perfect Ranker",
+            "type": "python_demo",
+            "title": "Python Demo: The Scent Evaluator",
             "content": {
-                "text": "**1. Sample Input**: Collection has 2 relevant docs. System returns: [Rel, Non-Rel, Rel]. \n**2. Step-by-Step Illustration**: \n - Precision at first Rel (@1): $1/1 = 1.0$. \n - Precision at second Rel (@3): $2/3 = 0.67$. \n - **Average Precision (AP)**: $(1.0 + 0.67) / 2 = 0.835$. \n - Compare to a system that returns [Rel, Rel, Non-Rel]: $AP = (1/1 + 2/2) / 2 = 1.0$. \n**3. Sample Output**: System A: 0.835, System B: 1.0. \n**4. Interpretation of Results**: Even though both systems found all relevant docs, System B has a 16% higher score because it put them at the very top. This proves why 'Rank Matters'."
+                "code": "def evaluate_scent(snippet, goals):\n    # Simulate 'Information Scent' by looking for goal-terms in a snippet\n    count = 0\n    for g in goals:\n        if g.lower() in snippet.lower():\n            count += 1\n    return round(count / len(goals), 2)\n\ngoals = ['Climate', 'Carbon', 'Emissions']\nsnip1 = \"Weather patterns are changing worldwide.\"\nsnip2 = \"How to reduce Carbon Emissions and fight Climate change.\"\n\nprint(f\"Scent 1: {evaluate_scent(snip1, goals)}\")\nprint(f\"Scent 2: {evaluate_scent(snip2, goals)}\")",
+                "input": "Two snippets against the goals 'Climate', 'Carbon', 'Emissions'.",
+                "output": "Scent 1: 0.33, Scent 2: 1.0",
+                "interpretation": "The script calculates the 'Scent Score'. Note how Snippet 2 has perfect scent (1.0) because it contains all the goal keywords. A user will instantly choose the second result, proving that keyword richness in interfaces is a 'Signal' to the human brain."
             }
         },
         {
             "slideNumber": 11,
-            "type": "python_demo",
-            "title": "Python Demo: The Ranking Auditor",
-            "content": {
-                "code": "import math\n\ndef calculate_dcg(relevances):\n    dcg = 0\n    for i, rel in enumerate(relevances):\n        rank = i + 1\n        dcg += (2**rel - 1) / math.log2(rank + 1)\n    return round(dcg, 3)\n\n# System 1: Best doc at #1, Decent at #2\nres_1 = [3, 1, 0, 0]\n# System 2: Decent at #1, Best at #2\nres_2 = [1, 3, 0, 0]\n\ndcg1 = calculate_dcg(res_1)\ndcg2 = calculate_dcg(res_2)\n\nprint(f\"DCG (Best at top): {dcg1}\")\nprint(f\"DCG (Best buried): {dcg2}\")\nprint(f\"nDCG Gain: {round((dcg1/dcg1), 2)} vs {round((dcg2/dcg1), 2)}\")",
-                "input": "Rel lists: [3, 1, 0, 0] vs [1, 3, 0, 0].",
-                "output": "System 1: 7.631, System 2: 5.424",
-                "interpretation": "The script calculates DCG. Note how System 1 is much better because it put the 'Perfect' (rel=3) match at the first position. System 2 is penalized significantly for burying the best result, even though all the same docs are present."
-            }
-        },
-        {
-            "slideNumber": 12,
             "type": "comparison",
-            "title": "Comparison: MAP vs. nDCG",
+            "title": "Comparison: Tradition Search vs. LLM Search",
             "comparison": {
-                "headers": ["Metric", "Mean Average Precision (MAP)", "Normalized DCG (nDCG)"],
+                "headers": ["Aspect", "Traditional Search (List)", "LLM/Conversational (Agent)"],
                 "rows": [
-                    ["Relevance Type", "Binary (Rel / Non-Rel)", "Graded (0, 1, 2, 3, 4)"],
-                    ["Primary Focus", "Finding all relevant items early", "Putting 'Best' items in 'Top' slots"],
-                    ["User Assumption", "Binary satisfaction", "Diminishing returns of scrolling"],
-                    ["Standard for", "Academic Research (TREC)", "Commercial Search (Google/Bing)"]
+                    ["Interaction", "One-way (Submit & View)", "Two-way (Dialogue)"],
+                    ["Result Type", "Links to other sites", "Direct synthesized answer"],
+                    ["User Effort", "High (Read many pages)", "Low (Read one answer)"],
+                    ["Transparency", "High (You see the source)", "Low (AI 'Hallucination' risk)"]
                 ]
             }
         },
         {
-            "slideNumber": 13,
+            "slideNumber": 12,
             "type": "activity",
-            "title": "Virtual Lab: Grading the Web",
+            "title": "Virtual Lab: The Scent Chase",
             "content": {
-                "activity": "The 5-Star Search",
-                "description": "Search for 'Best budget laptops'. Look at the top 5 results. Rank each on a scale of 0 (Spam/Ad) to 4 (Perfect recommendation). Use the DCG formula to calculate the score for this search engine. Now, swap the order of #1 and #5. How much does the score drop?"
+                "activity": "The 30-Second Hunt",
+                "description": "Go to a news site. Try to find an article about a specific celebrity using ONLY the homepage headlines. 1. How many links did you pass before finding a good 'Scent'? 2. If you couldn't find it in 30 seconds, where did the 'Scent' fail? (Title too short? No image?)."
             }
         },
         {
-            "slideNumber": 14,
+            "slideNumber": 13,
             "type": "standard",
             "title": "Discussion & Self-Reflection",
             "content": {
-                "text": "1. Why does nDCG give more weight to 'Highly Relevant' documents ($2^{rel}-1$) than 'Fair' documents? \n2. Is MAP useful if a user only ever looks at the first 3 results? \n3. How would you adjust evaluation for a 'Voice Search' where only ONE result is ever read to the user?"
+                "text": "1. Why is 'Voice Search' more common in the kitchen or car than in an office? \n2. In a 'Conversational' search, how do we cite our sources without cluttering the interface? \n3. Could we build an IR system that has NO interface, but simply whispers answers directly to the user?"
             }
         }
     ]
